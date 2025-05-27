@@ -1,0 +1,17 @@
+{
+  "name": "cculture-apps",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "social/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "lint": "turbo run lint"
+  },
+  "devDependencies": {
+    "turbo": "^1.12.4"
+  }
+} 
