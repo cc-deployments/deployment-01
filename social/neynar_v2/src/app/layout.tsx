@@ -1,4 +1,4 @@
-import { PrivyProvider } from '@cculture/auth';
+import { PrivyProvider } from '@privy-io/react-auth';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <PrivyProvider>
+        <PrivyProvider appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID!}>
           {children}
         </PrivyProvider>
       </body>

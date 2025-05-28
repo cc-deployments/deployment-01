@@ -3,15 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "workspaces": [
-    "social/*"
+    "social/*",
+    "../CCulture-Apps-Core/packages/*"
   ],
   "scripts": {
-    "dev": "turbo run dev",
+    "dev": "turbo run dev --filter=@cculture/neynar-v2",
     "build": "turbo run build",
     "start": "turbo run start",
     "lint": "turbo run lint"
   },
   "devDependencies": {
     "turbo": "^1.12.4"
-  }
-} 
+  },
+  "dependencies": {
+    "@neynar/nodejs-sdk": "^2.44.0"
+  },
+  "packageManager": "npm@9.6.7"
+}

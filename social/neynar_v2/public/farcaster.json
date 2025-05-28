@@ -1,0 +1,11 @@
+{
+  "frame": {
+    "version": "4.2.0",
+    "name": "Car Culture Mini App",
+    "iconUrl": "https://orange-cycles-buy.loca.lt/icon.png",
+    "splashImageUrl": "https://orange-cycles-buy.loca.lt/splash.png",
+    "splashBackgroundColor": "#f7f7f7",
+    "homeUrl": "https://orange-cycles-buy.loca.lt",
+    "webhookUrl": "https://api.neynar.com/f/app/3e3f9929-928a-4195-9901-0dbde7de30e1/event"
+  }
+}

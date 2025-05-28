@@ -2,6 +2,8 @@
 
 import { CombinedAuth } from '@cculture/auth';
 import { useState } from 'react';
+import Feed from '../components/Feed';
+import PrivyLogin from '../components/PrivyLogin';
 
 export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -14,17 +16,16 @@ export default function Home() {
         <div className="mb-8">
           <CombinedAuth 
             onSuccess={() => setIsAuthenticated(true)}
-            onError={(error) => console.error('Auth error:', error)}
+            onError={(error: unknown) => console.error('Auth error:', error)}
           />
         </div>
+
+        <PrivyLogin />
 
         {isAuthenticated && (
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-2xl font-semibold mb-4">Welcome to CarCulture!</h2>
-            <p className="text-gray-600">
-              You are now authenticated with both Privy and Farcaster.
-              Neynar integration coming soon...
-            </p>
+            <Feed />
           </div>
         )}
       </div>
