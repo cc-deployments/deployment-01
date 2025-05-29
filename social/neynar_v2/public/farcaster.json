@@ -1,11 +1,11 @@
 {
-  "frame": {
-    "version": "4.2.0",
-    "name": "Car Culture Mini App",
-    "iconUrl": "https://orange-cycles-buy.loca.lt/icon.png",
-    "splashImageUrl": "https://orange-cycles-buy.loca.lt/splash.png",
-    "splashBackgroundColor": "#f7f7f7",
-    "homeUrl": "https://orange-cycles-buy.loca.lt",
-    "webhookUrl": "https://api.neynar.com/f/app/3e3f9929-928a-4195-9901-0dbde7de30e1/event"
-  }
-}
+  "name": "Car Culture Mini App",
+  "description": "Car Culture social integration with Neynar",
+  "icon": "https://puny-trams-shine.loca.lt/icon.png",
+  "splash": {
+    "image": "https://puny-trams-shine.loca.lt/splash.png",
+    "background": "#f7f7f7"
+  },
+  "home": "https://puny-trams-shine.loca.lt",
+  "webhook": "https://api.neynar.com/f/app/2c5f6fee-931a-4591-9f7e-f8e0e78e14bc"
+} 

@@ -6,8 +6,8 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'CarCulture - Neynar',
-  description: 'CarCulture social integration with Neynar',
+  title: 'CarCulture',
+  description: 'CarCulture social integration',
 };
 
 export default function RootLayout({

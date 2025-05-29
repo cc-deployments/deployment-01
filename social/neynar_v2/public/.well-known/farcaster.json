@@ -1,0 +1,11 @@
+{
+  "frame": {
+    "version": "4.2.0",
+    "name": "Car Culture Mini App",
+    "iconUrl": "https://puny-trams-shine.loca.lt/icon.png",
+    "splashImageUrl": "https://puny-trams-shine.loca.lt/splash.png",
+    "splashBackgroundColor": "#f7f7f7",
+    "homeUrl": "https://puny-trams-shine.loca.lt",
+    "webhookUrl": "https://api.neynar.com/f/app/your-app-id/event"
+  }
+}
