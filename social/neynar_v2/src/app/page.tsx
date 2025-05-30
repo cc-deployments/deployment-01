@@ -63,9 +63,9 @@ export default function Home() {
           <Image
             src="/logo-black.png"
             alt="CarCulture Logo"
-            width={120}
-            height={40}
-            style={{ display: "block", height: "40px", width: "120px", objectFit: "contain" }}
+            width={356}
+            height={120}
+            style={{ display: "block", margin: "0 auto", objectFit: "contain" }}
             priority
           />
         </div>
