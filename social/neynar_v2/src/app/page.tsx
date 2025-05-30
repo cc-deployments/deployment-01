@@ -61,7 +61,7 @@ export default function Home() {
       <div className="z-10 max-w-5xl w-full items-center justify-center font-mono text-sm">
         <div style={{ display: "flex", justifyContent: "center", marginBottom: "2rem" }}>
           <Image
-            src="/logo-black.png"
+            src="/logo-black.svg"
             alt="CarCulture Logo"
             width={120}
             height={40}
