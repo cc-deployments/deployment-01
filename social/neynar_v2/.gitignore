@@ -5,4 +5,7 @@
 .next/
  
 # Ignore node modules
-node_modules/ 
+node_modules/
+
+# Ignore turbo daemon logs
+.turbo/daemon/ 
