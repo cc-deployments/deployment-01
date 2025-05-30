@@ -28,10 +28,18 @@ function PrivyTest() {
   );
 }
 
+function isInFarcasterFrame() {
+  if (typeof window === 'undefined') return false;
+  // Farcaster frames are always iframed
+  return window.self !== window.top;
+}
+
 export default function Home() {
   useEffect(() => {
     FrameSDK.actions.ready();
   }, []);
+
+  const inFrame = isInFarcasterFrame();
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
@@ -45,7 +53,7 @@ export default function Home() {
           style={{ maxWidth: "100%", height: "auto", margin: "2rem auto" }}
           priority
         />
-        <PrivyTest />
+        {!inFrame && <PrivyTest />}
       </div>
     </main>
   );
