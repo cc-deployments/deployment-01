@@ -1,11 +1,16 @@
 {
-  "name": "Car Culture Mini App",
-  "description": "Car Culture – Park your Cars here",
+  "name": "CarCulture",
+  "description": "Share and discover car culture. Post, like, comment, and share across Farcaster and X.",
   "icon": "https://web3-social-starter-neynar-v2.vercel.app/icon.png",
   "splash": {
     "image": "https://web3-social-starter-neynar-v2.vercel.app/splash.png",
     "background": "#f7f7f7"
   },
   "home": "https://web3-social-starter-neynar-v2.vercel.app",
-  "webhook": "https://api.neynar.com/f/app/2c5f6fee-931a-4591-9f7e-f8e0e78e14bc"
+  "permissions": [
+    "wallet",
+    "cast:read",
+    "cast:write",
+    "user:read"
+  ]
 }
