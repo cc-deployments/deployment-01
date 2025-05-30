@@ -3,6 +3,8 @@
 import { usePrivy } from '@privy-io/react-auth';
 import { useWallets } from '@privy-io/react-auth';
 import Image from "next/image";
+import { useEffect } from "react";
+import FrameSDK from "@farcaster/frame-sdk";
 
 function PrivyTest() {
   const { login, logout, user, ready, authenticated } = usePrivy();
@@ -27,6 +29,10 @@ function PrivyTest() {
 }
 
 export default function Home() {
+  useEffect(() => {
+    FrameSDK.actions.ready();
+  }, []);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <div className="z-10 max-w-5xl w-full items-center justify-center font-mono text-sm">
