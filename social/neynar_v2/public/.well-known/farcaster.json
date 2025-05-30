@@ -1,16 +1,10 @@
 {
   "name": "CarCulture",
-  "description": "Car Culture celebrates the Art of the Automobile. Celebrate by Post, like, comment, and share.",
+  "description": "Car Culture celebrates the Art of the Automobile.",
   "icon": "https://web3-social-starter-neynar-v2.vercel.app/manifest-icon.png",
   "splash": {
     "image": "https://web3-social-starter-neynar-v2.vercel.app/splash.png",
     "background": "#f7f7f7"
   },
-  "home": "https://web3-social-starter-neynar-v2.vercel.app",
-  "permissions": [
-    "wallet",
-    "cast:read",
-    "cast:write",
-    "user:read"
-  ]
+  "home": "https://web3-social-starter-neynar-v2.vercel.app"
 }
