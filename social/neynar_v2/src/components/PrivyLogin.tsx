@@ -9,15 +9,16 @@ export default function PrivyLogin() {
     return <button onClick={login}>Log in with Privy</button>;
   }
 
+  // Safely extract email as string if present
+  const email =
+    typeof user?.email === 'string'
+      ? user.email
+      : user?.email?.address || undefined;
+
   return (
     <div>
       <p>
-        Welcome, {user?.email ||
-          (user?.linkedAccounts?.[0] && 'address' in user.linkedAccounts[0]
-            ? user.linkedAccounts[0].address
-            : undefined) ||
-          'User'}
-        !
+        Welcome, {email || 'User'}!
       </p>
       <button onClick={logout}>Log out</button>
     </div>
