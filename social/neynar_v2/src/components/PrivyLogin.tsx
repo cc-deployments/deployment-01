@@ -11,7 +11,14 @@ export default function PrivyLogin() {
 
   return (
     <div>
-      <p>Welcome, {user?.email || user?.linkedAccounts?.[0]?.address || 'User'}!</p>
+      <p>
+        Welcome, {user?.email ||
+          (user?.linkedAccounts?.[0] && 'address' in user.linkedAccounts[0]
+            ? user.linkedAccounts[0].address
+            : undefined) ||
+          'User'}
+        !
+      </p>
       <button onClick={logout}>Log out</button>
     </div>
   );
