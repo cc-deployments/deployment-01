@@ -3,7 +3,7 @@
 import { usePrivy } from '@privy-io/react-auth';
 import { useWallets } from '@privy-io/react-auth';
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import FrameSDK from "@farcaster/frame-sdk";
 
 function PrivyTest() {
@@ -35,8 +35,18 @@ function isInFarcasterFrame() {
 }
 
 export default function Home() {
+  const [isMiniApp, setIsMiniApp] = useState(false);
+
   useEffect(() => {
     FrameSDK.actions.ready();
+    // Use Mini App SDK detection
+    async function detectMiniApp() {
+      if (FrameSDK.isInMiniApp) {
+        const result = await FrameSDK.isInMiniApp();
+        setIsMiniApp(result);
+      }
+    }
+    detectMiniApp();
   }, []);
 
   const inFrame = isInFarcasterFrame();
@@ -53,7 +63,8 @@ export default function Home() {
           style={{ maxWidth: "100%", height: "auto", margin: "2rem auto" }}
           priority
         />
-        {!inFrame && <PrivyTest />}
+        {/* Only show Privy login if NOT in Mini App */}
+        {!isMiniApp && <PrivyTest />}
       </div>
     </main>
   );
