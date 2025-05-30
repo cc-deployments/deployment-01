@@ -59,7 +59,16 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <div className="z-10 max-w-5xl w-full items-center justify-center font-mono text-sm">
-        <h1 className="text-4xl font-bold mb-8">CarCulture</h1>
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: "2rem" }}>
+          <Image
+            src="/logo-black.png"
+            alt="CarCulture Logo"
+            width={80}
+            height={80}
+            style={{ display: "block" }}
+            priority
+          />
+        </div>
         <Image
           src="/splash.png"
           alt="Splash"
