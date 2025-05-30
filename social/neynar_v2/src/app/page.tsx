@@ -5,6 +5,7 @@ import { useWallets } from '@privy-io/react-auth';
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import FrameSDK from "@farcaster/frame-sdk";
+import ActionMenu from "../components/ActionMenu";
 
 function PrivyTest() {
   const { login, logout, user, ready, authenticated } = usePrivy();
@@ -51,6 +52,10 @@ export default function Home() {
 
   const inFrame = isInFarcasterFrame();
 
+  const handleActionSelect = (action: string) => {
+    alert(`You selected: ${action}`);
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <div className="z-10 max-w-5xl w-full items-center justify-center font-mono text-sm">
@@ -63,6 +68,7 @@ export default function Home() {
           style={{ maxWidth: "100%", height: "auto", margin: "2rem auto" }}
           priority
         />
+        <ActionMenu onSelect={handleActionSelect} />
         {/* Only show Privy login if NOT in Mini App */}
         {!isMiniApp && <PrivyTest />}
       </div>
