@@ -4,12 +4,13 @@
     "payload": "...",
     "signature": "..."
   },
-  "name": "CarCulture",
-  "description": "Car Culture celebrates the Art of the Automobile.",
-  "icon": "https://web3-social-starter-neynar-v2.vercel.app/manifest-icon.png",
-  "splash": {
-    "image": "https://web3-social-starter-neynar-v2.vercel.app/splash.png",
-    "background": "#f7f7f7"
-  },
-  "home": "https://web3-social-starter-neynar-v2.vercel.app"
+  "frame": {
+    "version": "1",
+    "name": "CarCulture",
+    "iconUrl": "https://web3-social-starter-neynar-v2.vercel.app/manifest-icon.png",
+    "splashImageUrl": "https://web3-social-starter-neynar-v2.vercel.app/splash.png",
+    "splashBackgroundColor": "#f7f7f7",
+    "homeUrl": "https://web3-social-starter-neynar-v2.vercel.app",
+    "description": "Car Culture celebrates the Art of the Automobile."
+  }
 }
