@@ -1,4 +1,9 @@
 {
+  "accountAssociation": {
+    "header": "...",
+    "payload": "...",
+    "signature": "..."
+  },
   "name": "CarCulture",
   "description": "Car Culture celebrates the Art of the Automobile.",
   "icon": "https://web3-social-starter-neynar-v2.vercel.app/manifest-icon.png",
