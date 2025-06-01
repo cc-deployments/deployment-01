@@ -9,8 +9,9 @@
     "name": "CarCulture",
     "iconUrl": "https://web3-social-starter-neynar-v2.vercel.app/manifest-icon.png",
     "splashImageUrl": "https://web3-social-starter-neynar-v2.vercel.app/splash.png",
-    "splashBackgroundColor": "#f7f7f7",
+    "splashBackgroundColor": "#000000",
     "homeUrl": "https://web3-social-starter-neynar-v2.vercel.app",
-    "description": "Car Culture celebrates the Art of the Automobile."
+    "description": "Car Culture celebrates the Art of the Automobile.",
+    "noindex": true
   }
 }
