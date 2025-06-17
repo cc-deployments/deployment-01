@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@cculture/auth": "file:../../../CCulture-Apps-Core/packages/auth",
+    "@coinbase/wallet-sdk": "^3.7.0",
     "@farcaster/frame-sdk": "^0.0.53",
     "@neynar/nodejs-sdk": "^0.11.0",
     "@privy-io/react-auth": "^2.13.4",
