@@ -1,0 +1,80 @@
+Comments regarding:
+Application No.: 17/609,911
+WIPL Ref. (Our Ref.): P1409US01
+Application Title: Methods, Systems And Computer Program Products For Media Processing And Display
+
+June 5, 2025
+
+Dear Cindy,
+
+This Memorandum provides you with our legal assessment of fields of endeavor that reasonably fall within the scope of the above-captioned patent application.  In this context, fields of endeavor means the industries, the fields of technology, and/or the fields of use, that are covered by the patent.  The most assured way for a patent owner to assert that her claims cover a certain field of endeavor is for the specification to explicitly state that the claims cover that field, and provide descriptive support that operationalizes the inventive concept in terms of that field.  Where a field of endeavor is not explicitly stated within the four corners of the patent, courts may rely on implicit support in the patent, such as functional equivalents, or other language that may reasonably convey the inventor’s intention that the patent covers an implicit or implied field.
+
+The goal of this Memorandum is to identify the industries, technologies, and applications that this patent encompasses, as described in the specification and claims.
+
+Legal framework
+
+As a threshold review of patent protection, the claims, as allowed at the time of this writing, specify the method(s) that are protected by the soon-to-be granted patent.  In order for a practicing entity (i.e., a company) to infringe upon the patent (or for a prospective licensee to be motivated to take a license in the patent), that entity must practice each element of one or more of the independent claims.  The dependent claims provide further context to the independent claims, but they are not necessary for proving infringement (e.g., an entity’s training dataset need not be copyrighted, as recited in claim 2).  However, the scope of the claims as it pertains to applicable fields of endeavor is evaluated in view of the specification.
+
+The goal of analyzing fields of endeavor for patent licensing is to identify the industries, technologies, and applications where the patent can be licensed, ensuring that potential licensees recognize the patent’s value and that the licensing scope is supported by the patent’s disclosure. The fields of endeavor analysis can be based upon (i) claim construction to define the technical and functional scope of the patent, and (ii) enablement and written description under 35 U.S.C. § 112, to ensure the specification supports the claimed fields and applications.
+
+Regarding (i) claim construction, claims are interpreted based on their plain language, as understood by a person having ordinary skill in the art (PHOSITA), in light of the specification and prosecution history.  Phillips v. AWH Corp., 415 F.3d 1303 (Fed. Cir. 2005).  Regarding (ii) enablement and written description, the analysis involves identifying industries explicitly mentioned in the specification.  To determine whether the claims support a given field of endeavor, courts assess whether the specification provides sufficient disclosure to enable a person having ordinary skill in the art (called a PHOSITA) to practice the invention across its described scope.  Ariad Pharms., Inc. v. Eli Lilly & Co., 598 F.3d 1336 (Fed. Cir. 2010).  This is critical when the specification claims broad applicability.  For commercial or licensing purposes, the fields of endeavor may be evaluated based on the industries and applications explicitly or implicitly described in the specification.  Furthermore, the specification should convey that the inventor had possession of the full scope of the invention.  LizardTech, Inc. v. Earth Res. Mapping, Inc., 424 F.3d 1336 (Fed. Cir. 2005).  The Wands factors provide a structured framework for evaluating enablement by balancing the specification’s disclosures against the experimentation needed to practice the invention.  In re Wands, 858 F.2d 731 (Fed. Cir. 1988).  The Wands factors are: (1) quantity of experimentation, (2) direction or guidance, (3) working examples, (4) nature of the invention, (5) state of the prior art, (6) skill in the art, (7) predictability of the art, and (8) breadth of the claims.  These factors ensure that the patent’s scope is supported by adequate technical disclosure, protecting the public while rewarding inventors.
+
+In sum, the specification should convey that the inventor contemplated a particular field of endeavor, preferably by explicitly stating that field and providing support for how a PHOSITA would operationalize the invention in the context of that field.  Where not explicitly stated, the patent may impliedly cover a field of endeavor when a PHOSITA may reasonably infer that the language of the specification contemplates such field.
+
+This framework ensures that the fields of endeavor are legally grounded in the patent’s disclosure while being strategically tailored to maximize licensing opportunities.
+
+Analysis
+
+Claim 1, as allowed, is arguably directed to a broad range of fields of endeavor.  In particular, the claim explicitly recites the following elements that are germane to the invention: “data object”, “media asset”.  Claim 1, as allowed, filed on January 23, 2025.  When read in view of the specification, the invention primarily focuses on AI-driven vehicle identification.  See, e.g., P1409US01, ¶ 0019.  The claims arguably extend to coverage of additional industries, support of which is derived through the specification.
+
+Industries Covered
+
+In conjunction with the above-cited passages, the specification (P1409US01) explicitly and implicitly targets a variety of industries that could benefit from the described technology. These industries include:
+Automotive Industry:
+The specification emphasizes vehicle identification, classification, and historical documentation, directly impacting automotive manufacturers, suppliers, and related businesses. It addresses needs such as brand heritage promotion, marketing, and design inspiration.  (¶¶ 0003, 0095, 0097).
+Example applications: Manufacturers using the system to showcase historical vehicle designs or verify vehicle authenticity for marketing purposes.
+Advertising Industry:
+The document highlights the automotive advertising sector, valued at over $38 trillion in 2018, as a key market (¶ 0003). The system enables targeted advertising by identifying user interests through their interactions with vehicle-related content (¶¶ 0087, 0096).
+Example applications: Advertisers targeting users based on their engagement with specific vehicle brands or models.
+Insurance Industry:
+The system supports vehicle verification for insurance purposes, such as authenticating vehicles to protect assets and individuals (¶ 0095).
+Example applications: Insurers using the system to verify vehicle make, model, and year for claims processing or fraud detection.
+Entertainment Industry:
+The specification describes applications in immersive experiences, such as augmented reality (AR), virtual reality (VR), and mixed reality (MR) for storytelling and gaming (¶¶ 0034–0036, 0095).
+Example applications: Creating interactive AR/VR experiences for vehicle-related games or historical reenactments.
+Law Enforcement and Security:
+The technology can assist in identifying vehicles involved in investigations, such as those captured in bystander photos at crime scenes, and support fraud detection (¶ 0095).
+Example applications: Law enforcement agencies using the system to identify vehicles from images or videos for investigative purposes.
+Travel and Tourism Industry:
+The system integrates geolocation data to enhance travel experiences, such as suggesting scenic routes or providing historical context for cultural heritage sites (¶¶ 0098–0100).
+Example applications: Auto clubs (e.g., AAA) using the system to provide personalized travel recommendations or AR-enhanced tours of historical sites like Route 66.
+Classic Car and Collectibles Market:
+The system supports collectors, buyers, and restorers by providing provenance, authenticity, and historical context for vehicles and parts (¶ 0095).
+Example applications: Classic car enthusiasts using the system to authenticate rare vehicles or identify parts for restoration.
+Museums and Archives:
+Museums and libraries can use the system to identify and document vehicles in photo collections, enhancing archival accuracy (¶ 0095).
+Example applications: Museums cataloging unidentified vehicles in historical photo archives.
+Government:
+The specification mentions government applications, likely related to regulatory or historical documentation needs (¶ 0089).
+Example applications: Government agencies using the system to document vehicle history or support transportation policy research.
+Education and Research:
+The system supports educational applications by providing historical and cultural information about vehicles and their societal impact (¶¶ 0083, 0089).
+Example applications: Academic institutions using the system for research on automotive history or cultural studies.
+Additional Fields Explicitly Mentioned:
+“In example implementations, the systems and methods may relate to buildings (e.g., architecture), clothing, bridges, tools, highways, mountains, parks, rivers, cities, cars converted to homes, stamps, coins, and so on.”  See, P1409US01, ¶ 0016.
+“Methods, systems and computer program products according to implementations herein relate to an AI platform built by systematically applying natural language processing (NLP) and computer vision, image and video processing to train a convolution and recurrent neural network from a data object set containing high quality, digital images, which may be copyrighted, of automobiles, stamps, coins, etc. capable of identifying a particular automobile from about 1885 through present day and into the future.”  See, P1409US01, ¶ 0093.
+“At their core, implementations herein nurture and explore the singular relationship of humans to machines, preserving the bond between the vehicles, design, community, architecture, engineering, history, government and culture to disseminate knowledge about vehicle culture.”  See, P1409US01, ¶ 0094.
+
+Conclusion
+The patent claims, in view of the specification, cover a broad range of fields of endeavor, including industries (automotive, advertising, insurance, entertainment, law enforcement, travel, classic car market, museums, government, education), fields of technology (AI/ML, computer vision, NLP, AR/VR/MR, geolocation, database management, cloud computing, cybersecurity, distributed computing), and fields of use (vehicle identification, cultural preservation, advertising, autonomous vehicles, travel enhancement, education, law enforcement, collectibles, personalized experiences, crowdsourced authentication).  The invention’s focus on AI-driven vehicle identification and cultural documentation, supported by a proprietary authenticated database, positions it as a versatile technology with applications across multiple sectors and use cases. The integration of advanced ML techniques, AR/VR/MR, and geolocation services further broadens its technological scope and practical utility.
+The patent specification does not reasonably cover fields of endeavor outside of that described by the specification.  For example, the patent specification does not appear to reasonably cover securities trading platforms, financial data analysis, or trading platform functionalities.
+
+						    Sincerely,
+						    /Nicholas Blanton/
+						    Nicholas Blanton, Reg. No. 78,975
+
+						    Wasserbauer Law LLC
+						    PO Box 382
+						    Collinsville, CT 06022
+						    (860) 266-1779 | nblanton@wasserbauerlaw.com 
+

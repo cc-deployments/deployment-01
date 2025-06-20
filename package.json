@@ -1,0 +1,12 @@
+{
+  "name": "cculture-monorepo",
+  "private": true,
+  "workspaces": [
+    "CCulture-Apps",
+    "CCulture-Apps-Core/packages/*"
+  ],
+  "scripts": {
+    "dev": "cd CCulture-Apps && yarn dev:car-of-the-day"
+  },
+  "packageManager": "yarn@1.22.11"
+} 
