@@ -1,0 +1,21 @@
+# Ignore build artifacts and caches
+/.next/
+/out/
+/build/
+/.turbo/
+
+# Ignore old project copies and backups
+/CCulture-Apps/
+/CCulture-Apps-Core/
+/dev_backup/
+
+# Ignore business documents and reports
+/CCulture-Business/
+/CCulture-Apps.bfg-report/
+
+# Ignore local env files and logs
+.env.local
+*.log
+
+# Ignore OS-specific files
+.DS_Store
