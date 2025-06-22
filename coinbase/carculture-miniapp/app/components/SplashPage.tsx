@@ -1,12 +1,25 @@
 'use client';
 
 import Image from 'next/image';
+import { useAddFrame } from '@coinbase/onchainkit/minikit';
+import { useState } from 'react';
 
 interface SplashPageProps {
   onGetStarted: () => void;
 }
 
 export default function SplashPage({ onGetStarted }: SplashPageProps) {
+  const addFrame = useAddFrame();
+  const [added, setAdded] = useState(false);
+
+  const handleAddFrame = async () => {
+    const result = await addFrame();
+    if (result) {
+      console.log('Frame added:', result.url, result.token);
+      setAdded(true);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] text-center">
       {/* Social Media Style Header */}
@@ -30,6 +43,13 @@ export default function SplashPage({ onGetStarted }: SplashPageProps) {
           
           {/* Main content */}
           <div className="relative z-10">
+            <Image
+              src="/CurbService.png"
+              alt="Curb Service - Car of the Day"
+              width={400}
+              height={200}
+              className="rounded-lg mb-4"
+            />
             <div className="text-6xl mb-4">🏎️</div>
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
               Today's Featured Ride
@@ -54,16 +74,30 @@ export default function SplashPage({ onGetStarted }: SplashPageProps) {
         </div>
       </div>
 
-      {/* CTA Button with sticker effect */}
-      <button
-        onClick={onGetStarted}
-        className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-200 transform hover:scale-105 shadow-lg border-4 border-white"
-        style={{
-          boxShadow: '0 10px 25px rgba(0,0,0,0.3), 0 0 0 4px #fff, 0 0 0 8px #dc2626'
-        }}
-      >
-        🚀 MINT THE DAILY CARMANIA DROP
-      </button>
+      {/* CTA Buttons */}
+      <div className="flex flex-col sm:flex-row gap-4">
+        <button
+          onClick={onGetStarted}
+          className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-200 transform hover:scale-105 shadow-lg border-4 border-white"
+          style={{
+            boxShadow:
+              '0 10px 25px rgba(0,0,0,0.3), 0 0 0 4px #fff, 0 0 0 8px #dc2626',
+          }}
+        >
+          🚀 MINT THE DAILY CARMANIA DROP
+        </button>
+        <button
+          onClick={handleAddFrame}
+          disabled={added}
+          className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-200 transform hover:scale-105 shadow-lg border-4 border-white disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{
+            boxShadow:
+              '0 10px 25px rgba(0,0,0,0.3), 0 0 0 4px #fff, 0 0 0 8px #8b5cf6',
+          }}
+        >
+          {added ? '✅ Added to Farcaster' : 'Add App to Farcaster'}
+        </button>
+      </div>
 
       {/* Social sharing info */}
       <div className="mt-8 text-gray-400">

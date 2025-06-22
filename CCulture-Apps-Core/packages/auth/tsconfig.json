@@ -14,7 +14,6 @@
     "jsx": "react-jsx",
     "declaration": true,
     "outDir": "dist",
-    "module": "ESNext"
   },
   "include": ["src"],
   "exclude": ["dist", "build", "node_modules"]

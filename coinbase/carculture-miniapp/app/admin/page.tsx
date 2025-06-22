@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import TitleBar from '../components/TitleBar';
-import Footer from '../components/Footer';
 
 interface CarNFT {
   id: string;
@@ -31,7 +30,8 @@ export default function AdminPage() {
     }
   }, []);
 
-  const saveCars = (updatedCars: CarNFT[]) => {
+  const saveCars = (updater: (prevCars: CarNFT[]) => CarNFT[]) => {
+    const updatedCars = updater(cars);
     localStorage.setItem('carNFTs', JSON.stringify(updatedCars));
     setCars(updatedCars);
   };
@@ -49,28 +49,29 @@ export default function AdminPage() {
       date: new Date().toISOString().split('T')[0],
       imageUrl: newCar.imageUrl,
       description: newCar.description,
-      isActive: true
+      isActive: true,
     };
 
-    // Deactivate all other cars
-    const updatedCars = cars.map(c => ({ ...c, isActive: false }));
-    updatedCars.push(car);
-    
-    saveCars(updatedCars);
+    saveCars(prevCars => {
+      // Deactivate all other cars and add the new one
+      const deactivatedCars = prevCars.map(c => ({ ...c, isActive: false }));
+      return [...deactivatedCars, car];
+    });
+
     setNewCar({ contractAddress: '', carName: '', imageUrl: '', description: '' });
   };
 
   const toggleCarActive = (id: string) => {
-    const updatedCars = cars.map(car => ({
-      ...car,
-      isActive: car.id === id ? !car.isActive : false
-    }));
-    saveCars(updatedCars);
+    saveCars(prevCars =>
+      prevCars.map(car => ({
+        ...car,
+        isActive: car.id === id ? !car.isActive : false,
+      }))
+    );
   };
 
   const deleteCar = (id: string) => {
-    const updatedCars = cars.filter(car => car.id !== id);
-    saveCars(updatedCars);
+    saveCars(prevCars => prevCars.filter(car => car.id !== id));
   };
 
   return (
@@ -201,7 +202,6 @@ export default function AdminPage() {
         </div>
       </div>
       
-      <Footer />
     </main>
   );
 } 

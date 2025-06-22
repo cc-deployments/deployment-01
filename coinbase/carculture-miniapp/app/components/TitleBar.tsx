@@ -20,7 +20,7 @@ export default function TitleBar() {
                 priority
               />
             </div>
-            
+
             {/* Title */}
             <h1 className="text-2xl font-bold text-white" style={{ fontFamily: 'system-ui, sans-serif' }}>
               CarCulture

@@ -1,22 +1,26 @@
 'use client';
 
-import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
-import { ReactNode } from 'react';
+import { MiniKitProvider as BaseMiniKitProvider } from '@coinbase/onchainkit/minikit';
 import { base } from 'wagmi/chains';
 
-export function MiniKitContextProvider({ children }: { children: ReactNode }) {
-  // TODO: Get a projectId from https://cloud.wallet.coinbase.com/
-  const projectId = 'e8712a4b5536417b34a6549a0c293f84';
+interface MiniKitProviderProps {
+  children: React.ReactNode;
+}
 
+export default function MiniKitProvider({ children }: MiniKitProviderProps) {
+  const apiKey = process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY;
+
+  if (!apiKey) {
+    console.warn("API key for OnchainKit is not set in environment variables.");
+  }
+  
   return (
-    <MiniKitProvider
-      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY || ''}
+    <BaseMiniKitProvider
+      apiKey={apiKey}
+      notificationProxyUrl="/api/notification"
       chain={base}
-      projectId={projectId}
-      // Optional: If you want to customize notification handling
-      // notificationProxyUrl="/api/notification" 
     >
       {children}
-    </MiniKitProvider>
+    </BaseMiniKitProvider>
   );
 } 
