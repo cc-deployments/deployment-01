@@ -136,10 +136,10 @@ export default function CarMintCard({ onBack }: CarMintCardProps) {
       {/* Clean Car Info */}
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">
-          {activeCar.carName}
+          CarMania Drop: {activeCar.carName}
         </h1>
         <p className="text-gray-300 text-sm">
-          {new Date(activeCar.date).toLocaleDateString()}
+          Minting for {new Date(activeCar.date).toLocaleDateString()}
         </p>
         {activeCar.description && (
           <p className="text-gray-400 text-sm mt-2">
@@ -158,7 +158,7 @@ export default function CarMintCard({ onBack }: CarMintCardProps) {
       {/* Agent Kit Chat Section */}
       <div className="bg-gray-800 rounded-lg p-6">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-white">🤖 CARMANIA Agent</h3>
+          <h3 className="text-lg font-semibold text-white">🤖 CarCulture AI Expert</h3>
           <button
             onClick={() => setShowAgentChat(!showAgentChat)}
             className="text-blue-400 hover:text-blue-300 text-sm"
@@ -173,7 +173,7 @@ export default function CarMintCard({ onBack }: CarMintCardProps) {
             <div className="bg-gray-700 rounded-lg p-4 h-48 overflow-y-auto">
               {chatHistory.length === 0 ? (
                 <p className="text-gray-400 text-sm">
-                  Ask me anything about {activeCar.carName}! I'm your CARMANIA car expert.
+                  Ask me anything about {activeCar.carName}! I'm the CarCulture AI, your resident car expert.
                 </p>
               ) : (
                 <div className="space-y-3">
@@ -216,7 +216,7 @@ export default function CarMintCard({ onBack }: CarMintCardProps) {
       {/* Additional Info */}
       <div className="mt-6 text-center text-gray-400">
         <p className="text-xs">
-          Contract: <code className="bg-gray-700 px-1 rounded">{activeCar.contractAddress}</code>
+          CarMania NFT Contract: <code className="bg-gray-700 px-1 rounded">{activeCar.contractAddress}</code>
         </p>
       </div>
     </div>

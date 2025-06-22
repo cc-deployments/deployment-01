@@ -1,17 +1,17 @@
-# CARMANIA Multi-Channel Casting Workflow
+# CarMania Multi-Channel Casting Workflow
 
-## 🎯 Complete Daily Workflow for Multi-Channel Distribution
+## 🎯 Complete Daily Workflow for CarMania NFT Distribution
 
 ### **Phase 1: Content Creation (5-10 minutes)**
 
-#### **1.1 Create Social Media Art**
+#### **1.1 Create Social Media Art for CarMania**
 - **Tool**: Adobe Express
-- **Template**: "CARMANIA Car of the Day" with stickers
+- **Template**: "CarMania Car of the Day" with stickers
 - **Elements to Include**:
-  - 🚗 CARMANIA Car of the Day 🚗 header
+  - 🚗 CarMania Car of the Day 🚗 header
   - Car image/illustration
   - Sticker-style elements (⚡ INSTANT MINT, 💎 COLLECTIBLE, 🎯 DAILY DROP)
-  - Call-to-action: "MINT NOW - CARMANIA NFT"
+  - Call-to-action: "MINT NOW - CarMania NFT"
   - Social media handles
 
 #### **1.2 Export for Social Media**
@@ -27,20 +27,20 @@
 #### **2.1 Share via Adobe Express**
 - **Instagram**: Post with car details and mint link
 - **Facebook**: Share with community engagement
-- **X (Twitter)**: Tweet with hashtags #CARMANIA #NFT #CarOfTheDay
+- **X (Twitter)**: Tweet with hashtags #CarMania #CarCulture #NFT #CarOfTheDay
 
 #### **2.2 Content Strategy**
 - **Caption Template**:
   ```
-  🚗 CARMANIA Car of the Day: [Car Name]
+  🚗 CarMania Car of the Day: [Car Name]
   
-  💎 Mint this iconic ride as an NFT on Base
-  ⚡ Instant minting with OnchainKit
-  🤖 Chat with our AI agent about the car
+  💎 Mint this iconic ride as an NFT from the CarCulture community!
+  ⚡ Instant minting with OnchainKit on Base.
+  🤖 Chat with our CarCulture AI agent about the car.
   
   🔗 Mint here: [Your App URL]
   
-  #CARMANIA #NFT #CarOfTheDay #Base #OnchainKit
+  #CarMania #CarCulture #NFT #CarOfTheDay #Base #OnchainKit
   ```
 
 ### **Phase 3: Farcaster MiniApp Casting (3 minutes)**
@@ -52,8 +52,8 @@
 
 #### **3.2 Cast to Farcaster**
 - **Platform**: Farcaster (via Warpcast or other client)
-- **Format**: Image + text with mint link
-- **Hashtags**: #CARMANIA #NFT #CarOfTheDay
+- **Format**: Image + text with mint link to the CarCulture MiniApp
+- **Hashtags**: #CarMania #CarCulture #NFT #CarOfTheDay
 - **Engagement**: Respond to comments and questions
 
 ### **Phase 4: Admin Setup (2 minutes)**
@@ -80,8 +80,8 @@
 
 #### **5.1 User Journey**
 1. **Discovery**: User sees social media post
-2. **Click**: Follows link to your app
-3. **Splash Page**: Sees sticker-style CARMANIA branding
+2. **Click**: Follows link to your CarCulture MiniApp
+3. **Splash Page**: Sees sticker-style CarMania branding
 4. **Mint Page**: Clean NFTMint card with just logo
 5. **Minting**: One-click mint via OnchainKit
 6. **Post-Mint**: Agent Kit chat about the car
@@ -97,11 +97,11 @@
 
 ## 🔧 Technical Implementation
 
-### **App Structure**
+### **App Structure in `carculture-miniapp`**
 ```
-/ (Splash Page)
+/ (Splash Page for CarMania)
 ├── Sticker-style design (social media aesthetic)
-├── CARMANIA branding
+├── CarMania branding
 └── Call-to-action button
 
 /mint (NFTMint Card)
@@ -118,9 +118,9 @@
 
 ### **Agent Kit Setup**
 ```typescript
-// Current: Simulated responses
+// Current: Simulated responses in the CarCulture AI Agent
 // Future: Integrate with actual Agent Kit
-const agentResponse = `I'm your CARMANIA car expert! I can tell you all about ${carName}. What would you like to know?`;
+const agentResponse = `I'm your CarMania Auto-Expert! I can tell you all about ${carName}. What would you like to know?`;
 ```
 
 ## 📱 Platform-Specific Optimizations
@@ -128,7 +128,7 @@ const agentResponse = `I'm your CARMANIA car expert! I can tell you all about ${
 ### **Instagram**
 - **Format**: Square (1080x1080px)
 - **Style**: Sticker-heavy, vibrant colors
-- **Hashtags**: #CARMANIA #NFT #CarOfTheDay #Cars #Automotive
+- **Hashtags**: #CarMania #CarCulture #NFT #CarOfTheDay #Cars #Automotive
 
 ### **Facebook**
 - **Format**: Landscape (1200x630px)
@@ -138,7 +138,7 @@ const agentResponse = `I'm your CARMANIA car expert! I can tell you all about ${
 ### **X (Twitter)**
 - **Format**: Landscape (1200x675px)
 - **Style**: Clean, professional
-- **Hashtags**: #CARMANIA #NFT #CarOfTheDay #Base #OnchainKit
+- **Hashtags**: #CarMania #CarCulture #NFT #CarOfTheDay #Base #OnchainKit
 
 ### **Farcaster**
 - **Format**: Mobile-optimized
@@ -151,13 +151,13 @@ const agentResponse = `I'm your CARMANIA car expert! I can tell you all about ${
 1. **Automated Social Media**: Schedule posts across platforms
 2. **Analytics Dashboard**: Track minting and engagement metrics
 3. **Community Features**: User galleries and collections
-4. **Agent Kit Deep Integration**: Real AI responses about cars
+4. **Agent Kit Deep Integration**: Real CarCulture AI responses about cars
 5. **Manifold Studios Integration**: Secondary market for minted NFTs
 
 ### **Agent Kit Integration Roadmap**
 1. **Phase 1**: Simulated responses (current)
-2. **Phase 2**: Basic car knowledge base
-3. **Phase 3**: Advanced AI with car expertise
+2. **Phase 2**: Basic CarCulture AI knowledge base
+3. **Phase 3**: Advanced AI with deep car expertise
 4. **Phase 4**: Community-driven knowledge sharing
 
 ## 📊 Success Metrics
@@ -195,4 +195,4 @@ const agentResponse = `I'm your CARMANIA car expert! I can tell you all about ${
 - [ ] Plan tomorrow's car
 - [ ] Engage with community feedback
 
-This workflow ensures maximum reach across all channels while maintaining the unique CARMANIA brand experience! 
+This workflow ensures maximum reach across all channels while maintaining the unique CarMania brand experience within the broader CarCulture community!

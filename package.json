@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "bun --cwd coinbase/socialidentity run dev"
+    "dev": "bun --cwd coinbase/carculture-miniapp run dev"
   },
   "dependencies": {
     "@coinbase/onchainkit": "^0.35.2",

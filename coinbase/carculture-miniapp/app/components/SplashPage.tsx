@@ -13,7 +13,7 @@ export default function SplashPage({ onGetStarted }: SplashPageProps) {
       <div className="mb-8">
         <div className="bg-gradient-to-r from-red-600 to-red-800 text-white py-3 px-6 rounded-t-lg">
           <h1 className="text-3xl font-bold">
-            🚗 CARMANIA Car of the Day 🚗
+            🚗 CarMania: Car of the Day 🚗
           </h1>
         </div>
         
@@ -62,7 +62,7 @@ export default function SplashPage({ onGetStarted }: SplashPageProps) {
           boxShadow: '0 10px 25px rgba(0,0,0,0.3), 0 0 0 4px #fff, 0 0 0 8px #dc2626'
         }}
       >
-        🚀 MINT NOW - CARMANIA NFT
+        🚀 MINT THE DAILY CARMANIA DROP
       </button>
 
       {/* Social sharing info */}
@@ -81,7 +81,7 @@ export default function SplashPage({ onGetStarted }: SplashPageProps) {
       {/* CarCulture branding */}
       <div className="mt-6 text-gray-500">
         <p className="text-xs">
-          Powered by OnchainKit • Built on Base • CarCulture Community
+          A CarCulture Community Project • Powered by OnchainKit • Built on Base
         </p>
       </div>
     </div>

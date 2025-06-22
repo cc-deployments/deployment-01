@@ -23,7 +23,7 @@ export default function TitleBar() {
             
             {/* Title */}
             <h1 className="text-2xl font-bold text-white" style={{ fontFamily: 'system-ui, sans-serif' }}>
-              Car of the Day
+              CarCulture
             </h1>
           </div>
         </div>
