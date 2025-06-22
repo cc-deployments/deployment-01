@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useAccount, useWriteContract } from 'wagmi';
 import { NFTMintCardDefault } from '@coinbase/onchainkit/nft';
-import { useNotification } from '@coinbase/onchainkit/minikit';
+import { useNotification, useComposeCast } from '@coinbase/onchainkit/minikit';
 import Image from 'next/image';
 import { abi } from './abi/CarNFT.json';
 
@@ -15,8 +16,11 @@ interface CarNFT {
   contractAddress: string;
   carName: string;
   date: string;
-  imageUrl?: string;
+  splashImageUrl?: string;
+  mintImageUrl?: string;
   description?: string;
+  mintType: 'ERC-721' | 'ERC-1155';
+  duration: number;
   isActive: boolean;
 }
 
@@ -28,6 +32,8 @@ export default function CarMintCard({}: CarMintCardProps) {
   const [chatHistory, setChatHistory] = useState<Array<{role: 'user' | 'assistant', content: string}>>([]);
   const [mintSuccess, setMintSuccess] = useState(false);
   const sendNotification = useNotification();
+  const { composeCast } = useComposeCast();
+  const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined);
 
   // Load the active car from localStorage
   useEffect(() => {
@@ -41,7 +47,8 @@ export default function CarMintCard({}: CarMintCardProps) {
   }, []);
 
   // Send Duolingo-style notification after successful mint
-  const handleMintSuccess = () => {
+  const handleMintSuccess = (txHash: `0x${string}`) => {
+    setTxHash(txHash);
     setMintSuccess(true);
     
     // Send engaging notification
@@ -57,6 +64,15 @@ export default function CarMintCard({}: CarMintCardProps) {
         body: "Don't break your streak! Today's exclusive car is ready to mint."
       });
     }, 24 * 60 * 60 * 1000); // 24 hours
+  };
+
+  const handleShareCast = () => {
+    if (activeCar) {
+      composeCast({
+        text: `I just minted the ${activeCar.carName} from @car! 🚗\n\nMint yours here:`,
+        embeds: [window.location.href],
+      });
+    }
   };
 
   // Agent Kit chat function
@@ -91,42 +107,78 @@ export default function CarMintCard({}: CarMintCardProps) {
 
   if (!activeCar) {
     return (
-      <div className="max-w-2xl mx-auto">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-white mb-4">
-            No Car Available Today
-          </h1>
-          <p className="text-gray-300 mb-8">
-            Check back later or contact the admin to add today's car.
-          </p>
-          <div className="bg-gray-800 rounded-lg p-6">
-            <p className="text-gray-400">
-              Admin can add cars at: <code className="bg-gray-700 px-2 py-1 rounded">/admin</code>
-            </p>
-          </div>
-        </div>
+      <div className="w-full max-w-md bg-car-dark rounded-xl shadow-lg p-6 text-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-4"></div>
+        <p className="text-gray-300">No Car Available Today</p>
+        <p className="text-sm text-gray-400 mt-2">Check back tomorrow for a new CarMania drop!</p>
       </div>
     );
   }
   
+  if (mintSuccess) {
+    return (
+      <div className="w-full max-w-md bg-car-dark rounded-xl shadow-lg p-6 text-center">
+        <div className="text-6xl mb-4">🎉</div>
+        <h2 className="text-2xl font-bold text-white mb-2">Mint Successful!</h2>
+        <p className="text-gray-300 mb-6">
+          Your transaction is confirmed. Welcome to the CarMania club!
+        </p>
+        {txHash && (
+          <a 
+            href={`https://basescan.org/tx/${txHash}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400 hover:underline mb-6 block"
+          >
+            View on Basescan
+          </a>
+        )}
+        <button
+          onClick={handleShareCast}
+          className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+        >
+          Share your Mint!
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full max-w-md bg-car-dark rounded-xl shadow-lg p-6 text-white border border-gray-700">
       <div className="flex flex-col items-center">
         <h2 className="text-3xl font-bold mb-2">CarMania: Car of the Day</h2>
         <p className="text-gray-400 mb-6">Mint your exclusive daily car NFT.</p>
 
-        {/* Clean Car Info */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">
-            CarMania Drop: {activeCar.carName}
-          </h1>
-          <p className="text-gray-300 text-sm">
-            Minting for {new Date(activeCar.date).toLocaleDateString()}
-          </p>
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-bold text-white mb-2">{activeCar.carName}</h2>
+          
+          {/* Mint Type Badge */}
+          <div className="flex items-center justify-center space-x-2 mb-3">
+            <span className={`text-xs px-2 py-1 rounded-full ${
+              activeCar.mintType === 'ERC-1155' 
+                ? 'bg-blue-100 text-blue-800' 
+                : 'bg-purple-100 text-purple-800'
+            }`}>
+              {activeCar.mintType}
+            </span>
+            <span className="text-xs text-gray-400">
+              {activeCar.duration} day{activeCar.duration !== 1 ? 's' : ''} available
+            </span>
+          </div>
+
           {activeCar.description && (
-            <p className="text-gray-400 text-sm mt-2">
-              {activeCar.description}
-            </p>
+            <p className="text-gray-300 text-sm mb-4">{activeCar.description}</p>
+          )}
+
+          {/* Display mint image if available */}
+          {activeCar.mintImageUrl && (
+            <div className="mb-4">
+              <img 
+                src={activeCar.mintImageUrl} 
+                alt={`${activeCar.carName} NFT`}
+                className="w-full h-48 object-cover rounded-lg"
+              />
+            </div>
           )}
         </div>
 
@@ -134,7 +186,7 @@ export default function CarMintCard({}: CarMintCardProps) {
         <div className="bg-gray-800 rounded-lg p-6 mb-6">
           <NFTMintCardDefault
             contractAddress={activeCar.contractAddress as `0x${string}`}
-            onSuccess={handleMintSuccess}
+            onSuccess={(result) => result && handleMintSuccess(result.transactionHash)}
           />
         </div>
 

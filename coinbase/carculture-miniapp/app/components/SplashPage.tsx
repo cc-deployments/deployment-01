@@ -75,25 +75,35 @@ export default function SplashPage({ onGetStarted }: SplashPageProps) {
       </div>
 
       {/* CTA Buttons */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <button
-          onClick={onGetStarted}
-          className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-200 transform hover:scale-105 shadow-lg border-4 border-white"
-          style={{
-            boxShadow:
-              '0 10px 25px rgba(0,0,0,0.3), 0 0 0 4px #fff, 0 0 0 8px #dc2626',
-          }}
-        >
-          🚀 MINT THE DAILY CARMANIA DROP
-        </button>
+      <div className="flex flex-col items-center gap-6">
+        <div className="flex flex-col sm:flex-row gap-4">
+          <button
+            onClick={onGetStarted}
+            className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-200 transform hover:scale-105 shadow-lg border-4 border-white"
+            style={{
+              boxShadow:
+                '0 10px 25px rgba(0,0,0,0.3), 0 0 0 4px #fff, 0 0 0 8px #dc2626',
+            }}
+          >
+            🚀 MINT THE DAILY CARMANIA DROP
+          </button>
+          <a
+            href="https://warpcast.com/~/channel/car"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white hover:bg-gray-200 text-gray-800 font-bold py-4 px-8 rounded-lg text-lg transition-all duration-200 transform hover:scale-105 shadow-lg border-4 border-white flex items-center justify-center"
+            style={{
+              boxShadow:
+                '0 10px 25px rgba(0,0,0,0.1), 0 0 0 4px #fff, 0 0 0 8px #e5e7eb',
+            }}
+          >
+            JOIN OUR CHANNEL
+          </a>
+        </div>
         <button
           onClick={handleAddFrame}
           disabled={added}
-          className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-200 transform hover:scale-105 shadow-lg border-4 border-white disabled:opacity-50 disabled:cursor-not-allowed"
-          style={{
-            boxShadow:
-              '0 10px 25px rgba(0,0,0,0.3), 0 0 0 4px #fff, 0 0 0 8px #8b5cf6',
-          }}
+          className="text-purple-400 hover:text-purple-300 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {added ? '✅ Added to Farcaster' : 'Add App to Farcaster'}
         </button>

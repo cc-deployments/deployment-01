@@ -1,15 +1,23 @@
 {
+  "name": "CarCulture",
+  "iconUrl": "/logo-white.svg",
+  "aboutText": "CarCulture celebrates the Art of the Automobile. Discover, mint, and collect daily car-themed NFTs from the CarMania collection.",
   "accountAssociation": {
     "header": "NEEDS_GENERATION_-_SEE_MINIKIT_DOCS",
     "payload": "NEEDS_GENERATION_-_SEE_MINIKIT_DOCS",
     "signature": "NEEDS_GENERATION_-_SEE_MINIKIT_DOCS"
   },
+  "action": {
+    "type": "mint",
+    "title": "Mint the CarMania Daily Drop",
+    "description": "Mint the latest car from the CarMania collection directly from the cast."
+  },
   "frame": {
     "version": "next",
-    "name": "CarCulture",
-    "iconUrl": "https://<your-domain>/logo-white.svg",
-    "splashImageUrl": "https://<your-domain>/preview.png",
+    "name": "CarCulture Daily Drop",
+    "iconUrl": "/logo-white.svg",
+    "splashImageUrl": "/preview.png",
     "splashBackgroundColor": "#000000",
-    "homeUrl": "https://<your-domain>"
+    "homeUrl": "/"
   }
 } 
