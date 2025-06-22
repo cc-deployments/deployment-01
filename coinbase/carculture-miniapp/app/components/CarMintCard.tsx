@@ -1,0 +1,224 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { NFTMintCardDefault } from '@coinbase/onchainkit/nft';
+import Image from 'next/image';
+
+interface CarMintCardProps {
+  onBack: () => void;
+}
+
+interface CarNFT {
+  id: string;
+  contractAddress: string;
+  carName: string;
+  date: string;
+  imageUrl?: string;
+  description?: string;
+  isActive: boolean;
+}
+
+export default function CarMintCard({ onBack }: CarMintCardProps) {
+  const [activeCar, setActiveCar] = useState<CarNFT | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [showAgentChat, setShowAgentChat] = useState(false);
+  const [chatMessage, setChatMessage] = useState('');
+  const [chatHistory, setChatHistory] = useState<Array<{role: 'user' | 'assistant', content: string}>>([]);
+
+  // Load the active car from localStorage
+  useEffect(() => {
+    const savedCars = localStorage.getItem('carNFTs');
+    if (savedCars) {
+      const cars: CarNFT[] = JSON.parse(savedCars);
+      const active = cars.find(car => car.isActive);
+      setActiveCar(active || null);
+    }
+    setLoading(false);
+  }, []);
+
+  // Agent Kit chat function
+  const sendChatMessage = async () => {
+    if (!chatMessage.trim()) return;
+
+    const userMessage = chatMessage;
+    setChatMessage('');
+    
+    // Add user message to chat
+    const newChatHistory = [...chatHistory, { role: 'user' as const, content: userMessage }];
+    setChatHistory(newChatHistory);
+
+    // Simulate Agent Kit response (replace with actual Agent Kit integration)
+    const agentResponse = `I'm your CARMANIA car expert! I can tell you all about ${activeCar?.carName || 'this amazing car'}. What would you like to know about it?`;
+    
+    setTimeout(() => {
+      setChatHistory([...newChatHistory, { role: 'assistant' as const, content: agentResponse }]);
+    }, 1000);
+  };
+
+  if (loading) {
+    return (
+      <div className="max-w-2xl mx-auto">
+        <button
+          onClick={onBack}
+          className="mb-6 text-gray-400 hover:text-white transition-colors flex items-center"
+        >
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Home
+        </button>
+        
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
+          <p className="text-gray-400 mt-4">Loading today's car...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!activeCar) {
+    return (
+      <div className="max-w-2xl mx-auto">
+        <button
+          onClick={onBack}
+          className="mb-6 text-gray-400 hover:text-white transition-colors flex items-center"
+        >
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Home
+        </button>
+        
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-white mb-4">
+            No Car Available Today
+          </h1>
+          <p className="text-gray-300 mb-8">
+            Check back later or contact the admin to add today's car.
+          </p>
+          <div className="bg-gray-800 rounded-lg p-6">
+            <p className="text-gray-400">
+              Admin can add cars at: <code className="bg-gray-700 px-2 py-1 rounded">/admin</code>
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+  return (
+    <div className="max-w-2xl mx-auto">
+      {/* Clean Header with just logo */}
+      <div className="flex justify-between items-center mb-8">
+        <button
+          onClick={onBack}
+          className="text-gray-400 hover:text-white transition-colors flex items-center"
+        >
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          Back
+        </button>
+        
+        {/* CarCulture Logo */}
+        <div className="relative w-24">
+          <Image
+            src="/logo-white.svg"
+            alt="CarCulture Logo"
+            width={96}
+            height={32}
+            className="object-contain"
+            priority
+          />
+        </div>
+      </div>
+
+      {/* Clean Car Info */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-white mb-2">
+          {activeCar.carName}
+        </h1>
+        <p className="text-gray-300 text-sm">
+          {new Date(activeCar.date).toLocaleDateString()}
+        </p>
+        {activeCar.description && (
+          <p className="text-gray-400 text-sm mt-2">
+            {activeCar.description}
+          </p>
+        )}
+      </div>
+
+      {/* NFT Mint Card - Clean Design */}
+      <div className="bg-gray-800 rounded-lg p-6 mb-6">
+        <NFTMintCardDefault
+          contractAddress={activeCar.contractAddress as `0x${string}`}
+        />
+      </div>
+
+      {/* Agent Kit Chat Section */}
+      <div className="bg-gray-800 rounded-lg p-6">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-semibold text-white">🤖 CARMANIA Agent</h3>
+          <button
+            onClick={() => setShowAgentChat(!showAgentChat)}
+            className="text-blue-400 hover:text-blue-300 text-sm"
+          >
+            {showAgentChat ? 'Hide Chat' : 'Chat about this car'}
+          </button>
+        </div>
+        
+        {showAgentChat && (
+          <div className="space-y-4">
+            {/* Chat History */}
+            <div className="bg-gray-700 rounded-lg p-4 h-48 overflow-y-auto">
+              {chatHistory.length === 0 ? (
+                <p className="text-gray-400 text-sm">
+                  Ask me anything about {activeCar.carName}! I'm your CARMANIA car expert.
+                </p>
+              ) : (
+                <div className="space-y-3">
+                  {chatHistory.map((msg, index) => (
+                    <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`max-w-xs p-3 rounded-lg ${
+                        msg.role === 'user' 
+                          ? 'bg-blue-600 text-white' 
+                          : 'bg-gray-600 text-white'
+                      }`}>
+                        {msg.content}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            
+            {/* Chat Input */}
+            <div className="flex space-x-2">
+              <input
+                type="text"
+                value={chatMessage}
+                onChange={(e) => setChatMessage(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && sendChatMessage()}
+                placeholder="Ask about this car..."
+                className="flex-1 p-3 bg-gray-700 text-white rounded border border-gray-600 focus:border-blue-500 focus:outline-none"
+              />
+              <button
+                onClick={sendChatMessage}
+                className="px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors"
+              >
+                Send
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Additional Info */}
+      <div className="mt-6 text-center text-gray-400">
+        <p className="text-xs">
+          Contract: <code className="bg-gray-700 px-1 rounded">{activeCar.contractAddress}</code>
+        </p>
+      </div>
+    </div>
+  );
+} 
