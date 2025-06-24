@@ -2,7 +2,19 @@
 
 import Image from 'next/image';
 import { useAddFrame } from '@coinbase/onchainkit/minikit';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+// Define the CarNFT type here to ensure consistency
+interface CarNFT {
+  id: string;
+  contractAddress: string;
+  carName: string;
+  date: string;
+  splashImageUrl?: string;
+  mintImageUrl?: string;
+  description?: string;
+  isActive: boolean;
+}
 
 interface SplashPageProps {
   onGetStarted: () => void;
@@ -11,6 +23,23 @@ interface SplashPageProps {
 export default function SplashPage({ onGetStarted }: SplashPageProps) {
   const addFrame = useAddFrame();
   const [added, setAdded] = useState(false);
+  const [activeCar, setActiveCar] = useState<CarNFT | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    try {
+      const savedCars = localStorage.getItem('carNFTs');
+      if (savedCars) {
+        const cars: CarNFT[] = JSON.parse(savedCars);
+        const active = cars.find(car => car.isActive);
+        setActiveCar(active || null);
+      }
+    } catch (e) {
+      console.error("Failed to load or parse car data from localStorage", e);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const handleAddFrame = async () => {
     const result = await addFrame();
@@ -20,18 +49,27 @@ export default function SplashPage({ onGetStarted }: SplashPageProps) {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[70vh] text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
+        <p className="text-gray-400 mt-4">Loading Today's Car...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] text-center">
       {/* Social Media Style Header */}
       <div className="mb-8">
         <div className="bg-gradient-to-r from-red-600 to-red-800 text-white py-3 px-6 rounded-t-lg">
           <h1 className="text-3xl font-bold">
-            🚗 CarMania: Car of the Day 🚗
+            CarMania: {activeCar?.carName || 'Car of the Day'}
           </h1>
         </div>
         
         {/* Sticker-style content area */}
-        <div className="bg-white text-black p-8 rounded-b-lg shadow-lg relative overflow-hidden">
+        <div className="bg-black text-white p-8 rounded-b-lg shadow-lg relative overflow-hidden">
           {/* Background pattern for sticker effect */}
           <div className="absolute inset-0 opacity-5">
             <div className="grid grid-cols-8 gap-2 h-full">
@@ -44,32 +82,19 @@ export default function SplashPage({ onGetStarted }: SplashPageProps) {
           {/* Main content */}
           <div className="relative z-10">
             <Image
-              src="/CurbService.png"
-              alt="Curb Service - Car of the Day"
+              src={activeCar?.splashImageUrl || '/Forward.png'}
+              alt={activeCar?.carName || 'Car of the Day'}
               width={400}
               height={200}
               className="rounded-lg mb-4"
+              priority
             />
-            <div className="text-6xl mb-4">🏎️</div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            <h2 className="text-2xl font-bold text-white mb-4 mt-4">
               Today's Featured Ride
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-400 mb-6">
               Ready to mint your piece of automotive history?
             </p>
-            
-            {/* Sticker-style features */}
-            <div className="flex flex-wrap justify-center gap-4 mb-6">
-              <div className="bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-bold transform rotate-2">
-                ⚡ INSTANT MINT
-              </div>
-              <div className="bg-blue-400 text-white px-4 py-2 rounded-full text-sm font-bold transform -rotate-1">
-                💎 COLLECTIBLE
-              </div>
-              <div className="bg-green-400 text-white px-4 py-2 rounded-full text-sm font-bold transform rotate-1">
-                🎯 DAILY DROP
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -115,8 +140,6 @@ export default function SplashPage({ onGetStarted }: SplashPageProps) {
           Share this car with your community:
         </p>
         <div className="flex justify-center space-x-4 text-xs">
-          <span>📱 Instagram</span>
-          <span>📘 Facebook</span>
           <span>🐦 X (Twitter)</span>
           <span>🔗 Farcaster</span>
         </div>
