@@ -4,9 +4,7 @@ export default function SecureAuth() {
   const { signIn } = useAuthenticate();
   
   const handleSecureSignIn = async () => {
-    const result = await signIn({
-      siweUri: 'https://your-domain.com/login'
-    });
+    const result = await signIn();
     
     if (result) {
       // User successfully authenticated
