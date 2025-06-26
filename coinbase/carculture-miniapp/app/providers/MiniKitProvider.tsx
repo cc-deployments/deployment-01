@@ -19,6 +19,7 @@ export default function MiniKitProvider({ children }: MiniKitProviderProps) {
       apiKey={apiKey}
       notificationProxyUrl="/api/notification"
       chain={base}
+      enableWalletAuth={true}
     >
       {children}
     </BaseMiniKitProvider>
