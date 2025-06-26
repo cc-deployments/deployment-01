@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 
 // In-memory rate limiter (per FID)
 const rateLimiter = new Map<string, number[]>();
@@ -20,6 +21,17 @@ export function checkRateLimit(fid: string) {
   rateLimiter.set(fid, recentRequests);
 }
 
+// Input validation using zod (per prompt)
+const userInputSchema = z.object({
+  fid: z.string().min(1),
+  message: z.string().max(280),
+  signature: z.string()
+});
+
+export function validateInput(data: unknown) {
+  return userInputSchema.parse(data);
+}
+
 // Placeholder for actual Farcaster signature verification logic
 async function verifyFarcasterSignature(fid: string, signature: string): Promise<boolean> {
   // TODO: Implement real Farcaster signature verification here
@@ -27,13 +39,16 @@ async function verifyFarcasterSignature(fid: string, signature: string): Promise
   return false;
 }
 
-interface ProtectedRequestBody {
-  fid: string;
-  signature: string;
-}
-
 export async function POST(request: NextRequest) {
-  const { fid, signature }: ProtectedRequestBody = await request.json();
+  let data;
+  try {
+    data = await request.json();
+    data = validateInput(data);
+  } catch (err) {
+    return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
+  }
+
+  const { fid, signature } = data;
 
   // Rate limiting
   try {
