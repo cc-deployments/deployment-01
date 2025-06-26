@@ -1,0 +1,19 @@
+name = "carculture-miniapp-backend"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+[env.production]
+name = "carculture-miniapp-backend"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "carmania-db"
+database_id = "3f77a2ef-cccb-4334-8b29-3d82de26c370"
+
+[[env.production.kv_namespaces]]
+binding = "CACHE"
+id = "0602ae677d7d46cfbc06751d79a727ce"
+
+[[env.production.r2_buckets]]
+binding = "STORAGE"
+bucket_name = "carmania-storage"

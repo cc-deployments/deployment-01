@@ -166,4 +166,8 @@ The CarCulture AI Agent is a core feature of the platform.
 - [Coinbase Wallet Mint Flow](https://wallet.coinbase.com/) (for creating NFTs)
 - [Agent Kit Documentation](https://docs.base.org/agentkit) (for future integration)
 
+
+We are moving backend to Cloudflare on 6/25/2025
+Need to run through SECURITY steps
+
 [ ] Test App**: Run `cd coinbase/carculture-miniapp && npm run dev` 

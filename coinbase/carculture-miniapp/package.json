@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy:worker": "wrangler deploy",
+    "dev:worker": "wrangler dev"
   },
   "dependencies": {
     "@coinbase/onchainkit": "^0.38.14",
@@ -22,9 +24,11 @@
     "tailwindcss": "^3.4.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250625.0",
     "@types/node": "^20.11.8",
     "@types/react": "18.3.10",
     "@types/react-dom": "^18.2.7",
-    "typescript": "5.6.2"
+    "typescript": "5.6.2",
+    "wrangler": "^4.21.2"
   }
 }
