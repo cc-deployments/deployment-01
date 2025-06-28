@@ -1,6 +1,6 @@
 # oracle
 
-This directory is reserved for the off-chain Oracle service for CarCulture Apps.
+Stub for off-chain Oracle service.
 
 ## Purpose
 - Acts as a secure bridge between proprietary/private data and on-chain smart contracts.
@@ -18,3 +18,4 @@ This directory is reserved for the off-chain Oracle service for CarCulture Apps.
 ---
 
 *This is a stub. Expand as you add Oracle code and documentation.*
+

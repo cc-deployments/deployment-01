@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import MiniKitProvider from './providers/MiniKitProvider';
+import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
+import dynamic from 'next/dynamic';
 import '@coinbase/onchainkit/styles.css';
+
+const Providers = dynamic(() => import('../shared/identity/Providers'), { ssr: false });
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,7 +29,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <MiniKitProvider>{children}</MiniKitProvider>
+        <MiniKitProvider projectId={process.env.NEXT_PUBLIC_PROJECT_ID}>
+          <Providers>
+            {children}
+          </Providers>
+        </MiniKitProvider>
       </body>
     </html>
   );

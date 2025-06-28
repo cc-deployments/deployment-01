@@ -18,6 +18,8 @@
     "iconUrl": "/logo-white.svg",
     "splashImageUrl": "/preview.png",
     "splashBackgroundColor": "#000000",
-    "homeUrl": "/"
+    "homeUrl": "/",
+    "primaryCategory": "entertainment",
+    "tags": ["nft", "cars", "collectibles", "daily-drops"]
   }
 } 

@@ -52,104 +52,73 @@ export default function SplashPage({ onGetStarted }: SplashPageProps) {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[70vh] text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
-        <p className="text-gray-400 mt-4">Loading Today's Car...</p>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto"></div>
+        <p className="text-gray-400 mt-4 text-lg">Loading Today's Car...</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] text-center">
-      {/* Social Media Style Header */}
-      <div className="mb-8">
-        <div className="bg-gradient-to-r from-red-600 to-red-800 text-white py-3 px-6 rounded-t-lg">
-          <h1 className="text-3xl font-bold">
+    <div className="flex flex-col items-center justify-center min-h-[70vh] text-center px-4">
+      {/* Enhanced Social Media Style Header */}
+      <div className="mb-8 w-full max-w-2xl">
+        <div className="bg-gradient-to-r from-red-600 via-red-700 to-red-800 text-white py-4 px-6 rounded-t-xl shadow-lg">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-wide">
             CarMania: {activeCar?.carName || 'Car of the Day'}
           </h1>
         </div>
         
-        {/* Sticker-style content area */}
-        <div className="bg-black text-white p-8 rounded-b-lg shadow-lg relative overflow-hidden">
-          {/* Background pattern for sticker effect */}
-          <div className="absolute inset-0 opacity-5">
-            <div className="grid grid-cols-8 gap-2 h-full">
-              {Array.from({ length: 64 }).map((_, i) => (
-                <div key={i} className="bg-red-500 rounded-full"></div>
-              ))}
-            </div>
-          </div>
-          
+        {/* Enhanced Sticker-style content area */}
+        <div className="bg-gradient-to-b from-gray-900 to-black text-white p-6 md:p-8 rounded-b-xl shadow-2xl relative overflow-hidden border border-gray-700">
           {/* Main content */}
           <div className="relative z-10">
-            <Image
-              src={activeCar?.splashImageUrl || '/Forward.png'}
-              alt={activeCar?.carName || 'Car of the Day'}
-              width={400}
-              height={200}
-              className="rounded-lg mb-4"
-              priority
-            />
-            <h2 className="text-2xl font-bold text-white mb-4 mt-4">
+            <div className="relative mb-6">
+              <Image
+                src={activeCar?.splashImageUrl || '/forward.png'}
+                alt={activeCar?.carName || 'Car of the Day'}
+                width={400}
+                height={200}
+                className="rounded-lg shadow-lg mx-auto"
+                priority
+                style={{
+                  maxWidth: '100%',
+                  height: 'auto'
+                }}
+              />
+              {/* Overlay badge */}
+              <div className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full font-bold">
+                LIVE
+              </div>
+            </div>
+            <h2 className="text-xl md:text-2xl font-bold text-white mb-3">
               Today's Featured Ride
             </h2>
-            <p className="text-gray-400 mb-6">
+            <p className="text-gray-300 mb-6 text-sm md:text-base leading-relaxed">
               Ready to mint your piece of automotive history?
             </p>
           </div>
         </div>
       </div>
 
-      {/* CTA Buttons */}
-      <div className="flex flex-col items-center gap-6">
-        <div className="flex flex-col sm:flex-row gap-4">
-          <button
-            onClick={onGetStarted}
-            className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-200 transform hover:scale-105 shadow-lg border-4 border-white"
-            style={{
-              boxShadow:
-                '0 10px 25px rgba(0,0,0,0.3), 0 0 0 4px #fff, 0 0 0 8px #dc2626',
-            }}
-          >
-            🚀 MINT THE DAILY CARMANIA DROP
-          </button>
-          <a
-            href="https://warpcast.com/~/channel/car"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-white hover:bg-gray-200 text-gray-800 font-bold py-4 px-8 rounded-lg text-lg transition-all duration-200 transform hover:scale-105 shadow-lg border-4 border-white flex items-center justify-center"
-            style={{
-              boxShadow:
-                '0 10px 25px rgba(0,0,0,0.1), 0 0 0 4px #fff, 0 0 0 8px #e5e7eb',
-            }}
-          >
-            JOIN OUR CHANNEL
-          </a>
-        </div>
+      {/* Enhanced CTA Buttons */}
+      <div className="flex flex-col items-center gap-6 w-full max-w-2xl">
+        <button
+          onClick={onGetStarted}
+          className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold py-4 px-6 md:px-8 rounded-xl text-base md:text-lg transition-all duration-300 transform hover:scale-105 shadow-xl border-2 border-white hover:border-red-300"
+          style={{
+            boxShadow:
+              '0 10px 25px rgba(220, 38, 38, 0.3), 0 0 0 2px #fff, 0 0 0 4px #dc2626',
+          }}
+        >
+          🚀 MINT THE DAILY CARMANIA DROP
+        </button>
         <button
           onClick={handleAddFrame}
           disabled={added}
-          className="text-purple-400 hover:text-purple-300 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          className="text-purple-400 hover:text-purple-300 text-sm disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
         >
-          {added ? '✅ Added to Farcaster' : 'Add App to Farcaster'}
+          {added ? '✅ Added to Farcaster' : '📱 Add App to Farcaster'}
         </button>
-      </div>
-
-      {/* Social sharing info */}
-      <div className="mt-8 text-gray-400">
-        <p className="text-sm mb-2">
-          Share this car with your community:
-        </p>
-        <div className="flex justify-center space-x-4 text-xs">
-          <span>🐦 X (Twitter)</span>
-          <span>🔗 Farcaster</span>
-        </div>
-      </div>
-
-      {/* CarCulture branding */}
-      <div className="mt-6 text-gray-500">
-        <p className="text-xs">
-          A CarCulture Community Project • Powered by OnchainKit • Built on Base
-        </p>
       </div>
     </div>
   );

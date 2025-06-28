@@ -1,5 +1,7 @@
 # agents
 
+Stub for LLM/agent logic.
+
 This directory is reserved for all LLM/agent logic for CarCulture Apps.
 
 ## Purpose
@@ -18,3 +20,4 @@ This directory is reserved for all LLM/agent logic for CarCulture Apps.
 ---
 
 *This is a stub. Expand as you add agent code and documentation.*
+

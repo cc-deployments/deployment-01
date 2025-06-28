@@ -1,5 +1,7 @@
 # smart-contracts
 
+Stub for Solidity, Foundry, Hardhat contracts.
+
 This directory is reserved for all Solidity smart contracts related to CarCulture, including:
 - The CarCulture parent contract (company/DAO/brand logic)
 - Collection contracts (e.g., CarManiaNFT, CarLegendsNFT, and future collections)
@@ -13,3 +15,4 @@ This directory is reserved for all Solidity smart contracts related to CarCultur
 ---
 
 *This is a stub. Expand as you add contracts and tooling.*
+

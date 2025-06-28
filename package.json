@@ -6,10 +6,10 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "bun --cwd coinbase/carculture-miniapp run dev"
+    "dev": "cd coinbase/carculture-miniapp && npm run dev"
   },
   "dependencies": {
-    "@coinbase/onchainkit": "^0.38.14",
+    "@coinbase/onchainkit": "0.38.14",
     "@rainbow-me/rainbowkit": "^2.0.0",
     "@tanstack/react-query": "^5.51.1",
     "framer-motion": "^11.10.0",
