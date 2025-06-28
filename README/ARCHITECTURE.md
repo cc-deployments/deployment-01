@@ -1,9 +1,12 @@
-# [2025-07-01] Directory structure and stubs implemented
+# [2025-07-02] Architecture and UI/UX Refactor Progress
 
-On July 1, 2025, the directory structure and stub files were created to match the architecture plan and onboarding diagram. This includes:
-- All key folders (smart-contracts, oracle, agents, coinbase/carculture-miniapp/app/components, tokens/abi, shared/identity)
-- Stub files for all major components, token ABIs, and identity logic
-- Structure is now ready for onboarding, development, and further modularization
+## Recent Updates (July 1–2, 2025)
+- Unified all social identity and wallet logic in `shared/identity/` (OnchainKit, Farcaster, wrappers, etc.)
+- Removed legacy/duplicate folders and archived unused code (e.g., _archive_neynar_v2, duplicate coinbase folders)
+- Modularized and cleaned up UI components; ongoing UI/UX simplification (e.g., removed TitleBar, streamlined SplashPage)
+- OnchainKit is now the primary wallet/identity provider; Privy and legacy flows deprecated
+- Manifest and icon updates in progress for improved MiniApp listing and discoverability
+- Project structure and documentation are in sync with the onboarding schema and architectural diagram
 
 # CCulture-Apps-New: Architecture Overview
 

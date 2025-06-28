@@ -3,11 +3,11 @@
 import { useRef, useEffect } from 'react';
 import { useMiniKit } from '@coinbase/onchainkit/minikit';
 import SplashPage from './components/SplashPage';
-import CarMintCard from './components/CarMintCard';
+import CarManiaMintCard from './components/CarManiaMintCard';
 import TitleBar from './components/TitleBar';
 import PastDropsGallery from './components/PastDropsGallery';
-import WalletAuth from './components/WalletAuth';
-import ProtectedContent from './components/ProtectedContent';
+import WalletAuth from '../shared/identity/WalletAuth';
+import ProtectedContent from '../shared/identity/ProtectedContent';
 
 export default function HomePage() {
   const { setFrameReady, isFrameReady } = useMiniKit();
@@ -28,7 +28,6 @@ export default function HomePage() {
       {/* Enhanced Header with Wallet Authentication */}
       <div className="sticky top-0 z-50 bg-black/95 backdrop-blur-sm border-b border-gray-800">
         <div className="w-full flex justify-between items-center px-4 md:px-6 py-3">
-          <TitleBar />
           <WalletAuth />
         </div>
       </div>
@@ -52,7 +51,7 @@ export default function HomePage() {
           
           <ProtectedContent>
             <div className="flex justify-center">
-              <CarMintCard />
+              <CarManiaMintCard />
             </div>
           </ProtectedContent>
         </div>

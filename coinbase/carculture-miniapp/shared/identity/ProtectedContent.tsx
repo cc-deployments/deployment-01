@@ -1,7 +1,7 @@
 'use client';
 
 import { useAccount } from 'wagmi';
-import WalletAuth from './WalletAuth';
+import WalletAuth from '../../shared/identity/WalletAuth';
 
 interface ProtectedContentProps {
   children: React.ReactNode;
