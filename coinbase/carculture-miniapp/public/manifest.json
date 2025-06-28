@@ -1,0 +1,17 @@
+{
+  "name": "CarMania",
+  "description": "CarMania, an NFT collection from CarCulture",
+  "icon": "https://your-app-name.vercel.app/favicon.png",
+  "splash": "https://your-app-name.vercel.app/carmania-splash.png",
+  "url": "https://your-app-name.vercel.app",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "categories": ["car"],
+  "actions": [
+    {
+      "title": "Mint Today's Car",
+      "description": "Mint the latest CarMania NFT",
+      "url": "https://your-app-name.vercel.app/mint"
+    }
+  ]
+} 

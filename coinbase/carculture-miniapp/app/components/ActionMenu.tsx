@@ -3,7 +3,6 @@ import React from "react";
 export default function ActionMenu({ onSelect }: { onSelect: (action: string) => void }) {
   return (
     <div style={{ margin: "2rem 0" }}>
-      <h2 className="text-xl font-semibold mb-2">Try a Farcaster Action:</h2>
       <ul className="space-y-2">
         <li>
           <button onClick={() => onSelect("post")} className="btn">Post a new cast</button>

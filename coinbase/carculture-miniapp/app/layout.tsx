@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
+import MiniKitProvider from './providers/MiniKitProvider';
 import dynamic from 'next/dynamic';
 import '@coinbase/onchainkit/styles.css';
 
@@ -14,6 +14,10 @@ export const metadata: Metadata = {
   title: 'Car Culture Mini App',
   description: 'Mint and collect exclusive car NFTs',
   category: 'entertainment',
+  icons: {
+    icon: '/favicon.png',
+    apple: '/apple-touch-icon.png',
+  },
   openGraph: {
     title: 'CarCulture MiniApp',
     description: 'Mint CarMania NFTs and celebrate the Art of the Automobile.',
@@ -29,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <MiniKitProvider projectId={process.env.NEXT_PUBLIC_PROJECT_ID}>
+        <MiniKitProvider>
           <Providers>
             {children}
           </Providers>
@@ -37,4 +41,4 @@ export default function RootLayout({
       </body>
     </html>
   );
-} 
+}

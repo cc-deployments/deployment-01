@@ -2,8 +2,8 @@
 
 import { useRef, useEffect } from 'react';
 import { useMiniKit } from '@coinbase/onchainkit/minikit';
-import SplashPage from './components/SplashPage';
-import CarManiaMintCard from './components/CarManiaMintCard';
+import CarManiaSplashPage from './components/carmania/CarManiaSplashPage';
+import CarManiaMintCard from './components/carmania/CarManiaMintCard';
 import TitleBar from './components/TitleBar';
 import PastDropsGallery from './components/PastDropsGallery';
 import WalletAuth from '../shared/identity/WalletAuth';
@@ -33,9 +33,9 @@ export default function HomePage() {
       </div>
       
       <div className="w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8">
-        {/* Hero Section */}
+        {/* Hero Section - CarMania Splash */}
         <div className="py-8 md:py-12 lg:py-16">
-          <SplashPage onGetStarted={handleGetStarted} />
+          <CarManiaSplashPage />
         </div>
         
         {/* Minting Section - Requires Wallet Auth */}
@@ -56,11 +56,11 @@ export default function HomePage() {
           </ProtectedContent>
         </div>
         
-        {/* Gallery Section */}
+        {/* CarMania Gallery Section */}
         <div className="py-12 md:py-16 lg:py-20 border-t border-gray-800">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4">
-              Past Drops
+              CarMania Gallery
             </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
               Explore the collection of previous CarMania releases
