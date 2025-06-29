@@ -40,7 +40,7 @@ export default function PastDropsGallery() {
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {pastDrops.map((car) => (
-          <div key={car.id} className="bg-car-dark rounded-xl shadow-lg overflow-hidden">
+          <div key={car.id} className="bg-gradient-to-br from-zinc-800 to-zinc-900 rounded-xl shadow-lg overflow-hidden border border-zinc-700 hover:border-zinc-600 transition-all duration-200">
             {/* Image */}
             {(car.mintImageUrl || car.splashImageUrl) && (
               <div className="h-48 overflow-hidden">
