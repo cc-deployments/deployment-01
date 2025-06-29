@@ -8,6 +8,7 @@ import TitleBar from './components/TitleBar';
 import PastDropsGallery from './components/PastDropsGallery';
 import WalletAuth from '../shared/identity/WalletAuth';
 import ProtectedContent from '../shared/identity/ProtectedContent';
+import CarManiaGallery from './components/carmania/CarManiaGallery';
 
 export default function HomePage() {
   const { setFrameReady, isFrameReady } = useMiniKit();
@@ -34,30 +35,21 @@ export default function HomePage() {
       
       <div className="w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8">
         {/* Hero Section - CarMania Splash */}
-        <div className="py-8 md:py-12 lg:py-16">
+        <div className="pt-4 pb-2 md:pt-6 md:pb-2 lg:pt-8 lg:pb-2">
           <CarManiaSplashPage />
+        </div>
+
+        {/* Car of the Day - CarManiaGallery */}
+        <div className="pt-2 pb-2 md:pt-3 md:pb-3 lg:pt-4 lg:pb-4">
+          <CarManiaGallery />
         </div>
         
         {/* Minting Section - Requires Wallet Auth */}
-        <div ref={mintSectionRef} className="py-12 md:py-16 lg:py-20">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4">
-              Ready to Mint?
-            </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Connect your wallet to mint today's exclusive CarMania NFT
-            </p>
-          </div>
-          
-          <ProtectedContent>
-            <div className="flex justify-center">
-              <CarManiaMintCard />
-            </div>
-          </ProtectedContent>
-        </div>
+        {/* Remove the 'Ready to Mint?' block */}
+        {/* <div ref={mintSectionRef} className="py-12 md:py-16 lg:py-20"> ... </div> */}
         
         {/* CarMania Gallery Section */}
-        <div className="py-12 md:py-16 lg:py-20 border-t border-gray-800">
+        <div className="pt-4 pb-8 md:pt-6 md:pb-10 lg:pt-8 lg:pb-12 border-t border-gray-800">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4">
               CarMania Gallery
@@ -66,7 +58,6 @@ export default function HomePage() {
               Explore the collection of previous CarMania releases
             </p>
           </div>
-          
           <ProtectedContent 
             fallback={
               <div className="text-center py-12 md:py-16">
@@ -91,7 +82,7 @@ export default function HomePage() {
       </div>
       
       {/* Footer */}
-      <footer className="mt-20 py-8 border-t border-gray-800 bg-black/50">
+      <footer className="mt-8 py-4 border-t border-gray-800 bg-black/50">
         <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 text-center">
           <p className="text-gray-500 text-sm">
             © 2024 CarCulture • Built with ❤️ on Base

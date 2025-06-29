@@ -3,6 +3,16 @@ const nextConfig = {
   transpilePackages: ['@onchain-kit'], // or the actual package name
   images: {
     domains: ['images.unsplash.com', 'ipfs.io', 'gateway.pinata.cloud'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'arweave.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'assets.manifold.xyz',
+      },
+    ],
   },
   webpack(config) {
     // Ensure Web Workers are treated as ES modules
