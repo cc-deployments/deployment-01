@@ -4,6 +4,8 @@ import { Wallet, ConnectWallet, WalletDropdown, WalletDropdownDisconnect, Wallet
 import { Avatar, Name, Address, Identity, EthBalance } from '@coinbase/onchainkit/identity';
 
 export default function WalletAuth() {
+  console.log('WalletAuth component rendered');
+  
   return (
     <div className="flex items-center">
       <Wallet>
