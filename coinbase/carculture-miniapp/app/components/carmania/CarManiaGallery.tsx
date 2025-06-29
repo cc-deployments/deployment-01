@@ -28,6 +28,12 @@ const previousCars: Car[] = [
     mintUrl: 'https://app.manifold.xyz/c/light-bulb-moment',
     mintActive: true,
   },
+  {
+    title: 'Teenyosaurus',
+    image: 'https://arweave.net/W4HXhc_KU9hBJw1L2geJ3CLuUK7111Hv05el0NpFe2g',
+    mintUrl: '', // No mint URL yet
+    mintActive: false
+  },
 ];
 
 export default function CarManiaGallery() {
