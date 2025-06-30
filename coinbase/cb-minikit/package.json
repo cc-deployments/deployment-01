@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@coinbase/onchainkit": "^0.38.14",
+    "@privy-io/react-auth": "^2.17.2",
     "@upstash/redis": "^1.31.5",
     "autoprefixer": "^10.4.19",
     "next": "^14.2.5",
