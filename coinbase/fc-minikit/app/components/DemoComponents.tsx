@@ -154,33 +154,61 @@ export function Features({ setActiveTab }: FeaturesProps) {
 }
 
 type HomeProps = {
-  setActiveTab: (tab: string) => void;
+  setActiveTab?: (tab: string) => void;
 };
 
 export function Home({ setActiveTab }: HomeProps) {
+  const handleShare = useCallback(async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'CarMania MiniApp',
+          text: 'Check out this awesome CarMania MiniApp!',
+          url: window.location.href,
+        });
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        console.log('URL copied to clipboard');
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
+  }, []);
+
   return (
     <div className="space-y-6 animate-fade-in">
-      <Card title="My First Mini App">
+      <Card title="CarMania Mini App">
         <p className="text-[var(--app-foreground-muted)] mb-4">
-          This is a minimalistic Mini App built with OnchainKit components.
+          Welcome to CarMania! A car a day keeps the boredom away!
         </p>
-        <Button
-          onClick={() => setActiveTab("features")}
-          icon={<Icon name="arrow-right" size="sm" />}
-        >
-          Explore Features
-        </Button>
+        <div className="flex space-x-2">
+          <Button
+            onClick={() => setActiveTab && setActiveTab("features")}
+            icon={<Icon name="arrow-right" size="sm" />}
+          >
+            Explore Features
+          </Button>
+          <Button
+            variant="outline"
+            onClick={handleShare}
+            icon={<Icon name="share" size="sm" />}
+          >
+            Share App
+          </Button>
+        </div>
       </Card>
 
       <TodoList />
 
       <TransactionCard />
+
+      <NotificationTestCard />
     </div>
   );
 }
 
 type IconProps = {
-  name: "heart" | "star" | "check" | "plus" | "arrow-right";
+  name: "heart" | "star" | "check" | "plus" | "arrow-right" | "share";
   size?: "sm" | "md" | "lg";
   className?: string;
 }
@@ -268,6 +296,25 @@ export function Icon({ name, size = "md", className = "" }: IconProps) {
         <title>Arrow Right</title>
         <line x1="5" y1="12" x2="19" y2="12" />
         <polyline points="12 5 19 12 12 19" />
+      </svg>
+    ),
+    share: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <title>Share</title>
+        <circle cx="18" cy="5" r="3" />
+        <circle cx="6" cy="12" r="3" />
+        <circle cx="18" cy="19" r="3" />
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
       </svg>
     ),
   };
@@ -381,6 +428,38 @@ function TodoList() {
             </li>
           ))}
         </ul>
+      </div>
+    </Card>
+  );
+}
+
+function NotificationTestCard() {
+  const sendNotification = useNotification();
+
+  const handleTestNotification = useCallback(async () => {
+    try {
+      await sendNotification({
+        title: "Test Notification",
+        body: "This is a test notification from CarMania MiniApp!",
+      });
+      console.log("Test notification sent successfully");
+    } catch (error) {
+      console.error("Error sending test notification:", error);
+    }
+  }, [sendNotification]);
+
+  return (
+    <Card title="Test Notifications">
+      <div className="space-y-4">
+        <p className="text-[var(--app-foreground-muted)] mb-4">
+          Test the notification system to ensure it's working properly.
+        </p>
+        <Button
+          onClick={handleTestNotification}
+          icon={<Icon name="star" size="sm" />}
+        >
+          Send Test Notification
+        </Button>
       </div>
     </Card>
   );
