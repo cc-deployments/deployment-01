@@ -452,7 +452,7 @@ function NotificationTestCard() {
     <Card title="Test Notifications">
       <div className="space-y-4">
         <p className="text-[var(--app-foreground-muted)] mb-4">
-          Test the notification system to ensure it's working properly.
+          Test the notification system to ensure it&apos;s working properly.
         </p>
         <Button
           onClick={handleTestNotification}
