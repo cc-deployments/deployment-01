@@ -1,0 +1,13 @@
+{
+  "name": "CarCulture: CarMania Garage",
+  "description": "Daily Car Collectibles",
+  "icon": "/favicon.png",
+  "splashImageUrl": "/splash.png",
+  "url": "https://web3-social-starter-fc-minikit.vercel.app",
+  "version": "1.0.0",
+  "accountAssociation": {
+    "header": "eyJmaWQiOjI3MDE3MCwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDE3NWRFMEZkMjU2NTFBNDhlMzliOUYyNTEyNjUwYmY0ZjU5MkJGNTkifQ",
+    "payload": "eyJkb21haW4iOiJ3ZWIzLXNvY2lhbC1zdGFydGVyLWZjLW1pbmlraXQudmVyY2VsLmFwcCJ9",
+    "signature": "MHhjMTY3ODA5YThlMDYyZWQ0ZTg4Zjk0MDQyNGI2NTFiZjZlYTRhYzMzOWJmYTdlNDFmNTQ0NDVjYzQ4YmI0ZjdhNWI2MDIyZWE1NzM2NGU0YzY5M2E2ZDI0MGFiNTA5MzhlZjZjYTQyMmE2NDNhNzc0ZjVjZGEwOGRiN2NkZGRmNjFi"
+  }
+} 
