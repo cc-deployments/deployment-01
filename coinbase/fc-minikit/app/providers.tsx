@@ -3,7 +3,7 @@
 import { type ReactNode } from "react";
 import { base } from "wagmi/chains";
 import { MiniKitProvider } from "@coinbase/onchainkit/minikit";
-import { PrivyProvider } from '@privy-io/react-auth';
+import { PrivyProvider } from '@cculture/privy';
 
 export function Providers(props: { children: ReactNode }) {
   return (

@@ -23,6 +23,12 @@
 - **Module not found:** Check that the file exists and the import path is correct.
 - **Privy App ID error:** Set `NEXT_PUBLIC_PRIVY_APP_ID` in Vercel environment variables.
 
+## Auth Pattern: Shared Only
+
+- All authentication libraries (e.g., @privy-io/react-auth) must be imported only from the shared package (@cculture/privy).
+- Direct imports of auth libraries in app packages are forbidden and enforced by ESLint (see .eslintrc).
+- This ensures consistency and prevents dependency duplication across the monorepo.
+
 ---
 
 # TODO (2025-06-30)
