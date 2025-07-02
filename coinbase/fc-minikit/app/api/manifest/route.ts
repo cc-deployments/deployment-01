@@ -1,14 +1,44 @@
 import { NextResponse } from 'next/server';
-import { readFileSync } from 'fs';
-import { join } from 'path';
+
+function withValidProperties(
+  properties: Record<string, undefined | string | string[]>,
+) {
+  return Object.fromEntries(
+    Object.entries(properties).filter(([, value]) => {
+      if (Array.isArray(value)) {
+        return value.length > 0;
+      }
+      return !!value;
+    }),
+  );
+}
 
 export async function GET() {
-  const filePath = join(process.cwd(), 'public', '.well-known', 'farcaster.json');
-  const json = readFileSync(filePath, 'utf8');
-  return new NextResponse(json, {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/json',
+  const URL = process.env.NEXT_PUBLIC_URL || 'https://web3-social-starter-fc-minikit.vercel.app';
+
+  return NextResponse.json({
+    accountAssociation: {
+      header: process.env.FARCASTER_HEADER,
+      payload: process.env.FARCASTER_PAYLOAD,
+      signature: process.env.FARCASTER_SIGNATURE,
     },
+    frame: withValidProperties({
+      version: "1",
+      name: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME || "CarCulture: CarMania Garage",
+      subtitle: process.env.NEXT_PUBLIC_APP_SUBTITLE,
+      description: process.env.NEXT_PUBLIC_APP_DESCRIPTION || "Daily Car Collectibles",
+      screenshotUrls: [],
+      iconUrl: process.env.NEXT_PUBLIC_APP_ICON || "/favicon.png",
+      splashImageUrl: process.env.NEXT_PUBLIC_APP_SPLASH_IMAGE || "/splash.png",
+      homeUrl: URL,
+      webhookUrl: `${URL}/api/webhook`,
+      primaryCategory: process.env.NEXT_PUBLIC_APP_PRIMARY_CATEGORY,
+      tags: [],
+      heroImageUrl: process.env.NEXT_PUBLIC_APP_HERO_IMAGE,
+      tagline: process.env.NEXT_PUBLIC_APP_TAGLINE,
+      ogTitle: process.env.NEXT_PUBLIC_APP_OG_TITLE,
+      ogDescription: process.env.NEXT_PUBLIC_APP_OG_DESCRIPTION,
+      ogImageUrl: process.env.NEXT_PUBLIC_APP_OG_IMAGE,
+    }),
   });
 } 

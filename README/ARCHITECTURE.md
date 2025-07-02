@@ -54,6 +54,92 @@ CCulture-Apps-New/
 - Expand Oracle and agent capabilities as new features are added.
 - Prepare for mobile/edge deployments and privacy-centric computation.
 
+## Environment & Secrets Management
+
+- Each app (e.g., `coinbase/fc-minikit/`) has its own `.env` for public config.
+- Shared secrets (API keys, auth secrets) are stored in the root `.env` (not checked into git) or a secrets manager.
+- Example `.env` for MiniApp:
+  ```
+  NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=CarMania Garage
+  NEXT_PUBLIC_URL=http://localhost:3001
+  NEXT_PUBLIC_APP_HERO_IMAGE=https://your-image-url.png
+  NEXT_PUBLIC_SPLASH_IMAGE=https://your-splash-image-url.png
+  NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=#ffffff
+  ```
+- All secrets are accessed via `process.env` in code.
+
+### Auth & Wallet Provider Setup
+
+- OnchainKit is the primary wallet/identity provider.
+- Shared logic lives in `shared/identity/`.
+- To update auth config, edit the relevant `.env` or secrets manager entry.
+
+### Deployment & Local Dev
+
+- Run `npm run dev` in the app directory.
+- If port 3000 is in use, Next.js will use the next available port (e.g., 3001).
+- Ensure `.env` is present before starting the server.
+
 ---
 
-*This document is a living overview. Update as the architecture evolves.* 
+*This document is a living overview. Update as the architecture evolves.*
+
+# CarCulture Architecture (2025-07)
+
+## Brand & Platform Strategy
+
+- **CarCulture.com** is the main hub/landing page for the brand.
+  - Top-level navigation links to all major features/verticals:
+    - CarMania (daily drops, collectibles, mints)
+    - Gallery (all collections, embedded from Manifold)
+    - About/Story
+    - Community/Events
+    - Profiles (artist, collector, etc.)
+    - Farcaster MiniApp ("Onchain Social")
+    - Future features (games, AI, etc.)
+
+- **Manifold Profile**: @carculture
+  - Main profile for all collections (CarMania, CarLegends, etc.)
+  - CarMania contracts featured as a "Custom Collection" or "Contracts" tile
+  - Future collections added as they launch
+  - Profile can be embedded in the MiniApp Gallery page or linked from main site
+
+- **Farcaster**: @carculture
+  - Main identity for all social and MiniApp branding
+  - MiniApp: "CarCulture: CarMania Garage" (CarMania as first featured collection)
+  - Navigation to future collections as they launch
+
+- **MiniApp**: carmania.carculture.com
+  - Focused on daily drops, minting, and gallery (with Manifold embed)
+  - Clean separation from main site and other features
+
+- **Subdomain Strategy**:
+  - carmania.carculture.com: MiniApp (CarMania vertical)
+  - profile.carculture.com or gallery.carculture.com: (optional) for custom gallery/profile
+  - Main site remains at carculture.com
+
+## Summary Table
+
+| Platform         | Brand/Handle   | Content/Role                        |
+|------------------|---------------|-------------------------------------|
+| Main site        | CarCulture.com | Hub for all features/verticals      |
+| Manifold         | @carculture    | Profile, all collections (CarMania, etc.) |
+| Farcaster        | @carculture    | Main identity, MiniApp, social      |
+| MiniApp          | carmania.carculture.com | CarMania drops, gallery, minting |
+
+## Integration Notes
+- Manifold supports EMBED tiles: can embed your Manifold gallery directly in MiniApp or main site.
+- CarMania contracts live under @carculture profile on Manifold.
+- All new collections should be added to @carculture profile for brand consistency.
+- CarCulture.com navigation should link to all major features, including MiniApp and Manifold gallery.
+
+## Next Steps
+- [ ] Update Manifold profile to feature CarMania as a collection, keep profile as @carculture
+- [ ] Embed Manifold gallery in MiniApp Gallery page
+- [ ] Structure CarCulture.com as a hub with clear links to all features
+- [ ] Set up subdomains in Cloudflare and Vercel as needed
+- [ ] Keep all new collections under CarCulture umbrella
+
+---
+
+*This architecture supports scalable growth, brand consistency, and seamless integration across platforms.* 
