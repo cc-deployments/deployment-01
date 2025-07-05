@@ -34,6 +34,17 @@ export default function App() {
           onClick={handleTap}
         />
       </div>
+      {/* Car Culture Logo */}
+      <div className="flex justify-center w-full mt-6 mb-2">
+        <Image
+          src="/carculture-logo.png"
+          alt="Car Culture Logo"
+          width={100}
+          height={60}
+          style={{ width: "100px", height: "auto" }}
+          priority
+        />
+      </div>
       {galleryIndex === 0 && (
         <div className="flex justify-center w-full mt-0">
           <a
