@@ -36,7 +36,7 @@ export default function App() {
       </div>
       {/* Car Culture Logo and Button Section with White Background */}
       <div className="w-full bg-white flex flex-col items-center">
-        <div className="flex justify-center w-full mt-6 mb-2">
+        <div className="flex justify-center w-full mt-1 mb-2">
           <Image
             src="/carculture-logo.png"
             alt="Car Culture Logo"
