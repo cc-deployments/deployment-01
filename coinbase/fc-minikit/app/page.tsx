@@ -22,7 +22,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center bg-[var(--app-background)]">
+    <div className="flex flex-col items-center bg-white">
       <div className="w-[1200px] max-w-full">
         <Image
           src={galleryIndex === 0 ? "/carmania-gallery-hero.png" : "/carmania-gallery-hero-2.png"}
@@ -34,61 +34,63 @@ export default function App() {
           onClick={handleTap}
         />
       </div>
-      {/* Car Culture Logo */}
-      <div className="flex justify-center w-full mt-6 mb-2">
-        <Image
-          src="/carculture-logo.png"
-          alt="Car Culture Logo"
-          width={100}
-          height={60}
-          style={{ width: "100px", height: "auto" }}
-          priority
-        />
-      </div>
-      {galleryIndex === 0 && (
-        <div className="flex justify-center w-full mt-0">
-          <a
-            href="https://app.manifold.xyz/c/man-driving-car"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="md:w-auto flex justify-center"
-            style={{ pointerEvents: 'auto' }}
-          >
-            <button
-              type="button"
-              className="
-                rounded-full
-                text-white
-                shadow-md
-                hover:opacity-90
-                transition
-                bg-[#a32428]
-                whitespace-nowrap
-                font-semibold
-                text-base
-                px-4
-                md:px-12
-                py-1.5
-                md:py-3
-                min-w-[110px]
-                md:min-w-[320px]
-                h-9
-                md:h-16
-                flex
-                items-center
-                justify-center
-                border-none
-              "
-              style={{
-                fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                letterSpacing: '0.08em',
-              }}
-            >
-              Unlock&nbsp;the&nbsp;Ride
-            </button>
-          </a>
+      {/* Car Culture Logo and Button Section with White Background */}
+      <div className="w-full bg-white flex flex-col items-center">
+        <div className="flex justify-center w-full mt-6 mb-2">
+          <Image
+            src="/carculture-logo.png"
+            alt="Car Culture Logo"
+            width={140}
+            height={60}
+            style={{ width: "140px", height: "auto" }}
+            priority
+          />
         </div>
-      )}
+        {galleryIndex === 0 && (
+          <div className="flex justify-center w-full mt-0">
+            <a
+              href="https://app.manifold.xyz/c/man-driving-car"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="md:w-auto flex justify-center"
+              style={{ pointerEvents: 'auto' }}
+            >
+              <button
+                type="button"
+                className="
+                  rounded-full
+                  text-white
+                  shadow-md
+                  hover:opacity-90
+                  transition
+                  bg-[#a32428]
+                  whitespace-nowrap
+                  font-semibold
+                  text-base
+                  px-4
+                  md:px-12
+                  py-1.5
+                  md:py-3
+                  min-w-[110px]
+                  md:min-w-[320px]
+                  h-9
+                  md:h-16
+                  flex
+                  items-center
+                  justify-center
+                  border-none
+                "
+                style={{
+                  fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                  letterSpacing: '0.08em',
+                }}
+              >
+                Unlock&nbsp;the&nbsp;Ride
+              </button>
+            </a>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
