@@ -47,7 +47,7 @@ export default function App() {
           />
         </div>
         {galleryIndex === 0 && (
-          <div className="flex justify-center w-full mt-0">
+          <div className="flex flex-col items-center w-full mt-0">
             <a
               href="https://app.manifold.xyz/c/man-driving-car"
               target="_blank"
@@ -88,6 +88,20 @@ export default function App() {
                 Unlock&nbsp;the&nbsp;Ride
               </button>
             </a>
+            {/* Test Notification Button */}
+            <button
+              onClick={async () => {
+                await fetch('/api/notify', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ message: 'Test notification from UI' }),
+                });
+                alert('Test notification sent! (Check your notification handler)');
+              }}
+              className="mt-4 bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
+            >
+              Send Test Notification
+            </button>
           </div>
         )}
       </div>
