@@ -1,4 +1,4 @@
-# 2025-07-02 - Manifest Document Location
+# Farcaster Manifest Notes
 
 ## Found the Manifest Document!
 
