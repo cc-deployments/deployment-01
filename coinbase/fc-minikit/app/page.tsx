@@ -3,25 +3,10 @@
 import { useEffect, useState, useCallback } from "react";
 import { sdk } from '@farcaster/frame-sdk';
 import Image from "next/image";
-import { useSwipeable } from "react-swipeable";
 
 export default function App() {
   const [galleryIndex, setGalleryIndex] = useState(0);
   // 0 = hero, 1 = secondary
-
-  const handleSwipeUp = useCallback(() => {
-    if (galleryIndex === 0) {
-      setGalleryIndex(1);
-    } else if (galleryIndex === 1) {
-      window.open("https://manifold.xyz/@carculture", "_blank");
-    }
-  }, [galleryIndex]);
-
-  const handleSwipeDown = useCallback(() => {
-    if (galleryIndex === 1) {
-      setGalleryIndex(0);
-    }
-  }, [galleryIndex]);
 
   const handleTap = useCallback(() => {
     if (galleryIndex === 0) {
@@ -31,37 +16,31 @@ export default function App() {
     }
   }, [galleryIndex]);
 
-  const swipeHandlers = useSwipeable({
-    onSwipedUp: handleSwipeUp,
-    onSwipedDown: handleSwipeDown,
-    onTap: handleTap,
-    trackTouch: true,
-    trackMouse: true,
-  });
-
   useEffect(() => {
     // Call ready as soon as the interface is ready to dismiss the splash screen
     sdk.actions.ready();
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center bg-[var(--app-background)]">
-      <div className="relative w-[1200px] max-w-full" {...swipeHandlers} style={{ touchAction: 'pan-y' }}>
+    <div className="flex flex-col items-center bg-[var(--app-background)]">
+      <div className="w-[1200px] max-w-full">
         <Image
           src={galleryIndex === 0 ? "/carmania-gallery-hero.png" : "/carmania-gallery-hero-2.png"}
           alt="CarMania Gallery Hero"
           width={1200}
           height={630}
-          style={{ maxWidth: "100%", height: "auto", cursor: 'pointer' }}
+          style={{ maxWidth: "100%", height: "auto" }}
           priority
           onClick={handleTap}
         />
-        {galleryIndex === 0 && (
+      </div>
+      {galleryIndex === 0 && (
+        <div className="flex justify-center w-full mt-0">
           <a
             href="https://app.manifold.xyz/c/man-driving-car"
             target="_blank"
             rel="noopener noreferrer"
-            className="absolute left-1/2 transform -translate-x-1/2 bottom-8 md:bottom-10 z-10 w-[80%] md:w-auto flex justify-center"
+            className="md:w-auto flex justify-center"
             style={{ pointerEvents: 'auto' }}
           >
             <button
@@ -76,7 +55,6 @@ export default function App() {
                 whitespace-nowrap
                 font-semibold
                 text-base
-                md:text-2xl
                 px-4
                 md:px-12
                 py-1.5
@@ -98,8 +76,8 @@ export default function App() {
               Unlock&nbsp;the&nbsp;Ride
             </button>
           </a>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
