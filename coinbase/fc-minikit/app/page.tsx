@@ -7,6 +7,7 @@ import Image from "next/image";
 export default function App() {
   const [galleryIndex, setGalleryIndex] = useState(0);
   // 0 = hero, 1 = secondary
+  const [toast, setToast] = useState<{ visible: boolean; message: string }>({ visible: false, message: '' });
 
   const handleTap = useCallback(() => {
     if (galleryIndex === 0) {
@@ -20,6 +21,13 @@ export default function App() {
     // Call ready as soon as the interface is ready to dismiss the splash screen
     sdk.actions.ready();
   }, []);
+
+  useEffect(() => {
+    if (toast.visible) {
+      const timer = setTimeout(() => setToast({ visible: false, message: '' }), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast.visible]);
 
   return (
     <div className="flex flex-col items-center bg-white">
@@ -96,12 +104,18 @@ export default function App() {
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ message: 'Test notification from UI' }),
                 });
-                alert('Test notification sent! (Check your notification handler)');
+                setToast({ visible: true, message: 'Test notification sent!' });
               }}
               className="mt-4 bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
             >
               Send Test Notification
             </button>
+            {/* Toast Notification */}
+            {toast.visible && (
+              <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-black text-white px-6 py-3 rounded shadow-lg z-50 text-lg">
+                {toast.message}
+              </div>
+            )}
           </div>
         )}
       </div>

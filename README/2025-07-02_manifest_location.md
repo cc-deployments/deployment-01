@@ -6,15 +6,20 @@ The manifest document is located at: `coinbase/fc-minikit/public/.well-known/far
 
 This is the manifest we created for the Farcaster Mini App **"CarCulture: CarMania Garage"**.
 
-## Current Manifest Values (Updated 2025-07-02)
+## Current Manifest Values (as of 2025-07-06)
+
+- **name**: CarCulture: CarMania Garage
+- **subtitle**: Daily Drops, Legendary Rides
+- **tagline**: Drive the Past. Own the Moment.
+- **description**: Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.
+- **ogDescription**: Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.
+
+> **Note:** All manifest values are now sourced from environment variables in `.env` and referenced in the codebase (see `layout.tsx` and `api/manifest/route.ts`).
 
 ### App Information
 - **App Name**: "CarCulture: CarMania Garage"
 - **App Icon**: https://web3-social-starter-fc-minikit.vercel.app/favicon.png
-- **Subtitle**: "Daily Car Culture Collectibles"
-- **Description**: "CarCulture's CarMania Garage: iconic cars, stories, roadside attractions, and featured 'car of the day'."
 - **Primary Category**: "entertainment"
-- **Tagline**: "Stories, Cars & Art"
 - **Button Title**: "Open CarMania Garage"
 
 ### Images
