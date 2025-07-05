@@ -25,7 +25,8 @@ export default function App() {
           href="https://app.manifold.xyz/c/man-driving-car"
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute left-1/2 bottom-20 z-10 transform -translate-x-1/2 w-full flex justify-center"
+          className="absolute left-1/2 transform -translate-x-1/2 bottom-8 md:bottom-10 z-10 w-[80%] md:w-auto flex justify-center"
+          style={{ pointerEvents: 'auto' }}
         >
           <button
             type="button"
@@ -38,16 +39,16 @@ export default function App() {
               bg-[#a32428]
               whitespace-nowrap
               font-semibold
-              text-2xl
-              md:text-5xl
-              px-8
-              md:px-20
-              py-3
-              md:py-4
-              min-w-[200px]
-              md:min-w-[400px]
-              h-16
-              md:h-20
+              text-base
+              md:text-2xl
+              px-4
+              md:px-12
+              py-1.5
+              md:py-3
+              min-w-[110px]
+              md:min-w-[320px]
+              h-9
+              md:h-16
               flex
               items-center
               justify-center
