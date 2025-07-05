@@ -25,25 +25,37 @@ export default function App() {
           href="https://app.manifold.xyz/c/man-driving-car"
           target="_blank"
           rel="noopener noreferrer"
-          style={{
-            position: 'absolute',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            bottom: '80px',
-            zIndex: 10
-          }}
+          className="absolute left-1/2 bottom-20 z-10 transform -translate-x-1/2 w-full flex justify-center"
         >
           <button
             type="button"
-            className="px-20 rounded-full text-white shadow-md hover:opacity-90 transition bg-[#a32428] whitespace-nowrap"
+            className="
+              rounded-full
+              text-white
+              shadow-md
+              hover:opacity-90
+              transition
+              bg-[#a32428]
+              whitespace-nowrap
+              font-semibold
+              text-2xl
+              md:text-5xl
+              px-8
+              md:px-20
+              py-3
+              md:py-4
+              min-w-[200px]
+              md:min-w-[400px]
+              h-16
+              md:h-20
+              flex
+              items-center
+              justify-center
+              border-none
+            "
             style={{
-              fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif',
+              fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
               letterSpacing: '0.08em',
-              fontSize: '60px',
-              height: '80px',
-              lineHeight: '80px',
-              minWidth: '700px',
-              padding: 0
             }}
           >
             Unlock&nbsp;the&nbsp;Ride
