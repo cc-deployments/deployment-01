@@ -33,7 +33,7 @@ export default function App() {
     <div className="flex flex-col items-center bg-white">
       <div className="w-[1200px] max-w-full">
         <Image
-          src={galleryIndex === 0 ? "/carmania-gallery-hero.png" : "/carmania-gallery-hero-2.png"}
+          src={galleryIndex === 0 ? "/hero.png" : "/carmania-gallery-hero-2.png"}
           alt="CarMania Gallery Hero"
           width={1200}
           height={630}
