@@ -47,14 +47,14 @@ export default function App() {
             }
           }} />
         ) : (
-          <Image
+        <Image
             src="/carmania-gallery-hero-2.png"
-            alt="CarMania Gallery Hero"
-            width={1200}
-            height={630}
-            style={{ maxWidth: "100%", height: "auto" }}
-            priority
-            onClick={handleTap}
+          alt="CarMania Gallery Hero"
+          width={1200}
+          height={630}
+          style={{ maxWidth: "100%", height: "auto" }}
+          priority
+          onClick={handleTap}
           />
         )}
       </div>
@@ -92,29 +92,7 @@ export default function App() {
             >
               <button
                 type="button"
-                className="
-                  rounded-full
-                  text-white
-                  shadow-md
-                  hover:opacity-90
-                  transition
-                  bg-[#a32428]
-                  whitespace-nowrap
-                  font-semibold
-                  text-xs
-                  px-1.5
-                  md:px-5
-                  py-0.5
-                  md:py-1.5
-                  min-w-[54px]
-                  md:min-w-[156px]
-                  h-4
-                  md:h-8
-                  flex
-                  items-center
-                  justify-center
-                  border-none
-                "
+                className="rounded-full text-white shadow-md hover:opacity-90 transition bg-[#a32428] whitespace-nowrap font-semibold text-xs px-1.5 md:px-5 py-0.5 md:py-1.5 min-w-[54px] md:min-w-[156px] h-4 md:h-8 flex items-center justify-center border-none"
                 style={{
                   fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
                   letterSpacing: '0.08em',
