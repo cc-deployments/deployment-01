@@ -127,3 +127,5 @@ export default function App() {
     </div>
   );
 }
+
+// Trigger redeploy after Cloudflare TTL change
