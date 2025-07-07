@@ -142,4 +142,58 @@ CCulture-Apps-New/
 
 ---
 
-*This architecture supports scalable growth, brand consistency, and seamless integration across platforms.* 
+*This architecture supports scalable growth, brand consistency, and seamless integration across platforms.*
+
+## Shared Authentication Architecture
+
+### Overview
+To ensure consistency, maintainability, and scalability across all CarCulture mini-apps, authentication logic is centralized in a shared package: `@cculture/privy`. This package is located in the monorepo at `packages/privy` and is consumed by all mini-apps (e.g., `fc-minikit`, `cb-minikit`).
+
+### Why a Shared Auth Package?
+- **Single Source of Truth:** All authentication logic, configuration, and UI components are maintained in one place.
+- **Consistency:** All mini-apps provide a unified authentication experience for users.
+- **Maintainability:** Updates or bug fixes to authentication only need to be made in one package.
+- **Scalability:** New mini-apps can be added to the monorepo and immediately leverage the shared auth logic.
+
+### How It Works
+- The `@cculture/privy` package exports authentication providers, hooks, and components.
+- Each mini-app includes `@cculture/privy` as a local dependency:
+  ```json
+  "@cculture/privy": "file:../../packages/privy"
+  ```
+- During development and deployment (including on Vercel), the local package is used, ensuring all apps are always in sync with the latest auth logic.
+
+### Example Usage in a Mini-App
+```js
+// In fc-minikit or cb-minikit
+import { PrivyProvider, usePrivyAuth } from '@cculture/privy';
+
+function App() {
+  return (
+    <PrivyProvider>
+      {/* ... */}
+    </PrivyProvider>
+  );
+}
+```
+
+### Directory Structure
+```
+/packages/privy
+  - index.js
+  - package.json
+  - (auth logic, hooks, components)
+```
+Each mini-app:
+```
+/coinbase/fc-minikit
+  - package.json (depends on @cculture/privy)
+/coinbase/cb-minikit
+  - package.json (depends on @cculture/privy)
+```
+
+### Deployment Notes
+- Vercel and local builds both use the local package reference.
+- No need to publish `@cculture/privy` to npm unless you want to share it outside your monorepo.
+
+--- 
