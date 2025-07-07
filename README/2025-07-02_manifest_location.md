@@ -1,3 +1,10 @@
+# Manifest Notes (2025-07-02)
+
+**Note:**
+- The Farcaster manifest for CarCulture: CarMania Garage is a dynamic (hosted) manifest.
+- Any updates to the manifest endpoint (https://web3-social-starter-fc-minikit.vercel.app/api/manifest) or referenced images (such as hero.png) will be automatically picked up by Farcaster.
+- There is no need to re-upload a static manifest file for changes to take effect.
+
 # Farcaster Manifest Notes
 
 ## Found the Manifest Document!
