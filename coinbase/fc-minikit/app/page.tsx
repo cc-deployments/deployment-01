@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { sdk } from '@farcaster/frame-sdk';
 import Image from "next/image";
+import HeroWithStart from "./components/HeroWithShare";
 
 export default function App() {
   const [galleryIndex, setGalleryIndex] = useState(0);
@@ -32,25 +33,40 @@ export default function App() {
   return (
     <div className="flex flex-col items-center bg-white">
       <div className="w-[1200px] max-w-full">
-        <Image
-          src={galleryIndex === 0 ? "/hero.png" : "/carmania-gallery-hero-2.png"}
-          alt="CarMania Gallery Hero"
-          width={1200}
-          height={630}
-          style={{ maxWidth: "100%", height: "auto" }}
-          priority
-          onClick={handleTap}
-        />
+        {galleryIndex === 0 ? (
+          <HeroWithStart onStart={() => {
+            if (navigator.share) {
+              navigator.share({
+                title: "CarMania Garage",
+                text: "Check out CarMania Garage!",
+                url: window.location.href,
+              });
+            } else {
+              navigator.clipboard.writeText(window.location.href);
+              alert("Link copied to clipboard!");
+            }
+          }} />
+        ) : (
+          <Image
+            src="/carmania-gallery-hero-2.png"
+            alt="CarMania Gallery Hero"
+            width={1200}
+            height={630}
+            style={{ maxWidth: "100%", height: "auto" }}
+            priority
+            onClick={handleTap}
+          />
+        )}
       </div>
       {/* Car Culture Logo and Button Section with White Background */}
       <div className="w-full bg-white flex flex-col items-center">
-        <div className="flex justify-center w-full mt-1 mb-2">
+        <div className="flex justify-center w-full mt-6 mb-2">
           <Image
             src="/carculture-logo.png"
             alt="Car Culture Logo"
-            width={140}
-            height={60}
-            style={{ width: "140px", height: "auto" }}
+            width={112}
+            height={48}
+            style={{ width: "112px", height: "auto" }}
             priority
           />
         </div>
@@ -74,15 +90,15 @@ export default function App() {
                   bg-[#a32428]
                   whitespace-nowrap
                   font-semibold
-                  text-base
-                  px-4
-                  md:px-12
-                  py-1.5
-                  md:py-3
-                  min-w-[110px]
-                  md:min-w-[320px]
-                  h-9
-                  md:h-16
+                  text-sm
+                  px-2.5
+                  md:px-8
+                  py-1
+                  md:py-2
+                  min-w-[77px]
+                  md:min-w-[224px]
+                  h-6
+                  md:h-11
                   flex
                   items-center
                   justify-center
