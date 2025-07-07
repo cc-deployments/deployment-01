@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 // Props for position customization
 interface HeroWithStartProps {
@@ -8,10 +9,13 @@ interface HeroWithStartProps {
 
 const HeroWithStart: React.FC<HeroWithStartProps> = ({ onStart, startPosition }) => (
   <div style={{ position: "relative", width: "100%", maxWidth: 600, margin: "0 auto" }}>
-    <img
+    <Image
       src="/hero.png"
       alt="CarMania Garage Hero"
+      width={1200}
+      height={630}
       style={{ width: "100%", display: "block", borderRadius: 0 }}
+      priority
     />
     <button
       onClick={onStart}
@@ -36,9 +40,11 @@ const HeroWithStart: React.FC<HeroWithStartProps> = ({ onStart, startPosition })
         opacity: 0.95,
         ...startPosition,
       }}
-      aria-label="Start"
+      aria-label="Share"
     >
-      START
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 4V20M12 4L6 10M12 4L18 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
     </button>
   </div>
 );

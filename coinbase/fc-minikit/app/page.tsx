@@ -90,15 +90,15 @@ export default function App() {
                   bg-[#a32428]
                   whitespace-nowrap
                   font-semibold
-                  text-sm
-                  px-2.5
-                  md:px-8
-                  py-1
-                  md:py-2
-                  min-w-[77px]
-                  md:min-w-[224px]
-                  h-6
-                  md:h-11
+                  text-xs
+                  px-1.5
+                  md:px-5
+                  py-0.5
+                  md:py-1.5
+                  min-w-[54px]
+                  md:min-w-[156px]
+                  h-4
+                  md:h-8
                   flex
                   items-center
                   justify-center
