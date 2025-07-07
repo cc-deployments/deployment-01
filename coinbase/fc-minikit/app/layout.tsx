@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const URL = process.env.NEXT_PUBLIC_URL;
   const ogTitle = process.env.NEXT_PUBLIC_APP_OG_TITLE || "CarCulture: CarMania Garage";
   const ogDescription = process.env.NEXT_PUBLIC_APP_OG_DESCRIPTION || "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.";
-  const ogImage = process.env.NEXT_PUBLIC_APP_OG_IMAGE || "/hero.png";
+  const ogImage = process.env.NEXT_PUBLIC_APP_OG_IMAGE || "/hero-v2.png";
   const subtitle = process.env.NEXT_PUBLIC_APP_SUBTITLE || "Daily Drops, Legendary Rides";
   const tagline = process.env.NEXT_PUBLIC_APP_TAGLINE || "Drive the Past. Own the Moment.";
   const description = process.env.NEXT_PUBLIC_APP_DESCRIPTION || ogDescription;

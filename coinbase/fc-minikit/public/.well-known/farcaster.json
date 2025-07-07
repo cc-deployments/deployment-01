@@ -13,10 +13,10 @@
   "buttonTitle": "Unlock the Ride",
   "ogTitle": "CarCulture: CarMania Garage",
   "ogDescription": "CarCulture's CarMania Garage: iconic cars, stories, roadside attractions, and collectibles.",
-  "ogImage": "https://web3-social-starter-fc-minikit.vercel.app/hero.png",
+  "ogImage": "https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png",
   "screenshotUrl": "https://web3-social-starter-fc-minikit.vercel.app/carmania-gallery-hero.png",
   "previewImageUrl": "https://web3-social-starter-fc-minikit.vercel.app/carmania-gallery-hero2.png",
-  "heroImageUrl": "https://web3-social-starter-fc-minikit.vercel.app/hero.png",
+  "heroImageUrl": "https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png",
   "castShareUrl": "https://web3-social-starter-fc-minikit.vercel.app/share",
   "tags": [
     "social",

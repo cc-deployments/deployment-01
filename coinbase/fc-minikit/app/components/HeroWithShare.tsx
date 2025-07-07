@@ -10,7 +10,7 @@ interface HeroWithStartProps {
 const HeroWithStart: React.FC<HeroWithStartProps> = ({ onStart, startPosition }) => (
   <div style={{ position: "relative", width: "100%", maxWidth: 600, margin: "0 auto" }}>
     <Image
-      src="/hero.png"
+      src="/hero-v2.png"
       alt="CarMania Garage Hero"
       width={1200}
       height={630}
