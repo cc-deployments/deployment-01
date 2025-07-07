@@ -58,6 +58,17 @@ export default function App() {
           />
         )}
       </div>
+      {/* Add text-age.png as a vertical image below the gallery images */}
+      <div className="w-[1200px] max-w-full my-4 flex justify-center">
+        <Image
+          src="/text-age.png"
+          alt="CarMania Gallery Text Page"
+          width={630}
+          height={1200}
+          style={{ maxWidth: "100%", height: "auto" }}
+          priority
+        />
+      </div>
       {/* Car Culture Logo and Button Section with White Background */}
       <div className="w-full bg-white flex flex-col items-center">
         <div className="flex justify-center w-full mt-6 mb-2">

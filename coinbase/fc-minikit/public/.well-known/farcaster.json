@@ -7,16 +7,22 @@
   "splashBackgroundColor": "#6200EA",
   "webhookUrl": "https://web3-social-starter-fc-minikit.vercel.app/api/webhook",
   "subtitle": "Daily Car Culture Collectibles",
-  "description": "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
+  "description": "Collect iconic cars, discover automotive stories, and mint daily culture.",
   "primaryCategory": "entertainment",
   "tagline": "Drive the Past. Own the Moment.",
   "buttonTitle": "Unlock the Ride",
   "ogTitle": "CarCulture: CarMania Garage",
-  "ogDescription": "CarCulture's CarMania Garage: iconic cars, stories, roadside attractions, and featured 'car of the day'.",
-  "ogImage": "https://web3-social-starter-fc-minikit.vercel.app/carmania-gallery-hero.png",
-  "screenshotUrl": "https://web3-social-starter-fc-minikit.vercel.app/carmania-gallery-hero-2.png",
-  "previewImageUrl": "https://web3-social-starter-fc-minikit.vercel.app/splash.png",
-  "heroImageUrl": "https://web3-social-starter-fc-minikit.vercel.app/carmania-gallery-hero.png",
-  "castShareUrl": "https://warpcast.com/~/compose?text=Check+out+CarCulture+CarMania+Garage!&channel=car",
-  "tags": ["car", "art", "stories", "social", "nft"]
+  "ogDescription": "CarCulture's CarMania Garage: iconic cars, stories, roadside attractions, and collectibles.",
+  "ogImage": "https://web3-social-starter-fc-minikit.vercel.app/hero.png",
+  "screenshotUrl": "https://web3-social-starter-fc-minikit.vercel.app/carmania-gallery-hero.png",
+  "previewImageUrl": "https://web3-social-starter-fc-minikit.vercel.app/carmania-gallery-hero2.png",
+  "heroImageUrl": "https://web3-social-starter-fc-minikit.vercel.app/hero.png",
+  "castShareUrl": "https://web3-social-starter-fc-minikit.vercel.app/share",
+  "tags": [
+    "social",
+    "carculture",
+    "car",
+    "storytelling",
+    "NFT"
+  ]
 } 
