@@ -1,3 +1,4 @@
+// Trigger redeploy: trivial comment
 import { NextResponse } from 'next/server';
 
 function withValidProperties(
