@@ -68,7 +68,7 @@ Use this section to copy-paste values directly into the Farcaster Mini App submi
     ```
 16. **Social Share Description**
     ```
-    Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.
+    Collect iconic cars and stories. Mint daily digital classics with CarCulture: CarMania Garage.
     ```
 17. **Social Share Image**
     ```
@@ -117,7 +117,7 @@ All manifest fields are now hardcoded in `coinbase/fc-minikit/app/api/manifest/r
 | heroImageUrl           | https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png                                                      | Hero image (1200x630 PNG)                        |
 | tagline                | Drive the Past. Own the Now.                                                                                  | Marketing tagline (max 30 chars)                 |
 | ogTitle                | CarCulture: CarMania Garage                                                                                        | Social share title (max 30 chars)                |
-| ogDescription          | Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history. | Social share description (max 100 chars)         |
+| ogDescription          | Collect iconic cars and stories. Mint daily digital classics with CarCulture: CarMania Garage. | Social share description (max 100 chars)         |
 | ogImageUrl             | https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png                                                      | Social share image (1200x630 PNG)                |
 | screenshotUrls         | https://web3-social-starter-fc-minikit.vercel.app/screenshot1.png<br>https://web3-social-starter-fc-minikit.vercel.app/screenshot2.png<br>https://web3-social-starter-fc-minikit.vercel.app/screenshot3.png | Up to 3 screenshots (1284x2778px PNGs)           |
 | tags                   | social, carculture, car, storytelling, nft                                                                         | Up to 5 tags, lowercase, no spaces/special chars |

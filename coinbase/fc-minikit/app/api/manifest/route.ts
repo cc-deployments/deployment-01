@@ -38,7 +38,7 @@ export async function GET() {
       heroImageUrl: `${IMAGE_DOMAIN}/hero-v2.png`,
       tagline: "Drive the Past. Own the Now.",
       ogTitle: "CarCulture: CarMania Garage",
-      ogDescription: "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
+      ogDescription: "Collect iconic cars and stories. Mint daily digital classics with CarCulture: CarMania Garage.",
       ogImageUrl: `${IMAGE_DOMAIN}/hero-v2.png`,
       screenshotUrls: [
         `${IMAGE_DOMAIN}/screenshot1.png`,
