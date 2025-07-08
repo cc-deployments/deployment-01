@@ -35,7 +35,7 @@ export async function GET() {
       primaryCategory: process.env.NEXT_PUBLIC_APP_PRIMARY_CATEGORY,
       tags: [],
       heroImageUrl: process.env.NEXT_PUBLIC_APP_HERO_IMAGE || "hero-v2.png",
-      tagline: process.env.NEXT_PUBLIC_APP_TAGLINE,
+      tagline: process.env.NEXT_PUBLIC_APP_TAGLINE || "Drive the Past. Claim the Future.",
       ogTitle: process.env.NEXT_PUBLIC_APP_OG_TITLE,
       ogDescription: process.env.NEXT_PUBLIC_APP_OG_DESCRIPTION,
       ogImageUrl: process.env.NEXT_PUBLIC_APP_OG_IMAGE || "hero-v2.png",
