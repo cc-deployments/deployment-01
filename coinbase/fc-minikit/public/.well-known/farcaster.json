@@ -9,20 +9,20 @@
   "subtitle": "Daily Drops, Legendary Rides",
   "description": "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
   "primaryCategory": "entertainment",
-  "tagline": "Drive the Past. Own the Moment.",
-  "buttonTitle": "Open CarMania Garage",
+  "tagline": "Drive the Past.Own the Moment.",
+  "buttonTitle": "Unlock the Ride",
   "ogTitle": "CarCulture: CarMania Garage",
   "ogDescription": "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day'",
   "ogImage": "https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png",
   "screenshotUrl": "https://web3-social-starter-fc-minikit.vercel.app/carmania-gallery-hero-2.png",
-  "previewImageUrl": "https://web3-social-starter-fc-minikit.vercel.app/splash.png",
+  "previewImageUrl": "https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png",
   "heroImageUrl": "https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png",
   "castShareUrl": "https://warpcast.com/~/compose?text=Check+out+CarCulture+CarMania+Garage!&channel=car",
   "tags": [
-    "car",
-    "art",
-    "stories",
     "social",
-    "nft"
+    "carculture",
+    "car",
+    "storytelling",
+    "NFT"
   ]
 } 

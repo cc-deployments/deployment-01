@@ -17,7 +17,7 @@ This is the manifest we created for the Farcaster Mini App **"CarCulture: CarMan
 
 - **name**: CarCulture: CarMania Garage
 - **subtitle**: Daily Drops, Legendary Rides
-- **tagline**: Drive the Past. Own the Moment.
+- **tagline**: Drive the Past.Own the Moment.
 - **description**: Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.
 - **ogDescription**: Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' (95 chars exactly)
 
@@ -27,14 +27,24 @@ This is the manifest we created for the Farcaster Mini App **"CarCulture: CarMan
 - **App Name**: "CarCulture: CarMania Garage"
 - **App Icon**: https://web3-social-starter-fc-minikit.vercel.app/favicon.png
 - **Primary Category**: "entertainment"
-- **Button Title**: "Open CarMania Garage"
+- **Button Title**: "Unlock the Ride"
 
 ### Images
 - **Screenshot**: https://web3-social-starter-fc-minikit.vercel.app/carmania-gallery-hero-2.png
-- **Preview Image**: https://web3-social-starter-fc-minikit.vercel.app/splash.png
+- **Preview Image**: https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png (FIXED)
 - **Hero Image**: https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png (FIXED)
 - **Splash Screen Image**: https://web3-social-starter-fc-minikit.vercel.app/splash.png
 - **Splash Background Color**: #a32428 (FIXED - brand red)
+
+### Temporary Screenshot Note
+
+**Note:**
+The current screenshot URLs in the Farcaster manifest are temporary placeholders due to a Vercel static asset issue. Once the Vercel static asset problem is resolved, these screenshots should be updated to reflect the latest, fully functional app UI.
+
+**Current Screenshot URLs:**
+- https://web3-social-starter-fc-minikit.vercel.app/screenshot1.png
+- https://web3-social-starter-fc-minikit.vercel.app/screenshot2.png
+- https://web3-social-starter-fc-minikit.vercel.app/screenshot3.png
 
 ### App Flow
 1. **Splash Screen** (`splash.png`) - Initial loading screen
@@ -54,7 +64,7 @@ This is the manifest we created for the Farcaster Mini App **"CarCulture: CarMan
 - **Webhook URL**: https://web3-social-starter-fc-minikit.vercel.app/api/webhook
 
 ### Tags
-- car, art, stories, social, nft
+- social, carculture, car, storytelling, NFT
 
 ## Important Notes
 
