@@ -56,7 +56,7 @@ Use this section to copy-paste values directly into the Farcaster Mini App submi
     ```
 13. **Marketing Tagline**
     ```
-    Drive the Past. Live the Future.
+    Drive the Past. Own the Now.
     ```
 14. **Button Title**
     ```
@@ -115,7 +115,7 @@ All manifest fields are now hardcoded in `coinbase/fc-minikit/app/api/manifest/r
 | webhookUrl             | https://web3-social-starter-fc-minikit.vercel.app/api/webhook                                                      | Webhook for notifications (optional)             |
 | primaryCategory        | entertainment                                                                                                      | App category (lowercase, from allowed list)      |
 | heroImageUrl           | https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png                                                      | Hero image (1200x630 PNG)                        |
-| tagline                | Drive the Past. Live the Future.                                                                                  | Marketing tagline (max 30 chars)                 |
+| tagline                | Drive the Past. Own the Now.                                                                                  | Marketing tagline (max 30 chars)                 |
 | ogTitle                | CarCulture: CarMania Garage                                                                                        | Social share title (max 30 chars)                |
 | ogDescription          | Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history. | Social share description (max 100 chars)         |
 | ogImageUrl             | https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png                                                      | Social share image (1200x630 PNG)                |
