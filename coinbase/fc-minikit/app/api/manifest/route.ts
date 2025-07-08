@@ -1,4 +1,4 @@
-// Trigger redeploy: trivial comment
+// Trigger redeploy: all manifest fields hardcoded, no process.env except for accountAssociation secrets
 import { NextResponse } from 'next/server';
 
 function withValidProperties(
@@ -15,7 +15,8 @@ function withValidProperties(
 }
 
 export async function GET() {
-  const URL = process.env.NEXT_PUBLIC_URL || 'https://web3-social-starter-fc-minikit.vercel.app';
+  const URL = 'https://web3-social-starter-fc-minikit.vercel.app';
+  const IMAGE_DOMAIN = URL;
 
   return NextResponse.json({
     accountAssociation: {
@@ -23,23 +24,36 @@ export async function GET() {
       payload: process.env.FARCASTER_PAYLOAD,
       signature: process.env.FARCASTER_SIGNATURE,
     },
-    frame: withValidProperties({
+    miniapp: withValidProperties({
       version: "1",
-      name: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME || "CarCulture: CarMania Garage",
-      subtitle: process.env.NEXT_PUBLIC_APP_SUBTITLE,
-      description: process.env.NEXT_PUBLIC_APP_DESCRIPTION || "Daily Car Collectibles",
-      screenshotUrls: [],
-      iconUrl: process.env.NEXT_PUBLIC_APP_ICON || "/favicon.png",
-      splashImageUrl: process.env.NEXT_PUBLIC_APP_SPLASH_IMAGE || "/splash.png",
+      name: "CarCulture: CarMania Garage",
+      subtitle: "Daily Drops, Legendary Rides",
+      description: "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
+      iconUrl: `${IMAGE_DOMAIN}/favicon.png`,
+      splashImageUrl: `${IMAGE_DOMAIN}/splash.png`,
+      splashBackgroundColor: "#a32428",
       homeUrl: URL,
       webhookUrl: `${URL}/api/webhook`,
-      primaryCategory: process.env.NEXT_PUBLIC_APP_PRIMARY_CATEGORY,
-      tags: [],
-      heroImageUrl: process.env.NEXT_PUBLIC_APP_HERO_IMAGE || "hero-v2.png",
-      tagline: process.env.NEXT_PUBLIC_APP_TAGLINE || "Drive the Past. Claim the Future.",
-      ogTitle: process.env.NEXT_PUBLIC_APP_OG_TITLE,
-      ogDescription: process.env.NEXT_PUBLIC_APP_OG_DESCRIPTION,
-      ogImageUrl: process.env.NEXT_PUBLIC_APP_OG_IMAGE || "hero-v2.png",
-    }),
+      primaryCategory: "entertainment",
+      heroImageUrl: `${IMAGE_DOMAIN}/hero-v2.png`,
+      tagline: "Drive the Past. Claim the Future.",
+      ogTitle: "CarCulture: CarMania Garage",
+      ogDescription: "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
+      ogImageUrl: `${IMAGE_DOMAIN}/hero-v2.png`,
+      screenshotUrls: [
+        `${IMAGE_DOMAIN}/screenshot1.png`,
+        `${IMAGE_DOMAIN}/screenshot2.png`,
+        `${IMAGE_DOMAIN}/screenshot3.png`
+      ],
+      tags: [
+        "social",
+        "carculture",
+        "car",
+        "storytelling",
+        "nft"
+      ],
+      previewImageUrl: `${IMAGE_DOMAIN}/hero-v2.png`,
+      buttonTitle: "Unlock the Ride"
+    })
   });
 } 
