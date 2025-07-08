@@ -64,7 +64,7 @@ The current screenshot URLs in the Farcaster manifest are temporary placeholders
 - **Webhook URL**: https://web3-social-starter-fc-minikit.vercel.app/api/webhook
 
 ### Tags
-- social, carculture, car, storytelling, NFT
+- social, carculture, car, storytelling, nft
 
 ## Important Notes
 
