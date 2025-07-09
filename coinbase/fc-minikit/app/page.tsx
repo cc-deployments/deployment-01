@@ -99,7 +99,7 @@ export default function App() {
         />
         
         {/* Overlay container for logo and button */}
-        <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-end bg-white" style={{ height: "32%", paddingBottom: 24 }}>
+        <div className="absolute left-0 right-0 flex flex-col items-center justify-end bg-white" style={{ bottom: "80px", height: "24%", paddingBottom: 0 }}>
           {/* CarCulture logo */}
           <div className="flex justify-center w-full mb-3" style={{ marginBottom: 18 }}>
             <Image
