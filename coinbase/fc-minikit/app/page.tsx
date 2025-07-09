@@ -99,19 +99,18 @@ export default function App() {
         />
         
         {/* Overlay container for logo and button */}
-        <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center bg-white" style={{ height: "25%" }}>
+        <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-end bg-white" style={{ height: "32%", paddingBottom: 24 }}>
           {/* CarCulture logo */}
-          <div className="flex justify-center w-full mb-2">
+          <div className="flex justify-center w-full mb-3" style={{ marginBottom: 18 }}>
             <Image
               src="/carculture-logo.png"
               alt="Car Culture Logo"
-              width={112}
-              height={48}
-              style={{ width: "112px", height: "auto" }}
+              width={180}
+              height={80}
+              style={{ width: "180px", height: "auto" }}
               priority
             />
           </div>
-          
           {/* Unlock the Ride button */}
           <div className="flex flex-col items-center w-full">
             <a
@@ -123,10 +122,11 @@ export default function App() {
             >
               <button
                 type="button"
-                className="rounded-full text-white shadow-md hover:opacity-90 transition bg-[#a32428] whitespace-nowrap font-semibold text-xs px-1.5 md:px-5 py-0.5 md:py-1.5 min-w-[54px] md:min-w-[156px] h-4 md:h-8 flex items-center justify-center border-none"
+                className="rounded-full text-white shadow-md hover:opacity-90 transition bg-[#a32428] whitespace-nowrap font-semibold text-xs px-1.5 md:px-5 py-2 md:py-2.5 min-w-[54px] md:min-w-[156px] h-8 md:h-12 flex items-center justify-center border-none"
                 style={{
                   fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
                   letterSpacing: '0.08em',
+                  fontSize: 18,
                 }}
               >
                 Unlock&nbsp;the&nbsp;Ride
