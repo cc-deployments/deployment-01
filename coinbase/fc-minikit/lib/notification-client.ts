@@ -1,11 +1,16 @@
 import {
-  FrameNotificationDetails,
-  type SendNotificationRequest,
+  notificationDetailsSchema,
+  sendNotificationRequestSchema,
   sendNotificationResponseSchema,
 } from "@farcaster/frame-sdk";
 import { getUserNotificationDetails } from "@/lib/notification";
+import { z } from "zod";
 
 const appUrl = process.env.NEXT_PUBLIC_URL || "";
+
+// Infer types from schemas
+type FrameNotificationDetails = z.infer<typeof notificationDetailsSchema>;
+type SendNotificationRequest = z.infer<typeof sendNotificationRequestSchema>;
 
 type SendFrameNotificationResult =
   | {

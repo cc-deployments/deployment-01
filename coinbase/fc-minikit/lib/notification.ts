@@ -1,5 +1,9 @@
-import type { FrameNotificationDetails } from "@farcaster/frame-sdk";
+import { notificationDetailsSchema } from "@farcaster/frame-sdk";
 import { redis } from "./redis";
+import { z } from "zod";
+
+// Infer type from schema
+type FrameNotificationDetails = z.infer<typeof notificationDetailsSchema>;
 
 const notificationServiceKey =
   process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME ?? "minikit";

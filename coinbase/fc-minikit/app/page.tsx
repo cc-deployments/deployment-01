@@ -10,7 +10,9 @@ export default function App() {
   }, []);
 
   // Share handler for the hero image
-  const handleShare = () => {
+  const handleShare = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (navigator.share) {
       navigator.share({
         title: "CarMania Garage",
@@ -55,8 +57,9 @@ export default function App() {
           }}
           aria-label="Share"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 4V20M12 4L6 10M12 4L18 10" stroke="#a32428" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ pointerEvents: 'none' }}>
+            <circle cx="14" cy="14" r="13" stroke="#111" strokeWidth="2" fill="none" />
+            <path d="M14 7V21M14 7L8 13M14 7L20 13" stroke="#a32428" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
       </div>
@@ -73,8 +76,8 @@ export default function App() {
         />
       </div>
 
-      {/* 3. Text page image */}
-      <div className="w-full max-w-2xl mx-auto my-4 flex justify-center">
+      {/* 3. Text page image with overlaid logo and button */}
+      <div className="w-full max-w-2xl mx-auto my-4 flex justify-center relative">
         <Image
           src="/text-page.png"
           alt="CarMania Gallery Text Page"
@@ -83,39 +86,42 @@ export default function App() {
           style={{ maxWidth: "100%", height: "auto" }}
           priority
         />
-      </div>
-
-      {/* 4. CarCulture logo and Unlock the Ride button */}
-      <div className="w-full bg-white flex flex-col items-center">
-        <div className="flex justify-center w-full mt-6 mb-2">
-          <Image
-            src="/carculture-logo.png"
-            alt="Car Culture Logo"
-            width={112}
-            height={48}
-            style={{ width: "112px", height: "auto" }}
-            priority
-          />
-        </div>
-        <div className="flex flex-col items-center w-full mt-0">
-          <a
-            href="https://app.manifold.xyz/c/man-driving-car"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="md:w-auto flex justify-center"
-            style={{ pointerEvents: 'auto' }}
-          >
-            <button
-              type="button"
-              className="rounded-full text-white shadow-md hover:opacity-90 transition bg-[#a32428] whitespace-nowrap font-semibold text-xs px-1.5 md:px-5 py-0.5 md:py-1.5 min-w-[54px] md:min-w-[156px] h-4 md:h-8 flex items-center justify-center border-none"
-              style={{
-                fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                letterSpacing: '0.08em',
-              }}
+        
+        {/* Overlay container for logo and button */}
+        <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center bg-white" style={{ height: "25%" }}>
+          {/* CarCulture logo */}
+          <div className="flex justify-center w-full mb-2">
+            <Image
+              src="/carculture-logo.png"
+              alt="Car Culture Logo"
+              width={112}
+              height={48}
+              style={{ width: "112px", height: "auto" }}
+              priority
+            />
+          </div>
+          
+          {/* Unlock the Ride button */}
+          <div className="flex flex-col items-center w-full">
+            <a
+              href="https://app.manifold.xyz/c/man-driving-car"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="md:w-auto flex justify-center"
+              style={{ pointerEvents: 'auto' }}
             >
-              Unlock&nbsp;the&nbsp;Ride
-            </button>
-          </a>
+              <button
+                type="button"
+                className="rounded-full text-white shadow-md hover:opacity-90 transition bg-[#a32428] whitespace-nowrap font-semibold text-xs px-1.5 md:px-5 py-0.5 md:py-1.5 min-w-[54px] md:min-w-[156px] h-4 md:h-8 flex items-center justify-center border-none"
+                style={{
+                  fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                  letterSpacing: '0.08em',
+                }}
+              >
+                Unlock&nbsp;the&nbsp;Ride
+              </button>
+            </a>
+          </div>
         </div>
       </div>
     </div>
