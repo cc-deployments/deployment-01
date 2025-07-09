@@ -58,10 +58,10 @@ export default function App() {
           />
         )}
       </div>
-      {/* Add text-age.png as a vertical image below the gallery images */}
+      {/* Add text-page.png as a vertical image below the gallery images */}
       <div className="w-[1200px] max-w-full my-4 flex justify-center">
         <Image
-          src="/text-age.png"
+          src="/text-page.png"
           alt="CarMania Gallery Text Page"
           width={630}
           height={1200}
