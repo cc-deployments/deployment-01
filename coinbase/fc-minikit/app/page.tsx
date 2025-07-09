@@ -13,13 +13,21 @@ export default function App() {
   const handleShare = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (navigator.share) {
+    
+    // Try native share first
+    if (navigator.share && navigator.share !== undefined) {
       navigator.share({
         title: "CarMania Garage",
         text: "Check out CarMania Garage!",
         url: window.location.href,
+      }).catch((error) => {
+        console.log('Share failed:', error);
+        // Fallback to clipboard
+        navigator.clipboard.writeText(window.location.href);
+        alert("Link copied to clipboard!");
       });
     } else {
+      // Fallback for environments without native share
       navigator.clipboard.writeText(window.location.href);
       alert("Link copied to clipboard!");
     }
@@ -46,18 +54,21 @@ export default function App() {
           style={{
             background: "none",
             border: "none",
-            padding: 0,
+            padding: 8,
             margin: 0,
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            height: 32,
-            width: 32,
+            height: 40,
+            width: 40,
+            borderRadius: "50%",
+            zIndex: 10,
+            position: "relative",
           }}
           aria-label="Share"
         >
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ pointerEvents: 'none' }}>
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="14" cy="14" r="13" stroke="#111" strokeWidth="2" fill="none" />
             <path d="M14 7V21M14 7L8 13M14 7L20 13" stroke="#a32428" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
