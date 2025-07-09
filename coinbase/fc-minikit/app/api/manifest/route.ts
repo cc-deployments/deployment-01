@@ -39,7 +39,7 @@ export async function GET() {
       tagline: "Drive the Past. Own the Now.",
       ogTitle: "CarCulture: CarMania Garage",
       ogDescription: "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day'", // Fixed: exactly 95 characters
-      ogImageUrl: `${IMAGE_DOMAIN}/carmania-gallery-hero.png`, // Updated: using carmania-gallery-hero.png for social sharing
+      ogImageUrl: `${IMAGE_DOMAIN}/hero-v2.png`, // Updated: using hero-v2.png for social sharing
       screenshotUrls: [
         `${IMAGE_DOMAIN}/screenshot1.png`,
         `${IMAGE_DOMAIN}/screenshot2.png`,
