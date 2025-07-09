@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { sdk } from '@farcaster/miniapp-sdk';
+import { sdk } from '@farcaster/frame-sdk';
 import Image from "next/image";
 import HeroWithStart from "./components/HeroWithShare";
 
