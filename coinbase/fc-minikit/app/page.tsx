@@ -25,8 +25,8 @@ export default function App() {
 
   return (
     <div className="flex flex-col items-center bg-white">
-      {/* 1. Main hero image with share button */}
-      <div className="relative w-full max-w-2xl mx-auto">
+      {/* 1. Main hero image */}
+      <div className="w-full max-w-2xl mx-auto">
         <Image
           src="/carmania-gallery-hero.png"
           alt="CarMania Gallery Hero"
@@ -35,37 +35,34 @@ export default function App() {
           style={{ width: "100%", height: "auto" }}
           priority
         />
-        {/* Subtle share button (top right) */}
+      </div>
+
+      {/* Share icon in white area below hero image */}
+      <div className="w-full max-w-2xl mx-auto flex justify-center items-center" style={{ background: "#fff", height: 48 }}>
         <button
           onClick={handleShare}
           style={{
-            position: "absolute",
-            top: 16,
-            right: 16,
-            width: 36,
-            height: 36,
-            background: "rgba(163,36,40,0.85)",
-            color: "#fff",
+            background: "none",
             border: "none",
-            borderRadius: "50%",
+            padding: 0,
+            margin: 0,
+            cursor: "pointer",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            cursor: "pointer",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-            opacity: 0.85,
-            zIndex: 10,
+            height: 32,
+            width: 32,
           }}
           aria-label="Share"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 4V20M12 4L6 10M12 4L18 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 4V20M12 4L6 10M12 4L18 10" stroke="#a32428" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
       </div>
 
       {/* 2. Secondary gallery image */}
-      <div className="w-full max-w-2xl mx-auto mt-4">
+      <div className="w-full max-w-2xl mx-auto mt-0">
         <Image
           src="/carmania-gallery-hero-2.png"
           alt="CarMania Gallery Hero 2"
