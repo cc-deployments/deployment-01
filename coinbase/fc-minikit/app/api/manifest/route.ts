@@ -31,7 +31,7 @@ export async function GET() {
       description: "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
       iconUrl: `${IMAGE_DOMAIN}/favicon.png`,
       splashImageUrl: `${IMAGE_DOMAIN}/splash.png`,
-      splashBackgroundColor: "#bd2026", // Fixed: matches app brand red
+      splashBackgroundColor: "#a32428", // Fixed: matches app brand red
       homeUrl: URL,
       webhookUrl: `${URL}/api/webhook`,
       primaryCategory: "entertainment",

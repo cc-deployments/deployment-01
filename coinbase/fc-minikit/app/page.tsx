@@ -87,8 +87,8 @@ export default function App() {
         />
       </div>
 
-      {/* 3. Text page image with overlaid logo and button */}
-      <div className="w-full max-w-2xl mx-auto my-4 flex justify-center relative">
+      {/* 3. Text page image */}
+      <div className="w-full max-w-2xl mx-auto my-4 flex justify-center">
         <Image
           src="/text-page.png"
           alt="CarMania Gallery Text Page"
@@ -97,43 +97,36 @@ export default function App() {
           style={{ maxWidth: "100%", height: "auto" }}
           priority
         />
-        
-        {/* Overlay container for logo and button */}
-        <div className="absolute left-0 right-0 flex flex-col items-center justify-end bg-white" style={{ bottom: "120px", height: "18%", paddingBottom: 0 }}>
-          {/* CarCulture logo */}
-          <div className="flex justify-center w-full mb-3" style={{ marginBottom: 18 }}>
-            <Image
-              src="/carculture-logo.png"
-              alt="Car Culture Logo"
-              width={180}
-              height={80}
-              style={{ width: "180px", height: "auto" }}
-              priority
-            />
-          </div>
-          {/* Unlock the Ride button */}
-          <div className="flex flex-col items-center w-full">
-            <a
-              href="https://app.manifold.xyz/c/man-driving-car"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="md:w-auto flex justify-center"
-              style={{ pointerEvents: 'auto' }}
-            >
-              <button
-                type="button"
-                className="rounded-full text-white shadow-md hover:opacity-90 transition bg-[#a32428] whitespace-nowrap font-semibold text-xs px-1.5 md:px-5 py-2 md:py-2.5 min-w-[54px] md:min-w-[156px] h-8 md:h-12 flex items-center justify-center border-none"
-                style={{
-                  fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                  letterSpacing: '0.08em',
-                  fontSize: 18,
-                }}
-              >
-                Unlock&nbsp;the&nbsp;Ride
-              </button>
-            </a>
-          </div>
-        </div>
+      </div>
+      {/* Unlock the Ride button below the image, with icon above */}
+      <div className="w-full max-w-2xl mx-auto flex flex-col items-center justify-center mb-2" style={{marginTop: '-8px'}}>
+        <Image
+          src="/icon.png"
+          alt="Car Culture Icon"
+          width={48}
+          height={48}
+          style={{ marginBottom: 24 }}
+          priority
+        />
+        <a
+          href="https://app.manifold.xyz/c/man-driving-car"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="md:w-auto flex justify-center"
+          style={{ pointerEvents: 'auto' }}
+        >
+          <button
+            type="button"
+            className="rounded-lg text-white shadow-md hover:opacity-90 transition bg-[#a32428] whitespace-nowrap font-medium text-xs px-1 py-0.5 min-w-0 h-5 flex items-center justify-center border-none"
+            style={{
+              fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif',
+              letterSpacing: '0.08em',
+              fontSize: 10,
+            }}
+          >
+            Unlock&nbsp;the&nbsp;Ride
+          </button>
+        </a>
       </div>
     </div>
   );
