@@ -72,14 +72,22 @@ export default function App() {
 
       {/* 2. Secondary gallery image */}
       <div className="w-full max-w-2xl mx-auto mt-0">
-        <Image
-          src="/carmania-gallery-hero-2.png"
-          alt="CarMania Gallery Hero 2"
-          width={1200}
-          height={630}
-          style={{ width: "100%", height: "auto" }}
-          priority
-        />
+        <a
+          href="https://app.manifold.xyz/c/man-driving-car"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ display: 'block' }}
+        >
+          <Image
+            src="/carmania-gallery-hero-2.png"
+            alt="CarMania Gallery Hero 2"
+            width={1200}
+            height={630}
+            style={{ width: "100%", height: "auto", cursor: "pointer", transition: "box-shadow 0.2s" }}
+            className="hover:shadow-lg"
+            priority
+          />
+        </a>
       </div>
 
       {/* 3. Text page image with new overlay logic */}
