@@ -91,7 +91,7 @@ export default function App() {
       </div>
 
       {/* 3. Text page image with new overlay logic */}
-      <div className="w-full max-w-2xl mx-auto my-4 flex justify-center" style={{ position: "relative" }}>
+      <div className="w-full max-w-2xl mx-auto my-4 flex justify-center" style={{ position: "relative", overflow: "hidden", borderRadius: 24 }}>
         <Image
           src="/text-page.png"
           alt="CarMania Gallery Text Page"
