@@ -120,7 +120,7 @@ export default function App() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             zIndex: 2,
             overflow: "hidden",
           }}
@@ -130,7 +130,7 @@ export default function App() {
             alt="Car Culture Icon"
             width={120}
             height={120}
-            style={{ marginBottom: 32, marginTop: 0 }}
+            style={{ marginBottom: 32, marginTop: 140 }}
             priority
           />
           <a
