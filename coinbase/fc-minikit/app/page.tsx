@@ -90,35 +90,31 @@ export default function App() {
         </a>
       </div>
 
-      {/* 3. Text page image with overlay logic restored */}
-      <div className="w-full max-w-2xl mx-auto my-4 flex justify-center" style={{ position: "relative" }}>
+      {/* 3. Text page image with flex white section for icon/button */}
+      <div className="w-full max-w-2xl mx-auto my-4 flex flex-col items-center">
         <Image
           src="/text-page.png"
           alt="CarMania Gallery Text Page"
-          width={630}
-          height={1280}
+          width={1260}
+          height={2400}
           style={{
             width: "100%",
             height: "auto",
             borderRadius: 24,
             boxShadow: "0 2px 16px rgba(0,0,0,0.08)",
+            display: "block",
           }}
           priority
         />
-        {/* White overlay for transparent area */}
+        {/* White area for icon and button, height matches transparent area (2400-1260=1140px, so 1140/2400=47.5%) */}
         <div
+          className="w-full flex flex-col items-center justify-center"
           style={{
-            position: "absolute",
-            top: 850,
-            left: 0,
-            width: "100%",
-            height: 430,
             background: "#fff",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 2,
+            width: "100%",
+            maxWidth: "100%",
+            height: "47.5%", // 1140px of 2400px
+            minHeight: 200, // fallback for very small screens
           }}
         >
           <Image
