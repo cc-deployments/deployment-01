@@ -109,10 +109,10 @@ export default function App() {
         <div
           style={{
             position: "absolute",
-            top: 850, // adjust as needed for your image
+            top: '66%', // percentage-based for responsiveness
             left: 0,
             width: "100%",
-            height: 430, // adjust as needed for your image
+            height: '34%', // fill the rest of the image
             background: "#fff",
             display: "flex",
             flexDirection: "column",
