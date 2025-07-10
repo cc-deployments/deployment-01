@@ -126,10 +126,10 @@ export default function App() {
           <div
             style={{
               position: "absolute",
-              top: 850,
+              top: '80%', // more aggressive for mobile
               left: 0,
               width: "100%",
-              height: 430,
+              height: '15%',
               background: "#fff",
               display: "flex",
               flexDirection: "column",
