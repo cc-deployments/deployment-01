@@ -90,8 +90,8 @@ export default function App() {
         </a>
       </div>
 
-      {/* 3. Text page image with flex white section for icon/button */}
-      <div className="w-full max-w-2xl mx-auto my-4 flex flex-col items-center">
+      {/* 3. Text page image with precise overlay for icon/button */}
+      <div className="w-full max-w-2xl mx-auto my-4 flex justify-center" style={{ position: "relative" }}>
         <Image
           src="/text-page.png"
           alt="CarMania Gallery Text Page"
@@ -106,15 +106,23 @@ export default function App() {
           }}
           priority
         />
-        {/* White area for icon and button, fixed height 1140px (matches transparent area) */}
+        {/* White overlay for transparent area, clipped to border radius */}
         <div
-          className="w-full flex flex-col items-center justify-start"
           style={{
-            background: "#fff",
+            position: "absolute",
+            top: 1260,
+            left: 0,
             width: "100%",
-            maxWidth: "100%",
             height: 1140,
-            minHeight: 200,
+            background: "#fff",
+            borderBottomLeftRadius: 24,
+            borderBottomRightRadius: 24,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 2,
+            overflow: "hidden",
           }}
         >
           <Image
@@ -122,7 +130,7 @@ export default function App() {
             alt="Car Culture Icon"
             width={120}
             height={120}
-            style={{ marginBottom: 32, marginTop: 140 }}
+            style={{ marginBottom: 32, marginTop: 0 }}
             priority
           />
           <a
