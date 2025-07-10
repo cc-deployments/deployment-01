@@ -106,23 +106,23 @@ export default function App() {
           }}
           priority
         />
-        {/* White area for icon and button, height matches transparent area (2400-1260=1140px, so 1140/2400=47.5%) */}
+        {/* White area for icon and button, fixed height 1140px (matches transparent area) */}
         <div
-          className="w-full flex flex-col items-center justify-center"
+          className="w-full flex flex-col items-center justify-start"
           style={{
             background: "#fff",
             width: "100%",
             maxWidth: "100%",
-            height: "47.5%", // 1140px of 2400px
-            minHeight: 200, // fallback for very small screens
+            height: 1140,
+            minHeight: 200,
           }}
         >
           <Image
             src="/icon.png"
             alt="Car Culture Icon"
-            width={80}
-            height={80}
-            style={{ marginBottom: 32, marginTop: 0 }}
+            width={120}
+            height={120}
+            style={{ marginBottom: 32, marginTop: 140 }}
             priority
           />
           <a
