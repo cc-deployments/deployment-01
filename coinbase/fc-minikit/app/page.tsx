@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { sdk } from '@farcaster/frame-sdk';
 import Image from "next/image";
+import TextPageWithOverlay from "./components/TextPageWithOverlay";
 
 export default function App() {
   useEffect(() => {
@@ -90,69 +91,8 @@ export default function App() {
         </a>
       </div>
 
-      {/* 3. Text page image with precise overlay for icon/button */}
-      <div className="w-full max-w-2xl mx-auto my-4 flex justify-center" style={{ position: "relative" }}>
-        <Image
-          src="/text-page.png"
-          alt="CarMania Gallery Text Page"
-          width={1260}
-          height={2400}
-          style={{
-            width: "100%",
-            height: "auto",
-            borderRadius: 24,
-            boxShadow: "0 2px 16px rgba(0,0,0,0.08)",
-            display: "block",
-          }}
-          priority
-        />
-        {/* White overlay for transparent area, clipped to border radius */}
-        <div
-          style={{
-            position: "absolute",
-            top: 1260,
-            left: 0,
-            width: "100%",
-            height: 1140,
-            background: "#fff",
-            borderBottomLeftRadius: 24,
-            borderBottomRightRadius: 24,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            zIndex: 2,
-            overflow: "hidden",
-          }}
-        >
-          <Image
-            src="/icon.png"
-            alt="Car Culture Icon"
-            width={120}
-            height={120}
-            style={{ marginBottom: 32, marginTop: 140 }}
-            priority
-          />
-          <a
-            href="https://app.manifold.xyz/c/man-driving-car"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ pointerEvents: "auto" }}
-          >
-            <button
-              type="button"
-              className="rounded-lg text-white shadow-md hover:opacity-90 transition bg-[#a32428] whitespace-nowrap font-semibold text-base px-4 py-1 min-w-0 h-9 flex items-center justify-center border-none"
-              style={{
-                fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif',
-                letterSpacing: '0.08em',
-                fontSize: 16,
-              }}
-            >
-              Unlock&nbsp;the&nbsp;Ride
-            </button>
-          </a>
-        </div>
-      </div>
+      {/* 3. Text page with overlay - complete replacement */}
+      <TextPageWithOverlay />
     </div>
   );
 }
