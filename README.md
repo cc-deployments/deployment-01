@@ -23,6 +23,59 @@
 - **Module not found:** Check that the file exists and the import path is correct.
 - **Privy App ID error:** Set `NEXT_PUBLIC_PRIVY_APP_ID` in Vercel environment variables.
 
+## APP Dev
+
+### Local Setup
+1. `npm install`
+2. `npm run dev` (default port: 3000)
+
+### Folder Structure
+- `app/components/` – Shared React components (e.g., ShareArrow, PrivyLogin)
+- `app/gallery-hero/` – Hero page and related UI
+- `app/gallery-hero-2/`, `app/text-page/` – Gallery navigation flow
+- `packages/sharedauth/` – Shared authentication logic
+
+### Development Workflow
+- Use feature branches for new work.
+- Commit early and often; keep commit messages descriptive.
+- Run locally and test navigation, wallet connection, and gallery flows before pushing.
+
+### Common Issues
+- **Wallet not connecting:** Check Privy and wagmi integration in `providers.tsx`.
+- **OnchainKit name resolution:** Requires API key with Identity/Profile permissions.
+- **Port conflicts:** If `npm run dev` fails, try another port (e.g., `PORT=3002 npm run dev`).
+
+### Deployment
+- Deploys via Vercel. See `vercel.json` for config.
+- Set all required environment variables in the Vercel dashboard.
+
+### TODOs & Roadmap
+- [ ] Add visual indicators for gestures
+- [ ] Clean up console warnings
+- [ ] Test all wallet types and navigation flows
+
+### Issues: ENS Display & Privy in SharedAuth (2025-07-12)
+
+1. **ENS/Basename Not Displaying**
+   - OnchainKit `<Name />` always showed “(none found)” for ENS or Basename, even when the connected wallet owned a name.
+   - Tried multiple API keys (with “View” permission only); wallet address was correct.
+   - Suspected cause: OnchainKit API key likely needs “Identity” or “Profile” permissions, not just “View.” Awaiting CDP support.
+
+2. **Privy & wagmi State Sync Issues**
+   - After Privy sign-in, `wagmi`’s `useAccount().isConnected` was `false`, even though the wallet address was present.
+   - Updated Providers to use Privy’s wagmi connector; address available but connection state not syncing.
+   - Impact: UI (including ENS display) was gated on `isConnected`, so profile/name never showed.
+
+3. **SharedAuth Integration**
+   - Shared authentication logic in `packages/sharedauth/` was not consistently syncing Privy and wagmi state across the app.
+   - Ensured all auth libraries were imported only from the shared package; checked for duplicate/conflicting providers.
+   - Impact: Inconsistent wallet connection state and unreliable ENS/name resolution.
+
+4. **API Key Permissions Unclear**
+   - OnchainKit API keys from dashboard only had “View” permission.
+   - Opened support ticket with CDP to clarify required permissions for name resolution; “Identity” or “Profile” likely needed.
+   - Blocked on resolving name display until correct API key permissions are granted.
+
 ## Auth Pattern: Shared Only
 
 - All authentication libraries (e.g., @privy-io/react-auth) must be imported only from the shared package (@cculture/privy).
