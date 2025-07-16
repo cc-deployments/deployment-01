@@ -152,7 +152,7 @@ export default function GalleryHero() {
           onClick={handleShare}
           style={{
             position: 'absolute',
-            left: '1125px', // Center at 1150px, so left = 1150 - (width/2) = 1150 - 25 = 1125px
+            left: '1095px', // Center at 1120px, so left = 1120 - (width/2) = 1120 - 25 = 1095px
             top: '2207px', // Center at 2220px, so top = 2220 - (height/2) = 2220 - 13 = 2207px
             width: '50px',
             height: '26px',
@@ -187,7 +187,7 @@ export default function GalleryHero() {
             </div>
             <div style={{
               position: 'absolute',
-              left: '1125px',
+              left: '1095px',
               top: '2207px',
               width: '50px',
               height: '26px',
