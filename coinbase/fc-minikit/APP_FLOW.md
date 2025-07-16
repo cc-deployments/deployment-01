@@ -30,6 +30,13 @@ This is the main directory containing your CarMania app. All files and folders m
 - **Purpose:** How to publish your Mini App to the Farcaster ecosystem
 - **Key Topics:** Submission process, review guidelines, deployment
 
+### **Coinbase Wallet Mini App Resources**
+
+#### **Compatibility Validator**
+- **URL:** https://raw.githubusercontent.com/base/demos/refs/heads/master/minikit/mini-app-help/validate.txt
+- **Purpose:** Validates Mini App compatibility with Coinbase Wallet
+- **Key Topics:** Environment detection, haptics, Warpcast composer URLs, token swap, direct HTML links, required sdk.actions.ready() calls
+
 ## 📱 How Users Navigate Through Your App
 
 ### **Page 1: Landing Page** (`/`)

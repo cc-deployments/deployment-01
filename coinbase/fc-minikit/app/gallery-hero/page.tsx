@@ -15,8 +15,13 @@ export default function GalleryHero() {
   }, []);
   
   const handlers = useSwipeable({
-    onSwipedUp: () => router.push('/gallery-hero-2'),
+    onSwipedUp: () => {
+      console.log('Swipe up detected! Navigating to gallery-hero-2');
+      router.push('/gallery-hero-2');
+    },
     trackTouch: true,
+    delta: 50,
+    swipeDuration: 500,
   });
 
   const handleUnlockRide = () => {
@@ -205,6 +210,32 @@ export default function GalleryHero() {
             </div>
           </>
         )}
+        
+        {/* Swipe Up Indicator */}
+        <div style={{
+          position: 'absolute',
+          bottom: '50px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          background: 'rgba(0,0,0,0.7)',
+          color: 'white',
+          padding: '8px 16px',
+          borderRadius: '20px',
+          fontSize: '14px',
+          fontWeight: 'bold',
+          zIndex: 15,
+          pointerEvents: 'none',
+          animation: 'pulse 2s infinite',
+        }}>
+          ↑ Swipe Up
+        </div>
+        
+        <style jsx>{`
+          @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+          }
+        `}</style>
       </div>
     </div>
   );
