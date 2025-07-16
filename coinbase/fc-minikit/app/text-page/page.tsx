@@ -1,12 +1,17 @@
 "use client";
 import Image from "next/image";
 import { useSwipeable } from 'react-swipeable';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { sdk } from '@farcaster/miniapp-sdk';
 
 export default function TextPage() {
   const router = useRouter();
   const [showDebug, setShowDebug] = useState(false);
+
+  useEffect(() => {
+    sdk.actions.ready();
+  }, []);
 
   const handlers = useSwipeable({
     onSwipedUp: () => router.push('/manifold-gallery'),

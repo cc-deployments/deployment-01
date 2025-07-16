@@ -1,9 +1,15 @@
 "use client";
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { sdk } from '@farcaster/miniapp-sdk';
 
 export default function ManifoldGallery() {
   const router = useRouter();
+
+  useEffect(() => {
+    sdk.actions.ready();
+  }, []);
 
   const handlers = useSwipeable({
     onSwipedUp: () => {
