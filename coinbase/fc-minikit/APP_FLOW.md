@@ -47,11 +47,12 @@ This is the main directory containing your CarMania app. All files and folders m
 
 ### **Page 4: Text Page** (`/text-page`)
 - **File:** `app/text-page/page.tsx`
-- **Image:** `text-page.png`
-- **What users see:** Text content with "Unlock the Ride" button
+- **Image:** `text-page.png` (1260×2400px)
+- **What users see:** Text content with invisible "Unlock the Ride" button overlay
 - **User action:** 
-  - Tap "Unlock the Ride" → Opens Manifold mint page
+  - Tap invisible button area (300px wide) → Opens Manifold mint page
   - Swipe up → Opens CarCulture Manifold profile
+- **Debug features:** Toggle button for overlay visualization, container bounds display
 - **Purpose:** Final content page with mint and profile links
 
 ## 🔄 Navigation Flow Summary
@@ -73,7 +74,7 @@ Manifold Profile (external)
 1. **Minting:** Users can mint at multiple points:
    - Gallery Hero page ("Unlock the Ride" button)
    - Gallery Hero 2 page (tap anywhere)
-   - Text Page ("Unlock the Ride" button)
+   - Text Page (invisible "Unlock the Ride" button overlay - 300px wide interactive area)
 
 2. **Sharing:** Share arrow appears on:
    - Landing page
@@ -81,6 +82,11 @@ Manifold Profile (external)
 
 3. **Social Identity:** Button appears on:
    - Gallery Hero page (top right)
+
+4. **Debug Features:** Available on all pages:
+   - Debug toggle button (top-left corner)
+   - Container bounds visualization (red border)
+   - Button position overlays (yellow/cyan highlights)
 
 ## 📁 File Organization
 
@@ -116,9 +122,11 @@ coinbase/fc-minikit/
 ## 🎨 Design Consistency
 
 - **Size:** All pages use 1260px width × 2400px height
-- **Images:** 1260px × 2150px image area + 250px transparent bottom area
+- **Images:** 1260px × 2400px full container coverage
 - **Buttons:** Consistent red theme (#a32428, #ae262a)
 - **Navigation:** Swipe up to advance, buttons for specific actions
+- **Debug Mode:** Consistent debug overlays across all pages
+- **Interactive Areas:** Optimized button sizes for better user experience
 
 ## 🔧 For Developers
 
@@ -127,6 +135,8 @@ coinbase/fc-minikit/
 - Swipe gestures use `react-swipeable`
 - Images are optimized with Next.js `Image` component
 - External links open in new tabs (`target="_blank"`)
+- Debug overlays use absolute positioning with z-index layering
+- Button coordinates are calculated for 1260×2400px container system
 
 ---
 
