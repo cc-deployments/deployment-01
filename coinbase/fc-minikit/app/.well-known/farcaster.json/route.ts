@@ -15,7 +15,7 @@ function withValidProperties(
 }
 
 export async function GET() {
-  const URL = 'https://carculture-minikit.vercel.app';
+  const URL = 'https://web3-social-starter-fc-minikit.vercel.app';
   const IMAGE_DOMAIN = URL;
 
   return NextResponse.json({
