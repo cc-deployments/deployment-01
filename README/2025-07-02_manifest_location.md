@@ -1,27 +1,27 @@
-# Manifest Notes (2025-07-02)
+# Manifest Notes (2025-07-16)
 
 **Note:**
-- The Farcaster manifest for CarCulture: CarMania Garage is a dynamic (hosted) manifest.
-- Any updates to the manifest endpoint (https://web3-social-starter-fc-minikit.vercel.app/api/manifest) or referenced images (such as hero.png) will be automatically picked up by Farcaster.
+- The Farcaster manifest for CarCulture: CarMania Garage is now served as a **dynamic API route** at `/.well-known/farcaster.json`
+- Any updates to the manifest endpoint (https://web3-social-starter-fc-minikit.vercel.app/.well-known/farcaster.json) or referenced images will be automatically picked up by Farcaster.
 - There is no need to re-upload a static manifest file for changes to take effect.
 
 # Farcaster Manifest Notes
 
-## Found the Manifest Document!
+## Current Manifest Location
 
-The manifest document is located at: `coinbase/fc-minikit/public/.well-known/farcaster.json`
+The manifest is now served as a **dynamic API route** at: `coinbase/fc-minikit/app/.well-known/farcaster.json/route.ts`
 
-This is the manifest we created for the Farcaster Mini App **"CarCulture: CarMania Garage"**.
+This is the manifest for the Farcaster Mini App **"CarCulture: CarMania Garage"**.
 
-## Current Manifest Values (as of 2025-01-XX - FIXED)
+## Current Manifest Values (as of 2025-07-16)
 
 - **name**: CarCulture: CarMania Garage
-- **subtitle**: Daily Drops, Legendary Rides
-- **tagline**: Drive the Past.Own the Moment.
+- **subtitle**: Daily Car Culture Collectibles
+- **tagline**: Daily Drops. Legendary Rides.
 - **description**: Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.
-- **ogDescription**: Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' (95 chars exactly)
+- **ogDescription**: Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' collectibles (96 chars)
 
-> **Note:** All manifest values are now sourced from environment variables in `.env` and referenced in the codebase (see `layout.tsx` and `api/manifest/route.ts`).
+> **Note:** All manifest values are now hardcoded in the dynamic API route. Environment variables are only used for secrets (Farcaster account association).
 
 ### App Information
 - **App Name**: "CarCulture: CarMania Garage"
@@ -30,63 +30,64 @@ This is the manifest we created for the Farcaster Mini App **"CarCulture: CarMan
 - **Button Title**: "Unlock the Ride"
 
 ### Images
-- **Screenshot**: https://web3-social-starter-fc-minikit.vercel.app/carmania-gallery-hero-2.png
-- **Preview Image**: https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png (FIXED)
-- **Hero Image**: https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png (FIXED)
+- **Screenshots**: 
+  - https://web3-social-starter-fc-minikit.vercel.app/screenshot1.png
+  - https://web3-social-starter-fc-minikit.vercel.app/screenshot2.png
+  - https://web3-social-starter-fc-minikit.vercel.app/screenshot3.png
+- **Preview Image**: https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png
+- **Hero Image**: https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png
 - **Splash Screen Image**: https://web3-social-starter-fc-minikit.vercel.app/splash.png
-- **Splash Background Color**: #a32428 (FIXED - brand red)
-
-### Temporary Screenshot Note
-
-**Note:**
-The current screenshot URLs in the Farcaster manifest are temporary placeholders due to a Vercel static asset issue. Once the Vercel static asset problem is resolved, these screenshots should be updated to reflect the latest, fully functional app UI.
-
-**Current Screenshot URLs:**
-- https://web3-social-starter-fc-minikit.vercel.app/screenshot1.png
-- https://web3-social-starter-fc-minikit.vercel.app/screenshot2.png
-- https://web3-social-starter-fc-minikit.vercel.app/screenshot3.png
+- **Splash Background Color**: #a32428 (brand red)
 
 ### App Flow
 1. **Splash Screen** (`splash.png`) - Initial loading screen
-2. **Hero Gallery** (`carmania-gallery-hero.png`) - Main gallery showcase  
-3. **Secondary Gallery** (`carmania-gallery-hero-2.png`) - Additional gallery view
-4. **Manifold Mint Page** - Daily car mint page (updates daily)
+2. **Gallery Hero** (`/gallery-hero`) - Main gallery showcase  
+3. **Gallery Hero 2** (`/gallery-hero-2`) - Additional gallery view
+4. **Text Page** (`/text-page`) - Information page with Manifold link
 5. **Manifold Gallery** (`manifold.xyz/@carculture`) - Auto-updating gallery of all minted cars
 
 ### Social & Sharing
 - **Social Share Title**: "CarCulture: CarMania Garage"
-- **Social Share Description**: "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day'" (FIXED - 95 chars exactly)
-- **Social Share Image**: https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png (FIXED)
-- **Cast Share URL**: https://warpcast.com/~/compose?text=Check+out+CarCulture+CarMania+Garage!&channel=car
+- **Social Share Description**: "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' collectibles"
+- **Social Share Image**: https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png
 
 ### Technical URLs
 - **Home URL**: https://web3-social-starter-fc-minikit.vercel.app
 - **Webhook URL**: https://web3-social-starter-fc-minikit.vercel.app/api/webhook
+- **Manifest URL**: https://web3-social-starter-fc-minikit.vercel.app/.well-known/farcaster.json
 
 ### Tags
-- social, carculture, car, storytelling, nft
+- car, art, storytelling, social, collectibles
 
 ## Important Notes
 
-This is the **static file version** of the manifest located in the public folder. 
+This is now a **dynamic API route** that serves the manifest JSON from `coinbase/fc-minikit/app/.well-known/farcaster.json/route.ts`.
 
-**However**, there's also a **dynamic API route** at `coinbase/fc-minikit/app/api/manifest/route.ts` that serves manifest data from environment variables, which is what the app actually uses when deployed.
-
-The static file and dynamic API route are **not automatically synced** and must be updated separately when changes are made.
+The manifest is automatically generated and served at the correct Farcaster endpoint `/.well-known/farcaster.json` for proper MiniKit compliance.
 
 ### Manifold Integration
-- **Daily Mint Page**: Updates daily with new car of the day
-- **Gallery**: `manifold.xyz/@carculture` automatically updates with each new mint
-- **Flow**: Users progress from app galleries → daily mint → full gallery collection
+- **Gallery Navigation**: Swipe up from text page to navigate to `manifold.xyz/@carculture`
+- **Flow**: Users progress from app galleries → text page → Manifold gallery collection
+
+## Recent Updates (July 2025)
+
+- ✅ **Manifest Location**: Moved from `/api/manifest` to `/.well-known/farcaster.json` as dynamic API route
+- ✅ **Tags Updated**: Changed from `social, carculture, car, storytelling, nft` to `car, art, storytelling, social, collectibles`
+- ✅ **Social Share Description**: Updated to "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' collectibles" (96 characters)
+- ✅ **Screenshots**: Using `screenshot1.png`, `screenshot2.png`, `screenshot3.png` instead of archive versions
+- ✅ **Dynamic API Route**: Manifest now served from `app/.well-known/farcaster.json/route.ts`
+- ✅ **Subtitle**: Updated to "Daily Car Culture Collectibles"
+- ✅ **Tagline**: Updated to "Daily Drops. Legendary Rides."
 
 ## Updates Made
 
+- **2025-07-16**: Moved manifest to dynamic API route at `/.well-known/farcaster.json`
+- **2025-07-16**: Updated tags to `car, art, storytelling, social, collectibles`
+- **2025-07-16**: Updated social share description to include "collectibles"
+- **2025-07-16**: Updated subtitle to "Daily Car Culture Collectibles"
 - **2025-07-02**: Updated static manifest to match current Farcaster form values
 - **2025-07-02**: Updated splash image reference to use the newly updated `splash.png`
 - **2025-07-02**: Added all missing fields (splashBackgroundColor, buttonTitle, ogDescription, ogImage, screenshotUrl, previewImageUrl, heroImageUrl, castShareUrl, tags)
-- **2025-07-02**: Updated description to "CarCulture's CarMania Garage: iconic cars, stories, roadside attractions, and featured 'car of the day'."
-- **2025-07-02**: Updated screenshot to use `carmania-gallery-hero-2.png` to better reflect app flow
-- **2025-07-02**: Corrected app flow to show 5-step journey including Manifold mint page and gallery
 - **2025-01-XX**: Fixed manifest for Farcaster submission - Updated social share description to exactly 95 characters: "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day'"
 - **2025-01-XX**: Fixed splash background color from purple (#6200EA) to brand red (#a32428) to match app configuration
 - **2025-01-XX**: Corrected hero image to use hero-v2.png instead of gallery image
@@ -95,4 +96,4 @@ The static file and dynamic API route are **not automatically synced** and must 
 
 ## Context
 
-This manifest was being used for the Farcaster Hosted Manifest submission process. The user experienced issues with the submission form where the submit button was disabled without clear error messages, despite verifying all requirements were met. The recent fixes address the specific issues identified in the TODO list: character count limits, color mismatches, and incorrect image references. 
+This manifest is now served as a dynamic API route for the Farcaster MiniKit submission process. The recent updates address the specific requirements for Farcaster MiniKit compliance and improve the app's discoverability through updated tags and descriptions. 

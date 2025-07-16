@@ -9,7 +9,3 @@ node_modules/
 
 # Ignore turbo daemon logs
 .turbo/daemon/ 
-
-# Ignore backup directory for fc-minikit
-fc-minikit-backup/
-fc-minikit-backup 

@@ -1,3 +1,4 @@
+// Dynamic API route for Farcaster manifest
 import { NextResponse } from 'next/server';
 
 function withValidProperties(
@@ -26,30 +27,30 @@ export async function GET() {
     miniapp: withValidProperties({
       version: "1",
       name: "CarCulture: CarMania Garage",
-      subtitle: "Daily Drops, Legendary Rides",
+      subtitle: "Daily Car Culture Collectibles",
       description: "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
       iconUrl: `${IMAGE_DOMAIN}/favicon.png`,
       splashImageUrl: `${IMAGE_DOMAIN}/splash.png`,
-      splashBackgroundColor: "#a32428",
+      splashBackgroundColor: "#a32428", // Fixed: matches app brand red
       homeUrl: URL,
       webhookUrl: `${URL}/api/webhook`,
       primaryCategory: "entertainment",
       heroImageUrl: `${IMAGE_DOMAIN}/hero-v2.png`,
-      tagline: "Drive the Past. Own the Now.",
+      tagline: "Daily Drops. Legendary Rides.",
       ogTitle: "CarCulture: CarMania Garage",
-      ogDescription: "Collect iconic cars and stories. Mint daily digital classics with CarCulture: CarMania Garage.",
-      ogImageUrl: `${IMAGE_DOMAIN}/hero-v2.png`,
+      ogDescription: "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' collectibles", // Updated description
+      ogImageUrl: `${IMAGE_DOMAIN}/hero-v2.png`, // Updated: using hero-v2.png for social sharing
       screenshotUrls: [
         `${IMAGE_DOMAIN}/screenshot1.png`,
         `${IMAGE_DOMAIN}/screenshot2.png`,
         `${IMAGE_DOMAIN}/screenshot3.png`
       ],
       tags: [
-        "social",
-        "carculture",
         "car",
+        "art", 
         "storytelling",
-        "nft"
+        "social",
+        "collectibles"
       ],
       previewImageUrl: `${IMAGE_DOMAIN}/hero-v2.png`,
       buttonTitle: "Unlock the Ride"
