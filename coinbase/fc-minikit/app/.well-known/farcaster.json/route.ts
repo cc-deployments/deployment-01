@@ -28,24 +28,19 @@ export async function GET() {
     miniapp: withValidProperties({
       version: "1",
       name: "Car Culture: CarMania Garage",
-      subtitle: "Daily Car Culture Collectibles",
-      description: "Collect iconic cars, discover automotive stories, and mint daily digital collectibles. CarCulture: CarMania Garage is your daily drive into automotive history.",
       iconUrl: `${IMAGE_DOMAIN}/icon.png`,
+      homeUrl: URL,
       splashImageUrl: "https://i.imgur.com/y3PmlLB.jpeg",
       splashBackgroundColor: "#a32428",
-      homeUrl: URL,
       webhookUrl: `${URL}/api/webhook`,
-      primaryCategory: "entertainment",
-      heroImageUrl: `${IMAGE_DOMAIN}/carmania-gallery-hero.png`,
-      tagline: "Daily Drops. Legendary Rides.",
-      ogTitle: "Car Culture: CarMania Garage",
-      ogDescription: "Check out CarMania Garage - your gateway to automotive NFTs and community!",
-      ogImageUrl: `${IMAGE_DOMAIN}/carmania-gallery-hero.png`,
+      subtitle: "Daily Car Culture Collectibles",
+      description: "Collect iconic cars, discover automotive stories, and mint daily digital collectibles. CarCulture: CarMania Garage is your daily drive into automotive history.",
       screenshotUrls: [
         `${IMAGE_DOMAIN}/screenshot1.png`,
         `${IMAGE_DOMAIN}/screenshot2.png`,
         `${IMAGE_DOMAIN}/screenshot3.png`
       ],
+      primaryCategory: "entertainment",
       tags: [
         "car",
         "art", 
@@ -53,7 +48,28 @@ export async function GET() {
         "social",
         "collectibles"
       ],
-      previewImageUrl: `${IMAGE_DOMAIN}/carmania-gallery-hero.png`,
+      heroImageUrl: "https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png",
+      tagline: "Daily Drops. Legendary Rides.",
+      ogTitle: "Car Culture: CarMania Garage",
+      ogDescription: "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' collectibles",
+      ogImageUrl: "https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png",
+      requiredChains: [
+        "eip155:8453",
+        "eip155:1"
+      ],
+      requiredCapabilities: [
+        "actions.signIn",
+        "wallet.getEthereumProvider",
+        "actions.sendNotification",
+        "actions.composeCast",
+        "actions.openCast",
+        "actions.openProfile",
+        "haptics.impactOccurred",
+        "navigation.goBack",
+        "navigation.openUrl"
+      ],
+      canonicalDomain: "web3-social-starter-fc-minikit.vercel.app",
+      imageUrl: "https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png",
       buttonTitle: "Unlock the Ride"
     })
   });
