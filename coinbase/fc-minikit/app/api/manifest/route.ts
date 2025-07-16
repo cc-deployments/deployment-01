@@ -27,7 +27,7 @@ export async function GET() {
     miniapp: withValidProperties({
       version: "1",
       name: "CarCulture: CarMania Garage",
-      subtitle: "Daily Drops, Legendary Rides",
+      subtitle: "Daily Car Culture Collectibles",
       description: "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
       iconUrl: `${IMAGE_DOMAIN}/favicon.png`,
       splashImageUrl: `${IMAGE_DOMAIN}/splash.png`,

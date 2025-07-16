@@ -18,7 +18,7 @@ Use this section to copy-paste values directly into the Farcaster Mini App submi
    ```
 4. **Subtitle**
    ```
-   Daily Drops, Legendary Rides
+   Daily Car Culture Collectibles
    ```
 5. **Description**
    ```
@@ -106,7 +106,7 @@ All manifest fields are now hardcoded in `coinbase/fc-minikit/app/api/manifest/r
 |------------------------|------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
 | version                | 1                                                                                                                  | Manifest version (must be "1")                   |
 | name                   | CarCulture: CarMania Garage                                                                                        | App name (max 32 chars)                          |
-| subtitle               | Daily Drops, Legendary Rides                                                                                       | Short, catchy subtitle (max 30 chars)            |
+| subtitle               | Daily Car Culture Collectibles                                                                                       | Short, catchy subtitle (max 30 chars)            |
 | description            | Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history. | User-facing app description (max 170 chars)      |
 | iconUrl                | https://web3-social-starter-fc-minikit.vercel.app/favicon.png                                                      | App icon (1024x1024 PNG, no alpha)               |
 | splashImageUrl         | https://web3-social-starter-fc-minikit.vercel.app/splash.png                                                       | Splash/loading image (200x200 PNG)               |
