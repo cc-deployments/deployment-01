@@ -17,6 +17,10 @@ export default function TextPage() {
     onSwipedUp: () => router.push('/manifold-gallery'),
     onSwipedDown: () => router.push('/gallery-hero-2'),
     trackTouch: true,
+    trackMouse: true,
+    delta: 50, // Increased for more reliable detection
+    swipeDuration: 500, // Increased for better detection
+    preventScrollOnSwipe: false,
   });
 
   const handleUnlockRide = () => {
@@ -24,18 +28,43 @@ export default function TextPage() {
     window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
   };
 
+  // Enhanced fallback click handler
+  const handleContainerClick = (e: React.MouseEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickY = e.clientY - rect.top;
+    
+    // Check if click is in the bottom area (last 300px) - swipe up
+    if (clickY > 2100) {
+      console.log('Bottom area clicked - treating as swipe up');
+      router.push('/manifold-gallery');
+      return;
+    }
+    
+    // Check if click is in the top area (first 300px) - swipe down
+    if (clickY < 300) {
+      console.log('Top area clicked - treating as swipe down');
+      router.push('/gallery-hero-2');
+      return;
+    }
+  };
+
   return (
-    <div {...handlers} style={{
-      width: '1260px',
-      height: '2400px',
-      margin: '0 auto',
-      background: 'transparent',
-      overflow: 'hidden',
-      position: 'relative',
-      boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-      border: '1px solid #ccc',
-      borderRadius: '8px',
-    }}>
+    <div 
+      {...handlers} 
+      onClick={handleContainerClick}
+      style={{
+        width: '1260px',
+        height: '2400px',
+        margin: '0 auto',
+        background: 'transparent',
+        overflow: 'hidden',
+        position: 'relative',
+        boxShadow: '0 0 10px rgba(0,0,0,0.1)',
+        border: '1px solid #ccc',
+        borderRadius: '8px',
+        touchAction: 'pan-y', // Allow vertical touch gestures
+      }}
+    >
       {/* Debug Toggle Button */}
       <div style={{ position: 'absolute', top: 24, left: 24, zIndex: 30 }}>
         <button 
@@ -56,7 +85,7 @@ export default function TextPage() {
       </div>
 
       {/* Manifold Gallery Navigation Button */}
-      <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 30 }}>
+      <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 10 }}>
         <button 
           onClick={() => router.push('/manifold-gallery')}
           style={{ 
@@ -71,11 +100,11 @@ export default function TextPage() {
             boxShadow: '0 2px 8px rgba(0,0,0,0.08)' 
           }}
         >
-          Manifold Gallery
+          View Gallery
         </button>
       </div>
 
-      {/* Image area - FULL 2400px height to match image */}
+      {/* Image area */}
       <div style={{ width: '1260px', height: '2400px', position: 'relative' }}>
         <Image
           src="/text-page.png"
@@ -114,13 +143,13 @@ export default function TextPage() {
           </div>
         )}
         
-        {/* Invisible "Unlock Ride" Button Overlay - CORRECT COORDINATES */}
+        {/* Invisible "Unlock the Ride" Button Overlay */}
         <button
           onClick={handleUnlockRide}
           style={{
             position: 'absolute',
-            left: '480px', // Center at 630px, so left = 630 - (width/2) = 630 - 150 = 480px
-            top: '1505px', // Center at 1530px, so top = 1530 - (height/2) = 1530 - 25 = 1505px
+            left: '480px',
+            top: '2175px',
             width: '300px',
             height: '50px',
             background: showDebug ? 'rgba(255,255,0,0.3)' : 'transparent',
@@ -128,15 +157,15 @@ export default function TextPage() {
             cursor: 'pointer',
             zIndex: 20,
           }}
-          title="Unlock Ride"
+          title="Unlock the Ride"
         />
         
-        {/* Debug: Show button position */}
+        {/* Debug: Show button positions */}
         {showDebug && (
           <div style={{
             position: 'absolute',
             left: '480px',
-            top: '1505px',
+            top: '2175px',
             width: '300px',
             height: '50px',
             background: 'rgba(255,255,0,0.2)',
@@ -149,9 +178,63 @@ export default function TextPage() {
             pointerEvents: 'none',
             zIndex: 21,
           }}>
-            Unlock Ride
+            Unlock Ride (300px)
           </div>
         )}
+        
+        {/* Swipe Navigation Hints */}
+        <div 
+          onClick={() => router.push('/manifold-gallery')}
+          style={{
+            position: 'absolute',
+            bottom: '50px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            background: 'rgba(0,0,0,0.8)',
+            color: 'white',
+            padding: '12px 20px',
+            borderRadius: '25px',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            zIndex: 15,
+            cursor: 'pointer',
+            animation: 'pulse 2s infinite',
+            border: '2px solid white',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          }}
+        >
+          ↑ Swipe Up or Click
+        </div>
+        
+        <div 
+          onClick={() => router.push('/gallery-hero-2')}
+          style={{
+            position: 'absolute',
+            top: '50px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            background: 'rgba(0,0,0,0.8)',
+            color: 'white',
+            padding: '12px 20px',
+            borderRadius: '25px',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            zIndex: 15,
+            cursor: 'pointer',
+            animation: 'pulse 2s infinite',
+            border: '2px solid white',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          }}
+        >
+          ↓ Swipe Down or Click
+        </div>
+        
+        <style jsx>{`
+          @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+          }
+        `}</style>
       </div>
     </div>
   );

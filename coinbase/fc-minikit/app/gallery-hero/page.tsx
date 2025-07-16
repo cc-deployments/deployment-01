@@ -27,8 +27,8 @@ export default function GalleryHero() {
     },
     trackTouch: true,
     trackMouse: true,
-    delta: 30,
-    swipeDuration: 300,
+    delta: 50, // Increased from 30 to 50 for more reliable detection
+    swipeDuration: 500, // Increased from 300 to 500ms for better detection
     preventScrollOnSwipe: false,
   });
 
@@ -54,17 +54,38 @@ export default function GalleryHero() {
     }
   };
 
+  // Enhanced fallback click handler with better area detection
+  const handleContainerClick = (e: React.MouseEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickY = e.clientY - rect.top;
+    const clickX = e.clientX - rect.left;
+    
+    // Check if click is in the bottom area (last 300px)
+    if (clickY > 2100) {
+      console.log('Bottom area clicked - treating as swipe up');
+      router.push('/gallery-hero-2');
+      return;
+    }
+    
+    // Check if click is in the swipe indicator area
+    const indicatorLeft = rect.width / 2 - 100; // Approximate indicator position
+    const indicatorRight = rect.width / 2 + 100;
+    const indicatorTop = rect.height - 100; // Bottom 100px
+    
+    if (clickX >= indicatorLeft && clickX <= indicatorRight && clickY >= indicatorTop) {
+      console.log('Swipe indicator area clicked - navigating to gallery-hero-2');
+      router.push('/gallery-hero-2');
+      return;
+    }
+  };
+
   return (
     <div 
       {...handlers} 
-      onClick={(e) => {
-        // Fallback: if user clicks in the bottom area, treat as swipe up
-        const rect = e.currentTarget.getBoundingClientRect();
-        const clickY = e.clientY - rect.top;
-        if (clickY > 2200) { // Bottom 200px area
-          console.log('Bottom area clicked - treating as swipe up');
-          router.push('/gallery-hero-2');
-        }
+      onClick={handleContainerClick}
+      onTouchStart={() => {
+        // Additional touch handling for better mobile detection
+        console.log('Touch started on container');
       }}
       style={{
         width: '1260px',
@@ -77,6 +98,7 @@ export default function GalleryHero() {
         border: '1px solid #ccc',
         borderRadius: '8px',
         cursor: 'pointer', // Show it's interactive
+        touchAction: 'pan-y', // Allow vertical touch gestures
       }}
     >
       {/* Debug Toggle Button */}
@@ -232,7 +254,7 @@ export default function GalleryHero() {
           </>
         )}
         
-        {/* Swipe Up Indicator - Now Clickable */}
+        {/* Enhanced Swipe Up Indicator - Larger Click Area */}
         <div 
           onClick={() => {
             console.log('Swipe indicator clicked - navigating to gallery-hero-2');
@@ -245,18 +267,45 @@ export default function GalleryHero() {
             transform: 'translateX(-50%)',
             background: 'rgba(0,0,0,0.8)',
             color: 'white',
-            padding: '12px 20px',
+            padding: '16px 32px', // Increased padding for larger click area
             borderRadius: '25px',
-            fontSize: '16px',
+            fontSize: '18px', // Slightly larger font
             fontWeight: 'bold',
             zIndex: 15,
             cursor: 'pointer',
             animation: 'pulse 2s infinite',
             border: '2px solid white',
             boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+            minWidth: '200px', // Ensure minimum clickable width
+            textAlign: 'center',
           }}
         >
           ↑ Swipe Up or Click
+        </div>
+        
+        {/* Additional Swipe Hint - Bottom Area Indicator */}
+        <div 
+          onClick={() => {
+            console.log('Bottom area clicked - navigating to gallery-hero-2');
+            router.push('/gallery-hero-2');
+          }}
+          style={{
+            position: 'absolute',
+            bottom: '0',
+            left: '0',
+            width: '100%',
+            height: '100px', // Larger click area at bottom
+            background: showDebug ? 'rgba(255,0,0,0.1)' : 'transparent',
+            cursor: 'pointer',
+            zIndex: 10,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '14px',
+            color: showDebug ? 'red' : 'transparent',
+          }}
+        >
+          {showDebug && 'Click here to swipe up'}
         </div>
         
         <style jsx>{`
