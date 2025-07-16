@@ -19,9 +19,17 @@ export default function GalleryHero() {
       console.log('Swipe up detected! Navigating to gallery-hero-2');
       router.push('/gallery-hero-2');
     },
+    onSwipeStart: (eventData) => {
+      console.log('Swipe started:', eventData);
+    },
+    onSwiped: (eventData) => {
+      console.log('Swipe completed:', eventData);
+    },
     trackTouch: true,
-    delta: 50,
-    swipeDuration: 500,
+    trackMouse: true,
+    delta: 30,
+    swipeDuration: 300,
+    preventScrollOnSwipe: false,
   });
 
   const handleUnlockRide = () => {
@@ -47,17 +55,30 @@ export default function GalleryHero() {
   };
 
   return (
-    <div {...handlers} style={{
-      width: '1260px',
-      height: '2400px',
-      margin: '0 auto',
-      background: 'transparent',
-      overflow: 'hidden',
-      position: 'relative',
-      boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-      border: '1px solid #ccc',
-      borderRadius: '8px',
-    }}>
+    <div 
+      {...handlers} 
+      onClick={(e) => {
+        // Fallback: if user clicks in the bottom area, treat as swipe up
+        const rect = e.currentTarget.getBoundingClientRect();
+        const clickY = e.clientY - rect.top;
+        if (clickY > 2200) { // Bottom 200px area
+          console.log('Bottom area clicked - treating as swipe up');
+          router.push('/gallery-hero-2');
+        }
+      }}
+      style={{
+        width: '1260px',
+        height: '2400px',
+        margin: '0 auto',
+        background: 'transparent',
+        overflow: 'hidden',
+        position: 'relative',
+        boxShadow: '0 0 10px rgba(0,0,0,0.1)',
+        border: '1px solid #ccc',
+        borderRadius: '8px',
+        cursor: 'pointer', // Show it's interactive
+      }}
+    >
       {/* Debug Toggle Button */}
       <div style={{ position: 'absolute', top: 24, left: 24, zIndex: 30 }}>
         <button 
@@ -211,23 +232,31 @@ export default function GalleryHero() {
           </>
         )}
         
-        {/* Swipe Up Indicator */}
-        <div style={{
-          position: 'absolute',
-          bottom: '50px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: 'rgba(0,0,0,0.7)',
-          color: 'white',
-          padding: '8px 16px',
-          borderRadius: '20px',
-          fontSize: '14px',
-          fontWeight: 'bold',
-          zIndex: 15,
-          pointerEvents: 'none',
-          animation: 'pulse 2s infinite',
-        }}>
-          ↑ Swipe Up
+        {/* Swipe Up Indicator - Now Clickable */}
+        <div 
+          onClick={() => {
+            console.log('Swipe indicator clicked - navigating to gallery-hero-2');
+            router.push('/gallery-hero-2');
+          }}
+          style={{
+            position: 'absolute',
+            bottom: '50px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            background: 'rgba(0,0,0,0.8)',
+            color: 'white',
+            padding: '12px 20px',
+            borderRadius: '25px',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            zIndex: 15,
+            cursor: 'pointer',
+            animation: 'pulse 2s infinite',
+            border: '2px solid white',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          }}
+        >
+          ↑ Swipe Up or Click
         </div>
         
         <style jsx>{`
