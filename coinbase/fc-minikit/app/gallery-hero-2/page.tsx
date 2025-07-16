@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -11,17 +11,10 @@ export default function GalleryHero2() {
     sdk.actions.ready();
   }, []);
 
-  // Responsive container logic
-  const [isLocalhost, setIsLocalhost] = useState(false);
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
-      setIsLocalhost(true);
-    }
-  }, []);
-
-  // Swipe up handler
+  // Swipe handlers
   const handlers = useSwipeable({
     onSwipedUp: () => router.push('/text-page'),
+    onSwipedDown: () => router.push('/gallery-hero'),
     trackTouch: true,
   });
 
@@ -41,22 +34,16 @@ export default function GalleryHero2() {
         if (e.key === 'Enter' || e.key === ' ') handleTap();
       }}
       style={{
-        width: '100%',
-        maxWidth: isLocalhost ? 600 : 1260,
-        height: isLocalhost ? 1200 : 2400,
-        position: 'relative',
+        width: '1260px',
+        height: '2400px',
         margin: '0 auto',
         background: 'transparent',
         overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
+        position: 'relative',
+        boxShadow: '0 0 10px rgba(0,0,0,0.1)',
+        border: '1px solid #ccc',
+        borderRadius: '8px',
         cursor: 'pointer',
-        ...(isLocalhost && {
-          boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-          border: '1px solid #ccc',
-          borderRadius: '8px',
-        }),
       }}
     >
       <Image

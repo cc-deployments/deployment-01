@@ -15,7 +15,7 @@ function withValidProperties(
 }
 
 export async function GET() {
-  const URL = 'https://web3-social-starter-fc-minikit.vercel.app';
+  const URL = 'https://carculture-minikit.vercel.app';
   const IMAGE_DOMAIN = URL;
 
   return NextResponse.json({
@@ -26,20 +26,20 @@ export async function GET() {
     },
     miniapp: withValidProperties({
       version: "1",
-      name: "CarCulture: CarMania Garage",
+      name: "CarMania Garage",
       subtitle: "Daily Car Culture Collectibles",
       description: "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
-      iconUrl: `${IMAGE_DOMAIN}/favicon.png`,
+      iconUrl: `${IMAGE_DOMAIN}/icon.png`,
       splashImageUrl: `${IMAGE_DOMAIN}/splash.png`,
-      splashBackgroundColor: "#a32428", // Fixed: matches app brand red
+      splashBackgroundColor: "#a32428",
       homeUrl: URL,
       webhookUrl: `${URL}/api/webhook`,
       primaryCategory: "entertainment",
-      heroImageUrl: `${IMAGE_DOMAIN}/hero-v2.png`,
+      heroImageUrl: `${IMAGE_DOMAIN}/carmania-gallery-hero.png`,
       tagline: "Daily Drops. Legendary Rides.",
-      ogTitle: "CarCulture: CarMania Garage",
-      ogDescription: "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' collectibles", // Updated description
-      ogImageUrl: `${IMAGE_DOMAIN}/hero-v2.png`, // Updated: using hero-v2.png for social sharing
+      ogTitle: "CarMania Garage",
+      ogDescription: "Check out CarMania Garage - your gateway to automotive NFTs and community!",
+      ogImageUrl: `${IMAGE_DOMAIN}/carmania-gallery-hero.png`,
       screenshotUrls: [
         `${IMAGE_DOMAIN}/screenshot1.png`,
         `${IMAGE_DOMAIN}/screenshot2.png`,
@@ -52,7 +52,7 @@ export async function GET() {
         "social",
         "collectibles"
       ],
-      previewImageUrl: `${IMAGE_DOMAIN}/hero-v2.png`,
+      previewImageUrl: `${IMAGE_DOMAIN}/carmania-gallery-hero.png`,
       buttonTitle: "Unlock the Ride"
     })
   });

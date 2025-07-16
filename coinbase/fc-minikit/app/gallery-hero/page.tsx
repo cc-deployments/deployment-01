@@ -130,14 +130,14 @@ export default function GalleryHero() {
           </div>
         )}
         
-        {/* Invisible "Unlock the Ride" Button Overlay - CORRECT COORDINATES */}
+        {/* Invisible "Unlock the Ride" Button Overlay - INCREASED WIDTH BY 200% */}
         <button
           onClick={handleUnlockRide}
           style={{
             position: 'absolute',
-            left: '580px', // Center at 630px, so left = 630 - (width/2) = 630 - 50 = 580px
+            left: '480px', // Center at 630px, so left = 630 - (width/2) = 630 - 150 = 480px
             top: '2175px', // Center at 2200px, so top = 2200 - (height/2) = 2200 - 25 = 2175px
-            width: '100px',
+            width: '300px', // Increased from 100px to 300px (200% increase)
             height: '50px',
             background: showDebug ? 'rgba(255,255,0,0.3)' : 'transparent',
             border: showDebug ? '2px solid yellow' : 'none',
@@ -169,9 +169,9 @@ export default function GalleryHero() {
           <>
             <div style={{
               position: 'absolute',
-              left: '580px',
+              left: '480px',
               top: '2175px',
-              width: '100px',
+              width: '300px',
               height: '50px',
               background: 'rgba(255,255,0,0.2)',
               border: '1px solid yellow',
@@ -183,7 +183,7 @@ export default function GalleryHero() {
               pointerEvents: 'none',
               zIndex: 21,
             }}>
-              Unlock Ride
+              Unlock Ride (300px)
             </div>
             <div style={{
               position: 'absolute',

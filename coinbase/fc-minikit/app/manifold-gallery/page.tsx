@@ -1,8 +1,21 @@
 "use client";
+import { useSwipeable } from 'react-swipeable';
+import { useRouter } from 'next/navigation';
 
 export default function ManifoldGallery() {
+  const router = useRouter();
+
+  const handlers = useSwipeable({
+    onSwipedUp: () => {
+      window.open('https://app.manifold.xyz/c/carculture', '_blank', 'noopener,noreferrer');
+    },
+    onSwipedDown: () => router.push('/text-page'),
+    trackTouch: true,
+  });
+
   return (
     <div
+      {...handlers}
       style={{
         width: 1260,
         minHeight: 800,

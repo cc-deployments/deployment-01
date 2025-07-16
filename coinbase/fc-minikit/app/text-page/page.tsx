@@ -2,14 +2,15 @@
 import Image from "next/image";
 import { useSwipeable } from 'react-swipeable';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function TextPage() {
+  const router = useRouter();
   const [showDebug, setShowDebug] = useState(false);
 
   const handlers = useSwipeable({
-    onSwipedUp: () => {
-      window.open('https://app.manifold.xyz/c/carculture', '_blank', 'noopener,noreferrer');
-    },
+    onSwipedUp: () => router.push('/manifold-gallery'),
+    onSwipedDown: () => router.push('/gallery-hero-2'),
     trackTouch: true,
   });
 
@@ -46,6 +47,26 @@ export default function TextPage() {
           }}
         >
           {showDebug ? 'Hide Debug' : 'Show Debug'}
+        </button>
+      </div>
+
+      {/* Manifold Gallery Navigation Button */}
+      <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 30 }}>
+        <button 
+          onClick={() => router.push('/manifold-gallery')}
+          style={{ 
+            padding: '10px 20px', 
+            borderRadius: 8, 
+            background: '#a32428', 
+            color: 'white', 
+            border: 'none', 
+            fontWeight: 'bold', 
+            cursor: 'pointer', 
+            fontSize: 16, 
+            boxShadow: '0 2px 8px rgba(0,0,0,0.08)' 
+          }}
+        >
+          Manifold Gallery
         </button>
       </div>
 
