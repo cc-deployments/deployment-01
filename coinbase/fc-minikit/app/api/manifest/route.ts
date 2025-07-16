@@ -36,7 +36,7 @@ export async function GET() {
       webhookUrl: `${URL}/api/webhook`,
       primaryCategory: "entertainment",
       heroImageUrl: `${IMAGE_DOMAIN}/hero-v2.png`,
-      tagline: "Drive the Past. Own the Now.",
+      tagline: "Daily Drops. Legendary Rides.",
       ogTitle: "CarCulture: CarMania Garage",
       ogDescription: "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day'", // Fixed: exactly 95 characters
       ogImageUrl: `${IMAGE_DOMAIN}/hero-v2.png`, // Updated: using hero-v2.png for social sharing
