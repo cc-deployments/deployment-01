@@ -21,24 +21,24 @@ export async function GET() {
 
   return NextResponse.json({
     accountAssociation: {
-      header: process.env.FARCASTER_HEADER,
-      payload: process.env.FARCASTER_PAYLOAD,
-      signature: process.env.FARCASTER_SIGNATURE,
+      header: process.env.FARCASTER_HEADER || "",
+      payload: process.env.FARCASTER_PAYLOAD || "",
+      signature: process.env.FARCASTER_SIGNATURE || "",
     },
     miniapp: withValidProperties({
       version: "1",
-      name: "CarMania Garage",
+      name: "Car Culture: CarMania Garage",
       subtitle: "Daily Car Culture Collectibles",
-      description: "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
+      description: "Collect iconic cars, discover automotive stories, and mint daily digital collectibles. CarCulture: CarMania Garage is your daily drive into automotive history.",
       iconUrl: `${IMAGE_DOMAIN}/icon.png`,
-      splashImageUrl: `${IMAGE_DOMAIN}/splash.png`,
+      splashImageUrl: "https://i.imgur.com/y3PmlLB.jpeg",
       splashBackgroundColor: "#a32428",
       homeUrl: URL,
       webhookUrl: `${URL}/api/webhook`,
       primaryCategory: "entertainment",
       heroImageUrl: `${IMAGE_DOMAIN}/carmania-gallery-hero.png`,
       tagline: "Daily Drops. Legendary Rides.",
-      ogTitle: "CarMania Garage",
+      ogTitle: "Car Culture: CarMania Garage",
       ogDescription: "Check out CarMania Garage - your gateway to automotive NFTs and community!",
       ogImageUrl: `${IMAGE_DOMAIN}/carmania-gallery-hero.png`,
       screenshotUrls: [

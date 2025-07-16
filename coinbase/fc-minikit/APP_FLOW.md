@@ -14,9 +14,19 @@ This is the main directory containing your CarMania app. All files and folders m
 - **Environment:** Production environment with environment variables
 
 ### **Local Development**
-- **Dev Server:** `npm run dev` (runs on http://localhost:3001)
-- **Local Manifest:** http://localhost:3001/.well-known/farcaster.json
+- **Dev Server:** `npm run dev` (runs on http://localhost:3000)
+- **Local Manifest:** http://localhost:3000/.well-known/farcaster.json
 - **Hot Reload:** Enabled for development
+
+### **Dynamic Manifest System**
+**IMPORTANT:** The entire app is driven by a dynamic manifest API. There is NO static manifest file.
+
+- **Manifest API Route:** `app/.well-known/farcaster.json/route.ts`
+- **Manifest Endpoint:** `/.well-known/farcaster.json` (served dynamically)
+- **Purpose:** All Farcaster embed data, app metadata, and configuration is served dynamically
+- **Updates:** Changes to the manifest require updating the API route and redeploying
+- **Structure:** Uses proper Farcaster Mini App manifest structure with `miniapp` wrapper
+- **Key Fields:** `splashImageUrl`, `iconUrl`, `heroImageUrl`, `screenshotUrls` (not `splash`, `icon`, etc.)
 
 ### **Farcaster Mini App Resources**
 
