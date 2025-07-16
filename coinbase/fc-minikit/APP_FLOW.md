@@ -34,12 +34,10 @@ This is the main directory containing your CarMania app. All files and folders m
 
 ### **Page 1: Landing Page** (`/`)
 - **File:** `app/page.tsx`
-- **Image:** `carmania-gallery-hero.png`
-- **What users see:** Main CarMania hero image with share button
-- **User action:** Swipe up to go to gallery-hero
-- **Purpose:** Welcome users to the app
+- **Action:** Redirects to `/gallery-hero`
+- **Purpose:** Entry point that immediately takes users to the main hero page
 
-### **Page 2: Gallery Hero** (`/gallery-hero`)
+### **Page 2: Gallery Hero** (`/gallery-hero`) - **Main Landing Page**
 - **File:** `app/gallery-hero/page.tsx`
 - **Image:** `carmania-gallery-hero.png`
 - **What users see:** CarMania gallery image with "Unlock the Ride" button and share arrow
@@ -72,8 +70,8 @@ This is the main directory containing your CarMania app. All files and folders m
 
 ```
 Landing Page (/) 
-    ↓ (swipe up)
-Gallery Hero (/gallery-hero)
+    ↓ (redirect)
+Gallery Hero (/gallery-hero) - Main Landing Page
     ↓ (swipe up)
 Gallery Hero 2 (/gallery-hero-2)
     ↓ (swipe up)
