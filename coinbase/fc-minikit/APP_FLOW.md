@@ -5,14 +5,27 @@
 
 This is the main directory containing your CarMania app. All files and folders mentioned below are relative to this project root.
 
-## 🚀 Farcaster Mini App Resources
+## 🚀 Deployment & URLs
 
-### **Loading Guide**
+### **Vercel Deployment**
+- **Production URL:** https://web3-social-starter-fc-minikit.vercel.app
+- **Manifest URL:** https://web3-social-starter-fc-minikit.vercel.app/.well-known/farcaster.json
+- **Build Status:** Auto-deploys on git push to main branch
+- **Environment:** Production environment with environment variables
+
+### **Local Development**
+- **Dev Server:** `npm run dev` (runs on http://localhost:3001)
+- **Local Manifest:** http://localhost:3001/.well-known/farcaster.json
+- **Hot Reload:** Enabled for development
+
+### **Farcaster Mini App Resources**
+
+#### **Loading Guide**
 - **URL:** https://miniapps.farcaster.xyz/docs/guides/loading
 - **Purpose:** How to load and test your Mini App in the Farcaster environment
 - **Key Topics:** Development setup, testing procedures, debugging
 
-### **Publishing Guide**
+#### **Publishing Guide**
 - **URL:** https://miniapps.farcaster.xyz/docs/guides/publishing
 - **Purpose:** How to publish your Mini App to the Farcaster ecosystem
 - **Key Topics:** Submission process, review guidelines, deployment
@@ -100,6 +113,9 @@ coinbase/fc-minikit/
 │   │   └── page.tsx         # Gallery Hero 2 page (/gallery-hero-2)
 │   ├── text-page/
 │   │   └── page.tsx         # Text page (/text-page)
+│   ├── .well-known/
+│   │   └── farcaster.json/
+│   │       └── route.ts     # Dynamic manifest API route
 │   ├── components/
 │   │   └── ShareArrow.tsx   # Reusable share component
 │   └── layout.tsx           # App-wide layout
@@ -107,7 +123,12 @@ coinbase/fc-minikit/
 │   ├── carmania-gallery-hero.png
 │   ├── carmania-gallery-hero-2.png
 │   ├── text-page.png
-│   └── splash.png
+│   ├── screenshot1.png
+│   ├── screenshot2.png
+│   ├── screenshot3.png
+│   ├── hero-v2.png
+│   ├── splash.png
+│   └── favicon.png
 └── APP_FLOW.md              # This documentation file
 ```
 
@@ -118,6 +139,7 @@ coinbase/fc-minikit/
 - **Gallery Hero 2:** `carmania-gallery-hero-2.png`
 - **Text Page:** `text-page.png`
 - **Farcaster Splash:** `splash.png` (handled by Farcaster SDK)
+- **Manifest Images:** `hero-v2.png`, `screenshot1.png`, `screenshot2.png`, `screenshot3.png`
 
 ## 🎨 Design Consistency
 
@@ -137,6 +159,22 @@ coinbase/fc-minikit/
 - External links open in new tabs (`target="_blank"`)
 - Debug overlays use absolute positioning with z-index layering
 - Button coordinates are calculated for 1260×2400px container system
+- Manifest is served as dynamic API route at `/.well-known/farcaster.json`
+
+## 🚀 Deployment Commands
+
+```bash
+# Local development
+npm run dev
+
+# Build for production
+npm run build
+
+# Deploy to Vercel (automatic on git push)
+git add .
+git commit -m "Update message"
+git push
+```
 
 ---
 
