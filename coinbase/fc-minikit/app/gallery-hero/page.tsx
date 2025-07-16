@@ -136,7 +136,7 @@ export default function GalleryHero() {
           style={{
             position: 'absolute',
             left: '580px', // Center at 630px, so left = 630 - (width/2) = 630 - 50 = 580px
-            top: '2195px', // Center at 2220px, so top = 2220 - (height/2) = 2220 - 25 = 2195px
+            top: '2175px', // Center at 2200px, so top = 2200 - (height/2) = 2200 - 25 = 2175px
             width: '100px',
             height: '50px',
             background: showDebug ? 'rgba(255,255,0,0.3)' : 'transparent',
@@ -170,7 +170,7 @@ export default function GalleryHero() {
             <div style={{
               position: 'absolute',
               left: '580px',
-              top: '2195px',
+              top: '2175px',
               width: '100px',
               height: '50px',
               background: 'rgba(255,255,0,0.2)',
