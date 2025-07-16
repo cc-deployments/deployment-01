@@ -93,9 +93,9 @@ export default function TextPage() {
           onClick={handleUnlockRide}
           style={{
             position: 'absolute',
-            left: '580px', // Center at 630px, so left = 630 - (width/2) = 630 - 50 = 580px
+            left: '480px', // Center at 630px, so left = 630 - (width/2) = 630 - 150 = 480px
             top: '1505px', // Center at 1530px, so top = 1530 - (height/2) = 1530 - 25 = 1505px
-            width: '100px',
+            width: '300px',
             height: '50px',
             background: showDebug ? 'rgba(255,255,0,0.3)' : 'transparent',
             border: showDebug ? '2px solid yellow' : 'none',
@@ -109,9 +109,9 @@ export default function TextPage() {
         {showDebug && (
           <div style={{
             position: 'absolute',
-            left: '580px',
+            left: '480px',
             top: '1505px',
-            width: '100px',
+            width: '300px',
             height: '50px',
             background: 'rgba(255,255,0,0.2)',
             border: '1px solid yellow',
