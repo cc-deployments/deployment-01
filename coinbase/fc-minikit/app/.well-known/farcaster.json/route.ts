@@ -1,4 +1,4 @@
-// Dynamic API route for Farcaster manifest
+// Dynamic API route for Farcaster manifest - Updated for correct Vercel URL
 import { NextResponse } from 'next/server';
 
 function withValidProperties(
@@ -15,6 +15,7 @@ function withValidProperties(
 }
 
 export async function GET() {
+  // Correct Vercel deployment URL for Farcaster embeds
   const URL = 'https://web3-social-starter-fc-minikit.vercel.app';
   const IMAGE_DOMAIN = URL;
 
