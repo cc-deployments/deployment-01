@@ -165,6 +165,25 @@ coinbase/fc-minikit/
 - **Debug Mode:** Consistent debug overlays across all pages
 - **Interactive Areas:** Optimized button sizes for better user experience
 
+### **Button Positions (Gallery Hero Page)**
+- **"Unlock the Ride" Button:**
+  - Position: `left: 384px, top: 2180px`
+  - Size: `width: 432px, height: 48px`
+  - Centered: Yes (calculated as (1200 - 432) ÷ 2 = 384px)
+  - Function: Opens Manifold mint page
+
+- **"Share" Button:**
+  - Position: `right: 97px, top: 2208px`
+  - Size: `width: 48px, height: 24px`
+  - Distance from right edge: 97px
+  - Function: Shares the app URL
+
+### **Container Dimensions**
+- **Gallery Hero Container:** `1200px × 2400px`
+- **Image:** `carmania-gallery-hero.png` (1260×2400px)
+- **Debug Toggle:** Top-left corner (`top: 24px, left: 24px`)
+- **Social Identity Button:** Top-right corner (`top: 24px, right: 24px`)
+
 ## 🔧 For Developers
 
 - Each page is a separate folder with its own `page.tsx`
@@ -193,4 +212,39 @@ git push
 
 ---
 
-**Note:** This app is designed for Farcaster Mini Apps, so it's optimized for mobile viewing and swipe gestures. 
+**Note:** This app is designed for Farcaster Mini Apps, so it's optimized for mobile viewing and swipe gestures.
+
+## 📝 Development Change Log
+
+### 2025-07-17: SDK Ready() Call Fix
+- **Issue:** "Ready Not Called" error in Farcaster Mini App environment
+- **Solution:** 
+  - Updated `@farcaster/miniapp-sdk` from v0.1.6 to v0.1.7
+  - Added `sdk.isInMiniApp()` environment detection before calling `ready()`
+  - Implemented async/await pattern for SDK initialization
+  - Added comprehensive error handling and logging
+  - Updated all pages: gallery-hero, gallery-hero-2, text-page, manifold-gallery
+- **Result:** ✅ App now loads successfully in Farcaster Preview Tool
+- **Files Modified:**
+  - `app/gallery-hero/page.tsx`
+  - `app/gallery-hero-2/page.tsx`
+  - `app/text-page/page.tsx`
+  - `app/manifold-gallery/page.tsx`
+  - `package.json` (SDK version update)
+  - `app/sdk-test/page.tsx` (new debug page)
+
+### 2025-07-17: Responsive Design Implementation (PLANNED)
+- **Issue:** App too large for mobile, too small for desktop
+- **Current State:** Fixed 1260×2400px dimensions
+- **Planned Solution:** 
+  - Add responsive CSS classes
+  - Mobile: 100vw × 100vh (full viewport)
+  - Desktop: Maintain aspect ratio with max-width
+  - Mini App: Keep original 1260×2400px for compatibility
+- **Revert Strategy:** Can easily revert by removing responsive classes
+- **Files to Modify:**
+  - `app/globals.css` (add responsive classes)
+  - `app/gallery-hero/page.tsx` (add className)
+  - `app/gallery-hero-2/page.tsx` (add className)
+  - `app/text-page/page.tsx` (add className)
+  - `app/manifold-gallery/page.tsx` (add className) 

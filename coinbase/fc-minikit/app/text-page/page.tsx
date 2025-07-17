@@ -70,9 +70,12 @@ export default function TextPage() {
     <div 
       {...handlers} 
       onClick={handleContainerClick}
+      className="gallery-hero-container"
       style={{
-        width: '1260px',
-        height: '2400px',
+        width: '100%',
+        maxWidth: '1260px',
+        height: 'auto',
+        aspectRatio: '1260 / 2400',
         margin: '0 auto',
         background: 'transparent',
         overflow: 'hidden',
@@ -80,7 +83,9 @@ export default function TextPage() {
         boxShadow: '0 0 10px rgba(0,0,0,0.1)',
         border: '1px solid #ccc',
         borderRadius: '8px',
-        touchAction: 'pan-y', // Allow vertical touch gestures
+        touchAction: 'pan-y',
+        minHeight: '100vh',
+        maxHeight: '100vh',
       }}
     >
       {/* Debug Toggle Button */}
@@ -122,8 +127,8 @@ export default function TextPage() {
         </button>
       </div>
 
-      {/* Image area */}
-      <div style={{ width: '1260px', height: '2400px', position: 'relative' }}>
+      {/* Image area - Responsive container */}
+      <div className="gallery-hero-image-container" style={{ width: '100%', height: '100%', position: 'relative' }}>
         <Image
           src="/text-page.png"
           alt="Text Page"
@@ -205,7 +210,7 @@ export default function TextPage() {
           onClick={() => router.push('/manifold-gallery')}
           style={{
             position: 'absolute',
-            bottom: '50px',
+            bottom: '5%',
             left: '50%',
             transform: 'translateX(-50%)',
             background: 'rgba(0,0,0,0.8)',
@@ -228,7 +233,7 @@ export default function TextPage() {
           onClick={() => router.push('/gallery-hero-2')}
           style={{
             position: 'absolute',
-            top: '50px',
+            top: '5%',
             left: '50%',
             transform: 'translateX(-50%)',
             background: 'rgba(0,0,0,0.8)',

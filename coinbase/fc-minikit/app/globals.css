@@ -40,3 +40,81 @@ body {
   left: 50%;
   transform: translateX(-50%);
 }
+
+/* Responsive Mini App Container Classes */
+.gallery-hero-container {
+  /* Default: Mini App dimensions */
+  width: 100%;
+  max-width: 1260px;
+  height: auto;
+  aspect-ratio: 1260 / 2400;
+  margin: 0 auto;
+  background: transparent;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  touch-action: pan-y;
+  min-height: 100vh;
+  max-height: 100vh;
+}
+
+/* Mobile: Full viewport */
+@media (max-width: 768px) {
+  .gallery-hero-container {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: none !important;
+    aspect-ratio: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    min-height: 100vh !important;
+    max-height: 100vh !important;
+  }
+  
+  .gallery-hero-image-container {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  .gallery-hero-image-container img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+}
+
+/* Desktop: Maintain aspect ratio */
+@media (min-width: 1200px) {
+  .gallery-hero-container {
+    width: 100%;
+    max-width: 1260px;
+    height: auto;
+    aspect-ratio: 1260 / 2400;
+  }
+}
+
+/* Mini App environment detection (if needed) */
+.mini-app-environment .gallery-hero-container {
+  width: 1260px;
+  height: 2400px;
+  max-width: none;
+  aspect-ratio: none;
+}
+
+/* Responsive image container */
+.gallery-hero-image-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.gallery-hero-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
