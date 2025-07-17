@@ -8,7 +8,25 @@ export default function ManifoldGallery() {
   const router = useRouter();
 
   useEffect(() => {
-    sdk.actions.ready();
+    const initializeSDK = async () => {
+      try {
+        console.log('Checking if in Mini App environment...');
+        const isInMiniApp = await sdk.isInMiniApp();
+        console.log('Is in Mini App:', isInMiniApp);
+        
+        if (isInMiniApp) {
+          console.log('Calling sdk.actions.ready()...');
+          await sdk.actions.ready();
+          console.log('sdk.actions.ready() called successfully');
+        } else {
+          console.log('Not in Mini App environment, skipping ready() call');
+        }
+      } catch (error) {
+        console.error('Error initializing SDK:', error);
+      }
+    };
+    
+    initializeSDK();
   }, []);
 
   const handlers = useSwipeable({

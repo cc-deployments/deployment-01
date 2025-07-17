@@ -109,3 +109,38 @@ https://carculture-miniapp-backend.<your-account>.workers.dev
 **If you're not sure what your workers.dev subdomain is, let me know what you see in the "Domains & Routes" section after enabling, and I'll help you find the exact URL.**
 
 You're almost done—let me know what you see or if you need help finding your public Worker URL! 
+
+## **Local SQL Database Structure**
+
+### **Location**: `sql_carculture_public_local/`
+
+The project uses CSV files as a local SQL database for tracking assets and content:
+
+### **1. NFT Collection Database** (`sql_carculture_public_local.csv`)
+- **Purpose**: Tracks all published NFTs
+- **Key fields**: `filename`, `Chain`, `Contract`, `arweave_image_url`, `title`, `description`, `make`, `model`, `year`, `vehicle_type`
+- **Contains**: 9 NFT entries including "The Thing", "Barn Fresh", "Light Bulb Moment", etc.
+
+### **2. Cloudflare Assets Database** (`cloudflare_assets_public.csv`)
+- **Purpose**: Tracks Cloudflare R2 web assets
+- **Key fields**: `filename`, `url`, `description`, `tags`, `uploaded_at`, `usage`, `size_bytes`, `content_type`
+- **Contains**: Share images, logos, and other web assets
+- **Current assets**:
+  - `carmania-share.png` - Farcaster Mini App embed image
+  - `carculture-logo-black-transp.png` - Black logo (9,694 bytes)
+  - `carculture-logo-wing-white-trans.png` - White wing logo (2040px)
+
+### **3. Content Schedule Database** (`carculture_content_schedule.csv`)
+- **Purpose**: Content planning and publication schedule
+- **Key fields**: `content_type`, `publication_date`, `title`, `description`, `status`
+- **Contains**: Scheduled content from July 2-9, 2025
+
+### **R2 Public URLs**
+- **Base URL**: `https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/`
+- **Bucket**: `carmania-storage`
+- **All assets**: Under 1024 character limit for Farcaster embeds
+
+### **Git Tracking**
+- ✅ **Tracked**: All CSV database files
+- ❌ **Untracked**: Binary image files (intentional)
+- **Version control**: Database structure and metadata only 

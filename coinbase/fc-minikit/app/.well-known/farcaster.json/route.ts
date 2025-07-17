@@ -68,7 +68,7 @@ export async function GET() {
         "navigation.goBack",
         "navigation.openUrl"
       ],
-      canonicalDomain: "https://web3-social-starter-fc-minikit.vercel.app",
+      canonicalDomain: "web3-social-starter-fc-minikit.vercel.app",
       imageUrl: "https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png",
       castShareUrl: `${URL}/car`,
       buttonTitle: "Unlock the Ride"
