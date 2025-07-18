@@ -8,6 +8,7 @@ import { sdk } from '@farcaster/miniapp-sdk';
 export default function TextPage() {
   const router = useRouter();
   const [showDebug, setShowDebug] = useState(false);
+  const [isInMiniApp, setIsInMiniApp] = useState(false);
 
   useEffect(() => {
     const initializeSDK = async () => {
@@ -15,6 +16,7 @@ export default function TextPage() {
         console.log('Checking if in Mini App environment...');
         const isInMiniApp = await sdk.isInMiniApp();
         console.log('Is in Mini App:', isInMiniApp);
+        setIsInMiniApp(isInMiniApp);
         
         if (isInMiniApp) {
           console.log('Calling sdk.actions.ready()...');
@@ -70,23 +72,7 @@ export default function TextPage() {
     <div 
       {...handlers} 
       onClick={handleContainerClick}
-      className="gallery-hero-container"
-      style={{
-        width: '100%',
-        maxWidth: '1260px',
-        height: 'auto',
-        aspectRatio: '1260 / 2400',
-        margin: '0 auto',
-        background: 'transparent',
-        overflow: 'hidden',
-        position: 'relative',
-        boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-        border: '1px solid #ccc',
-        borderRadius: '8px',
-        touchAction: 'pan-y',
-        minHeight: '100vh',
-        maxHeight: '100vh',
-      }}
+      className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
     >
       {/* Debug Toggle Button */}
       <div style={{ position: 'absolute', top: 24, left: 24, zIndex: 30 }}>
@@ -128,13 +114,13 @@ export default function TextPage() {
       </div>
 
       {/* Image area - Responsive container */}
-      <div className="gallery-hero-image-container" style={{ width: '100%', height: '100%', position: 'relative' }}>
+      <div className="gallery-hero-image-container">
         <Image
           src="/text-page.png"
           alt="Text Page"
           width={1260}
           height={2400}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          style={{ width: '100%', height: 'auto', aspectRatio: '1260 / 2400', objectFit: 'cover', display: 'block' }}
           priority
         />
         
@@ -205,59 +191,7 @@ export default function TextPage() {
           </div>
         )}
         
-        {/* Swipe Navigation Hints */}
-        <div 
-          onClick={() => router.push('/manifold-gallery')}
-          style={{
-            position: 'absolute',
-            bottom: '5%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            background: 'rgba(0,0,0,0.8)',
-            color: 'white',
-            padding: '12px 20px',
-            borderRadius: '25px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-            zIndex: 15,
-            cursor: 'pointer',
-            animation: 'pulse 2s infinite',
-            border: '2px solid white',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-          }}
-        >
-          ↑ Swipe Up or Click
-        </div>
-        
-        <div 
-          onClick={() => router.push('/gallery-hero-2')}
-          style={{
-            position: 'absolute',
-            top: '5%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            background: 'rgba(0,0,0,0.8)',
-            color: 'white',
-            padding: '12px 20px',
-            borderRadius: '25px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-            zIndex: 15,
-            cursor: 'pointer',
-            animation: 'pulse 2s infinite',
-            border: '2px solid white',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-          }}
-        >
-          ↓ Swipe Down or Click
-        </div>
-        
-        <style jsx>{`
-          @keyframes pulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
-          }
-        `}</style>
+
       </div>
     </div>
   );

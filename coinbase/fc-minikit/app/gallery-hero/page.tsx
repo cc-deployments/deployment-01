@@ -2,13 +2,12 @@
 import { useEffect, useState } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { useSwipeable } from 'react-swipeable';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function GalleryHero() {
-  const router = useRouter();
   const [showDebug, setShowDebug] = useState(false);
+  const [isInMiniApp, setIsInMiniApp] = useState(false);
   
   useEffect(() => {
     const initializeSDK = async () => {
@@ -16,6 +15,7 @@ export default function GalleryHero() {
         console.log('Checking if in Mini App environment...');
         const isInMiniApp = await sdk.isInMiniApp();
         console.log('Is in Mini App:', isInMiniApp);
+        setIsInMiniApp(isInMiniApp);
         
         if (isInMiniApp) {
           console.log('Calling sdk.actions.ready()...');
@@ -35,112 +35,137 @@ export default function GalleryHero() {
   const handlers = useSwipeable({
     onSwipedUp: () => {
       console.log('Swipe up detected! Navigating to gallery-hero-2');
-      router.push('/gallery-hero-2');
+      console.log('Using window.location.href for navigation');
+              // Try multiple navigation methods
+        try {
+          window.location.href = '/gallery-hero-2';
+        } catch (error) {
+          console.log('window.location.href failed, trying window.location.replace:', error);
+          window.location.replace('/gallery-hero-2');
+        }
     },
     onSwipeStart: (eventData) => {
       console.log('Swipe started:', eventData);
     },
     onSwiped: (eventData) => {
       console.log('Swipe completed:', eventData);
+      // Check if it was an upward swipe manually
+      if (eventData.dir === 'Up' && Math.abs(eventData.deltaY) >= 30) {
+        console.log('Manual swipe up detection - navigating to gallery-hero-2');
+        console.log('Using window.location.href for navigation');
+        // Try multiple navigation methods
+        try {
+          window.location.href = '/gallery-hero-2';
+        } catch (error) {
+          console.log('window.location.href failed, trying window.location.replace:', error);
+          window.location.replace('/gallery-hero-2');
+        }
+      }
+    },
+    onSwipedDown: (eventData) => {
+      console.log('Swipe down detected:', eventData);
+    },
+    onSwipedLeft: (eventData) => {
+      console.log('Swipe left detected:', eventData);
+    },
+    onSwipedRight: (eventData) => {
+      console.log('Swipe right detected:', eventData);
     },
     trackTouch: true,
     trackMouse: true,
-    delta: 50, // Increased from 30 to 50 for more reliable detection
-    swipeDuration: 500, // Increased from 300 to 500ms for better detection
+    delta: 5, // Extremely sensitive for desktop
+    swipeDuration: 50, // Very fast detection
     preventScrollOnSwipe: false,
   });
 
   const handleUnlockRide = () => {
-    console.log('Unlock Ride clicked!');
+    console.log('🎯 Unlock Ride button clicked!');
+    console.log('Opening Manifold URL...');
     window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
   };
 
   const handleShare = () => {
-    console.log('Share clicked!');
+    console.log('🎯 Share button clicked!');
+    console.log('Current URL:', window.location.href);
+    const currentUrl = window.location.href;
+    
+    // Try native share API first
     if (navigator.share && navigator.share !== undefined) {
       navigator.share({
         title: "CarMania Garage",
         text: "Check out CarMania Garage!",
-        url: window.location.href,
+        url: currentUrl,
       }).catch((error) => {
-        console.log('Share API failed, falling back to clipboard:', error);
-        // Fallback to clipboard with better error handling
-        try {
-          navigator.clipboard.writeText(window.location.href).then(() => {
-            alert("Link copied to clipboard!");
-          }).catch((clipboardError) => {
-            console.error('Clipboard write failed:', clipboardError);
-            // Final fallback - show URL for manual copy
-            alert(`Share failed. Please copy this URL manually: ${window.location.href}`);
-          });
-        } catch (e) {
-          console.error('Clipboard API not available:', e);
-          alert(`Share failed. Please copy this URL manually: ${window.location.href}`);
-        }
+        console.log('Share API failed, trying clipboard:', error);
+        handleClipboardFallback(currentUrl);
       });
     } else {
       // No share API available, try clipboard
-      try {
-        navigator.clipboard.writeText(window.location.href).then(() => {
-          alert("Link copied to clipboard!");
-        }).catch((clipboardError) => {
-          console.error('Clipboard write failed:', clipboardError);
-          alert(`Please copy this URL manually: ${window.location.href}`);
-        });
-      } catch (e) {
-        console.error('Clipboard API not available:', e);
-        alert(`Please copy this URL manually: ${window.location.href}`);
-      }
+      handleClipboardFallback(currentUrl);
     }
   };
 
-  // Enhanced fallback click handler with better area detection
-  const handleContainerClick = (e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clickY = e.clientY - rect.top;
-    const clickX = e.clientX - rect.left;
-    
-    // Check if click is in the bottom area (last 300px)
-    if (clickY > 2100) {
-      console.log('Bottom area clicked - treating as swipe up');
-      router.push('/gallery-hero-2');
-      return;
-    }
-    
-    // Check if click is in the swipe indicator area
-    const indicatorLeft = rect.width / 2 - 100; // Approximate indicator position
-    const indicatorRight = rect.width / 2 + 100;
-    const indicatorTop = rect.height - 100; // Bottom 100px
-    
-    if (clickX >= indicatorLeft && clickX <= indicatorRight && clickY >= indicatorTop) {
-      console.log('Swipe indicator area clicked - navigating to gallery-hero-2');
-      router.push('/gallery-hero-2');
-      return;
+  const handleClipboardFallback = (url: string) => {
+    // Check if clipboard API is available
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(() => {
+        console.log('URL copied to clipboard successfully');
+        alert("Link copied to clipboard!");
+      }).catch((clipboardError) => {
+        console.log('Clipboard permission denied or failed:', clipboardError);
+        // Don't show error alert, just log it
+        showManualCopyDialog(url);
+      });
+    } else {
+      console.log('Clipboard API not available');
+      showManualCopyDialog(url);
     }
   };
+
+  const showManualCopyDialog = (url: string) => {
+    // Create a more user-friendly dialog
+    const dialog = document.createElement('div');
+    dialog.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      z-index: 1000;
+      max-width: 400px;
+      text-align: center;
+    `;
+    
+    dialog.innerHTML = `
+      <h3 style="margin: 0 0 15px 0; color: #333;">Share CarMania Garage</h3>
+      <p style="margin: 0 0 15px 0; color: #666;">Copy this link to share:</p>
+      <input type="text" value="${url}" readonly style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 15px;">
+      <button onclick="this.parentElement.remove()" style="background: #a32428; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Close</button>
+    `;
+    
+    document.body.appendChild(dialog);
+    
+    // Auto-remove after 10 seconds
+    setTimeout(() => {
+      if (document.body.contains(dialog)) {
+        dialog.remove();
+      }
+    }, 10000);
+  };
+
+
 
   return (
     <div 
       {...handlers} 
-      onClick={handleContainerClick}
       onTouchStart={() => {
         // Additional touch handling for better mobile detection
         console.log('Touch started on container');
       }}
-      className=""
-      style={{
-        width: '1200px',
-        height: '2400px',
-        margin: '0 auto',
-        background: 'transparent',
-        overflow: 'hidden',
-        position: 'relative',
-        boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-        border: '1px solid #ccc',
-        borderRadius: '8px',
-        cursor: 'pointer',
-        touchAction: 'pan-y',
-      }}
+      className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
     >
       {/* Debug Toggle Button */}
       <div style={{ position: 'absolute', top: 24, left: 24, zIndex: 30 }}>
@@ -180,47 +205,50 @@ export default function GalleryHero() {
         </Link>
       </div>
       
-      {/* Image area - Fixed container */}
-      <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+
+      
+      {/* Image area - Responsive container */}
+      <div className="gallery-hero-image-container">
         <Image
           src="/carmania-gallery-hero.png"
           alt="CarMania Gallery Hero"
           width={1260}
           height={2400}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          style={{ width: '100%', height: 'auto', aspectRatio: '1260 / 2400', objectFit: 'cover', display: 'block', pointerEvents: 'none' }}
           priority
         />
         
-        {/* Invisible "Unlock the Ride" Button Overlay - FIXED POSITIONING */}
+        {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
         <button
           onClick={handleUnlockRide}
           style={{
             position: 'absolute',
-            left: '384px',
-            top: '2180px',
-            width: '432px',
-            height: '48px',
+            left: '50%',
+            top: '90%',
+            transform: 'translateX(-50%)',
+            width: '36%',
+            height: '2%',
             background: showDebug ? 'rgba(255,255,0,0.3)' : 'transparent',
             border: showDebug ? '2px solid yellow' : 'none',
             cursor: 'pointer',
-            zIndex: 20,
+            zIndex: 40,
           }}
           title="Unlock the Ride"
         />
         
-        {/* Invisible Share Button Overlay - FIXED POSITIONING */}
+        {/* Invisible Share Button Overlay - RESPONSIVE POSITIONING */}
         <button
           onClick={handleShare}
           style={{
             position: 'absolute',
-            right: '97px',
-            top: '2208px',
-            width: '48px',
-            height: '24px',
+            right: '8%',
+            top: '92%',
+            width: '4%',
+            height: '1%',
             background: showDebug ? 'rgba(0,255,255,0.3)' : 'transparent',
             border: showDebug ? '2px solid cyan' : 'none',
             cursor: 'pointer',
-            zIndex: 20,
+            zIndex: 40,
           }}
           title="Share"
         />
@@ -230,10 +258,11 @@ export default function GalleryHero() {
           <>
             <div style={{
               position: 'absolute',
-              left: '384px',
-              top: '2180px',
-              width: '432px',
-              height: '48px',
+              left: '50%',
+              top: '90%',
+              transform: 'translateX(-50%)',
+              width: '36%',
+              height: '2%',
               background: 'rgba(255,255,0,0.2)',
               border: '1px solid yellow',
               display: 'flex',
@@ -244,14 +273,14 @@ export default function GalleryHero() {
               pointerEvents: 'none',
               zIndex: 21,
             }}>
-              Unlock Ride (432×48)
+              Unlock Ride (36%)
             </div>
             <div style={{
               position: 'absolute',
-              right: '97px',
-              top: '2208px',
-              width: '48px',
-              height: '24px',
+              right: '8%',
+              top: '92%',
+              width: '4%',
+              height: '1%',
               background: 'rgba(0,255,255,0.2)',
               border: '1px solid cyan',
               display: 'flex',
@@ -262,34 +291,12 @@ export default function GalleryHero() {
               pointerEvents: 'none',
               zIndex: 21,
             }}>
-              Share (48×24)
+              Share (4%)
             </div>
           </>
         )}
         
-        {/* Additional Swipe Hint - Bottom Area Indicator */}
-        <div 
-          onClick={() => {
-            console.log('Bottom area clicked - navigating to gallery-hero-2');
-            router.push('/gallery-hero-2');
-          }}
-          style={{
-            position: 'absolute',
-            bottom: '0',
-            left: '0',
-            width: '100%',
-            height: '100px', // Larger click area at bottom
-            background: 'transparent',
-            cursor: 'pointer',
-            zIndex: 10,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '14px',
-            color: 'transparent',
-          }}
-        >
-        </div>
+
       </div>
     </div>
   );

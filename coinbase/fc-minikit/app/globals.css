@@ -43,7 +43,7 @@ body {
 
 /* Responsive Mini App Container Classes */
 .gallery-hero-container {
-  /* Default: Mini App dimensions */
+  /* Default: Mini App dimensions - maintain 1260x2400 ratio */
   width: 100%;
   max-width: 1260px;
   height: auto;
@@ -55,45 +55,53 @@ body {
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   border: 1px solid #ccc;
   border-radius: 8px;
-  cursor: pointer;
-  touch-action: pan-y;
-  min-height: 100vh;
-  max-height: 100vh;
+  /* Remove cursor and touch-action to allow button interactions */
+  cursor: default;
+  touch-action: manipulation;
+  /* Remove height constraints to show full content */
+  min-height: auto;
+  max-height: none;
 }
 
-/* Mobile: Full viewport */
+/* Mobile: Scale to fit viewport while maintaining ratio */
 @media (max-width: 768px) {
   .gallery-hero-container {
     width: 100vw !important;
-    height: 100vh !important;
+    height: auto !important;
     max-width: none !important;
-    aspect-ratio: none !important;
+    aspect-ratio: 1260 / 2400 !important;
     border-radius: 0 !important;
     border: none !important;
     box-shadow: none !important;
-    min-height: 100vh !important;
-    max-height: 100vh !important;
+    min-height: auto !important;
+    max-height: none !important;
+    /* Ensure full content is visible */
+    overflow: visible !important;
   }
   
   .gallery-hero-image-container {
     width: 100% !important;
-    height: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1260 / 2400 !important;
   }
   
   .gallery-hero-image-container img {
     width: 100% !important;
-    height: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1260 / 2400 !important;
     object-fit: cover !important;
   }
 }
 
-/* Desktop: Maintain aspect ratio */
+/* Desktop: Maintain aspect ratio with proper scaling */
 @media (min-width: 1200px) {
   .gallery-hero-container {
     width: 100%;
     max-width: 1260px;
     height: auto;
     aspect-ratio: 1260 / 2400;
+    min-height: auto;
+    max-height: none;
   }
 }
 
@@ -103,18 +111,22 @@ body {
   height: 2400px;
   max-width: none;
   aspect-ratio: none;
+  min-height: 2400px;
+  max-height: 2400px;
 }
 
 /* Responsive image container */
 .gallery-hero-image-container {
   width: 100%;
-  height: 100%;
+  height: auto;
+  aspect-ratio: 1260 / 2400;
   position: relative;
 }
 
 .gallery-hero-image-container img {
   width: 100%;
-  height: 100%;
+  height: auto;
+  aspect-ratio: 1260 / 2400;
   object-fit: cover;
   display: block;
 }

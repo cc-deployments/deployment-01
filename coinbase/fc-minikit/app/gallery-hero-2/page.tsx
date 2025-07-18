@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -7,12 +7,15 @@ import { useSwipeable } from 'react-swipeable';
 
 export default function GalleryHero2() {
   const router = useRouter();
+  const [isInMiniApp, setIsInMiniApp] = useState(false);
+  
   useEffect(() => {
     const initializeSDK = async () => {
       try {
         console.log('Checking if in Mini App environment...');
         const isInMiniApp = await sdk.isInMiniApp();
         console.log('Is in Mini App:', isInMiniApp);
+        setIsInMiniApp(isInMiniApp);
         
         if (isInMiniApp) {
           console.log('Calling sdk.actions.ready()...');
@@ -105,94 +108,20 @@ export default function GalleryHero2() {
       onKeyPress={e => {
         if (e.key === 'Enter' || e.key === ' ') handleTap();
       }}
-      className="gallery-hero-container"
-      style={{
-        width: '100%',
-        maxWidth: '1260px',
-        height: 'auto',
-        aspectRatio: '1260 / 2400',
-        margin: '0 auto',
-        background: 'transparent',
-        overflow: 'hidden',
-        position: 'relative',
-        boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-        border: '1px solid #ccc',
-        borderRadius: '8px',
-        cursor: 'pointer',
-        touchAction: 'pan-y',
-        minHeight: '100vh',
-        maxHeight: '100vh',
-        // Ensure touch events work everywhere
-        pointerEvents: 'auto',
-      }}
+      className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
     >
-      <div className="gallery-hero-image-container" style={{ width: '100%', height: '100%', position: 'relative', pointerEvents: 'none' }}>
+      <div className="gallery-hero-image-container">
         <Image
           src="/carmania-gallery-hero-2.png"
           alt="CarMania Gallery Hero 2"
           width={1260}
           height={2400}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          style={{ width: '100%', height: 'auto', aspectRatio: '1260 / 2400', objectFit: 'cover', display: 'block' }}
           priority
         />
       </div>
       
-      {/* Swipe Navigation Hints */}
-      <div 
-        onClick={() => {
-          console.log('Swipe up button clicked');
-          router.push('/text-page');
-        }}
-        style={{
-          position: 'absolute',
-          bottom: '5%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: 'rgba(0,0,0,0.8)',
-          color: 'white',
-          padding: '12px 20px',
-          borderRadius: '25px',
-          fontSize: '16px',
-          fontWeight: 'bold',
-          zIndex: 15,
-          cursor: 'pointer',
-          animation: 'pulse 2s infinite',
-          border: '2px solid white',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-        }}
-      >
-        ↑ Swipe Up or Click
-      </div>
-      
-      <div 
-        onClick={() => router.push('/gallery-hero')}
-        style={{
-          position: 'absolute',
-          top: '5%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: 'rgba(0,0,0,0.8)',
-          color: 'white',
-          padding: '12px 20px',
-          borderRadius: '25px',
-          fontSize: '16px',
-          fontWeight: 'bold',
-          zIndex: 15,
-          cursor: 'pointer',
-          animation: 'pulse 2s infinite',
-          border: '2px solid white',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-        }}
-      >
-        ↓ Swipe Down or Click
-      </div>
-      
-      <style jsx>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 0.7; }
-          50% { opacity: 1; }
-        }
-      `}</style>
+
     </div>
   );
 } 
