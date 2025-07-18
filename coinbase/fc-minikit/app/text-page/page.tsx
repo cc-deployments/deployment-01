@@ -16,6 +16,9 @@ export default function TextPage() {
         setIsInMiniApp(isInMiniApp);
         
         if (isInMiniApp) {
+          // Wait for the interface to be ready before calling ready()
+          console.log('Waiting for interface to be ready...');
+          await new Promise(resolve => setTimeout(resolve, 100)); // Small delay to ensure interface is loaded
           console.log('Calling sdk.actions.ready()...');
           await sdk.actions.ready();
           console.log('sdk.actions.ready() called successfully');
@@ -98,7 +101,20 @@ export default function TextPage() {
 
   const handleUnlockRide = () => {
     console.log('Unlock Ride clicked!');
-    window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
+    try {
+      // Try to open in Mini App environment first
+      if (isInMiniApp) {
+        console.log('Opening in Mini App environment...');
+        sdk.actions.openUrl('https://app.manifold.xyz/c/man-driving-car');
+      } else {
+        console.log('Opening in regular browser...');
+        window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
+      }
+    } catch (error) {
+      console.error('Error opening URL:', error);
+      // Fallback to regular window.open
+      window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
+    }
   };
 
   // Handle Manifold mint page navigation
@@ -206,13 +222,28 @@ export default function TextPage() {
             top: '1110px', // Fixed pixel position that was working
             width: '300px', // Fixed width that was working
             height: '50px', // Fixed height that was working
-            background: 'transparent',
-            border: 'none',
+            background: 'rgba(255, 0, 0, 0.3)', // Temporary red overlay for debugging
+            border: '2px solid yellow', // Temporary border for debugging
             cursor: 'pointer',
             zIndex: 20,
           }}
           title="Unlock the Ride"
         />
+        
+        {/* Debug Label for Button */}
+        <div style={{
+          position: 'absolute',
+          left: '305px',
+          top: '1080px',
+          color: 'yellow',
+          fontSize: '12px',
+          fontWeight: 'bold',
+          textShadow: '1px 1px 2px black',
+          zIndex: 21,
+          pointerEvents: 'none',
+        }}>
+          Unlock Ride Button (305px, 1110px)
+        </div>
 
 
 
