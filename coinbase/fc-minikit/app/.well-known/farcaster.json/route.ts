@@ -60,6 +60,10 @@ export async function GET() {
       requiredCapabilities: [
         "actions.signIn",
         "wallet.getEthereumProvider",
+        "wallet.getCapabilities", // EIP-5792: Check wallet capabilities
+        "wallet.sendCalls", // EIP-5792: Send batch transactions
+        "wallet.getCallsStatus", // EIP-5792: Check transaction status
+        "wallet.showCallsStatus", // EIP-5792: Show transaction status
         "actions.sendNotification",
         "actions.composeCast",
         "actions.openCast",
