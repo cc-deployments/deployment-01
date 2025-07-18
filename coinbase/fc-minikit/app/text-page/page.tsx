@@ -107,6 +107,16 @@ export default function TextPage() {
     window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
   };
 
+  // Enhanced touch handler for mobile
+  const handleTouchStart = () => {
+    console.log('Touch start detected on button area');
+  };
+
+  const handleTouchEnd = () => {
+    console.log('Touch end detected on button area');
+    handleUnlockRide();
+  };
+
   // Enhanced fallback click handler
   const handleContainerClick = (e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -188,12 +198,14 @@ export default function TextPage() {
         {/* Invisible "Unlock the Ride" Button Overlay */}
         <button
           onClick={handleUnlockRide}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
           style={{
             position: 'absolute',
-            left: '305px',
-            top: '1110px',
-            width: '300px',
-            height: '50px',
+            left: '305px', // Fixed pixel position that was working
+            top: '1110px', // Fixed pixel position that was working
+            width: '300px', // Fixed width that was working
+            height: '50px', // Fixed height that was working
             background: 'transparent',
             border: 'none',
             cursor: 'pointer',
@@ -202,19 +214,25 @@ export default function TextPage() {
           title="Unlock the Ride"
         />
 
+
+
         {/* Invisible Manifold Mint Button Overlay */}
         <button
           onClick={handleManifoldMint}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
           style={{
             position: 'absolute',
-            left: '305px',
-            top: '1110px',
-            width: '300px',
-            height: '50px',
+            left: '20%', // Larger touch area
+            top: '45%', // Slightly higher for better positioning
+            width: '30%', // Much larger for better touch interaction
+            height: '4%', // Taller for easier touch
             background: 'transparent',
             border: 'none',
             cursor: 'pointer',
             zIndex: 20,
+            minHeight: '40px', // Ensure minimum touch size
+            minWidth: '200px', // Ensure minimum touch size
           }}
           title="Mint on Manifold"
         />
