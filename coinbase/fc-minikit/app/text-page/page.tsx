@@ -101,6 +101,12 @@ export default function TextPage() {
     window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
   };
 
+  // Handle Manifold mint page navigation
+  const handleManifoldMint = () => {
+    console.log('Manifold Mint clicked!');
+    window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
+  };
+
   // Enhanced fallback click handler
   const handleContainerClick = (e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -184,8 +190,8 @@ export default function TextPage() {
           onClick={handleUnlockRide}
           style={{
             position: 'absolute',
-            left: '480px',
-            top: '2175px',
+            left: '305px',
+            top: '1110px',
             width: '300px',
             height: '50px',
             background: 'transparent',
@@ -194,6 +200,23 @@ export default function TextPage() {
             zIndex: 20,
           }}
           title="Unlock the Ride"
+        />
+
+        {/* Invisible Manifold Mint Button Overlay */}
+        <button
+          onClick={handleManifoldMint}
+          style={{
+            position: 'absolute',
+            left: '305px',
+            top: '1110px',
+            width: '300px',
+            height: '50px',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            zIndex: 20,
+          }}
+          title="Mint on Manifold"
         />
         
 
