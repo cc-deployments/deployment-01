@@ -150,22 +150,6 @@ export default function TextPage() {
     URL.revokeObjectURL(url);
   };
 
-  // Handle Manifold mint page navigation
-  const handleManifoldMint = () => {
-    console.log('Manifold Mint clicked!');
-    window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
-  };
-
-  // Enhanced touch handler for mobile
-  const handleTouchStart = () => {
-    console.log('Touch start detected on button area');
-  };
-
-  const handleTouchEnd = () => {
-    console.log('Touch end detected on button area');
-    handleUnlockRide();
-  };
-
   // Enhanced fallback click handler
   const handleContainerClick = (e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -287,15 +271,15 @@ export default function TextPage() {
           📥 Download Errors
         </button>
 
-        {/* Original "Unlock the Ride" Button - Properly Aligned */}
+        {/* Original "Unlock the Ride" Button - Using stored responsive positions */}
         <button
           onClick={handleUnlockRide}
           style={{
             position: 'absolute',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-            padding: '15px 30px',
+            left: '305px', // Stored responsive position from APP_FLOW.md
+            top: '1110px', // Stored responsive position from APP_FLOW.md
+            width: '300px', // Stored responsive size from APP_FLOW.md
+            height: '50px', // Stored responsive size from APP_FLOW.md
             background: 'linear-gradient(135deg, #ff6b6b, #ee5a52)',
             color: 'white',
             border: 'none',
@@ -308,37 +292,16 @@ export default function TextPage() {
             zIndex: 10,
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.05)';
+            e.currentTarget.style.transform = 'scale(1.05)';
             e.currentTarget.style.boxShadow = '0 6px 20px rgba(255, 107, 107, 0.4)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
+            e.currentTarget.style.transform = 'scale(1)';
             e.currentTarget.style.boxShadow = '0 4px 15px rgba(255, 107, 107, 0.3)';
           }}
         >
           Unlock the Ride
         </button>
-        
-        {/* Invisible Manifold Mint Button Overlay */}
-        <button
-          onClick={handleManifoldMint}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-          style={{
-            position: 'absolute',
-            left: '20%', // Larger touch area
-            top: '45%', // Slightly higher for better positioning
-            width: '30%', // Much larger for better touch interaction
-            height: '4%', // Taller for easier touch
-            background: 'transparent',
-            border: 'none',
-            cursor: 'pointer',
-            zIndex: 20,
-            minHeight: '40px', // Ensure minimum touch size
-            minWidth: '200px', // Ensure minimum touch size
-          }}
-          title="Mint on Manifold"
-        />
         
 
       </div>
