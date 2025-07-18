@@ -2,11 +2,9 @@
 import Image from "next/image";
 import { useSwipeable } from 'react-swipeable';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { sdk } from '@farcaster/miniapp-sdk';
 
 export default function TextPage() {
-  const router = useRouter();
   const [showDebug, setShowDebug] = useState(false);
   const [isInMiniApp, setIsInMiniApp] = useState(false);
 
@@ -34,13 +32,69 @@ export default function TextPage() {
   }, []);
 
   const handlers = useSwipeable({
-    onSwipedUp: () => router.push('/manifold-gallery'),
-    onSwipedDown: () => router.push('/gallery-hero-2'),
+    onSwipedUp: (eventData) => {
+      console.log('🎯 Swipe up detected!', eventData);
+      console.log('Delta Y:', eventData.deltaY, 'Velocity:', eventData.velocity);
+      
+      // Enhanced mobile swipe detection
+      if (Math.abs(eventData.deltaY) >= 50 || eventData.velocity >= 0.3) {
+        console.log('✅ Valid swipe up - navigating to manifold-gallery');
+        try {
+          window.location.href = '/manifold-gallery';
+        } catch (error) {
+          console.log('Navigation failed:', error);
+          window.location.replace('/manifold-gallery');
+        }
+      } else {
+        console.log('❌ Swipe too small or slow, ignoring');
+      }
+    },
+    onSwipedDown: (eventData) => {
+      console.log('⬇️ Swipe down detected!', eventData);
+      console.log('Delta Y:', eventData.deltaY, 'Velocity:', eventData.velocity);
+      
+      // Enhanced mobile swipe detection
+      if (Math.abs(eventData.deltaY) >= 50 || eventData.velocity >= 0.3) {
+        console.log('✅ Valid swipe down - navigating to gallery-hero-2');
+        try {
+          window.location.href = '/gallery-hero-2';
+        } catch (error) {
+          console.log('Navigation failed:', error);
+          window.location.replace('/gallery-hero-2');
+        }
+      } else {
+        console.log('❌ Swipe too small or slow, ignoring');
+      }
+    },
+    onSwipeStart: (eventData) => {
+      console.log('🔄 Swipe started:', eventData);
+    },
+    onSwiped: (eventData) => {
+      console.log('📱 Swipe completed:', eventData);
+      // Additional manual detection for mobile
+      if (eventData.dir === 'Up' && (Math.abs(eventData.deltaY) >= 50 || eventData.velocity >= 0.3)) {
+        console.log('✅ Manual swipe up detection - navigating to manifold-gallery');
+        try {
+          window.location.href = '/manifold-gallery';
+        } catch (error) {
+          console.log('Navigation failed:', error);
+          window.location.replace('/manifold-gallery');
+        }
+      } else if (eventData.dir === 'Down' && (Math.abs(eventData.deltaY) >= 50 || eventData.velocity >= 0.3)) {
+        console.log('✅ Manual swipe down detection - navigating to gallery-hero-2');
+        try {
+          window.location.href = '/gallery-hero-2';
+        } catch (error) {
+          console.log('Navigation failed:', error);
+          window.location.replace('/gallery-hero-2');
+        }
+      }
+    },
     trackTouch: true,
     trackMouse: true,
-    delta: 50, // Increased for more reliable detection
-    swipeDuration: 500, // Increased for better detection
-    preventScrollOnSwipe: false,
+    delta: 10, // More reasonable sensitivity
+    swipeDuration: 500, // Longer duration for mobile
+    preventScrollOnSwipe: true, // Prevent scroll interference
   });
 
   const handleUnlockRide = () => {
@@ -56,14 +110,24 @@ export default function TextPage() {
     // Check if click is in the bottom area (last 300px) - swipe up
     if (clickY > 2100) {
       console.log('Bottom area clicked - treating as swipe up');
-      router.push('/manifold-gallery');
+      try {
+        window.location.href = '/manifold-gallery';
+      } catch (error) {
+        console.log('Navigation failed:', error);
+        window.location.replace('/manifold-gallery');
+      }
       return;
     }
     
     // Check if click is in the top area (first 300px) - swipe down
     if (clickY < 300) {
       console.log('Top area clicked - treating as swipe down');
-      router.push('/gallery-hero-2');
+      try {
+        window.location.href = '/gallery-hero-2';
+      } catch (error) {
+        console.log('Navigation failed:', error);
+        window.location.replace('/gallery-hero-2');
+      }
       return;
     }
   };
@@ -96,7 +160,14 @@ export default function TextPage() {
       {/* Manifold Gallery Navigation Button */}
       <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 10 }}>
         <button 
-          onClick={() => router.push('/manifold-gallery')}
+          onClick={() => {
+            try {
+              window.location.href = '/manifold-gallery';
+            } catch (error) {
+              console.log('Navigation failed:', error);
+              window.location.replace('/manifold-gallery');
+            }
+          }}
           style={{ 
             padding: '10px 20px', 
             borderRadius: 8, 

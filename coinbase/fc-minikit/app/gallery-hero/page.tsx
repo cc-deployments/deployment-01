@@ -33,49 +33,54 @@ export default function GalleryHero() {
   }, []);
   
   const handlers = useSwipeable({
-    onSwipedUp: () => {
-      console.log('Swipe up detected! Navigating to gallery-hero-2');
-      console.log('Using window.location.href for navigation');
-              // Try multiple navigation methods
+    onSwipedUp: (eventData) => {
+      console.log('🎯 Swipe up detected!', eventData);
+      console.log('Delta Y:', eventData.deltaY, 'Velocity:', eventData.velocity);
+      
+      // Enhanced mobile swipe detection
+      if (Math.abs(eventData.deltaY) >= 50 || eventData.velocity >= 0.3) {
+        console.log('✅ Valid swipe up - navigating to gallery-hero-2');
         try {
+          // Try router first for better UX
           window.location.href = '/gallery-hero-2';
         } catch (error) {
-          console.log('window.location.href failed, trying window.location.replace:', error);
+          console.log('Router failed, using direct navigation:', error);
           window.location.replace('/gallery-hero-2');
         }
+      } else {
+        console.log('❌ Swipe too small or slow, ignoring');
+      }
     },
     onSwipeStart: (eventData) => {
-      console.log('Swipe started:', eventData);
+      console.log('🔄 Swipe started:', eventData);
     },
     onSwiped: (eventData) => {
-      console.log('Swipe completed:', eventData);
-      // Check if it was an upward swipe manually
-      if (eventData.dir === 'Up' && Math.abs(eventData.deltaY) >= 30) {
-        console.log('Manual swipe up detection - navigating to gallery-hero-2');
-        console.log('Using window.location.href for navigation');
-        // Try multiple navigation methods
+      console.log('📱 Swipe completed:', eventData);
+      // Additional manual detection for mobile
+      if (eventData.dir === 'Up' && (Math.abs(eventData.deltaY) >= 50 || eventData.velocity >= 0.3)) {
+        console.log('✅ Manual swipe up detection - navigating to gallery-hero-2');
         try {
           window.location.href = '/gallery-hero-2';
         } catch (error) {
-          console.log('window.location.href failed, trying window.location.replace:', error);
+          console.log('Navigation failed:', error);
           window.location.replace('/gallery-hero-2');
         }
       }
     },
     onSwipedDown: (eventData) => {
-      console.log('Swipe down detected:', eventData);
+      console.log('⬇️ Swipe down detected:', eventData);
     },
     onSwipedLeft: (eventData) => {
-      console.log('Swipe left detected:', eventData);
+      console.log('⬅️ Swipe left detected:', eventData);
     },
     onSwipedRight: (eventData) => {
-      console.log('Swipe right detected:', eventData);
+      console.log('➡️ Swipe right detected:', eventData);
     },
     trackTouch: true,
     trackMouse: true,
-    delta: 5, // Extremely sensitive for desktop
-    swipeDuration: 50, // Very fast detection
-    preventScrollOnSwipe: false,
+    delta: 10, // More reasonable sensitivity
+    swipeDuration: 500, // Longer duration for mobile
+    preventScrollOnSwipe: true, // Prevent scroll interference
   });
 
   const handleUnlockRide = () => {

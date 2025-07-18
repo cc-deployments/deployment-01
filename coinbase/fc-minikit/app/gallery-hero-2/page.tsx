@@ -2,11 +2,9 @@
 import { useEffect, useState } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useSwipeable } from 'react-swipeable';
 
 export default function GalleryHero2() {
-  const router = useRouter();
   const [isInMiniApp, setIsInMiniApp] = useState(false);
   
   useEffect(() => {
@@ -34,31 +32,75 @@ export default function GalleryHero2() {
 
   // Enhanced swipe handlers with better detection
   const handlers = useSwipeable({
-    onSwipedUp: () => {
-      console.log('Swipe up detected! Navigating to text-page');
-      router.push('/text-page');
+    onSwipedUp: (eventData) => {
+      console.log('🎯 Swipe up detected!', eventData);
+      console.log('Delta Y:', eventData.deltaY, 'Velocity:', eventData.velocity);
+      
+      // Enhanced mobile swipe detection
+      if (Math.abs(eventData.deltaY) >= 50 || eventData.velocity >= 0.3) {
+        console.log('✅ Valid swipe up - navigating to text-page');
+        try {
+          window.location.href = '/text-page';
+        } catch (error) {
+          console.log('Navigation failed:', error);
+          window.location.replace('/text-page');
+        }
+      } else {
+        console.log('❌ Swipe too small or slow, ignoring');
+      }
     },
-    onSwipedDown: () => {
-      console.log('Swipe down detected! Navigating to gallery-hero');
-      router.push('/gallery-hero');
+    onSwipedDown: (eventData) => {
+      console.log('⬇️ Swipe down detected!', eventData);
+      console.log('Delta Y:', eventData.deltaY, 'Velocity:', eventData.velocity);
+      
+      // Enhanced mobile swipe detection
+      if (Math.abs(eventData.deltaY) >= 50 || eventData.velocity >= 0.3) {
+        console.log('✅ Valid swipe down - navigating to gallery-hero');
+        try {
+          window.location.href = '/gallery-hero';
+        } catch (error) {
+          console.log('Navigation failed:', error);
+          window.location.replace('/gallery-hero');
+        }
+      } else {
+        console.log('❌ Swipe too small or slow, ignoring');
+      }
+    },
+    onSwipeStart: (eventData) => {
+      console.log('🔄 Swipe started:', eventData);
+    },
+    onSwiped: (eventData) => {
+      console.log('📱 Swipe completed:', eventData);
+      // Additional manual detection for mobile
+      if (eventData.dir === 'Up' && (Math.abs(eventData.deltaY) >= 50 || eventData.velocity >= 0.3)) {
+        console.log('✅ Manual swipe up detection - navigating to text-page');
+        try {
+          window.location.href = '/text-page';
+        } catch (error) {
+          console.log('Navigation failed:', error);
+          window.location.replace('/text-page');
+        }
+      } else if (eventData.dir === 'Down' && (Math.abs(eventData.deltaY) >= 50 || eventData.velocity >= 0.3)) {
+        console.log('✅ Manual swipe down detection - navigating to gallery-hero');
+        try {
+          window.location.href = '/gallery-hero';
+        } catch (error) {
+          console.log('Navigation failed:', error);
+          window.location.replace('/gallery-hero');
+        }
+      }
+    },
+    onSwipedLeft: (eventData) => {
+      console.log('⬅️ Swipe left detected:', eventData);
+    },
+    onSwipedRight: (eventData) => {
+      console.log('➡️ Swipe right detected:', eventData);
     },
     trackTouch: true,
     trackMouse: true,
-    delta: 20, // Even more sensitive detection
-    swipeDuration: 200, // Faster response
-    preventScrollOnSwipe: false,
-    onSwipeStart: (eventData) => {
-      console.log('Swipe started:', eventData);
-    },
-    onSwiped: (eventData) => {
-      console.log('Swipe completed:', eventData);
-    },
-    onSwipedLeft: (eventData) => {
-      console.log('Swipe left detected:', eventData);
-    },
-    onSwipedRight: (eventData) => {
-      console.log('Swipe right detected:', eventData);
-    },
+    delta: 10, // More reasonable sensitivity
+    swipeDuration: 500, // Longer duration for mobile
+    preventScrollOnSwipe: true, // Prevent scroll interference
   });
 
   // Tap handler
@@ -74,14 +116,24 @@ export default function GalleryHero2() {
     // Check if click is in the bottom area (last 300px) - swipe up
     if (clickY > 2100) {
       console.log('Bottom area clicked - treating as swipe up');
-      router.push('/text-page');
+      try {
+        window.location.href = '/text-page';
+      } catch (error) {
+        console.log('Navigation failed:', error);
+        window.location.replace('/text-page');
+      }
       return;
     }
     
     // Check if click is in the top area (first 300px) - swipe down
     if (clickY < 300) {
       console.log('Top area clicked - treating as swipe down');
-      router.push('/gallery-hero');
+      try {
+        window.location.href = '/gallery-hero';
+      } catch (error) {
+        console.log('Navigation failed:', error);
+        window.location.replace('/gallery-hero');
+      }
       return;
     }
     
