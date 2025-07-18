@@ -129,6 +129,27 @@ export default function TextPage() {
     alert('Button is working! This is a test.');
   };
 
+  // Download console errors as text file
+  const downloadConsoleErrors = () => {
+    const errors: string[] = [];
+    
+    // Override console.error to capture errors
+    const originalError = console.error;
+    console.error = (...args: unknown[]) => {
+      errors.push(`ERROR: ${args.join(' ')}`);
+      originalError.apply(console, args);
+    };
+    
+    // Create and download file
+    const blob = new Blob([errors.join('\n')], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'console-errors.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   // Handle Manifold mint page navigation
   const handleManifoldMint = () => {
     console.log('Manifold Mint clicked!');
@@ -243,6 +264,27 @@ export default function TextPage() {
           }}
         >
           🎯 TEST BUTTON
+        </button>
+
+        {/* Download Errors Button */}
+        <button
+          onClick={downloadConsoleErrors}
+          style={{
+            position: 'absolute',
+            left: '50px',
+            top: '120px',
+            padding: '10px 20px',
+            background: 'red',
+            color: 'white',
+            border: '2px solid white',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            zIndex: 50,
+            fontSize: '14px',
+            fontWeight: 'bold',
+          }}
+        >
+          📥 Download Errors
         </button>
 
         {/* Invisible "Unlock the Ride" Button Overlay - Improved */}
