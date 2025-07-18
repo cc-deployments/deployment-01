@@ -178,73 +178,22 @@ coinbase/fc-minikit/
   - Distance from right edge: 97px
   - Function: Shares the app URL
 
+### **Button Positions (Text Page)**
+- **"Unlock the Ride" Button Overlay:**
+  - Position: `left: 305px, top: 1110px` (fixed pixel positioning for responsive layout)
+  - Size: `width: 300px, height: 50px` (fixed dimensions)
+  - Function: Opens Manifold mint page
+  - Type: Invisible overlay aligned with "Unlock the Ride" text on image
+  - Responsive Layout: Fixed pixel positioning works correctly with responsive container scaling
+  - Status: ✅ Working correctly on localhost
+
+- **"Manifold Mint" Button Overlay:**
+  - Position: `left: 305px, top: 1110px` (same as Unlock Ride button)
+  - Size: `width: 300px, height: 50px` (fixed dimensions)
+  - Function: Opens Manifold mint page
+  - Type: Invisible overlay for additional mint access
+  - Responsive Layout: Fixed pixel positioning works correctly with responsive container scaling
+  - Status: ✅ Working correctly on localhost
+
 ### **Container Dimensions**
-- **Gallery Hero Container:** `1200px × 2400px`
-- **Image:** `carmania-gallery-hero.png` (1260×2400px)
-- **Debug Toggle:** Top-left corner (`top: 24px, left: 24px`)
-- **Social Identity Button:** Top-right corner (`top: 24px, right: 24px`)
-
-## 🔧 For Developers
-
-- Each page is a separate folder with its own `page.tsx`
-- Navigation uses Next.js router (`useRouter`)
-- Swipe gestures use `react-swipeable`
-- Images are optimized with Next.js `Image` component
-- External links open in new tabs (`target="_blank"`)
-- Debug overlays use absolute positioning with z-index layering
-- Button coordinates are calculated for 1260×2400px container system
-- Manifest is served as dynamic API route at `/.well-known/farcaster.json`
-
-## 🚀 Deployment Commands
-
-```bash
-# Local development
-npm run dev
-
-# Build for production
-npm run build
-
-# Deploy to Vercel (automatic on git push)
-git add .
-git commit -m "Update message"
-git push
-```
-
----
-
-**Note:** This app is designed for Farcaster Mini Apps, so it's optimized for mobile viewing and swipe gestures.
-
-## 📝 Development Change Log
-
-### 2025-07-17: SDK Ready() Call Fix
-- **Issue:** "Ready Not Called" error in Farcaster Mini App environment
-- **Solution:** 
-  - Updated `@farcaster/miniapp-sdk` from v0.1.6 to v0.1.7
-  - Added `sdk.isInMiniApp()` environment detection before calling `ready()`
-  - Implemented async/await pattern for SDK initialization
-  - Added comprehensive error handling and logging
-  - Updated all pages: gallery-hero, gallery-hero-2, text-page, manifold-gallery
-- **Result:** ✅ App now loads successfully in Farcaster Preview Tool
-- **Files Modified:**
-  - `app/gallery-hero/page.tsx`
-  - `app/gallery-hero-2/page.tsx`
-  - `app/text-page/page.tsx`
-  - `app/manifold-gallery/page.tsx`
-  - `package.json` (SDK version update)
-  - `app/sdk-test/page.tsx` (new debug page)
-
-### 2025-07-17: Responsive Design Implementation (PLANNED)
-- **Issue:** App too large for mobile, too small for desktop
-- **Current State:** Fixed 1260×2400px dimensions
-- **Planned Solution:** 
-  - Add responsive CSS classes
-  - Mobile: 100vw × 100vh (full viewport)
-  - Desktop: Maintain aspect ratio with max-width
-  - Mini App: Keep original 1260×2400px for compatibility
-- **Revert Strategy:** Can easily revert by removing responsive classes
-- **Files to Modify:**
-  - `app/globals.css` (add responsive classes)
-  - `app/gallery-hero/page.tsx` (add className)
-  - `app/gallery-hero-2/page.tsx` (add className)
-  - `app/text-page/page.tsx` (add className)
-  - `app/manifold-gallery/page.tsx` (add className) 
+- **Gallery Hero Container:** `
