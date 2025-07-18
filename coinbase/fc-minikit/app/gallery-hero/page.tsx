@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function GalleryHero() {
-  const [showDebug, setShowDebug] = useState(false);
   const [isInMiniApp, setIsInMiniApp] = useState(false);
   
   useEffect(() => {
@@ -172,24 +171,7 @@ export default function GalleryHero() {
       }}
       className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
     >
-      {/* Debug Toggle Button */}
-      <div style={{ position: 'absolute', top: 24, left: 24, zIndex: 30 }}>
-        <button 
-          onClick={() => setShowDebug(!showDebug)}
-          style={{ 
-            padding: '8px 16px', 
-            borderRadius: 8, 
-            background: showDebug ? '#ff4444' : '#444444', 
-            color: 'white', 
-            border: 'none', 
-            fontWeight: 'bold', 
-            cursor: 'pointer', 
-            fontSize: 14
-          }}
-        >
-          {showDebug ? 'Hide Debug' : 'Show Debug'}
-        </button>
-      </div>
+
 
       {/* Social Identity Navigation Button */}
       <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 10 }}>
@@ -233,8 +215,8 @@ export default function GalleryHero() {
             transform: 'translateX(-50%)',
             width: '36%',
             height: '2%',
-            background: showDebug ? 'rgba(255,255,0,0.3)' : 'transparent',
-            border: showDebug ? '2px solid yellow' : 'none',
+            background: 'transparent',
+            border: 'none',
             cursor: 'pointer',
             zIndex: 40,
           }}
@@ -250,56 +232,15 @@ export default function GalleryHero() {
             top: '92%',
             width: '4%',
             height: '1%',
-            background: showDebug ? 'rgba(0,255,255,0.3)' : 'transparent',
-            border: showDebug ? '2px solid cyan' : 'none',
+            background: 'transparent',
+            border: 'none',
             cursor: 'pointer',
             zIndex: 40,
           }}
           title="Share"
         />
         
-        {/* Debug: Show button positions */}
-        {showDebug && (
-          <>
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '90%',
-              transform: 'translateX(-50%)',
-              width: '36%',
-              height: '2%',
-              background: 'rgba(255,255,0,0.2)',
-              border: '1px solid yellow',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '10px',
-              color: 'yellow',
-              pointerEvents: 'none',
-              zIndex: 21,
-            }}>
-              Unlock Ride (36%)
-            </div>
-            <div style={{
-              position: 'absolute',
-              right: '8%',
-              top: '92%',
-              width: '4%',
-              height: '1%',
-              background: 'rgba(0,255,255,0.2)',
-              border: '1px solid cyan',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '8px',
-              color: 'cyan',
-              pointerEvents: 'none',
-              zIndex: 21,
-            }}>
-              Share (4%)
-            </div>
-          </>
-        )}
+
         
 
       </div>

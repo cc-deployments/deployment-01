@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
 
 export default function TextPage() {
-  const [showDebug, setShowDebug] = useState(false);
   const [isInMiniApp, setIsInMiniApp] = useState(false);
 
   useEffect(() => {
@@ -138,24 +137,7 @@ export default function TextPage() {
       onClick={handleContainerClick}
       className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
     >
-      {/* Debug Toggle Button */}
-      <div style={{ position: 'absolute', top: 24, left: 24, zIndex: 30 }}>
-        <button 
-          onClick={() => setShowDebug(!showDebug)}
-          style={{ 
-            padding: '8px 16px', 
-            borderRadius: 8, 
-            background: showDebug ? '#ff4444' : '#444444', 
-            color: 'white', 
-            border: 'none', 
-            fontWeight: 'bold', 
-            cursor: 'pointer', 
-            fontSize: 14
-          }}
-        >
-          {showDebug ? 'Hide Debug' : 'Show Debug'}
-        </button>
-      </div>
+
 
       {/* Manifold Gallery Navigation Button */}
       <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 10 }}>
@@ -195,33 +177,7 @@ export default function TextPage() {
           priority
         />
         
-        {/* Debug: Show image container bounds */}
-        {showDebug && (
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            border: '2px solid red',
-            pointerEvents: 'none',
-            zIndex: 25,
-          }}>
-            <div style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              background: 'rgba(255,0,0,0.8)',
-              color: 'white',
-              padding: '4px 8px',
-              fontSize: '12px',
-              borderRadius: '4px',
-            }}>
-              Image Container: 1260×2400
-            </div>
-          </div>
-        )}
+
         
         {/* Invisible "Unlock the Ride" Button Overlay */}
         <button
@@ -232,35 +188,13 @@ export default function TextPage() {
             top: '2175px',
             width: '300px',
             height: '50px',
-            background: showDebug ? 'rgba(255,255,0,0.3)' : 'transparent',
-            border: showDebug ? '2px solid yellow' : 'none',
+            background: 'transparent',
+            border: 'none',
             cursor: 'pointer',
             zIndex: 20,
           }}
           title="Unlock the Ride"
         />
-        
-        {/* Debug: Show button positions */}
-        {showDebug && (
-          <div style={{
-            position: 'absolute',
-            left: '480px',
-            top: '2175px',
-            width: '300px',
-            height: '50px',
-            background: 'rgba(255,255,0,0.2)',
-            border: '1px solid yellow',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '10px',
-            color: 'yellow',
-            pointerEvents: 'none',
-            zIndex: 21,
-          }}>
-            Unlock Ride (300px)
-          </div>
-        )}
         
 
       </div>
