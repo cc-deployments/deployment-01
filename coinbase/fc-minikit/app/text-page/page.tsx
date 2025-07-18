@@ -10,23 +10,29 @@ export default function TextPage() {
   useEffect(() => {
     const initializeSDK = async () => {
       try {
-        console.log('Checking if in Mini App environment...');
+        console.log('🔧 Starting SDK initialization...');
+        
+        // Always call ready() first to dismiss splash screen
+        console.log('📞 Calling sdk.actions.ready() immediately...');
+        await sdk.actions.ready();
+        console.log('✅ sdk.actions.ready() called successfully');
+        
+        // Then check environment
+        console.log('🔍 Checking if in Mini App environment...');
         const isInMiniApp = await sdk.isInMiniApp();
-        console.log('Is in Mini App:', isInMiniApp);
+        console.log('📍 Is in Mini App:', isInMiniApp);
         setIsInMiniApp(isInMiniApp);
         
-        if (isInMiniApp) {
-          // Wait for the interface to be ready before calling ready()
-          console.log('Waiting for interface to be ready...');
-          await new Promise(resolve => setTimeout(resolve, 100)); // Small delay to ensure interface is loaded
-          console.log('Calling sdk.actions.ready()...');
-          await sdk.actions.ready();
-          console.log('sdk.actions.ready() called successfully');
-        } else {
-          console.log('Not in Mini App environment, skipping ready() call');
-        }
       } catch (error) {
-        console.error('Error initializing SDK:', error);
+        console.error('❌ Error initializing SDK:', error);
+        // Try to call ready() anyway as fallback
+        try {
+          console.log('🔄 Fallback: calling sdk.actions.ready()...');
+          await sdk.actions.ready();
+          console.log('✅ Fallback ready() call successful');
+        } catch (fallbackError) {
+          console.error('❌ Fallback ready() call failed:', fallbackError);
+        }
       }
     };
     
