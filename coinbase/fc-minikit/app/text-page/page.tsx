@@ -276,8 +276,8 @@ export default function TextPage() {
           onClick={handleUnlockRide}
           style={{
             position: 'absolute',
-            left: '305px', // Stored responsive position from APP_FLOW.md
-            top: '1110px', // Stored responsive position from APP_FLOW.md
+            left: '315px', // Adjusted: moved right 10px from 305px
+            top: '1120px', // Adjusted: moved down 10px from 1110px
             width: '300px', // Stored responsive size from APP_FLOW.md
             height: '50px', // Stored responsive size from APP_FLOW.md
             background: 'linear-gradient(135deg, #ff6b6b, #ee5a52)',
