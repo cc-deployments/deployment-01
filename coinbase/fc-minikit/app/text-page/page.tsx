@@ -287,55 +287,38 @@ export default function TextPage() {
           📥 Download Errors
         </button>
 
-        {/* Invisible "Unlock the Ride" Button Overlay - Improved */}
+        {/* Original "Unlock the Ride" Button - Properly Aligned */}
         <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('🎯 Unlock Ride button clicked!');
-            handleUnlockRide();
-          }}
-          onTouchStart={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('Touch start on Unlock Ride button');
-          }}
-          onTouchEnd={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('Touch end on Unlock Ride button');
-            handleUnlockRide();
-          }}
+          onClick={handleUnlockRide}
           style={{
             position: 'absolute',
-            left: '305px',
-            top: '1110px',
-            width: '300px',
-            height: '50px',
-            background: 'rgba(255, 0, 0, 0.5)', // More visible red
-            border: '3px solid yellow',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            padding: '15px 30px',
+            background: 'linear-gradient(135deg, #ff6b6b, #ee5a52)',
+            color: 'white',
+            border: 'none',
+            borderRadius: '25px',
             cursor: 'pointer',
-            zIndex: 25,
-            pointerEvents: 'auto',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            boxShadow: '0 4px 15px rgba(255, 107, 107, 0.3)',
+            transition: 'all 0.3s ease',
+            zIndex: 10,
           }}
-          title="Unlock the Ride"
-        />
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.05)';
+            e.currentTarget.style.boxShadow = '0 6px 20px rgba(255, 107, 107, 0.4)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
+            e.currentTarget.style.boxShadow = '0 4px 15px rgba(255, 107, 107, 0.3)';
+          }}
+        >
+          Unlock the Ride
+        </button>
         
-        {/* Debug Label for Button */}
-        <div style={{
-          position: 'absolute',
-          left: '305px',
-          top: '1080px',
-          color: 'yellow',
-          fontSize: '12px',
-          fontWeight: 'bold',
-          textShadow: '1px 1px 2px black',
-          zIndex: 21,
-          pointerEvents: 'none',
-        }}>
-          Unlock Ride Button (305px, 1110px)
-        </div>
-
         {/* Invisible Manifold Mint Button Overlay */}
         <button
           onClick={handleManifoldMint}
