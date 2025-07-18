@@ -117,6 +117,12 @@ export default function TextPage() {
     }
   };
 
+  // Test button click without any wallet dependencies
+  const testButtonClick = () => {
+    console.log('🎯 Test button clicked!');
+    alert('Button is working! This is a test.');
+  };
+
   // Handle Manifold mint page navigation
   const handleManifoldMint = () => {
     console.log('Manifold Mint clicked!');
@@ -211,21 +217,58 @@ export default function TextPage() {
         
 
         
-        {/* Invisible "Unlock the Ride" Button Overlay */}
+        {/* Test Button - Made more prominent */}
         <button
-          onClick={handleUnlockRide}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
+          onClick={testButtonClick}
           style={{
             position: 'absolute',
-            left: '305px', // Fixed pixel position that was working
-            top: '1110px', // Fixed pixel position that was working
-            width: '300px', // Fixed width that was working
-            height: '50px', // Fixed height that was working
-            background: 'rgba(255, 0, 0, 0.3)', // Temporary red overlay for debugging
-            border: '2px solid yellow', // Temporary border for debugging
+            left: '50px',
+            top: '50px',
+            padding: '15px 25px',
+            background: 'blue',
+            color: 'white',
+            border: '3px solid yellow',
+            borderRadius: '8px',
             cursor: 'pointer',
-            zIndex: 20,
+            zIndex: 50,
+            fontSize: '16px',
+            fontWeight: 'bold',
+            boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
+          }}
+        >
+          🎯 TEST BUTTON
+        </button>
+
+        {/* Invisible "Unlock the Ride" Button Overlay - Improved */}
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('🎯 Unlock Ride button clicked!');
+            handleUnlockRide();
+          }}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Touch start on Unlock Ride button');
+          }}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Touch end on Unlock Ride button');
+            handleUnlockRide();
+          }}
+          style={{
+            position: 'absolute',
+            left: '305px',
+            top: '1110px',
+            width: '300px',
+            height: '50px',
+            background: 'rgba(255, 0, 0, 0.5)', // More visible red
+            border: '3px solid yellow',
+            cursor: 'pointer',
+            zIndex: 25,
+            pointerEvents: 'auto',
           }}
           title="Unlock the Ride"
         />
@@ -244,8 +287,6 @@ export default function TextPage() {
         }}>
           Unlock Ride Button (305px, 1110px)
         </div>
-
-
 
         {/* Invisible Manifold Mint Button Overlay */}
         <button

@@ -48,7 +48,7 @@ export default function GalleryHero() {
         }
       } else {
         console.log('❌ Swipe too small or slow, ignoring');
-      }
+        }
     },
     onSwipeStart: (eventData) => {
       console.log('🔄 Swipe started:', eventData);
@@ -114,12 +114,12 @@ export default function GalleryHero() {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(url).then(() => {
         console.log('URL copied to clipboard successfully');
-        alert("Link copied to clipboard!");
-      }).catch((clipboardError) => {
+          alert("Link copied to clipboard!");
+        }).catch((clipboardError) => {
         console.log('Clipboard permission denied or failed:', clipboardError);
         // Don't show error alert, just log it
         showManualCopyDialog(url);
-      });
+        });
     } else {
       console.log('Clipboard API not available');
       showManualCopyDialog(url);
