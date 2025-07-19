@@ -105,51 +105,6 @@ export default function TextPage() {
     preventScrollOnSwipe: true, // Prevent scroll interference
   });
 
-  const handleUnlockRide = () => {
-    console.log('Unlock Ride clicked!');
-    try {
-      // Try to open in Mini App environment first
-      if (isInMiniApp) {
-        console.log('Opening in Mini App environment...');
-        sdk.actions.openUrl('https://app.manifold.xyz/c/man-driving-car');
-      } else {
-        console.log('Opening in regular browser...');
-        window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
-      }
-    } catch (error) {
-      console.error('Error opening URL:', error);
-      // Fallback to regular window.open
-      window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
-    }
-  };
-
-  // Test button click without any wallet dependencies
-  const testButtonClick = () => {
-    console.log('🎯 Test button clicked!');
-    alert('Button is working! This is a test.');
-  };
-
-  // Download console errors as text file
-  const downloadConsoleErrors = () => {
-    const errors: string[] = [];
-    
-    // Override console.error to capture errors
-    const originalError = console.error;
-    console.error = (...args: unknown[]) => {
-      errors.push(`ERROR: ${args.join(' ')}`);
-      originalError.apply(console, args);
-    };
-    
-    // Create and download file
-    const blob = new Blob([errors.join('\n')], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'console-errors.txt';
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
   // Enhanced fallback click handler
   const handleContainerClick = (e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -230,7 +185,10 @@ export default function TextPage() {
         
         {/* Test Button - Made more prominent */}
         <button
-          onClick={testButtonClick}
+          onClick={() => {
+            console.log('🎯 Test button clicked!');
+            alert('Button is working! This is a test.');
+          }}
           style={{
             position: 'absolute',
             left: '50px',
@@ -252,7 +210,25 @@ export default function TextPage() {
 
         {/* Download Errors Button */}
         <button
-          onClick={downloadConsoleErrors}
+          onClick={() => {
+            const errors: string[] = [];
+            
+            // Override console.error to capture errors
+            const originalError = console.error;
+            console.error = (...args: unknown[]) => {
+              errors.push(`ERROR: ${args.join(' ')}`);
+              originalError.apply(console, args);
+            };
+            
+            // Create and download file
+            const blob = new Blob([errors.join('\n')], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'console-errors.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+          }}
           style={{
             position: 'absolute',
             left: '50px',
@@ -271,37 +247,40 @@ export default function TextPage() {
           📥 Download Errors
         </button>
 
-        {/* Original "Unlock the Ride" Button - Using stored responsive positions */}
+
+        
+        {/* Invisible "Unlock the Ride" Button Overlay - Aligns with image button */}
         <button
-          onClick={handleUnlockRide}
+          onClick={() => {
+            console.log('Unlock Ride clicked!');
+            try {
+              // Try to open in Mini App environment first
+              if (isInMiniApp) {
+                console.log('Opening in Mini App environment...');
+                sdk.actions.openUrl('https://app.manifold.xyz/c/man-driving-car');
+              } else {
+                console.log('Opening in regular browser...');
+                window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
+              }
+            } catch (error) {
+              console.error('Error opening URL:', error);
+              // Fallback to regular window.open
+              window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
+            }
+          }}
           style={{
             position: 'absolute',
-            left: '315px', // Adjusted: moved right 10px from 305px
-            top: '1120px', // Adjusted: moved down 10px from 1110px
-            width: '300px', // Stored responsive size from APP_FLOW.md
-            height: '50px', // Stored responsive size from APP_FLOW.md
-            background: 'linear-gradient(135deg, #ff6b6b, #ee5a52)',
-            color: 'white',
+            left: '480px', // 630px center - 150px (half of 300px width)
+            top: '1525px', // 1550px center - 25px (half of 50px height)
+            width: '300px',
+            height: '50px',
+            background: 'transparent',
             border: 'none',
-            borderRadius: '25px',
             cursor: 'pointer',
-            fontSize: '18px',
-            fontWeight: 'bold',
-            boxShadow: '0 4px 15px rgba(255, 107, 107, 0.3)',
-            transition: 'all 0.3s ease',
             zIndex: 10,
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'scale(1.05)';
-            e.currentTarget.style.boxShadow = '0 6px 20px rgba(255, 107, 107, 0.4)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'scale(1)';
-            e.currentTarget.style.boxShadow = '0 4px 15px rgba(255, 107, 107, 0.3)';
-          }}
-        >
-          Unlock the Ride
-        </button>
+          title="Unlock the Ride"
+        />
         
 
       </div>
