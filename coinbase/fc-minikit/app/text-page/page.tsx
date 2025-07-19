@@ -144,7 +144,7 @@ export default function TextPage() {
 
 
       {/* Manifold Gallery Navigation Button */}
-      <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 10 }}>
+      <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 5 }}>
         <button 
           onClick={() => {
             try {
@@ -202,6 +202,16 @@ export default function TextPage() {
               window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
             }
           }}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            console.log('Touch start on Unlock Ride button');
+          }}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            console.log('Touch end on Unlock Ride button');
+            // Trigger the click action
+            e.currentTarget.click();
+          }}
           style={{
             position: 'absolute',
             left: '480px', // 630px center - 150px (half of 300px width)
@@ -211,7 +221,8 @@ export default function TextPage() {
             background: 'transparent',
             border: 'none',
             cursor: 'pointer',
-            zIndex: 10,
+            zIndex: 20, // Higher than View Gallery button
+            touchAction: 'manipulation', // Optimize for touch
           }}
           title="Unlock the Ride"
         />

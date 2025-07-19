@@ -180,20 +180,19 @@ coinbase/fc-minikit/
 
 ### **Button Positions (Text Page)**
 - **"Unlock the Ride" Button Overlay:**
-  - Position: `left: 305px, top: 1110px` (fixed pixel positioning for responsive layout)
-  - Size: `width: 300px, height: 50px` (fixed dimensions)
-  - Function: Opens Manifold mint page
-  - Type: Invisible overlay aligned with "Unlock the Ride" text on image
-  - Responsive Layout: Fixed pixel positioning works correctly with responsive container scaling
-  - Status: ✅ Working correctly on localhost
+  - **Center:** x=630px, y=1550px
+  - **Position:** left=480px, top=1525px (calculated from center)
+  - **Size:** width=300px, height=50px
+  - **Function:** Opens Manifold mint page
+  - **Type:** Invisible overlay aligned with "Unlock the Ride" button in image
+  - **Responsive Layout:** Fixed pixel positioning works correctly with responsive container scaling
+  - **Status:** ✅ Working correctly on localhost and production
+  - **Last Updated:** 2025-07-18
 
-- **"Manifold Mint" Button Overlay:**
-  - Position: `left: 305px, top: 1110px` (same as Unlock Ride button)
-  - Size: `width: 300px, height: 50px` (fixed dimensions)
-  - Function: Opens Manifold mint page
-  - Type: Invisible overlay for additional mint access
-  - Responsive Layout: Fixed pixel positioning works correctly with responsive container scaling
-  - Status: ✅ Working correctly on localhost
+- **"View Gallery" Button:**
+  - **Position:** top=24px, right=24px
+  - **Function:** Navigates to manifold-gallery page
+  - **Status:** ✅ Working correctly
 
 ### **Container Dimensions**
 - **Gallery Hero Container:** `
