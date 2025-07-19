@@ -142,34 +142,6 @@ export default function TextPage() {
       className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
     >
 
-
-      {/* Manifold Gallery Navigation Button */}
-      <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 5 }}>
-        <button 
-          onClick={() => {
-            try {
-              window.location.href = '/manifold-gallery';
-            } catch (error) {
-              console.log('Navigation failed:', error);
-              window.location.replace('/manifold-gallery');
-            }
-          }}
-          style={{ 
-            padding: '10px 20px', 
-            borderRadius: 8, 
-            background: '#a32428', 
-            color: 'white', 
-            border: 'none', 
-            fontWeight: 'bold', 
-            cursor: 'pointer', 
-            fontSize: 16, 
-            boxShadow: '0 2px 8px rgba(0,0,0,0.08)' 
-          }}
-        >
-          View Gallery
-        </button>
-      </div>
-
       {/* Image area - Responsive container */}
       <div className="gallery-hero-image-container">
         <Image
@@ -214,12 +186,12 @@ export default function TextPage() {
           }}
           style={{
             position: 'absolute',
-            left: '480px', // 630px center - 150px (half of 300px width)
-            top: '1525px', // 1550px center - 25px (half of 50px height)
-            width: '300px',
-            height: '50px',
-            background: 'transparent',
-            border: 'none',
+            left: '480px', // Exact pixel coordinates
+            top: '1525px', // Exact pixel coordinates
+            width: '300px', // Exact size
+            height: '50px', // Exact size
+            background: 'transparent', // Invisible overlay
+            border: 'none', // No border
             cursor: 'pointer',
             zIndex: 20, // Higher than View Gallery button
             touchAction: 'manipulation', // Optimize for touch

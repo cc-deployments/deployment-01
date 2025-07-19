@@ -193,6 +193,7 @@ coinbase/fc-minikit/
   - **Position:** top=24px, right=24px
   - **Function:** Navigates to manifold-gallery page
   - **Status:** ✅ Working correctly
+  - **Note:** TEMPORARILY REMOVED (2025-07-18) - Testing if removal resolves mobile interference with "Unlock the Ride" button. Button was positioned at top-right corner with z-index: 5. Can be restored later if needed for navigation functionality.
 
 ### **Container Dimensions**
 - **Gallery Hero Container:** `
