@@ -10,6 +10,9 @@ import NotificationHandler from "./components/NotificationHandler";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://web3-social-starter-fc-minikit.vercel.app'),
+  alternates: {
+    canonical: 'https://web3-social-starter-fc-minikit.vercel.app',
+  },
   // ...add any other metadata fields here as needed
 };
 

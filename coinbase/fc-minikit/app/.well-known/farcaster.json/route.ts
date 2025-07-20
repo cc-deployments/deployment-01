@@ -69,7 +69,7 @@ export async function GET() {
       ],
       canonicalDomain: "web3-social-starter-fc-minikit.vercel.app",
       imageUrl: "https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png",
-      castShareUrl: `${URL}/car`,
+      castShareUrl: `${URL}/gallery-hero`,
       buttonTitle: "Unlock the Ride"
     })
   });
