@@ -1,4 +1,4 @@
-import Head from 'next/head';
+import { Metadata } from 'next';
 
 interface FarcasterMetaTagsProps {
   pageUrl: string;
@@ -42,10 +42,25 @@ export default function FarcasterMetaTags({ pageUrl, buttonTitle = "Unlock the R
     }
   };
 
-  return (
-    <Head>
-      <meta name="fc:miniapp" content={JSON.stringify(miniappEmbed)} />
-      <meta name="fc:frame" content={JSON.stringify(frameEmbed)} />
-    </Head>
-  );
+  // Return metadata object for Next.js App Router
+  const metadata: Metadata = {
+    other: {
+      'fc:miniapp': JSON.stringify(miniappEmbed),
+      'fc:frame': JSON.stringify(frameEmbed),
+    },
+    openGraph: {
+      title: appName,
+      description: 'Collect iconic cars, discover automotive stories, and mint daily digital collectibles.',
+      images: [imageUrl],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: appName,
+      description: 'Collect iconic cars, discover automotive stories, and mint daily digital collectibles.',
+      images: [imageUrl],
+    },
+  };
+
+  return metadata;
 } 

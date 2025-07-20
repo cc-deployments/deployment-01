@@ -3,8 +3,12 @@ import { useEffect, useState } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { useSwipeable } from 'react-swipeable';
 import Image from 'next/image';
+
+// Import metadata function
 import FarcasterMetaTags from '../components/FarcasterMetaTags';
 
+// Generate metadata for this page
+export const metadata = FarcasterMetaTags({ pageUrl: "/gallery-hero", buttonTitle: "Unlock the Ride" });
 
 export default function GalleryHero() {
   const [isInMiniApp, setIsInMiniApp] = useState(false);
@@ -213,11 +217,8 @@ export default function GalleryHero() {
     }, 10000);
   };
 
-
-
   return (
     <>
-      <FarcasterMetaTags pageUrl="/gallery-hero" buttonTitle="Unlock the Ride" />
       <div 
         {...handlers} 
         onTouchStart={() => {
@@ -230,63 +231,53 @@ export default function GalleryHero() {
           // Buttons are positioned using percentages and need to stay in place
         }}
       >
-
-
-
-      
-
-      
-      {/* Image area - Responsive container */}
-      <div className="gallery-hero-image-container">
-        <Image
-          src="/carmania-gallery-hero.png"
-          alt="CarMania Gallery Hero"
-          width={1260}
-          height={2400}
-          style={{ width: '100%', height: 'auto', aspectRatio: '1260 / 2400', objectFit: 'cover', display: 'block', pointerEvents: 'none' }}
-          priority
-        />
-        
-        {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
-        <button
-          onClick={handleUnlockRide}
-          style={{
-            position: 'absolute',
-            left: '50%',
-            top: '90%',
-            transform: 'translateX(-50%)',
-            width: '36%',
-            height: '2%',
-            background: 'transparent',
-            border: 'none',
-            cursor: 'pointer',
-            zIndex: 40,
-          }}
-          title="Unlock the Ride"
-        />
-        
-        {/* Invisible Share Button Overlay - RESPONSIVE POSITIONING */}
-        <button
-          onClick={handleShare}
-          style={{
-            position: 'absolute',
-            right: '8%',
-            top: '92%',
-            width: '4%',
-            height: '1%',
-            background: 'transparent',
-            border: 'none',
-            cursor: 'pointer',
-            zIndex: 40,
-          }}
-          title="Share"
-        />
-        
-
-        
-
+        {/* Image area - Responsive container */}
+        <div className="gallery-hero-image-container">
+          <Image
+            src="/carmania-gallery-hero.png"
+            alt="CarMania Gallery Hero"
+            width={1260}
+            height={2400}
+            style={{ width: '100%', height: 'auto', aspectRatio: '1260 / 2400', objectFit: 'cover', display: 'block', pointerEvents: 'none' }}
+            priority
+          />
+          
+          {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
+          <button
+            onClick={handleUnlockRide}
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '90%',
+              transform: 'translateX(-50%)',
+              width: '36%',
+              height: '2%',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              zIndex: 40,
+            }}
+            title="Unlock the Ride"
+          />
+          
+          {/* Invisible Share Button Overlay - RESPONSIVE POSITIONING */}
+          <button
+            onClick={handleShare}
+            style={{
+              position: 'absolute',
+              right: '8%',
+              top: '92%',
+              width: '4%',
+              height: '1%',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              zIndex: 40,
+            }}
+            title="Share"
+          />
+        </div>
       </div>
-    </div>
     </>
   );
 } 
