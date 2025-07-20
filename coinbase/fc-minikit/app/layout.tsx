@@ -4,6 +4,7 @@ import "@coinbase/onchainkit/styles.css";
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
+import EmbedHandler from "./components/EmbedHandler";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://web3-social-starter-fc-minikit.vercel.app'),
@@ -30,7 +31,10 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className="bg-background">
-        <Providers>{children}</Providers>
+        <Providers>
+          <EmbedHandler />
+          {children}
+        </Providers>
       </body>
     </html>
   );
