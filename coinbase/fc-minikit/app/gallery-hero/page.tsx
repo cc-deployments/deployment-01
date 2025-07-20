@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { useSwipeable } from 'react-swipeable';
 import Image from 'next/image';
-import Link from 'next/link';
+
 
 export default function GalleryHero() {
   const [isInMiniApp, setIsInMiniApp] = useState(false);
@@ -182,24 +182,7 @@ export default function GalleryHero() {
     >
 
 
-      {/* Social Identity Navigation Button */}
-      <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 10 }}>
-        <Link href="/socialidentity">
-          <button style={{ 
-            padding: '10px 20px', 
-            borderRadius: 8, 
-            background: '#a32428', 
-            color: 'white', 
-            border: 'none', 
-            fontWeight: 'bold', 
-            cursor: 'pointer', 
-            fontSize: 16, 
-            boxShadow: '0 2px 8px rgba(0,0,0,0.08)' 
-          }}>
-            Social Identity
-          </button>
-        </Link>
-      </div>
+
       
 
       
