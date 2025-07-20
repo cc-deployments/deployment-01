@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { useSwipeable } from 'react-swipeable';
 import Image from 'next/image';
+import FarcasterMetaTags from '../components/FarcasterMetaTags';
 
 
 export default function GalleryHero() {
@@ -172,14 +173,16 @@ export default function GalleryHero() {
 
 
   return (
-    <div 
-      {...handlers} 
-      onTouchStart={() => {
-        // Additional touch handling for better mobile detection
-        console.log('Touch started on container');
-      }}
-      className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
-    >
+    <>
+      <FarcasterMetaTags pageUrl="/gallery-hero" buttonTitle="Unlock the Ride" />
+      <div 
+        {...handlers} 
+        onTouchStart={() => {
+          // Additional touch handling for better mobile detection
+          console.log('Touch started on container');
+        }}
+        className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
+      >
 
 
 
@@ -237,5 +240,6 @@ export default function GalleryHero() {
 
       </div>
     </div>
+    </>
   );
 } 

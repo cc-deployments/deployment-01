@@ -3,6 +3,7 @@ import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
+import FarcasterMetaTags from '../components/FarcasterMetaTags';
 
 export default function ManifoldGallery() {
   const router = useRouter();
@@ -38,22 +39,24 @@ export default function ManifoldGallery() {
   });
 
   return (
-    <div
-      {...handlers}
-      style={{
-        width: 1260,
-        minHeight: 800,
-        maxWidth: '100vw',
-        margin: "0 auto",
-        background: "transparent",
-        overflowY: "auto",
-        overflowX: "hidden",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        height: '100vh',
-      }}
-    >
+    <>
+      <FarcasterMetaTags pageUrl="/manifold-gallery" buttonTitle="View Gallery" />
+      <div
+        {...handlers}
+        style={{
+          width: 1260,
+          minHeight: 800,
+          maxWidth: '100vw',
+          margin: "0 auto",
+          background: "transparent",
+          overflowY: "auto",
+          overflowX: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          height: '100vh',
+        }}
+      >
       <iframe
         src="https://manifold.xyz/@carculture"
         title="CarCulture Manifold Gallery"
@@ -62,5 +65,6 @@ export default function ManifoldGallery() {
         allowFullScreen
       />
     </div>
+    </>
   );
 } 

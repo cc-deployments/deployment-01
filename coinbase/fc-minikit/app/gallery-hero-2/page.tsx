@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
+import FarcasterMetaTags from '../components/FarcasterMetaTags';
 
 export default function GalleryHero2() {
   const [isInMiniApp, setIsInMiniApp] = useState(false);
@@ -142,26 +143,28 @@ export default function GalleryHero2() {
   };
 
   return (
-    <div
-      {...handlers}
-      onClick={handleContainerClick}
-      onTouchStart={() => {
-        console.log('Touch started on container');
-      }}
-      onTouchMove={() => {
-        console.log('Touch moved on container');
-      }}
-      onTouchEnd={() => {
-        console.log('Touch ended on container');
-      }}
-      role="button"
-      tabIndex={0}
-      aria-label="Open Car of the Day mint page"
-      onKeyPress={e => {
-        if (e.key === 'Enter' || e.key === ' ') handleTap();
-      }}
-      className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
-    >
+    <>
+      <FarcasterMetaTags pageUrl="/gallery-hero-2" buttonTitle="Unlock the Ride" />
+      <div
+        {...handlers}
+        onClick={handleContainerClick}
+        onTouchStart={() => {
+          console.log('Touch started on container');
+        }}
+        onTouchMove={() => {
+          console.log('Touch moved on container');
+        }}
+        onTouchEnd={() => {
+          console.log('Touch ended on container');
+        }}
+        role="button"
+        tabIndex={0}
+        aria-label="Open Car of the Day mint page"
+        onKeyPress={e => {
+          if (e.key === 'Enter' || e.key === ' ') handleTap();
+        }}
+        className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
+      >
       <div className="gallery-hero-image-container">
         <Image
           src="/carmania-gallery-hero-2.png"
@@ -175,5 +178,6 @@ export default function GalleryHero2() {
       
 
     </div>
+    </>
   );
 } 
