@@ -180,16 +180,19 @@ coinbase/fc-minikit/
 
 ### **Button Positions (Text Page)**
 - **"Unlock the Ride" Button Overlay:**
-  - Position: `left: 305px, top: 1110px` (fixed pixel positioning for responsive layout)
+  - Position: `left: 330px, top: 1115px` (fixed pixel positioning for responsive layout)
   - Size: `width: 300px, height: 50px` (fixed dimensions)
+  - Center: `x: 480px, y: 1140px` (calculated center position)
   - Function: Opens Manifold mint page
   - Type: Invisible overlay aligned with "Unlock the Ride" text on image
   - Responsive Layout: Fixed pixel positioning works correctly with responsive container scaling
   - Status: ✅ Working correctly on localhost
+  - Debug Overlay: Bright red background with yellow border for position verification
 
 - **"Manifold Mint" Button Overlay:**
-  - Position: `left: 305px, top: 1110px` (same as Unlock Ride button)
+  - Position: `left: 330px, top: 1115px` (same as Unlock Ride button)
   - Size: `width: 300px, height: 50px` (fixed dimensions)
+  - Center: `x: 480px, y: 1140px` (calculated center position)
   - Function: Opens Manifold mint page
   - Type: Invisible overlay for additional mint access
   - Responsive Layout: Fixed pixel positioning works correctly with responsive container scaling
