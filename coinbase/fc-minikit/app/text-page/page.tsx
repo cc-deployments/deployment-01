@@ -142,6 +142,9 @@ export default function TextPage() {
       className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
     >
 
+
+
+
       {/* Image area - Responsive container */}
       <div className="gallery-hero-image-container">
         <Image
@@ -155,7 +158,7 @@ export default function TextPage() {
         
 
         
-        {/* Invisible "Unlock the Ride" Button Overlay - Aligns with image button */}
+        {/* Red "Unlock the Ride" Button Overlay - Centered at x=630px, y=1550px */}
         <button
           onClick={() => {
             console.log('Unlock Ride clicked!');
@@ -174,29 +177,18 @@ export default function TextPage() {
               window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
             }
           }}
-          onTouchStart={(e) => {
-            e.preventDefault();
-            console.log('Touch start on Unlock Ride button');
-          }}
-          onTouchEnd={(e) => {
-            e.preventDefault();
-            console.log('Touch end on Unlock Ride button');
-            // Trigger the click action
-            e.currentTarget.click();
-          }}
           style={{
             position: 'absolute',
-            left: '480px', // Exact pixel coordinates
-            top: '1525px', // Exact pixel coordinates
-            width: '300px', // Exact size
-            height: '50px', // Exact size
-            background: 'transparent', // Invisible overlay
-            border: 'none', // No border
+            left: '330px', // 630px center - 150px (half of 300px width) - moved left by 150px, then right by 50px
+            top: '1115px', // 1550px center - 25px (half of 50px height) - moved up by 500px, then down by 100px, then up by 10px
+            width: '300px',
+            height: '50px',
+            background: 'rgba(255, 0, 0, 0.8)', // Bright red background for visibility
+            border: '3px solid yellow', // Yellow border for high visibility
             cursor: 'pointer',
-            zIndex: 20, // Higher than View Gallery button
-            touchAction: 'manipulation', // Optimize for touch
+            zIndex: 20,
           }}
-          title="Unlock the Ride"
+          title="Unlock the Ride - Position Check Overlay"
         />
         
 
