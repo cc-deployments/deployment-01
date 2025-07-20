@@ -156,6 +156,25 @@ coinbase/fc-minikit/
 - **Farcaster Splash:** `splash.png` (handled by Farcaster SDK)
 - **Manifest Images:** `hero-v2.png`, `screenshot1.png`, `screenshot2.png`, `screenshot3.png`
 
+## 🆕 Recent Updates (2025-07-20)
+
+### **Farcaster Embed Integration**
+- **✅ Account Association:** CarCulture.eth credentials added to manifest
+- **✅ Cloudflare R2 Setup:** `carmania-share.png` uploaded to Cloudflare R2 storage
+- **✅ Manifest Structure:** All required fields including `previewImageUrl` added
+- **✅ Image Accessibility:** Cloudflare URLs now return HTTP 200 OK
+
+### **Image File Management**
+- **`hero-v2.png`:** Used by existing code (HeroWithShare component, app layout)
+- **`carmania-share.png`:** Duplicate file for Cloudflare R2 and Farcaster manifest
+- **Purpose:** Maintains compatibility with existing code while enabling Farcaster embeds
+
+### **Current Status**
+- **✅ Manifest Validation:** Account association working, all fields present
+- **✅ Cloudflare Images:** Accessible at `https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png`
+- **⚠️ FC Embed Tool:** Still showing "This domain does not have a valid manifest setup" (likely caching issue)
+- **🎯 Next Steps:** Test embed functionality once FC tool cache refreshes
+
 ## 🎨 Design Consistency
 
 - **Size:** All pages use 1260px width × 2400px height
