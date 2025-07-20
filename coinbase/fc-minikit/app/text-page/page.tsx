@@ -158,7 +158,7 @@ export default function TextPage() {
         
 
         
-        {/* Red "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
+        {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
         <button
           onClick={() => {
             console.log('Unlock Ride clicked!');
@@ -184,12 +184,12 @@ export default function TextPage() {
             transform: 'translateX(-50%)', // Centers the button horizontally
             width: '24%', // Approximately 300px / 1260px = 24%
             height: '2%', // Approximately 50px / 2400px = 2%
-            background: 'rgba(255, 0, 0, 0.8)', // Bright red background for visibility
-            border: '3px solid yellow', // Yellow border for high visibility
+            background: 'transparent', // Invisible background
+            border: 'none', // No border
             cursor: 'pointer',
             zIndex: 20,
           }}
-          title="Unlock the Ride - Responsive Overlay"
+          title="Unlock the Ride"
         />
         
 
