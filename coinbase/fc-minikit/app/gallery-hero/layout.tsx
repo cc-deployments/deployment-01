@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-// Generate metadata for this page following Farcaster docs
+// Generate metadata for this page following official Farcaster docs exactly
 export const metadata: Metadata = {
   other: {
     // Follow official Farcaster docs format exactly
