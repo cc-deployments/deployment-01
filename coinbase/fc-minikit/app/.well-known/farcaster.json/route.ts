@@ -21,9 +21,9 @@ export async function GET() {
 
   return NextResponse.json({
     accountAssociation: {
-      header: process.env.FARCASTER_HEADER,
-      payload: process.env.FARCASTER_PAYLOAD,
-      signature: process.env.FARCASTER_SIGNATURE,
+      header: "eyJmaWQiOjI3MDE3MCwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDE3NWRFMEZkMjU2NTFBNDhlMzliOUYyNTEyNjUwYmY0ZjU5MkJGNTkifQ",
+      payload: "eyJkb21haW4iOiJ3ZWIzLXNvY2lhbC1zdGFydGVyLWZjLW1pbmlraXQudmVyY2VsLmFwcCJ9",
+      signature: "MHhjMTY3ODA5YThlMDYyZWQ0ZTg4Zjk0MDQyNGI2NTFiZjZlYTRhYzMzOWJmYTdlNDFmNTQ0NDVjYzQ4YmI0ZjdhNWI2MDIyZWE1NzM2NGU0YzY5M2E2ZDI0MGFiNTA5MzhlZjZjYTQyMmE2NDNhNzc0ZjVjZGEwOGRiN2NkZGRmNjFi"
     },
     miniapp: withValidProperties({
       version: "1",
