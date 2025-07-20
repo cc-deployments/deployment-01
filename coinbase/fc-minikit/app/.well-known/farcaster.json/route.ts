@@ -33,7 +33,7 @@ export async function GET() {
       splashImageUrl: "https://i.imgur.com/y3PmlLB.jpeg",
       splashBackgroundColor: "#a32428",
       webhookUrl: `${URL}/api/webhook`,
-      subtitle: "Collect the Classics. Cruise the Future.",
+      subtitle: "Dive the Past Own the Moment",
       description: "Collect iconic cars, discover automotive stories, and mint daily digital collectibles. CarCulture: CarMania Garage is your daily drive into automotive history.",
       screenshotUrls: [
         `${IMAGE_DOMAIN}/screenshot1.png`,
