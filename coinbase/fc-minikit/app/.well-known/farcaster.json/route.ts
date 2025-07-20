@@ -20,6 +20,11 @@ export async function GET() {
   const IMAGE_DOMAIN = URL;
 
   return NextResponse.json({
+    accountAssociation: {
+      header: process.env.FARCASTER_HEADER,
+      payload: process.env.FARCASTER_PAYLOAD,
+      signature: process.env.FARCASTER_SIGNATURE,
+    },
     miniapp: withValidProperties({
       version: "1",
       name: "Car Culture: CarMania Garage",
