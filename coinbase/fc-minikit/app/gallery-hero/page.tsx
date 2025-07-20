@@ -25,6 +25,12 @@ export default function GalleryHero() {
         console.log('📍 Is in Mini App:', isInMiniApp);
         setIsInMiniApp(isInMiniApp);
         
+        // Get safe area insets for mobile UI (logging only, not applying to preserve button positioning)
+        const context = await sdk.context;
+        if (context?.client?.safeAreaInsets) {
+          console.log('📱 Safe area insets:', context.client.safeAreaInsets);
+        }
+        
       } catch (error) {
         console.error('❌ Error initializing SDK:', error);
         // Try to call ready() anyway as fallback
@@ -92,29 +98,66 @@ export default function GalleryHero() {
     preventScrollOnSwipe: true, // Prevent scroll interference
   });
 
-  const handleUnlockRide = () => {
+  const handleUnlockRide = async () => {
     console.log('🎯 Unlock Ride button clicked!');
-    console.log('Opening Manifold URL...');
-    window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
+    
+    try {
+      // Check capabilities first
+      const capabilities = await sdk.getCapabilities();
+      console.log('🔧 Available capabilities:', capabilities);
+      
+      // Use SDK actions if available
+      if (capabilities.includes('actions.openUrl')) {
+        await sdk.actions.openUrl('https://app.manifold.xyz/c/man-driving-car');
+        console.log('✅ Opened Manifold URL via SDK');
+      } else {
+        console.log('📱 Navigation not available, using fallback');
+        window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
+      }
+    } catch (error) {
+      console.log('❌ SDK navigation failed, using fallback:', error);
+      window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
+    }
   };
 
-  const handleShare = () => {
+  const handleShare = async () => {
     console.log('🎯 Share button clicked!');
-    console.log('Current URL:', window.location.href);
-    const currentUrl = window.location.href;
     
-    // Try native share API first
-    if (navigator.share && navigator.share !== undefined) {
-      navigator.share({
-        title: "CarMania Garage",
-        text: "Check out CarMania Garage!",
-        url: currentUrl,
-      }).catch((error) => {
-        console.log('Share API failed, trying clipboard:', error);
-        handleClipboardFallback(currentUrl);
-      });
-    } else {
-      // No share API available, try clipboard
+    try {
+      // Add haptic feedback
+      const capabilities = await sdk.getCapabilities();
+      if (capabilities.includes('haptics.impactOccurred')) {
+        await sdk.haptics.impactOccurred('medium');
+        console.log('📳 Haptic feedback triggered');
+      }
+      
+      // Try to compose a cast
+      if (capabilities.includes('actions.composeCast')) {
+        await sdk.actions.composeCast({
+          text: "Check out CarMania Garage! 🚗✨",
+          embeds: [window.location.href]
+        });
+        console.log('✅ Cast composed via SDK');
+      } else {
+        console.log('📱 Cast composition not available, using fallback');
+        // Fallback to native share
+        const currentUrl = window.location.href;
+        if (navigator.share && navigator.share !== undefined) {
+          navigator.share({
+            title: "CarMania Garage",
+            text: "Check out CarMania Garage!",
+            url: currentUrl,
+          }).catch((error) => {
+            console.log('Share API failed, trying clipboard:', error);
+            handleClipboardFallback(currentUrl);
+          });
+        } else {
+          handleClipboardFallback(currentUrl);
+        }
+      }
+    } catch (error) {
+      console.log('❌ SDK share failed, using fallback:', error);
+      const currentUrl = window.location.href;
       handleClipboardFallback(currentUrl);
     }
   };
@@ -182,6 +225,10 @@ export default function GalleryHero() {
           console.log('Touch started on container');
         }}
         className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
+        style={{
+          // Removed safe area padding to preserve button positioning
+          // Buttons are positioned using percentages and need to stay in place
+        }}
       >
 
 

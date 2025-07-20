@@ -5,6 +5,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
 import EmbedHandler from "./components/EmbedHandler";
+import ShareHandler from "./components/ShareHandler";
+import NotificationHandler from "./components/NotificationHandler";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://web3-social-starter-fc-minikit.vercel.app'),
@@ -33,6 +35,8 @@ export default function RootLayout({
       <body className="bg-background">
         <Providers>
           <EmbedHandler />
+          <ShareHandler />
+          <NotificationHandler />
           {children}
         </Providers>
       </body>
