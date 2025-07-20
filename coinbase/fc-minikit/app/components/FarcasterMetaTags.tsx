@@ -45,6 +45,7 @@ export default function FarcasterMetaTags({ pageUrl, buttonTitle = "Unlock the R
   // Return metadata object for Next.js App Router
   const metadata: Metadata = {
     other: {
+      // Follow official Farcaster docs format exactly
       'fc:miniapp': JSON.stringify(miniappEmbed),
       'fc:frame': JSON.stringify(frameEmbed),
     },

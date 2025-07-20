@@ -4,12 +4,6 @@ import { sdk } from '@farcaster/miniapp-sdk';
 import { useSwipeable } from 'react-swipeable';
 import Image from 'next/image';
 
-// Import metadata function
-import FarcasterMetaTags from '../components/FarcasterMetaTags';
-
-// Generate metadata for this page
-export const metadata = FarcasterMetaTags({ pageUrl: "/gallery-hero", buttonTitle: "Unlock the Ride" });
-
 export default function GalleryHero() {
   const [isInMiniApp, setIsInMiniApp] = useState(false);
   
