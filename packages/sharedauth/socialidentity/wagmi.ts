@@ -9,6 +9,7 @@ import { useMemo } from 'react';
 import { http, createConfig } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { NEXT_PUBLIC_WC_PROJECT_ID } from './config';
+import { farcasterMiniApp as miniAppConnector } from '@farcaster/miniapp-wagmi-connector';
 
 export function useWagmiConfig() {
   const projectId = NEXT_PUBLIC_WC_PROJECT_ID ?? '';
@@ -40,7 +41,10 @@ export function useWagmiConfig() {
       chains: [base, baseSepolia],
       // turn off injected provider discovery
       multiInjectedProviderDiscovery: false,
-      connectors,
+      connectors: [
+        miniAppConnector(), // ✅ Add Farcaster Mini App connector for better Mini App integration
+        ...connectors, // Keep existing RainbowKit connectors
+      ],
       ssr: true,
       transports: {
         [base.id]: http(),

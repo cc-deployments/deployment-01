@@ -185,6 +185,30 @@ All manifest fields are now hardcoded in `coinbase/fc-minikit/app/.well-known/fa
 - ✅ **Screenshots**: Using `screenshot1.png`, `screenshot2.png`, `screenshot3.png` instead of archive versions
 - ✅ **Dynamic API Route**: Manifest now served from `app/.well-known/farcaster.json/route.ts`
 
+## 🆕 Latest Updates (2025-07-20)
+
+### **Farcaster Embed Integration**
+- ✅ **Account Association**: CarCulture.eth credentials added to manifest
+- ✅ **Cloudflare R2 Setup**: `carmania-share.png` uploaded to Cloudflare R2 storage
+- ✅ **Manifest Structure**: All required fields including `previewImageUrl` added
+- ✅ **Image Accessibility**: Cloudflare URLs now return HTTP 200 OK
+
+### **Image File Management**
+- **`hero-v2.png`**: Used by existing code (HeroWithShare component, app layout)
+- **`carmania-share.png`**: Duplicate file for Cloudflare R2 and Farcaster manifest
+- **Purpose**: Maintains compatibility with existing code while enabling Farcaster embeds
+
+### **Share Extensions**
+- **`castShareUrl`**: Points to `/gallery-hero` (valid app page, not Farcaster channel)
+- **Embed Support**: App configured for both `cast_embed` and `cast_share` contexts
+- **SDK Integration**: Full Farcaster SDK context detection and handlers implemented
+
+### **Current Status**
+- ✅ **Manifest Validation**: Account association working, all fields present
+- ✅ **Cloudflare Images**: Accessible at `https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png`
+- ⚠️ **FC Embed Tool**: Still showing "This domain does not have a valid manifest setup" (likely caching issue)
+- 🎯 **Next Steps**: Test embed functionality once FC tool cache refreshes
+
 ## Notes
 - All URLs must be HTTPS and publicly accessible.
 - All values are current as of the latest deployment.

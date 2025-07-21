@@ -3,23 +3,10 @@
 import { type ReactNode, useEffect, useState } from "react";
 import { base } from "wagmi/chains";
 import { OnchainKitProvider } from "@coinbase/onchainkit";
-import { WagmiProvider, createConfig, http } from 'wagmi';
+import { WagmiProvider } from 'wagmi';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { sdk } from '@farcaster/miniapp-sdk';
-import { injected } from 'wagmi/connectors';
-
-// Create wagmi config with Base chain and connectors
-const wagmiConfig = createConfig({
-  chains: [base],
-  connectors: [
-    injected(),
-    // Removed WalletConnect to prevent double initialization
-  ],
-  transports: {
-    [base.id]: http(),
-  },
-  ssr: true,
-});
+import { useWagmiConfig } from '@cculture/sharedauth/socialidentity/wagmi';
 
 // Context provider for Farcaster SDK
 function FarcasterContextProvider({ children }: { children: ReactNode }) {
@@ -76,6 +63,7 @@ function FarcasterContextProvider({ children }: { children: ReactNode }) {
 
 export function Providers(props: { children: ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
+  const wagmiConfig = useWagmiConfig(); // ✅ Use shared auth configuration with Farcaster Mini App connector
 
   return (
     <WagmiProvider config={wagmiConfig}>

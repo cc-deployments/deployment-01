@@ -53,27 +53,42 @@ export default function GalleryHero() {
       console.log('🎯 Swipe up detected!', eventData);
       console.log('Delta Y:', eventData.deltaY, 'Velocity:', eventData.velocity);
       
-      // Enhanced mobile swipe detection
-      if (Math.abs(eventData.deltaY) >= 50 || eventData.velocity >= 0.3) {
+      // Enhanced mobile swipe detection with lower thresholds for better responsiveness
+      if (Math.abs(eventData.deltaY) >= 30 || eventData.velocity >= 0.2) {
         console.log('✅ Valid swipe up - navigating to gallery-hero-2');
+        
+        // Try multiple navigation methods with fallbacks
         try {
-          // Try router first for better UX
+          // Method 1: Direct navigation
           window.location.href = '/gallery-hero-2';
         } catch (error) {
-          console.log('Router failed, using direct navigation:', error);
-          window.location.replace('/gallery-hero-2');
+          console.log('Direct navigation failed, trying replace:', error);
+          try {
+            // Method 2: Location replace
+            window.location.replace('/gallery-hero-2');
+          } catch (replaceError) {
+            console.log('Replace failed, trying assign:', replaceError);
+            try {
+              // Method 3: Location assign
+              window.location.assign('/gallery-hero-2');
+            } catch (assignError) {
+              console.log('All navigation methods failed:', assignError);
+              // Final fallback: reload and navigate
+              window.location.reload();
+            }
+          }
         }
       } else {
         console.log('❌ Swipe too small or slow, ignoring');
-        }
+      }
     },
     onSwipeStart: (eventData) => {
       console.log('🔄 Swipe started:', eventData);
     },
     onSwiped: (eventData) => {
       console.log('📱 Swipe completed:', eventData);
-      // Additional manual detection for mobile
-      if (eventData.dir === 'Up' && (Math.abs(eventData.deltaY) >= 50 || eventData.velocity >= 0.3)) {
+      // Additional manual detection for mobile with lower thresholds
+      if (eventData.dir === 'Up' && (Math.abs(eventData.deltaY) >= 30 || eventData.velocity >= 0.2)) {
         console.log('✅ Manual swipe up detection - navigating to gallery-hero-2');
         try {
           window.location.href = '/gallery-hero-2';
@@ -85,6 +100,10 @@ export default function GalleryHero() {
     },
     onSwipedDown: (eventData) => {
       console.log('⬇️ Swipe down detected:', eventData);
+      // Add swipe down navigation if needed
+      if (Math.abs(eventData.deltaY) >= 30 || eventData.velocity >= 0.2) {
+        console.log('✅ Valid swipe down - could navigate to previous page');
+      }
     },
     onSwipedLeft: (eventData) => {
       console.log('⬅️ Swipe left detected:', eventData);
@@ -94,8 +113,8 @@ export default function GalleryHero() {
     },
     trackTouch: true,
     trackMouse: true,
-    delta: 10, // More reasonable sensitivity
-    swipeDuration: 500, // Longer duration for mobile
+    delta: 5, // Lower delta for more sensitive detection
+    swipeDuration: 300, // Shorter duration for more responsive feel
     preventScrollOnSwipe: true, // Prevent scroll interference
   });
 
@@ -103,21 +122,48 @@ export default function GalleryHero() {
     console.log('🎯 Unlock Ride button clicked!');
     
     try {
-      // Check capabilities first
-      const capabilities = await sdk.getCapabilities();
-      console.log('🔧 Available capabilities:', capabilities);
+      // Check if we're in a Mini App environment
+      const isInMiniApp = await sdk.isInMiniApp();
+      console.log('📍 Is in Mini App:', isInMiniApp);
       
-      // Use SDK actions if available
-      if (capabilities.includes('actions.openUrl')) {
-        await sdk.actions.openUrl('https://app.manifold.xyz/c/man-driving-car');
-        console.log('✅ Opened Manifold URL via SDK');
+      if (isInMiniApp) {
+        // Try SDK navigation first
+        try {
+          const capabilities = await sdk.getCapabilities();
+          console.log('🔧 Available capabilities:', capabilities);
+          
+          if (capabilities.includes('actions.openUrl')) {
+            await sdk.actions.openUrl('https://app.manifold.xyz/c/man-driving-car');
+            console.log('✅ Opened Manifold URL via SDK');
+            return;
+          }
+        } catch (sdkError) {
+          console.log('❌ SDK navigation failed:', sdkError);
+        }
+        
+        // Fallback 1: Try window.open with noopener
+        try {
+          window.open('https://app.manifold.xyz/c/man-driving-car', '_blank', 'noopener,noreferrer');
+          console.log('✅ Opened URL via window.open fallback');
+          return;
+        } catch (windowError) {
+          console.log('❌ window.open failed:', windowError);
+        }
       } else {
-        console.log('📱 Navigation not available, using fallback');
-        window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
+        // Not in Mini App - use standard web navigation
+        console.log('📱 Not in Mini App, using standard navigation');
+        window.open('https://app.manifold.xyz/c/man-driving-car', '_blank', 'noopener,noreferrer');
+        return;
       }
+      
+      // Final fallback: location.href
+      console.log('🔄 Using final fallback: location.href');
+      window.location.href = 'https://app.manifold.xyz/c/man-driving-car';
+      
     } catch (error) {
-      console.log('❌ SDK navigation failed, using fallback:', error);
-      window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
+      console.log('❌ All navigation methods failed:', error);
+      // Last resort fallback
+      window.location.href = 'https://app.manifold.xyz/c/man-driving-car';
     }
   };
 
@@ -125,41 +171,59 @@ export default function GalleryHero() {
     console.log('🎯 Share button clicked!');
     
     try {
-      // Add haptic feedback
-      const capabilities = await sdk.getCapabilities();
-      if (capabilities.includes('haptics.impactOccurred')) {
-        await sdk.haptics.impactOccurred('medium');
-        console.log('📳 Haptic feedback triggered');
-      }
+      // Check if we're in a Mini App environment
+      const isInMiniApp = await sdk.isInMiniApp();
+      console.log('📍 Is in Mini App:', isInMiniApp);
       
-      // Try to compose a cast
-      if (capabilities.includes('actions.composeCast')) {
-        await sdk.actions.composeCast({
-          text: "Check out CarMania Garage! 🚗✨",
-          embeds: [window.location.href]
-        });
-        console.log('✅ Cast composed via SDK');
-      } else {
-        console.log('📱 Cast composition not available, using fallback');
-        // Fallback to native share
-        const currentUrl = window.location.href;
-        if (navigator.share && navigator.share !== undefined) {
-          navigator.share({
-            title: "CarMania Garage",
-            text: "Check out CarMania Garage!",
-            url: currentUrl,
-          }).catch((error) => {
-            console.log('Share API failed, trying clipboard:', error);
-            handleClipboardFallback(currentUrl);
-          });
-        } else {
-          handleClipboardFallback(currentUrl);
+      if (isInMiniApp) {
+        // Try SDK haptics first
+        try {
+          const capabilities = await sdk.getCapabilities();
+          if (capabilities.includes('haptics.impactOccurred')) {
+            await sdk.haptics.impactOccurred('medium');
+            console.log('📳 Haptic feedback triggered');
+          }
+        } catch (hapticError) {
+          console.log('❌ Haptic feedback failed:', hapticError);
+        }
+        
+        // Try SDK cast composition
+        try {
+          const capabilities = await sdk.getCapabilities();
+          if (capabilities.includes('actions.composeCast')) {
+            await sdk.actions.composeCast({
+              text: "Check out CarMania Garage! 🚗✨",
+              embeds: [window.location.href]
+            });
+            console.log('✅ Cast composed via SDK');
+            return;
+          }
+        } catch (castError) {
+          console.log('❌ SDK cast composition failed:', castError);
         }
       }
+      
+      // Fallback 1: Native Web Share API
+      try {
+        if (navigator.share && navigator.share !== undefined) {
+          await navigator.share({
+            title: "CarMania Garage",
+            text: "Check out CarMania Garage!",
+            url: window.location.href,
+          });
+          console.log('✅ Shared via Web Share API');
+          return;
+        }
+      } catch (shareError) {
+        console.log('❌ Web Share API failed:', shareError);
+      }
+      
+      // Fallback 2: Clipboard
+      handleClipboardFallback(window.location.href);
+      
     } catch (error) {
-      console.log('❌ SDK share failed, using fallback:', error);
-      const currentUrl = window.location.href;
-      handleClipboardFallback(currentUrl);
+      console.log('❌ All share methods failed:', error);
+      handleClipboardFallback(window.location.href);
     }
   };
 

@@ -2,5 +2,8 @@
   "name": "@cculture/sharedauth",
   "version": "0.1.0",
   "main": "./socialidentity/page.tsx",
-  "types": "./socialidentity/page.tsx"
+  "types": "./socialidentity/page.tsx",
+  "dependencies": {
+    "@farcaster/miniapp-wagmi-connector": "^1.0.0"
+  }
 }

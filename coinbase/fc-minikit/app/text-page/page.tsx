@@ -6,6 +6,7 @@ import { sdk } from '@farcaster/miniapp-sdk';
 
 export default function TextPage() {
   const [isInMiniApp, setIsInMiniApp] = useState(false);
+  const [safeAreaInsets, setSafeAreaInsets] = useState({ top: 0, bottom: 0, left: 0, right: 0 });
 
   useEffect(() => {
     const initializeSDK = async () => {
@@ -22,6 +23,13 @@ export default function TextPage() {
         const isInMiniApp = await sdk.isInMiniApp();
         console.log('📍 Is in Mini App:', isInMiniApp);
         setIsInMiniApp(isInMiniApp);
+        
+        // Get safe area insets for mobile UI and apply to button positioning
+        const context = await sdk.context;
+        if (context?.client?.safeAreaInsets) {
+          console.log('📱 Safe area insets:', context.client.safeAreaInsets);
+          setSafeAreaInsets(context.client.safeAreaInsets);
+        }
         
       } catch (error) {
         console.error('❌ Error initializing SDK:', error);
@@ -141,6 +149,13 @@ export default function TextPage() {
         {...handlers} 
         onClick={handleContainerClick}
         className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
+        style={{
+          // Apply safe area padding to container
+          paddingTop: safeAreaInsets.top,
+          paddingBottom: safeAreaInsets.bottom,
+          paddingLeft: safeAreaInsets.left,
+          paddingRight: safeAreaInsets.right,
+        }}
       >
 
 
@@ -159,7 +174,7 @@ export default function TextPage() {
         
 
         
-        {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
+        {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING WITH SAFE AREA */}
         <button
           onClick={() => {
             console.log('Unlock Ride clicked!');
@@ -181,7 +196,8 @@ export default function TextPage() {
           style={{
             position: 'absolute',
             left: '50%',
-            top: '63.6%', // Moved down by 400px (16.7%) from 46.5% to 63.2%, then down by 10px (0.4%)
+            // Adjust top position to account for safe area bottom inset
+            top: `calc(63.6% - ${safeAreaInsets.bottom}px)`,
             transform: 'translateX(-50%)', // Centers the button horizontally
             width: '24%', // Approximately 300px / 1260px = 24%
             height: '2%', // Approximately 50px / 2400px = 2%
