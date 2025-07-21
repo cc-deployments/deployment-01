@@ -183,7 +183,7 @@ export default function GalleryHero() {
         {/* Image area - Responsive container */}
         <div className="gallery-hero-image-container">
           <Image
-            src="/gallery-hero.png"
+            src="/carmania-gallery-hero.png"
             alt="Gallery Hero"
             width={1260}
             height={2400}
