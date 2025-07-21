@@ -6,6 +6,8 @@ import Image from 'next/image';
 
 export default function GalleryHero() {
   const [isInMiniApp, setIsInMiniApp] = useState(false);
+  const [safeAreaInsets, setSafeAreaInsets] = useState({ top: 0, bottom: 0, left: 0, right: 0 });
+  const [showDebug, setShowDebug] = useState(true); // Temporary debug mode
   
   useEffect(() => {
     const initializeSDK = async () => {
@@ -23,10 +25,11 @@ export default function GalleryHero() {
         console.log('📍 Is in Mini App:', isInMiniApp);
         setIsInMiniApp(isInMiniApp);
         
-        // Get safe area insets for mobile UI (logging only, not applying to preserve button positioning)
+        // Get safe area insets for mobile UI and apply to button positioning
         const context = await sdk.context;
         if (context?.client?.safeAreaInsets) {
           console.log('📱 Safe area insets:', context.client.safeAreaInsets);
+          setSafeAreaInsets(context.client.safeAreaInsets);
         }
         
       } catch (error) {
@@ -213,6 +216,28 @@ export default function GalleryHero() {
 
   return (
     <>
+      {/* Debug Toggle Button */}
+      {showDebug && (
+        <button
+          onClick={() => setShowDebug(false)}
+          style={{
+            position: 'fixed',
+            top: '10px',
+            left: '10px',
+            zIndex: 1000,
+            background: '#a32428',
+            color: 'white',
+            border: 'none',
+            padding: '8px 12px',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '12px',
+          }}
+        >
+          Hide Debug
+        </button>
+      )}
+      
       <div 
         {...handlers} 
         onTouchStart={() => {
@@ -221,8 +246,11 @@ export default function GalleryHero() {
         }}
         className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
         style={{
-          // Removed safe area padding to preserve button positioning
-          // Buttons are positioned using percentages and need to stay in place
+          // Apply safe area padding to container
+          paddingTop: safeAreaInsets.top,
+          paddingBottom: safeAreaInsets.bottom,
+          paddingLeft: safeAreaInsets.left,
+          paddingRight: safeAreaInsets.right,
         }}
       >
         {/* Image area - Responsive container */}
@@ -236,35 +264,36 @@ export default function GalleryHero() {
             priority
           />
           
-          {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
+          {/* Invisible "Unlock the Ride" Button Overlay - UPDATED POSITION */}
           <button
             onClick={handleUnlockRide}
             style={{
               position: 'absolute',
-              left: '50%',
-              top: '90%',
-              transform: 'translateX(-50%)',
+              left: '50.4%', // Updated: 635px (50.4% of 1260px) - moved left 5px to widen gap
+              top: '77.29%', // Updated: 1855px (77.29% of 2400px) - moved up 20px
+              transform: 'translateX(-50%) translateY(-50%)', // Center both horizontally and vertically
               width: '36%',
               height: '2%',
-              background: 'transparent',
-              border: 'none',
+              background: showDebug ? 'rgba(255, 255, 0, 0.5)' : 'transparent', // Yellow debug overlay
+              border: showDebug ? '2px solid red' : 'none',
               cursor: 'pointer',
               zIndex: 40,
             }}
             title="Unlock the Ride"
           />
           
-          {/* Invisible Share Button Overlay - RESPONSIVE POSITIONING */}
+          {/* Invisible Share Button Overlay - UPDATED POSITION */}
           <button
             onClick={handleShare}
             style={{
               position: 'absolute',
-              right: '8%',
-              top: '92%',
+              right: '11.1%', // Updated: 1140px from left = 11.1% from right - moved right 5px
+              top: '77.29%', // Updated: 1855px (77.29% of 2400px) - moved up 20px
+              transform: 'translateY(-50%)', // Center vertically
               width: '4%',
               height: '1%',
-              background: 'transparent',
-              border: 'none',
+              background: showDebug ? 'rgba(0, 255, 255, 0.5)' : 'transparent', // Cyan debug overlay
+              border: showDebug ? '2px solid blue' : 'none',
               cursor: 'pointer',
               zIndex: 40,
             }}
