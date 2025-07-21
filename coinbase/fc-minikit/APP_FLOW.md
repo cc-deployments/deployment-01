@@ -5,20 +5,6 @@
 
 This is the main directory containing your CarMania app. All files and folders mentioned below are relative to this project root.
 
-## 🎯 Button Positioning - 2025-01-27
-
-### **Hero Page Button Centers (1260x2400px Container)**
-- **Unlock Button Center:** 630 x 1850px
-- **Share Button Center:** 1100 x 1850px
-- **Container Dimensions:** 1260x2400px
-- **Button Alignment:** Both buttons at same Y-coordinate (1850px) for consistent placement
-
-### **Button Implementation Notes:**
-- **Responsive Positioning:** Buttons use absolute positioning with transform for centering
-- **Click Areas:** Invisible overlay buttons with transparent backgrounds
-- **Z-Index:** High z-index (20) to ensure clickability
-- **Universal Navigation:** Both buttons use window.open() for external links
-
 ## 🚀 Deployment & URLs
 
 ### **Vercel Deployment**
@@ -126,5 +112,5 @@ This is the main directory containing your CarMania app. All files and folders m
 
 ---
 
-**Last Updated:** 2025-01-27  
-**Status:** ✅ Button positioning documented - App ready for Farcaster ecosystem
+**Last Updated:** 2025-07-20  
+**Status:** ✅ Embed validation successful - App ready for Farcaster ecosystem

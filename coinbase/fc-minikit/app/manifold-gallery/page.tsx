@@ -75,7 +75,7 @@ export default function ManifoldGallery() {
         {/* Image area - Responsive container */}
         <div className="gallery-hero-image-container">
           <Image
-            src="/screenshot1.png"
+            src="/manifold-gallery.png"
             alt="Manifold Gallery"
             width={1260}
             height={2400}
@@ -89,12 +89,12 @@ export default function ManifoldGallery() {
               console.log('View Gallery clicked!');
               // Universal navigation - works in all environments
               try {
-                                            window.open('https://manifold.xyz/@carculture', '_blank', 'noopener,noreferrer');
-                            console.log('✅ Opened Manifold gallery URL via universal navigation');
-                          } catch (error) {
-                            console.error('Error opening URL:', error);
-                            // Fallback to regular window.open
-                            window.open('https://manifold.xyz/@carculture', '_blank');
+                window.open('https://app.manifold.xyz/c/carculture', '_blank', 'noopener,noreferrer');
+                console.log('✅ Opened Manifold gallery URL via universal navigation');
+              } catch (error) {
+                console.error('Error opening URL:', error);
+                // Fallback to regular window.open
+                window.open('https://app.manifold.xyz/c/carculture', '_blank');
               }
             }}
             style={{

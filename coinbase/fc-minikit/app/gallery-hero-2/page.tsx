@@ -75,7 +75,7 @@ export default function GalleryHero2() {
         {/* Image area - Responsive container */}
         <div className="gallery-hero-image-container">
           <Image
-            src="/carmania-gallery-hero-2.png"
+            src="/gallery-hero-2.png"
             alt="Gallery Hero 2"
             width={1260}
             height={2400}
@@ -89,12 +89,12 @@ export default function GalleryHero2() {
               console.log('Unlock Ride clicked!');
               // Universal navigation - works in all environments
               try {
-                                            window.open('https://app.manifold.xyz/c/man-driving-car', '_blank', 'noopener,noreferrer');
-                            console.log('✅ Opened Manifold mint URL via universal navigation');
-                          } catch (error) {
-                            console.error('Error opening URL:', error);
-                            // Fallback to regular window.open
-                            window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
+                window.open('https://app.manifold.xyz/c/man-driving-car', '_blank', 'noopener,noreferrer');
+                console.log('✅ Opened Manifold mint URL via universal navigation');
+              } catch (error) {
+                console.error('Error opening URL:', error);
+                // Fallback to regular window.open
+                window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
               }
             }}
             style={{

@@ -68,7 +68,6 @@ export default function GalleryHero() {
     delta: 5, // Lower delta for more sensitive detection
     swipeDuration: 300, // Shorter duration for more responsive feel
     preventScrollOnSwipe: true, // Prevent scroll interference
-
   });
 
   const handleUnlockRide = async () => {
@@ -116,8 +115,6 @@ export default function GalleryHero() {
     }
   };
 
-
-
   const showNotification = (message: string, type: 'success' | 'error') => {
     // Simple notification implementation
     const notification = document.createElement('div');
@@ -154,17 +151,44 @@ export default function GalleryHero() {
         z-index: 1001;
         max-width: 300px;
         text-align: center;
+        font-family: Arial, sans-serif;
       ">
-        <p>Copy this link:</p>
-        <input type="text" value="${url}" readonly style="width: 100%; padding: 8px; margin: 10px 0;">
-        <button onclick="this.parentElement.parentElement.remove()" style="
-          background: #007bff;
-          color: white;
-          border: none;
-          padding: 8px 16px;
+        <p style="margin: 0 0 15px 0; font-weight: bold;">Copy this link:</p>
+        <input type="text" value="${url}" readonly style="
+          width: 100%; 
+          padding: 8px; 
+          margin: 10px 0; 
+          border: 1px solid #ccc; 
           border-radius: 4px;
-          cursor: pointer;
-        ">Close</button>
+          font-size: 12px;
+        ">
+        <div style="margin-top: 15px;">
+          <button onclick="
+            navigator.clipboard.writeText('${url}').then(() => {
+              this.textContent = 'Copied!';
+              setTimeout(() => this.parentElement.parentElement.remove(), 1000);
+            }).catch(() => {
+              this.textContent = 'Failed';
+              setTimeout(() => this.textContent = 'Copy', 1000);
+            });
+          " style="
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+          ">Copy</button>
+          <button onclick="this.parentElement.parentElement.remove()" style="
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+          ">Close</button>
+        </div>
       </div>
     `;
     document.body.appendChild(dialog);
@@ -176,11 +200,11 @@ export default function GalleryHero() {
         {...handlers} 
         className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
         style={{
-          width: '100vw',
-          height: '100vh',
+          width: '100%',
+          height: 'auto',
           position: 'relative',
-          overflow: 'hidden',
-          backgroundColor: '#000',
+          overflow: 'visible',
+          backgroundColor: 'transparent',
         }}
       >
         {/* Image area - Responsive container */}
@@ -194,43 +218,39 @@ export default function GalleryHero() {
             priority
           />
           
-
-          
-          {/* Button positions: Unlock at 630x1850, Share at 1100x1850 */}
-          
-          {/* INVISIBLE BUTTONS AT EXACT POSITIONS */}
+          {/* Invisible "Unlock the Ride" Button Overlay - EXACT COORDINATES */}
           <button
             onClick={handleUnlockRide}
+            onMouseEnter={() => console.log('🖱️ Mouse over UNLOCK button area')}
             style={{
               position: 'absolute',
-              left: '50%', // Center horizontally
-              top: '77%', // 1850px / 2400px = 77%
-              transform: 'translate(-50%, -50%)',
-              width: '32%', // Wider click area
-              height: '3.3%', // Same height
-              background: 'transparent', // Invisible background
-              border: 'none', // No border
+              left: '630px',
+              top: '1850px',
+              width: '200px', // Increased from 100px to 200px
+              height: '100px', // Increased from 50px to 100px
+              background: 'transparent',
+              border: 'none',
               cursor: 'pointer',
-              zIndex: 50, // Higher z-index
+              transform: 'translate(-50%, -50%)',
+              zIndex: 1000,
             }}
-            title="Unlock the Ride"
           />
-          
+
+          {/* Invisible "Share" Button Overlay - EXACT COORDINATES */}
           <button
             onClick={handleShare}
             style={{
               position: 'absolute',
-              right: '8%', // Moved further to the right (was 15%)
-              top: '77%', // Same Y position as Unlock button
-              transform: 'translateY(-50%)',
-              width: '12%', // Reduced size (was 20%)
-              height: '2.5%', // Reduced height (was 3.3%)
-              background: 'transparent', // Invisible background
-              border: 'none', // No border
+              left: '1100px',
+              top: '1850px',
+              width: '100px',
+              height: '50px',
+              background: 'transparent',
+              border: 'none',
               cursor: 'pointer',
-              zIndex: 50, // Same z-index as Unlock button
+              transform: 'translate(-50%, -50%)',
+              zIndex: 1000,
             }}
-            title="Share"
           />
         </div>
       </div>
