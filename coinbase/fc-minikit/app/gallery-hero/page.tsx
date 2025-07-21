@@ -45,7 +45,21 @@ export default function GalleryHero() {
       }
     };
     
+    // Add keyboard navigation for testing
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowUp' || event.key === 'w') {
+        console.log('⌨️ Keyboard navigation - navigating to gallery-hero-2');
+        window.location.href = '/gallery-hero-2';
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyPress);
+    
     initializeSDK();
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
   }, []);
   
   const handlers = useSwipeable({
@@ -53,49 +67,19 @@ export default function GalleryHero() {
       console.log('🎯 Swipe up detected!', eventData);
       console.log('Delta Y:', eventData.deltaY, 'Velocity:', eventData.velocity);
       
-      // Enhanced mobile swipe detection with lower thresholds for better responsiveness
-      if (Math.abs(eventData.deltaY) >= 30 || eventData.velocity >= 0.2) {
-        console.log('✅ Valid swipe up - navigating to gallery-hero-2');
-        
-        // Try multiple navigation methods with fallbacks
-        try {
-          // Method 1: Direct navigation
-          window.location.href = '/gallery-hero-2';
-        } catch (error) {
-          console.log('Direct navigation failed, trying replace:', error);
-          try {
-            // Method 2: Location replace
-            window.location.replace('/gallery-hero-2');
-          } catch (replaceError) {
-            console.log('Replace failed, trying assign:', replaceError);
-            try {
-              // Method 3: Location assign
-              window.location.assign('/gallery-hero-2');
-            } catch (assignError) {
-              console.log('All navigation methods failed:', assignError);
-              // Final fallback: reload and navigate
-              window.location.reload();
-            }
-          }
-        }
-      } else {
-        console.log('❌ Swipe too small or slow, ignoring');
-      }
+      // Force navigation immediately
+      console.log('✅ Navigating to gallery-hero-2');
+      window.location.href = '/gallery-hero-2';
     },
     onSwipeStart: (eventData) => {
       console.log('🔄 Swipe started:', eventData);
     },
     onSwiped: (eventData) => {
       console.log('📱 Swipe completed:', eventData);
-      // Additional manual detection for mobile with lower thresholds
-      if (eventData.dir === 'Up' && (Math.abs(eventData.deltaY) >= 30 || eventData.velocity >= 0.2)) {
+      // Additional manual detection for mobile
+      if (eventData.dir === 'Up') {
         console.log('✅ Manual swipe up detection - navigating to gallery-hero-2');
-        try {
-          window.location.href = '/gallery-hero-2';
-        } catch (error) {
-          console.log('Navigation failed:', error);
-          window.location.replace('/gallery-hero-2');
-        }
+        window.location.href = '/gallery-hero-2';
       }
     },
     onSwipedDown: (eventData) => {
@@ -120,6 +104,7 @@ export default function GalleryHero() {
 
   const handleUnlockRide = async () => {
     console.log('🎯 Unlock Ride button clicked!');
+    console.log('🔗 Target URL: https://app.manifold.xyz/c/man-driving-car');
     
     try {
       // Check if we're in a Mini App environment
@@ -134,7 +119,7 @@ export default function GalleryHero() {
           
           if (capabilities.includes('actions.openUrl')) {
             await sdk.actions.openUrl('https://app.manifold.xyz/c/man-driving-car');
-            console.log('✅ Opened Manifold URL via SDK');
+            console.log('✅ Opened Manifold mint URL via SDK');
             return;
           }
         } catch (sdkError) {
@@ -144,7 +129,7 @@ export default function GalleryHero() {
         // Fallback 1: Try window.open with noopener
         try {
           window.open('https://app.manifold.xyz/c/man-driving-car', '_blank', 'noopener,noreferrer');
-          console.log('✅ Opened URL via window.open fallback');
+          console.log('✅ Opened Manifold mint URL via window.open fallback');
           return;
         } catch (windowError) {
           console.log('❌ window.open failed:', windowError);
@@ -227,17 +212,44 @@ export default function GalleryHero() {
     }
   };
 
+  const showNotification = (message: string, type: 'success' | 'error') => {
+    // Create a simple notification
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: ${type === 'success' ? '#4CAF50' : '#f44336'};
+      color: white;
+      padding: 12px 20px;
+      border-radius: 4px;
+      z-index: 1000;
+      font-size: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+      if (document.body.contains(notification)) {
+        notification.remove();
+      }
+    }, 3000);
+  };
+
   const handleClipboardFallback = (url: string) => {
     // Check if clipboard API is available
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(url).then(() => {
         console.log('URL copied to clipboard successfully');
-          alert("Link copied to clipboard!");
-        }).catch((clipboardError) => {
+        // Show a more user-friendly notification
+        showNotification('Link copied to clipboard!', 'success');
+      }).catch((clipboardError) => {
         console.log('Clipboard permission denied or failed:', clipboardError);
-        // Don't show error alert, just log it
+        // Show manual copy dialog instead of alert
         showManualCopyDialog(url);
-        });
+      });
     } else {
       console.log('Clipboard API not available');
       showManualCopyDialog(url);
@@ -287,6 +299,15 @@ export default function GalleryHero() {
         onTouchStart={() => {
           // Additional touch handling for better mobile detection
           console.log('Touch started on container');
+        }}
+        onClick={() => {
+          // Fallback navigation for testing
+          console.log('🖱️ Container clicked - testing navigation');
+          // Add a simple navigation test
+          if (window.location.pathname === '/gallery-hero') {
+            console.log('🔄 Navigating to gallery-hero-2 via click');
+            window.location.href = '/gallery-hero-2';
+          }
         }}
         className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
         style={{

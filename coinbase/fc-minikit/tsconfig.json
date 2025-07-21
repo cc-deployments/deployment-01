@@ -24,9 +24,6 @@
     "paths": {
       "@/*": [
         "./*"
-      ],
-      "@cculture/sharedauth/*": [
-        "../../packages/sharedauth/*"
       ]
     },
     "target": "ES2017"

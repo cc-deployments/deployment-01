@@ -2,16 +2,12 @@
 
 import { type ReactNode, useEffect, useState } from "react";
 import { base } from "wagmi/chains";
-import { OnchainKitProvider } from "@coinbase/onchainkit";
-import { WagmiProvider } from 'wagmi';
+import { MiniKitProvider } from "@coinbase/onchainkit/minikit";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { sdk } from '@farcaster/miniapp-sdk';
-import { useWagmiConfig } from '@cculture/sharedauth/socialidentity/wagmi';
 
 // Context provider for Farcaster SDK
 function FarcasterContextProvider({ children }: { children: ReactNode }) {
-  const [isInitialized, setIsInitialized] = useState(false);
-
   useEffect(() => {
     const initializeFarcasterContext = async () => {
       try {
@@ -25,64 +21,30 @@ function FarcasterContextProvider({ children }: { children: ReactNode }) {
         const sdkContext = await sdk.context;
         console.log('📋 Farcaster SDK Context:', sdkContext);
         
-        // Log specific context details for debugging
-        if (sdkContext?.location) {
-          console.log('📍 Location context type:', sdkContext.location.type);
-          if (sdkContext.location.type === 'cast_embed') {
-            console.log('🎯 Cast embed detected!');
-            console.log('📝 Cast text:', sdkContext.location.cast?.text);
-            console.log('👤 Cast author:', sdkContext.location.cast?.author);
-          }
-        }
-        
-        if (sdkContext?.user) {
-          console.log('👤 User context:', sdkContext.user);
-        }
-        
-        if (sdkContext?.client) {
-          console.log('📱 Client context:', sdkContext.client);
-        }
-        
-        setIsInitialized(true);
-        
       } catch (error) {
         console.error('❌ Error initializing Farcaster context:', error);
-        setIsInitialized(true); // Still mark as initialized to prevent blocking
       }
     };
     
     initializeFarcasterContext();
   }, []);
 
-  return (
-    <div className={`farcaster-context ${isInitialized ? 'initialized' : 'loading'}`}>
-      {children}
-    </div>
-  );
+  return <>{children}</>;
 }
 
 export function Providers(props: { children: ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
-  const wagmiConfig = useWagmiConfig(); // ✅ Use shared auth configuration with Farcaster Mini App connector
 
   return (
-    <WagmiProvider config={wagmiConfig}>
+    <MiniKitProvider
+      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+      chain={base}
+    >
       <QueryClientProvider client={queryClient}>
-        <OnchainKitProvider
-          apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
-          chain={base}
-          config={{
-            appearance: {
-              mode: 'auto',
-              theme: 'default',
-            },
-          }}
-        >
-          <FarcasterContextProvider>
-            {props.children}
-          </FarcasterContextProvider>
-        </OnchainKitProvider>
+        <FarcasterContextProvider>
+          {props.children}
+        </FarcasterContextProvider>
       </QueryClientProvider>
-    </WagmiProvider>
+    </MiniKitProvider>
   );
 }
