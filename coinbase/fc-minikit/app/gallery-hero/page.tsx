@@ -68,6 +68,7 @@ export default function GalleryHero() {
     delta: 5, // Lower delta for more sensitive detection
     swipeDuration: 300, // Shorter duration for more responsive feel
     preventScrollOnSwipe: true, // Prevent scroll interference
+
   });
 
   const handleUnlockRide = async () => {
@@ -114,6 +115,8 @@ export default function GalleryHero() {
       showManualCopyDialog(window.location.href);
     }
   };
+
+
 
   const showNotification = (message: string, type: 'success' | 'error') => {
     // Simple notification implementation
@@ -191,38 +194,41 @@ export default function GalleryHero() {
             priority
           />
           
-          {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
+
+          
+          {/* Button positions: Unlock at 630x1850, Share at 1100x1850 */}
+          
+          {/* INVISIBLE BUTTONS AT EXACT POSITIONS */}
           <button
             onClick={handleUnlockRide}
             style={{
               position: 'absolute',
-              left: '50%',
-              top: '63.6%', // Centered vertically
-              transform: 'translateX(-50%)', // Centers the button horizontally
-              width: '24%', // Approximately 300px / 1260px = 24%
-              height: '2%', // Approximately 50px / 2400px = 2%
+              left: '50%', // Center horizontally
+              top: '77%', // 1850px / 2400px = 77%
+              transform: 'translate(-50%, -50%)',
+              width: '32%', // Wider click area
+              height: '3.3%', // Same height
               background: 'transparent', // Invisible background
               border: 'none', // No border
               cursor: 'pointer',
-              zIndex: 20,
+              zIndex: 50, // Higher z-index
             }}
             title="Unlock the Ride"
           />
           
-          {/* Invisible "Share" Button Overlay - RESPONSIVE POSITIONING */}
           <button
             onClick={handleShare}
             style={{
               position: 'absolute',
-              left: '50%',
-              top: '78.1%', // 345px higher than Unlock button
-              transform: 'translateX(-50%)', // Centers the button horizontally
-              width: '24%', // Approximately 300px / 1260px = 24%
-              height: '2%', // Approximately 50px / 2400px = 2%
+              right: '8%', // Moved further to the right (was 15%)
+              top: '77%', // Same Y position as Unlock button
+              transform: 'translateY(-50%)',
+              width: '12%', // Reduced size (was 20%)
+              height: '2.5%', // Reduced height (was 3.3%)
               background: 'transparent', // Invisible background
               border: 'none', // No border
               cursor: 'pointer',
-              zIndex: 20,
+              zIndex: 50, // Same z-index as Unlock button
             }}
             title="Share"
           />
