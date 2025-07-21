@@ -11,4 +11,10 @@ node_modules/
 .turbo/daemon/
 
 # Ignore backup directories
-fc-minikit-backup/ 
+fc-minikit-backup/
+
+# Ignore accidentally created cb-minikit directory
+cb-minikit/
+
+# Ignore old neynar project that's causing deployment failures
+web3-social-starter-neynar-v2/ 
