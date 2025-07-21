@@ -65,11 +65,9 @@ export default function GalleryHero() {
       window.location.href = '/gallery-hero-2';
     },
     trackMouse: true,
-    trackTouch: true,
-    delta: 30, // Increased for better mobile detection
-    swipeDuration: 500, // Longer duration for mobile
-    preventScrollOnSwipe: true,
-    rotationAngle: 0, // Only detect vertical swipes
+    delta: 5, // Lower delta for more sensitive detection
+    swipeDuration: 300, // Shorter duration for more responsive feel
+    preventScrollOnSwipe: true, // Prevent scroll interference
   });
 
   const handleUnlockRide = async () => {
@@ -203,11 +201,10 @@ export default function GalleryHero() {
         className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
         style={{
           width: '100%',
-          height: '100vh',
+          height: 'auto',
           position: 'relative',
-          overflow: 'hidden',
+          overflow: 'visible',
           backgroundColor: 'transparent',
-          touchAction: 'none', // Prevent default touch behaviors
         }}
       >
         {/* Image area - Responsive container */}
@@ -221,16 +218,16 @@ export default function GalleryHero() {
             priority
           />
           
-          {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
+          {/* Invisible "Unlock the Ride" Button Overlay - EXACT COORDINATES */}
           <button
             onClick={handleUnlockRide}
             onMouseEnter={() => console.log('🖱️ Mouse over UNLOCK button area')}
             style={{
               position: 'absolute',
-              left: '50%',
-              top: '77%',
-              width: '16%',
-              height: '4%',
+              left: '630px',
+              top: '1850px',
+              width: '200px', // Increased from 100px to 200px
+              height: '100px', // Increased from 50px to 100px
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
@@ -239,19 +236,19 @@ export default function GalleryHero() {
             }}
           />
 
-          {/* Invisible "Share" Button Overlay - RESPONSIVE POSITIONING */}
+          {/* Invisible "Share" Button Overlay - EXACT COORDINATES */}
           <button
             onClick={handleShare}
             style={{
               position: 'absolute',
-              right: '8%',
-              top: '77%',
-              width: '8%',
-              height: '2%',
+              left: '1100px',
+              top: '1850px',
+              width: '100px',
+              height: '50px',
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
-              transform: 'translate(0%, -50%)',
+              transform: 'translate(-50%, -50%)',
               zIndex: 1000,
             }}
           />

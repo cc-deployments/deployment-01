@@ -68,11 +68,16 @@ This is the main directory containing your CarMania app. All files and folders m
 
 ## 📱 App Pages & Navigation
 
-### **Main Pages:**
+### **Main Pages & Image Assets:**
 1. **Gallery Hero** (`/gallery-hero`) - Main car showcase with swipe navigation
-2. **Gallery Hero 2** (`/gallery-hero-2`) - Alternative car showcase
+   - **Image:** `/carmania-gallery-hero.png`
+2. **Gallery Hero 2** (`/gallery-hero-2`) - Alternative car showcase  
+   - **Image:** `/carmania-gallery-hero-2.png`
 3. **Text Page** (`/text-page`) - Information page with "Unlock the Ride" button
+   - **Image:** `/text-page.png`
 4. **Manifold Gallery** (`/manifold-gallery`) - NFT gallery integration
+   - **Data Source:** SQL database (`carculture_content_schedule.csv`)
+   - **External Link:** https://manifold.xyz/@carculture
 5. **Social Identity** (`/socialidentity`) - Wallet connection and identity features
 
 ### **Navigation Flow:**
