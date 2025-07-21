@@ -64,7 +64,6 @@ export default function TextPage() {
       console.log('⬇️ Swipe down detected');
       window.location.href = '/gallery-hero';
     },
-    preventDefaultTouchmoveEvent: true,
     trackMouse: true,
     delta: 5, // Lower delta for more sensitive detection
     swipeDuration: 300, // Shorter duration for more responsive feel
