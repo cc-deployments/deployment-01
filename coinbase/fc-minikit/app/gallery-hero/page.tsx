@@ -64,7 +64,6 @@ export default function GalleryHero() {
       console.log('⬇️ Swipe down detected');
       window.location.href = '/gallery-hero-2';
     },
-    preventDefaultTouchmoveEvent: true,
     trackMouse: true,
     delta: 5, // Lower delta for more sensitive detection
     swipeDuration: 300, // Shorter duration for more responsive feel
@@ -135,20 +134,7 @@ export default function GalleryHero() {
     setTimeout(() => notification.remove(), 3000);
   };
 
-  const handleClipboardFallback = (url: string) => {
-    const textArea = document.createElement('textarea');
-    textArea.value = url;
-    document.body.appendChild(textArea);
-    textArea.select();
-    try {
-      document.execCommand('copy');
-      showNotification('Link copied to clipboard!', 'success');
-    } catch (err) {
-      console.error('Fallback copy failed:', err);
-      showManualCopyDialog(url);
-    }
-    document.body.removeChild(textArea);
-  };
+
 
   const showManualCopyDialog = (url: string) => {
     const dialog = document.createElement('div');
