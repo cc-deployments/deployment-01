@@ -1,9 +1,8 @@
 "use client";
+import { useSwipeable } from 'react-swipeable';
 import { useEffect, useState } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
-import Image from 'next/image';
-import { useSwipeable } from 'react-swipeable';
-import FarcasterMetaTags from '../components/FarcasterMetaTags';
+import Image from "next/image";
 
 export default function GalleryHero2() {
   const [isInMiniApp, setIsInMiniApp] = useState(false);
@@ -144,7 +143,6 @@ export default function GalleryHero2() {
 
   return (
     <>
-      <FarcasterMetaTags pageUrl="/gallery-hero-2" buttonTitle="Unlock the Ride" />
       <div
         {...handlers}
         onClick={handleContainerClick}

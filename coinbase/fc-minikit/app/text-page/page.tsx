@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useSwipeable } from 'react-swipeable';
 import { useState, useEffect } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
-import FarcasterMetaTags from '../components/FarcasterMetaTags';
 
 export default function TextPage() {
   const [isInMiniApp, setIsInMiniApp] = useState(false);
@@ -138,7 +137,6 @@ export default function TextPage() {
 
   return (
     <>
-      <FarcasterMetaTags pageUrl="/text-page" buttonTitle="Unlock the Ride" />
       <div 
         {...handlers} 
         onClick={handleContainerClick}

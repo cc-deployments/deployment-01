@@ -3,7 +3,6 @@ import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
-import FarcasterMetaTags from '../components/FarcasterMetaTags';
 
 export default function ManifoldGallery() {
   const router = useRouter();
@@ -40,7 +39,6 @@ export default function ManifoldGallery() {
 
   return (
     <>
-      <FarcasterMetaTags pageUrl="/manifold-gallery" buttonTitle="View Gallery" />
       <div
         {...handlers}
         style={{
