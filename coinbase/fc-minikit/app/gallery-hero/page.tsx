@@ -218,16 +218,16 @@ export default function GalleryHero() {
             priority
           />
           
-          {/* Invisible "Unlock the Ride" Button Overlay - EXACT COORDINATES */}
+          {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
           <button
             onClick={handleUnlockRide}
             onMouseEnter={() => console.log('🖱️ Mouse over UNLOCK button area')}
             style={{
               position: 'absolute',
-              left: '630px',
-              top: '1850px',
-              width: '200px', // Increased from 100px to 200px
-              height: '100px', // Increased from 50px to 100px
+              left: '50%',
+              top: '77%',
+              width: '16%',
+              height: '4%',
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
@@ -236,19 +236,19 @@ export default function GalleryHero() {
             }}
           />
 
-          {/* Invisible "Share" Button Overlay - EXACT COORDINATES */}
+          {/* Invisible "Share" Button Overlay - RESPONSIVE POSITIONING */}
           <button
             onClick={handleShare}
             style={{
               position: 'absolute',
-              left: '1100px',
-              top: '1850px',
-              width: '100px',
-              height: '50px',
+              right: '8%',
+              top: '77%',
+              width: '8%',
+              height: '2%',
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
-              transform: 'translate(-50%, -50%)',
+              transform: 'translate(0%, -50%)',
               zIndex: 1000,
             }}
           />
