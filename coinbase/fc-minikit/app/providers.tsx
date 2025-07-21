@@ -21,6 +21,15 @@ function FarcasterContextProvider({ children }: { children: ReactNode }) {
         const sdkContext = await sdk.context;
         console.log('📋 Farcaster SDK Context:', sdkContext);
         
+        // Check if we're in Base App environment using recommended method
+        const isInBaseApp = sdkContext?.client?.clientFid === 309857;
+        console.log('📍 Is in Base App:', isInBaseApp);
+        
+        if (isInBaseApp) {
+          // Base App exposes an EIP-1193 Ethereum Provider
+          console.log('🔗 Base App EIP-1193 provider available');
+        }
+        
       } catch (error) {
         console.error('❌ Error initializing Farcaster context:', error);
       }

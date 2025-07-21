@@ -1,68 +1,118 @@
 "use client";
+
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
 
 export default function ManifoldGallery() {
-  const router = useRouter();
+  const [isInMiniApp, setIsInMiniApp] = useState(false);
 
   useEffect(() => {
     const initializeSDK = async () => {
       try {
-        console.log('Checking if in Mini App environment...');
-        const isInMiniApp = await sdk.isInMiniApp();
-        console.log('Is in Mini App:', isInMiniApp);
+        console.log('Calling sdk.actions.ready()...');
+        await sdk.actions.ready();
+        console.log('sdk.actions.ready() called successfully');
         
-        if (isInMiniApp) {
-          console.log('Calling sdk.actions.ready()...');
-          await sdk.actions.ready();
-          console.log('sdk.actions.ready() called successfully');
-        } else {
-          console.log('Not in Mini App environment, skipping ready() call');
-        }
+        // Get SDK context for environment detection
+        const context = await sdk.context;
+        const baseAppStatus = context?.client?.clientFid === 309857;
+        setIsInMiniApp(baseAppStatus);
+        console.log('📍 Is in Base App:', baseAppStatus);
+        
       } catch (error) {
         console.error('Error initializing SDK:', error);
       }
     };
-    
+
     initializeSDK();
+  }, []);
+
+  const handleKeyPress = (event: KeyboardEvent) => {
+    if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
+      console.log('⬆️ Keyboard navigation: Swipe up');
+      window.location.href = '/text-page';
+    } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
+      console.log('⬇️ Keyboard navigation: Swipe down');
+      window.location.href = '/gallery-hero';
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
   }, []);
 
   const handlers = useSwipeable({
     onSwipedUp: () => {
-      window.open('https://app.manifold.xyz/c/carculture', '_blank', 'noopener,noreferrer');
+      console.log('⬆️ Swipe up detected');
+      window.location.href = '/text-page';
     },
-    onSwipedDown: () => router.push('/text-page'),
-    trackTouch: true,
+    onSwipedDown: () => {
+      console.log('⬇️ Swipe down detected');
+      window.location.href = '/gallery-hero';
+    },
+    trackMouse: true,
+    delta: 5, // Lower delta for more sensitive detection
+    swipeDuration: 300, // Shorter duration for more responsive feel
+    preventScrollOnSwipe: true, // Prevent scroll interference
   });
 
   return (
     <>
-      <div
-        {...handlers}
+      <div 
+        {...handlers} 
+        className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
         style={{
-          width: 1260,
-          minHeight: 800,
-          maxWidth: '100vw',
-          margin: "0 auto",
-          background: "transparent",
-          overflowY: "auto",
-          overflowX: "hidden",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          width: '100vw',
           height: '100vh',
+          position: 'relative',
+          overflow: 'hidden',
+          backgroundColor: '#000',
         }}
       >
-      <iframe
-        src="https://manifold.xyz/@carculture"
-        title="CarCulture Manifold Gallery"
-        width={1260}
-        style={{ border: "none", width: "100%", minHeight: 1200, height: '100vh' }}
-        allowFullScreen
-      />
-    </div>
+        {/* Image area - Responsive container */}
+        <div className="gallery-hero-image-container">
+          <Image
+            src="/manifold-gallery.png"
+            alt="Manifold Gallery"
+            width={1260}
+            height={2400}
+            style={{ width: '100%', height: 'auto', aspectRatio: '1260 / 2400', objectFit: 'cover', display: 'block' }}
+            priority
+          />
+          
+          {/* Invisible "View Gallery" Button Overlay - RESPONSIVE POSITIONING */}
+          <button
+            onClick={() => {
+              console.log('View Gallery clicked!');
+              // Universal navigation - works in all environments
+              try {
+                window.open('https://app.manifold.xyz/c/carculture', '_blank', 'noopener,noreferrer');
+                console.log('✅ Opened Manifold gallery URL via universal navigation');
+              } catch (error) {
+                console.error('Error opening URL:', error);
+                // Fallback to regular window.open
+                window.open('https://app.manifold.xyz/c/carculture', '_blank');
+              }
+            }}
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '63.6%', // Centered vertically
+              transform: 'translateX(-50%)', // Centers the button horizontally
+              width: '24%', // Approximately 300px / 1260px = 24%
+              height: '2%', // Approximately 50px / 2400px = 2%
+              background: 'transparent', // Invisible background
+              border: 'none', // No border
+              cursor: 'pointer',
+              zIndex: 20,
+            }}
+            title="View Gallery"
+          />
+        </div>
+      </div>
     </>
   );
 } 

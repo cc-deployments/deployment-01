@@ -1,181 +1,118 @@
 "use client";
-import { useSwipeable } from 'react-swipeable';
+
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
-import Image from "next/image";
 
 export default function GalleryHero2() {
   const [isInMiniApp, setIsInMiniApp] = useState(false);
-  
+
   useEffect(() => {
     const initializeSDK = async () => {
       try {
-        console.log('Checking if in Mini App environment...');
-        const isInMiniApp = await sdk.isInMiniApp();
-        console.log('Is in Mini App:', isInMiniApp);
-        setIsInMiniApp(isInMiniApp);
+        console.log('Calling sdk.actions.ready()...');
+        await sdk.actions.ready();
+        console.log('sdk.actions.ready() called successfully');
         
-        if (isInMiniApp) {
-          console.log('Calling sdk.actions.ready()...');
-          await sdk.actions.ready();
-          console.log('sdk.actions.ready() called successfully');
-        } else {
-          console.log('Not in Mini App environment, skipping ready() call');
-        }
+        // Get SDK context for environment detection
+        const context = await sdk.context;
+        const baseAppStatus = context?.client?.clientFid === 309857;
+        setIsInMiniApp(baseAppStatus);
+        console.log('📍 Is in Base App:', baseAppStatus);
+        
       } catch (error) {
         console.error('Error initializing SDK:', error);
       }
     };
-    
+
     initializeSDK();
   }, []);
 
-  // Enhanced swipe handlers with better detection
+  const handleKeyPress = (event: KeyboardEvent) => {
+    if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
+      console.log('⬆️ Keyboard navigation: Swipe up');
+      window.location.href = '/text-page';
+    } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
+      console.log('⬇️ Keyboard navigation: Swipe down');
+      window.location.href = '/gallery-hero';
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, []);
+
   const handlers = useSwipeable({
-    onSwipedUp: (eventData) => {
-      console.log('🎯 Swipe up detected!', eventData);
-      console.log('Delta Y:', eventData.deltaY, 'Velocity:', eventData.velocity);
-      
-      // Enhanced mobile swipe detection
-      if (Math.abs(eventData.deltaY) >= 50 || eventData.velocity >= 0.3) {
-        console.log('✅ Valid swipe up - navigating to text-page');
-        try {
-          window.location.href = '/text-page';
-        } catch (error) {
-          console.log('Navigation failed:', error);
-          window.location.replace('/text-page');
-        }
-      } else {
-        console.log('❌ Swipe too small or slow, ignoring');
-      }
+    onSwipedUp: () => {
+      console.log('⬆️ Swipe up detected');
+      window.location.href = '/text-page';
     },
-    onSwipedDown: (eventData) => {
-      console.log('⬇️ Swipe down detected!', eventData);
-      console.log('Delta Y:', eventData.deltaY, 'Velocity:', eventData.velocity);
-      
-      // Enhanced mobile swipe detection
-      if (Math.abs(eventData.deltaY) >= 50 || eventData.velocity >= 0.3) {
-        console.log('✅ Valid swipe down - navigating to gallery-hero');
-        try {
-          window.location.href = '/gallery-hero';
-        } catch (error) {
-          console.log('Navigation failed:', error);
-          window.location.replace('/gallery-hero');
-        }
-      } else {
-        console.log('❌ Swipe too small or slow, ignoring');
-      }
+    onSwipedDown: () => {
+      console.log('⬇️ Swipe down detected');
+      window.location.href = '/gallery-hero';
     },
-    onSwipeStart: (eventData) => {
-      console.log('🔄 Swipe started:', eventData);
-    },
-    onSwiped: (eventData) => {
-      console.log('📱 Swipe completed:', eventData);
-      // Additional manual detection for mobile
-      if (eventData.dir === 'Up' && (Math.abs(eventData.deltaY) >= 50 || eventData.velocity >= 0.3)) {
-        console.log('✅ Manual swipe up detection - navigating to text-page');
-        try {
-          window.location.href = '/text-page';
-        } catch (error) {
-          console.log('Navigation failed:', error);
-          window.location.replace('/text-page');
-        }
-      } else if (eventData.dir === 'Down' && (Math.abs(eventData.deltaY) >= 50 || eventData.velocity >= 0.3)) {
-        console.log('✅ Manual swipe down detection - navigating to gallery-hero');
-        try {
-          window.location.href = '/gallery-hero';
-        } catch (error) {
-          console.log('Navigation failed:', error);
-          window.location.replace('/gallery-hero');
-        }
-      }
-    },
-    onSwipedLeft: (eventData) => {
-      console.log('⬅️ Swipe left detected:', eventData);
-    },
-    onSwipedRight: (eventData) => {
-      console.log('➡️ Swipe right detected:', eventData);
-    },
-    trackTouch: true,
     trackMouse: true,
-    delta: 10, // More reasonable sensitivity
-    swipeDuration: 500, // Longer duration for mobile
+    delta: 5, // Lower delta for more sensitive detection
+    swipeDuration: 300, // Shorter duration for more responsive feel
     preventScrollOnSwipe: true, // Prevent scroll interference
   });
 
-  // Tap handler
-  const handleTap = () => {
-    window.open('https://app.manifold.xyz/c/man-driving-car', '_blank', 'noopener,noreferrer');
-  };
-
-  // Enhanced fallback click handler
-  const handleContainerClick = (e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clickY = e.clientY - rect.top;
-    
-    // Check if click is in the bottom area (last 300px) - swipe up
-    if (clickY > 2100) {
-      console.log('Bottom area clicked - treating as swipe up');
-      try {
-        window.location.href = '/text-page';
-      } catch (error) {
-        console.log('Navigation failed:', error);
-        window.location.replace('/text-page');
-      }
-      return;
-    }
-    
-    // Check if click is in the top area (first 300px) - swipe down
-    if (clickY < 300) {
-      console.log('Top area clicked - treating as swipe down');
-      try {
-        window.location.href = '/gallery-hero';
-      } catch (error) {
-        console.log('Navigation failed:', error);
-        window.location.replace('/gallery-hero');
-      }
-      return;
-    }
-    
-    // Default tap behavior
-    handleTap();
-  };
-
   return (
     <>
-      <div
-        {...handlers}
-        onClick={handleContainerClick}
-        onTouchStart={() => {
-          console.log('Touch started on container');
-        }}
-        onTouchMove={() => {
-          console.log('Touch moved on container');
-        }}
-        onTouchEnd={() => {
-          console.log('Touch ended on container');
-        }}
-        role="button"
-        tabIndex={0}
-        aria-label="Open Car of the Day mint page"
-        onKeyPress={e => {
-          if (e.key === 'Enter' || e.key === ' ') handleTap();
-        }}
+      <div 
+        {...handlers} 
         className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
+        style={{
+          width: '100vw',
+          height: '100vh',
+          position: 'relative',
+          overflow: 'hidden',
+          backgroundColor: '#000',
+        }}
       >
-      <div className="gallery-hero-image-container">
-        <Image
-          src="/carmania-gallery-hero-2.png"
-          alt="CarMania Gallery Hero 2"
-          width={1260}
-          height={2400}
-          style={{ width: '100%', height: 'auto', aspectRatio: '1260 / 2400', objectFit: 'cover', display: 'block' }}
-          priority
-        />
+        {/* Image area - Responsive container */}
+        <div className="gallery-hero-image-container">
+          <Image
+            src="/gallery-hero-2.png"
+            alt="Gallery Hero 2"
+            width={1260}
+            height={2400}
+            style={{ width: '100%', height: 'auto', aspectRatio: '1260 / 2400', objectFit: 'cover', display: 'block' }}
+            priority
+          />
+          
+          {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
+          <button
+            onClick={() => {
+              console.log('Unlock Ride clicked!');
+              // Universal navigation - works in all environments
+              try {
+                window.open('https://app.manifold.xyz/c/man-driving-car', '_blank', 'noopener,noreferrer');
+                console.log('✅ Opened Manifold mint URL via universal navigation');
+              } catch (error) {
+                console.error('Error opening URL:', error);
+                // Fallback to regular window.open
+                window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
+              }
+            }}
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '63.6%', // Centered vertically
+              transform: 'translateX(-50%)', // Centers the button horizontally
+              width: '24%', // Approximately 300px / 1260px = 24%
+              height: '2%', // Approximately 50px / 2400px = 2%
+              background: 'transparent', // Invisible background
+              border: 'none', // No border
+              cursor: 'pointer',
+              zIndex: 20,
+            }}
+            title="Unlock the Ride"
+          />
+        </div>
       </div>
-      
-
-    </div>
     </>
   );
 } 
