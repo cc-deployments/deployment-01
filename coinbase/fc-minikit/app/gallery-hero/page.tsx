@@ -65,9 +65,11 @@ export default function GalleryHero() {
       window.location.href = '/gallery-hero-2';
     },
     trackMouse: true,
-    delta: 5, // Lower delta for more sensitive detection
-    swipeDuration: 300, // Shorter duration for more responsive feel
-    preventScrollOnSwipe: true, // Prevent scroll interference
+    trackTouch: true,
+    delta: 30, // Increased for better mobile detection
+    swipeDuration: 500, // Longer duration for mobile
+    preventScrollOnSwipe: true,
+    rotationAngle: 0, // Only detect vertical swipes
   });
 
   const handleUnlockRide = async () => {
@@ -201,10 +203,11 @@ export default function GalleryHero() {
         className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
         style={{
           width: '100%',
-          height: 'auto',
+          height: '100vh',
           position: 'relative',
-          overflow: 'visible',
+          overflow: 'hidden',
           backgroundColor: 'transparent',
+          touchAction: 'none', // Prevent default touch behaviors
         }}
       >
         {/* Image area - Responsive container */}
