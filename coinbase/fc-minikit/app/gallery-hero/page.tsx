@@ -7,7 +7,7 @@ import Image from 'next/image';
 export default function GalleryHero() {
   const [isInMiniApp, setIsInMiniApp] = useState(false);
   const [safeAreaInsets, setSafeAreaInsets] = useState({ top: 0, bottom: 0, left: 0, right: 0 });
-  const [showDebug, setShowDebug] = useState(true); // Temporary debug mode
+  const [showDebug] = useState(false); // Debug mode disabled for production
   
   useEffect(() => {
     const initializeSDK = async () => {
@@ -216,27 +216,7 @@ export default function GalleryHero() {
 
   return (
     <>
-      {/* Debug Toggle Button */}
-      {showDebug && (
-        <button
-          onClick={() => setShowDebug(false)}
-          style={{
-            position: 'fixed',
-            top: '10px',
-            left: '10px',
-            zIndex: 1000,
-            background: '#a32428',
-            color: 'white',
-            border: 'none',
-            padding: '8px 12px',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontSize: '12px',
-          }}
-        >
-          Hide Debug
-        </button>
-      )}
+      {/* Debug Toggle Button - Removed for production */}
       
       <div 
         {...handlers} 
