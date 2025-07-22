@@ -7,15 +7,6 @@ import { sdk } from '@farcaster/miniapp-sdk';
 export default function ManifoldGallery() {
   const [isInMiniApp, setIsInMiniApp] = useState(false);
 
-  const handleManualRedirect = () => {
-    console.log('🖱️ Manual redirect clicked');
-    if (isInMiniApp) {
-      sdk.actions.openUrl('https://manifold.xyz/@carculture');
-    } else {
-      window.location.href = 'https://manifold.xyz/@carculture';
-    }
-  };
-
   useEffect(() => {
     const initializeSDK = async () => {
       try {
@@ -45,26 +36,34 @@ export default function ManifoldGallery() {
       }
     };
 
-    // Redirect to actual Manifold gallery - MANUAL ONLY
-    // const redirectToManifold = () => {
-    //   console.log('🔄 Redirecting to Manifold gallery: https://manifold.xyz/@carculture');
-    //   // Manual redirect only - no automatic redirect
-    //   try {
-    //     const newWindow = window.open('https://manifold.xyz/@carculture', '_blank', 'noopener,noreferrer');
-    //     if (!newWindow) {
-    //       console.log('⚠️ Popup blocked, using location.href');
-    //       window.location.href = 'https://manifold.xyz/@carculture';
-    //     }
-    //   } catch {
-    //     console.log('❌ Redirect failed, using location.href');
-    //     window.location.href = 'https://manifold.xyz/@carculture';
-    //   }
-    // };
+    // AUTOMATIC REDIRECT to Manifold gallery
+    const redirectToManifold = async () => {
+      console.log('🔄 Redirecting to Manifold gallery: https://manifold.xyz/@carculture');
+      
+      try {
+        if (isInMiniApp) {
+          console.log('📱 Using sdk.actions.openUrl() for Mini App');
+          await sdk.actions.openUrl('https://manifold.xyz/@carculture');
+        } else {
+          console.log('🌐 Using window.location.href for web browser');
+          window.location.href = 'https://manifold.xyz/@carculture';
+        }
+      } catch (error) {
+        console.error('❌ Redirect failed:', error);
+        // Fallback to regular window.location.href
+        window.location.href = 'https://manifold.xyz/@carculture';
+      }
+    };
 
     initializeSDK();
-    // redirectToManifold(); // REMOVED - Manual only
-  }, []);
+    
+    // Auto-redirect after a short delay to allow SDK initialization
+    setTimeout(() => {
+      redirectToManifold();
+    }, 500);
+  }, [isInMiniApp]);
 
+  // Keep minimal navigation handlers in case redirect fails
   const handleKeyPress = useCallback((event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up');
@@ -112,11 +111,11 @@ export default function ManifoldGallery() {
       console.log('➡️ Swipe right detected');
     },
     trackMouse: true,
-    delta: 30, // Increased delta for easier detection (matching working pages)
-    swipeDuration: 500, // Increased duration for more forgiving detection
-    preventScrollOnSwipe: true, // Prevent scroll interference
-    trackTouch: true, // Ensure touch events are tracked
-    rotationAngle: 0, // No rotation angle restriction
+    delta: 30,
+    swipeDuration: 500,
+    preventScrollOnSwipe: true,
+    trackTouch: true,
+    rotationAngle: 0,
   });
 
   return (
@@ -129,90 +128,29 @@ export default function ManifoldGallery() {
           height: '100vh',
           position: 'relative',
           overflow: 'hidden',
-          cursor: 'grab', // Add cursor to show it's interactive
+          cursor: 'grab',
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
         onTouchStart={() => console.log('👆 Touch start detected')}
       >
-        {/* Loading State */}
-        {/* Error State */}
-        {/* Image area - Responsive container */}
-        <div className="gallery-hero-image-container" style={{
+        {/* Loading State - Show while redirecting */}
+        <div style={{
           width: '100%',
           height: '100%',
           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          position: 'relative'
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'white',
+          fontSize: '18px',
+          textAlign: 'center'
         }}>
-          {/* Redirect Message */}
-          <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            color: 'white',
-            fontSize: '18px',
-            textAlign: 'center',
-            zIndex: 1000,
-            background: 'rgba(0, 0, 0, 0.8)',
-            padding: '20px',
-            borderRadius: '8px',
-            maxWidth: '80%'
-          }}>
-            <div>🎯 Manifold Gallery</div>
+          <div>
+            <div>🔄 Redirecting to Manifold Gallery...</div>
             <div style={{ fontSize: '14px', marginTop: '10px', opacity: 0.8 }}>
               https://manifold.xyz/@carculture
             </div>
-            <div style={{ fontSize: '12px', marginTop: '10px', opacity: 0.7 }}>
-              Swipe up/down to navigate • Click button to open gallery
-            </div>
-            <button
-              onClick={handleManualRedirect}
-              style={{
-                marginTop: '15px',
-                background: '#007bff',
-                color: 'white',
-                border: 'none',
-                padding: '10px 20px',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                fontSize: '14px'
-              }}
-            >
-              Open Manifold Gallery
-            </button>
           </div>
-          
-          {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
-          <button
-            onClick={() => {
-              console.log('View Gallery clicked!');
-              // Use the latest mint URL if available, otherwise fallback
-              const targetUrl = 'https://manifold.xyz/@carculture';
-              
-              // Universal navigation - works in all environments
-              try {
-                window.open(targetUrl, '_blank', 'noopener,noreferrer');
-                console.log('✅ Opened Manifold gallery URL via universal navigation');
-              } catch (error) {
-                console.error('Error opening URL:', error);
-                // Fallback to regular window.open
-                window.open(targetUrl, '_blank');
-              }
-            }}
-            style={{
-              position: 'absolute',
-              left: '50%',
-              top: '63.6%', // Centered vertically
-              transform: 'translateX(-50%)', // Centers the button horizontally
-              width: '24%', // Approximately 300px / 1260px = 24%
-              height: '2%', // Approximately 50px / 2400px = 2%
-              background: 'transparent', // Invisible background
-              border: 'none', // No border
-              cursor: 'pointer',
-              zIndex: 20,
-            }}
-            title="View Gallery"
-          />
         </div>
       </div>
     </>
