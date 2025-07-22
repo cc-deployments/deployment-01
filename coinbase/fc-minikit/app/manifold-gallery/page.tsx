@@ -8,40 +8,17 @@ export default function ManifoldGallery() {
   const [isInMiniApp, setIsInMiniApp] = useState(false);
 
   useEffect(() => {
-    const initializeSDK = async () => {
+    // IMMEDIATE REDIRECT - No delay, no SDK initialization needed
+    const redirectToManifold = async () => {
+      console.log('🔄 Immediate redirect to Manifold gallery: https://manifold.xyz/@carculture');
+      
       try {
-        console.log('📞 Calling sdk.actions.ready() immediately...');
-        await sdk.actions.ready();
-        console.log('✅ sdk.actions.ready() called successfully');
-        
-        // Get SDK context for environment detection
+        // Check if we're in a Mini App environment
         const context = await sdk.context;
         const baseAppStatus = context?.client?.clientFid === 309857;
         setIsInMiniApp(baseAppStatus);
-        console.log('📍 Is in Base App:', baseAppStatus);
         
-      } catch (error) {
-        console.error('❌ Error initializing SDK:', error);
-        
-        // Fallback: try again after a delay
-        setTimeout(async () => {
-          try {
-            console.log('🔄 Fallback: calling sdk.actions.ready()...');
-            await sdk.actions.ready();
-            console.log('✅ Fallback sdk.actions.ready() successful');
-          } catch (fallbackError) {
-            console.error('❌ Fallback also failed:', fallbackError);
-          }
-        }, 1000);
-      }
-    };
-
-    // AUTOMATIC REDIRECT to Manifold gallery
-    const redirectToManifold = async () => {
-      console.log('🔄 Redirecting to Manifold gallery: https://manifold.xyz/@carculture');
-      
-      try {
-        if (isInMiniApp) {
+        if (baseAppStatus) {
           console.log('📱 Using sdk.actions.openUrl() for Mini App');
           await sdk.actions.openUrl('https://manifold.xyz/@carculture');
         } else {
@@ -55,13 +32,9 @@ export default function ManifoldGallery() {
       }
     };
 
-    initializeSDK();
-    
-    // Auto-redirect after a short delay to allow SDK initialization
-    setTimeout(() => {
-      redirectToManifold();
-    }, 500);
-  }, [isInMiniApp]);
+    // Execute redirect immediately
+    redirectToManifold();
+  }, []);
 
   // Keep minimal navigation handlers in case redirect fails
   const handleKeyPress = useCallback((event: KeyboardEvent) => {
@@ -118,41 +91,21 @@ export default function ManifoldGallery() {
     rotationAngle: 0,
   });
 
+  // Return empty div - no intermediate display
   return (
-    <>
-      <div 
-        {...handlers} 
-        className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
-        style={{
-          width: '100vw',
-          height: '100vh',
-          position: 'relative',
-          overflow: 'hidden',
-          cursor: 'grab',
-        }}
-        onMouseDown={() => console.log('🖱️ Mouse down detected')}
-        onTouchStart={() => console.log('👆 Touch start detected')}
-      >
-        {/* Loading State - Show while redirecting */}
-        <div style={{
-          width: '100%',
-          height: '100%',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: 'white',
-          fontSize: '18px',
-          textAlign: 'center'
-        }}>
-          <div>
-            <div>🔄 Redirecting to Manifold Gallery...</div>
-            <div style={{ fontSize: '14px', marginTop: '10px', opacity: 0.8 }}>
-              https://manifold.xyz/@carculture
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+    <div 
+      {...handlers} 
+      className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
+      style={{
+        width: '100vw',
+        height: '100vh',
+        position: 'relative',
+        overflow: 'hidden',
+        cursor: 'grab',
+        background: 'transparent'
+      }}
+      onMouseDown={() => console.log('🖱️ Mouse down detected')}
+      onTouchStart={() => console.log('👆 Touch start detected')}
+    />
   );
 } 

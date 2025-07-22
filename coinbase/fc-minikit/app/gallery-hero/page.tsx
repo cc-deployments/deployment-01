@@ -41,26 +41,41 @@ export default function GalleryHero() {
   }, []);
 
   const handleKeyPress = useCallback((event: KeyboardEvent) => {
+    console.log('🎹 Key pressed:', event.key, 'isInMiniApp:', isInMiniApp);
+    
+    // Test: Log any key press to see if event listener is working
+    if (event.key === 'Enter') {
+      console.log('🔍 Enter key detected - event listener is working!');
+    }
+    
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
-      console.log('⬆️ Keyboard navigation: Swipe up');
+      console.log('⬆️ Keyboard navigation: Swipe up - navigating to gallery-hero-2');
       if (isInMiniApp) {
+        console.log('📱 Using sdk.actions.openUrl() for Mini App');
         sdk.actions.openUrl('/gallery-hero-2');
       } else {
+        console.log('🌐 Using window.location.href for web browser');
         window.location.href = '/gallery-hero-2';
       }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
-      console.log('⬇️ Keyboard navigation: Swipe down');
+      console.log('⬇️ Keyboard navigation: Swipe down - navigating to text-page');
       if (isInMiniApp) {
+        console.log('📱 Using sdk.actions.openUrl() for Mini App');
         sdk.actions.openUrl('/text-page');
       } else {
+        console.log('🌐 Using window.location.href for web browser');
         window.location.href = '/text-page';
       }
     }
   }, [isInMiniApp]);
 
   useEffect(() => {
+    console.log('🎧 Setting up keyboard event listener');
     window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
+    return () => {
+      console.log('🎧 Removing keyboard event listener');
+      window.removeEventListener('keydown', handleKeyPress);
+    };
   }, [handleKeyPress]);
 
   const handlers = useSwipeable({
