@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
@@ -40,29 +40,45 @@ export default function GalleryHero() {
     initializeSDK();
   }, []);
 
-  const handleKeyPress = (event: KeyboardEvent) => {
+  const handleKeyPress = useCallback((event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up');
-      window.location.href = '/gallery-hero-2';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/gallery-hero-2');
+      } else {
+        window.location.href = '/gallery-hero-2';
+      }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down');
-      window.location.href = '/text-page';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/text-page');
+      } else {
+        window.location.href = '/text-page';
+      }
     }
-  };
+  }, [isInMiniApp]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, []);
+  }, [handleKeyPress]);
 
   const handlers = useSwipeable({
     onSwipedUp: () => {
       console.log('⬆️ Swipe up detected - navigating to gallery-hero-2');
-      window.location.href = '/gallery-hero-2';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/gallery-hero-2');
+      } else {
+        window.location.href = '/gallery-hero-2';
+      }
     },
     onSwipedDown: () => {
       console.log('⬇️ Swipe down detected - navigating to text-page');
-      window.location.href = '/text-page';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/text-page');
+      } else {
+        window.location.href = '/text-page';
+      }
     },
     onSwipedLeft: () => {
       console.log('⬅️ Swipe left detected');
@@ -78,17 +94,11 @@ export default function GalleryHero() {
     rotationAngle: 0, // No rotation angle restriction
   });
 
-  const handleUnlockRide = async () => {
-    console.log('🎯 Unlock Ride button clicked!');
-    console.log('🔗 Target URL: https://app.manifold.xyz/c/man-driving-car');
-    
-    // Universal navigation - works in all environments
-    try {
-      window.open('https://app.manifold.xyz/c/man-driving-car', '_blank', 'noopener,noreferrer');
-      console.log('✅ Opened Manifold mint URL via universal navigation');
-    } catch (error) {
-      console.log('❌ Navigation failed:', error);
-      // Fallback: location.href
+  const handleUnlockRide = () => {
+    console.log('🚗 Unlock the Ride clicked');
+    if (isInMiniApp) {
+      sdk.actions.openUrl('https://app.manifold.xyz/c/man-driving-car');
+    } else {
       window.location.href = 'https://app.manifold.xyz/c/man-driving-car';
     }
   };
@@ -240,7 +250,11 @@ export default function GalleryHero() {
             <button
               onClick={() => {
                 console.log('🧪 Test: Navigate to gallery-hero-2');
-                window.location.href = '/gallery-hero-2';
+                if (isInMiniApp) {
+                  sdk.actions.openUrl('/gallery-hero-2');
+                } else {
+                  window.location.href = '/gallery-hero-2';
+                }
               }}
               style={{
                 background: 'rgba(255, 0, 0, 0.8)',
@@ -257,7 +271,11 @@ export default function GalleryHero() {
             <button
               onClick={() => {
                 console.log('🧪 Test: Navigate to text-page');
-                window.location.href = '/text-page';
+                if (isInMiniApp) {
+                  sdk.actions.openUrl('/text-page');
+                } else {
+                  window.location.href = '/text-page';
+                }
               }}
               style={{
                 background: 'rgba(0, 255, 0, 0.8)',

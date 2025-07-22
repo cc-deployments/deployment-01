@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
 
@@ -9,7 +9,11 @@ export default function ManifoldGallery() {
 
   const handleManualRedirect = () => {
     console.log('🖱️ Manual redirect clicked');
-    window.location.href = 'https://manifold.xyz/@carculture';
+    if (isInMiniApp) {
+      sdk.actions.openUrl('https://manifold.xyz/@carculture');
+    } else {
+      window.location.href = 'https://manifold.xyz/@carculture';
+    }
   };
 
   useEffect(() => {
@@ -61,29 +65,45 @@ export default function ManifoldGallery() {
     // redirectToManifold(); // REMOVED - Manual only
   }, []);
 
-  const handleKeyPress = (event: KeyboardEvent) => {
+  const handleKeyPress = useCallback((event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up');
-      window.location.href = '/socialidentity';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/socialidentity');
+      } else {
+        window.location.href = '/socialidentity';
+      }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down');
-      window.location.href = '/text-page';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/text-page');
+      } else {
+        window.location.href = '/text-page';
+      }
     }
-  };
+  }, [isInMiniApp]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, []);
+  }, [handleKeyPress]);
 
   const handlers = useSwipeable({
     onSwipedUp: () => {
       console.log('⬆️ Swipe up detected - navigating to socialidentity');
-      window.location.href = '/socialidentity';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/socialidentity');
+      } else {
+        window.location.href = '/socialidentity';
+      }
     },
     onSwipedDown: () => {
       console.log('⬇️ Swipe down detected - navigating to text-page');
-      window.location.href = '/text-page';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/text-page');
+      } else {
+        window.location.href = '/text-page';
+      }
     },
     onSwipedLeft: () => {
       console.log('⬅️ Swipe left detected');

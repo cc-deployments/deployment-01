@@ -3,13 +3,13 @@
 import { Name, Address, Avatar, Identity } from '@coinbase/onchainkit/identity';
 import { useAccount } from 'wagmi';
 import { base } from 'wagmi/chains';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { useSwipeable } from 'react-swipeable';
 
 export default function SocialIdentityPage() {
   const { address, isConnected } = useAccount();
-  const [isInBaseApp, setIsInBaseApp] = useState(false);
+  const [isInMiniApp, setIsInMiniApp] = useState(false);
 
   useEffect(() => {
     const checkEnvironment = async () => {
@@ -17,7 +17,7 @@ export default function SocialIdentityPage() {
         // Use recommended Base App detection method
         const context = await sdk.context;
         const baseAppStatus = context?.client?.clientFid === 309857;
-        setIsInBaseApp(baseAppStatus);
+        setIsInMiniApp(baseAppStatus);
         console.log('📍 Is in Base App:', baseAppStatus);
         
         if (baseAppStatus) {
@@ -39,29 +39,45 @@ export default function SocialIdentityPage() {
   }, []);
 
   // Add navigation handlers
-  const handleKeyPress = (event: KeyboardEvent) => {
+  const handleKeyPress = useCallback((event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up');
-      window.location.href = '/gallery-hero';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/gallery-hero');
+      } else {
+        window.location.href = '/gallery-hero';
+      }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down');
-      window.location.href = '/manifold-gallery';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/manifold-gallery');
+      } else {
+        window.location.href = '/manifold-gallery';
+      }
     }
-  };
+  }, [isInMiniApp]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, []);
+  }, [handleKeyPress]);
 
   const handlers = useSwipeable({
     onSwipedUp: () => {
-      console.log('⬆️ Swipe up detected');
-      window.location.href = '/gallery-hero';
+      console.log('⬆️ Swipe up detected - navigating to gallery-hero');
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/gallery-hero');
+      } else {
+        window.location.href = '/gallery-hero';
+      }
     },
     onSwipedDown: () => {
-      console.log('⬇️ Swipe down detected');
-      window.location.href = '/manifold-gallery';
+      console.log('⬇️ Swipe down detected - navigating to manifold-gallery');
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/manifold-gallery');
+      } else {
+        window.location.href = '/manifold-gallery';
+      }
     },
     trackMouse: true,
     delta: 5, // Lower delta for more sensitive detection
@@ -128,7 +144,7 @@ export default function SocialIdentityPage() {
             </button>
           </div>
           <p className="text-gray-600 mb-6">
-            {isInBaseApp 
+            {isInMiniApp 
               ? "Please connect your wallet in Base App to view your social identity."
               : "Please connect your wallet to view your social identity."
             }
@@ -136,7 +152,7 @@ export default function SocialIdentityPage() {
           
           {/* Mini App-specific wallet connection */}
           <div className="mb-6">
-            {isInBaseApp ? (
+            {isInMiniApp ? (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <p className="text-sm text-blue-800">
                   <strong>Base App Environment:</strong><br />
@@ -158,7 +174,7 @@ export default function SocialIdentityPage() {
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
             <p className="text-sm text-gray-700">
               <strong>Debug Info:</strong><br />
-              Environment: {isInBaseApp ? 'Base App' : 'Web Browser'}<br />
+              Environment: {isInMiniApp ? 'Base App' : 'Web Browser'}<br />
               Connected: {isConnectedInMiniApp ? 'Yes' : 'No'}<br />
               Address: {displayAddress || 'None'}<br />
               Chain: {base.name}<br />
@@ -189,7 +205,7 @@ export default function SocialIdentityPage() {
         <div className="mt-6 bg-gray-50 border border-gray-200 rounded-lg p-4">
           <p className="text-sm text-gray-700">
             <strong>Debug Info:</strong><br />
-            Environment: {isInBaseApp ? 'Base App' : 'Web Browser'}<br />
+            Environment: {isInMiniApp ? 'Base App' : 'Web Browser'}<br />
             Connected: {isConnectedInMiniApp ? 'Yes' : 'No'}<br />
             Address: {displayAddress}<br />
             Chain: {base.name}<br />

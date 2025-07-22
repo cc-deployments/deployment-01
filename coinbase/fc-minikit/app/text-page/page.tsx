@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
@@ -40,20 +40,28 @@ export default function TextPage() {
     initializeSDK();
   }, []);
 
-  const handleKeyPress = (event: KeyboardEvent) => {
+  const handleKeyPress = useCallback((event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up');
-      window.location.href = '/manifold-gallery';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/manifold-gallery');
+      } else {
+        window.location.href = '/manifold-gallery';
+      }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down');
-      window.location.href = '/gallery-hero-2';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/gallery-hero-2');
+      } else {
+        window.location.href = '/gallery-hero-2';
+      }
     }
-  };
+  }, [isInMiniApp]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, []);
+  }, [handleKeyPress]);
 
   // Debug: Log when component mounts
   useEffect(() => {
@@ -103,24 +111,68 @@ export default function TextPage() {
     if (isVerticalSwipe && Math.abs(distanceY) > minSwipeDistance) {
       if (distanceY > 0) {
         console.log('⬆️ Manual swipe up detected - navigating to manifold-gallery');
-        window.location.href = '/manifold-gallery';
+        if (isInMiniApp) {
+          sdk.actions.openUrl('/manifold-gallery');
+        } else {
+          window.location.href = '/manifold-gallery';
+        }
       } else {
         console.log('⬇️ Manual swipe down detected - navigating to gallery-hero-2');
-        window.location.href = '/gallery-hero-2';
+        if (isInMiniApp) {
+          sdk.actions.openUrl('/gallery-hero-2');
+        } else {
+          window.location.href = '/gallery-hero-2';
+        }
       }
     } else {
       console.log('❌ Swipe not detected - distance too small or not vertical');
     }
   };
 
+  // Simple click-based navigation as fallback
+  const handleClick = (e: React.MouseEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickY = e.clientY - rect.top;
+    const clickX = e.clientX - rect.left;
+    
+    console.log('🖱️ Click detected at:', { x: clickX, y: clickY });
+    
+    // Top 30% of screen = swipe down
+    if (clickY < rect.height * 0.3) {
+      console.log('⬇️ Top area clicked - navigating to gallery-hero-2');
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/gallery-hero-2');
+      } else {
+        window.location.href = '/gallery-hero-2';
+      }
+    }
+    // Bottom 30% of screen = swipe up
+    else if (clickY > rect.height * 0.7) {
+      console.log('⬆️ Bottom area clicked - navigating to manifold-gallery');
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/manifold-gallery');
+      } else {
+        window.location.href = '/manifold-gallery';
+      }
+    }
+  };
+
   const handlers = useSwipeable({
     onSwipedUp: () => {
       console.log('⬆️ Swipe up detected - navigating to manifold-gallery');
-      window.location.href = '/manifold-gallery';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/manifold-gallery');
+      } else {
+        window.location.href = '/manifold-gallery';
+      }
     },
     onSwipedDown: () => {
       console.log('⬇️ Swipe down detected - navigating to gallery-hero-2');
-      window.location.href = '/gallery-hero-2';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/gallery-hero-2');
+      } else {
+        window.location.href = '/gallery-hero-2';
+      }
     },
     onSwipedLeft: () => {
       console.log('⬅️ Swipe left detected');
@@ -159,6 +211,7 @@ export default function TextPage() {
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
+        onClick={handleClick}
       >
         {/* Image area - Responsive container */}
         <div className="gallery-hero-image-container">

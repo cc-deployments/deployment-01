@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
@@ -29,29 +29,45 @@ export default function GalleryHero2() {
     initializeSDK();
   }, []);
 
-  const handleKeyPress = (event: KeyboardEvent) => {
+  const handleKeyPress = useCallback((event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up');
-      window.location.href = '/text-page';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/text-page');
+      } else {
+        window.location.href = '/text-page';
+      }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down');
-      window.location.href = '/gallery-hero';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/gallery-hero');
+      } else {
+        window.location.href = '/gallery-hero';
+      }
     }
-  };
+  }, [isInMiniApp]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, []);
+  }, [handleKeyPress]);
 
   const handlers = useSwipeable({
     onSwipedUp: () => {
       console.log('⬆️ Swipe up detected - navigating to text-page');
-      window.location.href = '/text-page';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/text-page');
+      } else {
+        window.location.href = '/text-page';
+      }
     },
     onSwipedDown: () => {
       console.log('⬇️ Swipe down detected - navigating to gallery-hero');
-      window.location.href = '/gallery-hero';
+      if (isInMiniApp) {
+        sdk.actions.openUrl('/gallery-hero');
+      } else {
+        window.location.href = '/gallery-hero';
+      }
     },
     onSwipedLeft: () => {
       console.log('⬅️ Swipe left detected');
