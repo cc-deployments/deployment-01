@@ -93,7 +93,6 @@ export default function GalleryHero2() {
           height: '100vh',
           position: 'relative',
           overflow: 'hidden',
-          backgroundColor: '#000',
           cursor: 'grab', // Add cursor to show it's interactive
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}

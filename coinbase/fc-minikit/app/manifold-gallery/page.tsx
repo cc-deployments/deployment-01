@@ -129,7 +129,6 @@ export default function ManifoldGallery() {
           height: '100vh',
           position: 'relative',
           overflow: 'hidden',
-          backgroundColor: '#000',
           cursor: 'grab', // Add cursor to show it's interactive
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
@@ -138,7 +137,12 @@ export default function ManifoldGallery() {
         {/* Loading State */}
         {/* Error State */}
         {/* Image area - Responsive container */}
-        <div className="gallery-hero-image-container">
+        <div className="gallery-hero-image-container" style={{
+          width: '100%',
+          height: '100%',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          position: 'relative'
+        }}>
           {/* Redirect Message */}
           <div style={{
             position: 'absolute',
@@ -151,7 +155,8 @@ export default function ManifoldGallery() {
             zIndex: 1000,
             background: 'rgba(0, 0, 0, 0.8)',
             padding: '20px',
-            borderRadius: '8px'
+            borderRadius: '8px',
+            maxWidth: '80%'
           }}>
             <div>🎯 Manifold Gallery</div>
             <div style={{ fontSize: '14px', marginTop: '10px', opacity: 0.8 }}>
