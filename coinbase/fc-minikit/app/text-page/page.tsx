@@ -89,40 +89,10 @@ export default function TextPage() {
     rotationAngle: 0, // No rotation angle restriction
   });
 
-  const handleContainerClick = (e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clickY = e.clientY - rect.top;
-    
-    // Check if click is in the bottom area (last 300px) - swipe up
-    if (clickY > 2100) {
-      console.log('Bottom area clicked - treating as swipe up');
-      try {
-        window.location.href = '/manifold-gallery';
-      } catch (error) {
-        console.log('Navigation failed:', error);
-        window.location.replace('/manifold-gallery');
-      }
-      return;
-    }
-    
-    // Check if click is in the top area (first 300px) - swipe down
-    if (clickY < 300) {
-      console.log('Top area clicked - treating as swipe down');
-      try {
-        window.location.href = '/gallery-hero-2';
-      } catch (error) {
-        console.log('Navigation failed:', error);
-        window.location.replace('/gallery-hero-2');
-      }
-      return;
-    }
-  };
-
   return (
     <>
       <div 
         {...handlers} 
-        onClick={handleContainerClick}
         className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
         style={{
           width: '100vw',
