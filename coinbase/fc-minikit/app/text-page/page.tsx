@@ -60,6 +60,48 @@ export default function TextPage() {
     console.log('📄 Text-page component mounted - swipe handlers should be active');
   }, []);
 
+  // Manual touch detection as fallback
+  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
+  const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(null);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    console.log('👆 Manual touch start detected');
+    setTouchEnd(null);
+    setTouchStart({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY,
+    });
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    console.log('👆 Manual touch move detected');
+    setTouchEnd({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY,
+    });
+  };
+
+  const onTouchEnd = () => {
+    console.log('👆 Manual touch end detected');
+    if (!touchStart || !touchEnd) return;
+    
+    const distanceX = touchStart.x - touchEnd.x;
+    const distanceY = touchStart.y - touchEnd.y;
+    const isVerticalSwipe = Math.abs(distanceY) > Math.abs(distanceX);
+
+    if (isVerticalSwipe && Math.abs(distanceY) > minSwipeDistance) {
+      if (distanceY > 0) {
+        console.log('⬆️ Manual swipe up detected - navigating to manifold-gallery');
+        window.location.href = '/manifold-gallery';
+      } else {
+        console.log('⬇️ Manual swipe down detected - navigating to gallery-hero-2');
+        window.location.href = '/gallery-hero-2';
+      }
+    }
+  };
+
   const handlers = useSwipeable({
     onSwipedUp: () => {
       console.log('⬆️ Swipe up detected - navigating to manifold-gallery');
@@ -103,9 +145,9 @@ export default function TextPage() {
           cursor: 'grab', // Add cursor to show it's interactive
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
-        onTouchStart={() => console.log('👆 Touch start detected')}
-        onTouchMove={() => console.log('👆 Touch move detected')}
-        onTouchEnd={() => console.log('👆 Touch end detected')}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
       >
         {/* Image area - Responsive container */}
         <div className="gallery-hero-image-container">
