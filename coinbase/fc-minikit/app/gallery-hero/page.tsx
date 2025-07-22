@@ -43,10 +43,10 @@ export default function GalleryHero() {
   const handleKeyPress = (event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up');
-      window.location.href = '/text-page';
+      window.location.href = '/gallery-hero-2';
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down');
-      window.location.href = '/gallery-hero-2';
+      window.location.href = '/text-page';
     }
   };
 
@@ -57,17 +57,25 @@ export default function GalleryHero() {
 
   const handlers = useSwipeable({
     onSwipedUp: () => {
-      console.log('⬆️ Swipe up detected');
-      window.location.href = '/text-page';
-    },
-    onSwipedDown: () => {
-      console.log('⬇️ Swipe down detected');
+      console.log('⬆️ Swipe up detected - navigating to gallery-hero-2');
       window.location.href = '/gallery-hero-2';
     },
+    onSwipedDown: () => {
+      console.log('⬇️ Swipe down detected - navigating to text-page');
+      window.location.href = '/text-page';
+    },
+    onSwipedLeft: () => {
+      console.log('⬅️ Swipe left detected');
+    },
+    onSwipedRight: () => {
+      console.log('➡️ Swipe right detected');
+    },
     trackMouse: true,
-    delta: 5, // Lower delta for more sensitive detection
-    swipeDuration: 300, // Shorter duration for more responsive feel
+    delta: 30, // Increased delta for easier detection
+    swipeDuration: 500, // Increased duration for more forgiving detection
     preventScrollOnSwipe: true, // Prevent scroll interference
+    trackTouch: true, // Ensure touch events are tracked
+    rotationAngle: 0, // No rotation angle restriction
   });
 
   const handleUnlockRide = async () => {
@@ -133,8 +141,6 @@ export default function GalleryHero() {
     document.body.appendChild(notification);
     setTimeout(() => notification.remove(), 3000);
   };
-
-
 
   const showManualCopyDialog = (url: string) => {
     const dialog = document.createElement('div');
@@ -205,7 +211,10 @@ export default function GalleryHero() {
           position: 'relative',
           overflow: 'visible',
           backgroundColor: 'transparent',
+          cursor: 'grab', // Add cursor to show it's interactive
         }}
+        onMouseDown={() => console.log('🖱️ Mouse down detected')}
+        onTouchStart={() => console.log('👆 Touch start detected')}
       >
         {/* Image area - Responsive container */}
         <div className="gallery-hero-image-container">
@@ -218,37 +227,83 @@ export default function GalleryHero() {
             priority
           />
           
-          {/* Invisible "Unlock the Ride" Button Overlay - EXACT COORDINATES */}
+          {/* TEST NAVIGATION BUTTONS - FOR DEBUGGING */}
+          <div style={{
+            position: 'absolute',
+            top: '10px',
+            left: '10px',
+            zIndex: 2000,
+            display: 'flex',
+            gap: '10px',
+            flexDirection: 'column'
+          }}>
+            <button
+              onClick={() => {
+                console.log('🧪 Test: Navigate to gallery-hero-2');
+                window.location.href = '/gallery-hero-2';
+              }}
+              style={{
+                background: 'rgba(255, 0, 0, 0.8)',
+                color: 'white',
+                border: 'none',
+                padding: '8px 12px',
+                borderRadius: '4px',
+                fontSize: '12px',
+                cursor: 'pointer'
+              }}
+            >
+              Test: → gallery-hero-2
+            </button>
+            <button
+              onClick={() => {
+                console.log('🧪 Test: Navigate to text-page');
+                window.location.href = '/text-page';
+              }}
+              style={{
+                background: 'rgba(0, 255, 0, 0.8)',
+                color: 'white',
+                border: 'none',
+                padding: '8px 12px',
+                borderRadius: '4px',
+                fontSize: '12px',
+                cursor: 'pointer'
+              }}
+            >
+              Test: → text-page
+            </button>
+          </div>
+
+          {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
           <button
             onClick={handleUnlockRide}
             onMouseEnter={() => console.log('🖱️ Mouse over UNLOCK button area')}
             style={{
               position: 'absolute',
-              left: '630px',
-              top: '1850px',
-              width: '200px', // Increased from 100px to 200px
-              height: '100px', // Increased from 50px to 100px
+              left: '50%',
+              top: '77%', // Centered vertically (1850px / 2400px ≈ 77%)
+              transform: 'translateX(-50%)', // Centers the button horizontally
+              width: '16%', // Approximately 200px / 1260px = 16%
+              height: '4%', // Approximately 100px / 2400px = 4%
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
-              transform: 'translate(-50%, -50%)',
               zIndex: 1000,
             }}
           />
 
-          {/* Invisible "Share" Button Overlay - EXACT COORDINATES */}
+          {/* Invisible "Share" Button Overlay - RESPONSIVE POSITIONING */}
           <button
             onClick={handleShare}
             style={{
               position: 'absolute',
-              left: '1100px',
-              top: '1850px',
-              width: '100px',
-              height: '50px',
+              left: '87%', // Approximately 1100px / 1260px = 87%
+              top: '77%', // Centered vertically (1850px / 2400px ≈ 77%)
+              transform: 'translateX(-50%)', // Centers the button horizontally
+              width: '8%', // Approximately 100px / 1260px = 8%
+              height: '2%', // Approximately 50px / 2400px = 2%
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
-              transform: 'translate(-50%, -50%)',
               zIndex: 1000,
             }}
           />

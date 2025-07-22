@@ -46,17 +46,25 @@ export default function GalleryHero2() {
 
   const handlers = useSwipeable({
     onSwipedUp: () => {
-      console.log('⬆️ Swipe up detected');
+      console.log('⬆️ Swipe up detected - navigating to text-page');
       window.location.href = '/text-page';
     },
     onSwipedDown: () => {
-      console.log('⬇️ Swipe down detected');
+      console.log('⬇️ Swipe down detected - navigating to gallery-hero');
       window.location.href = '/gallery-hero';
     },
+    onSwipedLeft: () => {
+      console.log('⬅️ Swipe left detected');
+    },
+    onSwipedRight: () => {
+      console.log('➡️ Swipe right detected');
+    },
     trackMouse: true,
-    delta: 5, // Lower delta for more sensitive detection
-    swipeDuration: 300, // Shorter duration for more responsive feel
+    delta: 30, // Increased delta for easier detection
+    swipeDuration: 500, // Increased duration for more forgiving detection
     preventScrollOnSwipe: true, // Prevent scroll interference
+    trackTouch: true, // Ensure touch events are tracked
+    rotationAngle: 0, // No rotation angle restriction
   });
 
   return (
@@ -70,12 +78,16 @@ export default function GalleryHero2() {
           position: 'relative',
           overflow: 'hidden',
           backgroundColor: '#000',
+          cursor: 'grab', // Add cursor to show it's interactive
         }}
+        onMouseDown={() => console.log('🖱️ Mouse down detected')}
+        onTouchStart={() => console.log('👆 Touch start detected')}
+        onClick={() => console.log('🖱️ Click detected')}
       >
         {/* Image area - Responsive container */}
         <div className="gallery-hero-image-container">
           <Image
-            src="/gallery-hero-2.png"
+            src="/carmania-gallery-hero-2.png"
             alt="Gallery Hero 2"
             width={1260}
             height={2400}

@@ -43,10 +43,10 @@ export default function TextPage() {
   const handleKeyPress = (event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up');
-      window.location.href = '/gallery-hero-2';
+      window.location.href = '/manifold-gallery';
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down');
-      window.location.href = '/gallery-hero';
+      window.location.href = '/gallery-hero-2';
     }
   };
 
@@ -55,19 +55,38 @@ export default function TextPage() {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, []);
 
+  // Debug: Log when component mounts
+  useEffect(() => {
+    console.log('📄 Text-page component mounted - swipe handlers should be active');
+  }, []);
+
   const handlers = useSwipeable({
     onSwipedUp: () => {
-      console.log('⬆️ Swipe up detected');
-      window.location.href = '/gallery-hero-2';
+      console.log('⬆️ Swipe up detected - navigating to manifold-gallery');
+      window.location.href = '/manifold-gallery';
     },
     onSwipedDown: () => {
-      console.log('⬇️ Swipe down detected');
-      window.location.href = '/gallery-hero';
+      console.log('⬇️ Swipe down detected - navigating to gallery-hero-2');
+      window.location.href = '/gallery-hero-2';
+    },
+    onSwipedLeft: () => {
+      console.log('⬅️ Swipe left detected');
+    },
+    onSwipedRight: () => {
+      console.log('➡️ Swipe right detected');
+    },
+    onSwipeStart: () => {
+      console.log('🎯 Swipe started');
+    },
+    onSwiped: () => {
+      console.log('🏁 Swipe ended');
     },
     trackMouse: true,
-    delta: 5, // Lower delta for more sensitive detection
-    swipeDuration: 300, // Shorter duration for more responsive feel
+    delta: 30, // Increased delta for easier detection (matching working pages)
+    swipeDuration: 500, // Increased duration for more forgiving detection
     preventScrollOnSwipe: true, // Prevent scroll interference
+    trackTouch: true, // Ensure touch events are tracked
+    rotationAngle: 0, // No rotation angle restriction
   });
 
   const handleContainerClick = (e: React.MouseEvent) => {
@@ -111,7 +130,10 @@ export default function TextPage() {
           position: 'relative',
           overflow: 'hidden',
           backgroundColor: '#000',
+          cursor: 'grab', // Add cursor to show it's interactive
         }}
+        onMouseDown={() => console.log('🖱️ Mouse down detected')}
+        onTouchStart={() => console.log('👆 Touch start detected')}
       >
         {/* Image area - Responsive container */}
         <div className="gallery-hero-image-container">
@@ -123,6 +145,52 @@ export default function TextPage() {
             style={{ width: '100%', height: 'auto', aspectRatio: '1260 / 2400', objectFit: 'cover', display: 'block' }}
             priority
           />
+          
+          {/* TEST NAVIGATION BUTTONS - FOR DEBUGGING */}
+          <div style={{
+            position: 'absolute',
+            top: '10px',
+            left: '10px',
+            zIndex: 2000,
+            display: 'flex',
+            gap: '10px',
+            flexDirection: 'column'
+          }}>
+            <button
+              onClick={() => {
+                console.log('🧪 Test: Navigate to manifold-gallery');
+                window.location.href = '/manifold-gallery';
+              }}
+              style={{
+                background: 'rgba(255, 0, 0, 0.8)',
+                color: 'white',
+                border: 'none',
+                padding: '8px 12px',
+                borderRadius: '4px',
+                fontSize: '12px',
+                cursor: 'pointer'
+              }}
+            >
+              Test: → manifold-gallery
+            </button>
+            <button
+              onClick={() => {
+                console.log('🧪 Test: Navigate to gallery-hero-2');
+                window.location.href = '/gallery-hero-2';
+              }}
+              style={{
+                background: 'rgba(0, 255, 0, 0.8)',
+                color: 'white',
+                border: 'none',
+                padding: '8px 12px',
+                borderRadius: '4px',
+                fontSize: '12px',
+                cursor: 'pointer'
+              }}
+            >
+              Test: → gallery-hero-2
+            </button>
+          </div>
           
           {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
           <button
