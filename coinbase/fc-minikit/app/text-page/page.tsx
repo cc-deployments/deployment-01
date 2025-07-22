@@ -82,8 +82,8 @@ export default function TextPage() {
       console.log('🏁 Swipe ended');
     },
     trackMouse: true,
-    delta: 30, // Increased delta for easier detection (matching working pages)
-    swipeDuration: 500, // Increased duration for more forgiving detection
+    delta: 15, // Lowered delta for easier mobile detection
+    swipeDuration: 300, // Faster duration for mobile
     preventScrollOnSwipe: true, // Prevent scroll interference
     trackTouch: true, // Ensure touch events are tracked
     rotationAngle: 0, // No rotation angle restriction
@@ -134,6 +134,8 @@ export default function TextPage() {
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
         onTouchStart={() => console.log('👆 Touch start detected')}
+        onTouchMove={() => console.log('👆 Touch move detected')}
+        onTouchEnd={() => console.log('👆 Touch end detected')}
       >
         {/* Image area - Responsive container */}
         <div className="gallery-hero-image-container">
