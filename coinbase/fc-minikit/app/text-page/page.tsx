@@ -67,7 +67,7 @@ export default function TextPage() {
   const minSwipeDistance = 50;
 
   const onTouchStart = (e: React.TouchEvent) => {
-    console.log('👆 Manual touch start detected');
+    console.log('👆 Manual touch start detected', e.targetTouches[0]);
     setTouchEnd(null);
     setTouchStart({
       x: e.targetTouches[0].clientX,
@@ -76,7 +76,7 @@ export default function TextPage() {
   };
 
   const onTouchMove = (e: React.TouchEvent) => {
-    console.log('👆 Manual touch move detected');
+    console.log('👆 Manual touch move detected', e.targetTouches[0]);
     setTouchEnd({
       x: e.targetTouches[0].clientX,
       y: e.targetTouches[0].clientY,
@@ -85,11 +85,20 @@ export default function TextPage() {
 
   const onTouchEnd = () => {
     console.log('👆 Manual touch end detected');
-    if (!touchStart || !touchEnd) return;
+    console.log('Touch start:', touchStart);
+    console.log('Touch end:', touchEnd);
+    
+    if (!touchStart || !touchEnd) {
+      console.log('❌ Missing touch start or end data');
+      return;
+    }
     
     const distanceX = touchStart.x - touchEnd.x;
     const distanceY = touchStart.y - touchEnd.y;
+    console.log('Distance X:', distanceX, 'Distance Y:', distanceY);
+    
     const isVerticalSwipe = Math.abs(distanceY) > Math.abs(distanceX);
+    console.log('Is vertical swipe:', isVerticalSwipe);
 
     if (isVerticalSwipe && Math.abs(distanceY) > minSwipeDistance) {
       if (distanceY > 0) {
@@ -99,6 +108,8 @@ export default function TextPage() {
         console.log('⬇️ Manual swipe down detected - navigating to gallery-hero-2');
         window.location.href = '/gallery-hero-2';
       }
+    } else {
+      console.log('❌ Swipe not detected - distance too small or not vertical');
     }
   };
 
@@ -159,52 +170,6 @@ export default function TextPage() {
             style={{ width: '100%', height: 'auto', aspectRatio: '1260 / 2400', objectFit: 'cover', display: 'block' }}
             priority
           />
-          
-          {/* TEST NAVIGATION BUTTONS - FOR DEBUGGING */}
-          <div style={{
-            position: 'absolute',
-            top: '10px',
-            left: '10px',
-            zIndex: 2000,
-            display: 'flex',
-            gap: '10px',
-            flexDirection: 'column'
-          }}>
-            <button
-              onClick={() => {
-                console.log('🧪 Test: Navigate to manifold-gallery');
-                window.location.href = '/manifold-gallery';
-              }}
-              style={{
-                background: 'rgba(255, 0, 0, 0.8)',
-                color: 'white',
-                border: 'none',
-                padding: '8px 12px',
-                borderRadius: '4px',
-                fontSize: '12px',
-                cursor: 'pointer'
-              }}
-            >
-              Test: → manifold-gallery
-            </button>
-            <button
-              onClick={() => {
-                console.log('🧪 Test: Navigate to gallery-hero-2');
-                window.location.href = '/gallery-hero-2';
-              }}
-              style={{
-                background: 'rgba(0, 255, 0, 0.8)',
-                color: 'white',
-                border: 'none',
-                padding: '8px 12px',
-                borderRadius: '4px',
-                fontSize: '12px',
-                cursor: 'pointer'
-              }}
-            >
-              Test: → gallery-hero-2
-            </button>
-          </div>
           
           {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
           <button

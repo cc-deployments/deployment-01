@@ -157,68 +157,7 @@ export default function ManifoldGallery() {
             </button>
           </div>
           
-          {/* TEST NAVIGATION BUTTONS - FOR DEBUGGING */}
-          <div style={{
-            position: 'absolute',
-            top: '10px',
-            left: '10px',
-            zIndex: 2000,
-            display: 'flex',
-            gap: '10px',
-            flexDirection: 'column'
-          }}>
-            <button
-              onClick={() => {
-                console.log('🧪 Test: Navigate to socialidentity');
-                window.location.href = '/socialidentity';
-              }}
-              style={{
-                background: 'rgba(255, 0, 0, 0.8)',
-                color: 'white',
-                border: 'none',
-                padding: '8px 12px',
-                borderRadius: '4px',
-                fontSize: '12px',
-                cursor: 'pointer'
-              }}
-            >
-              Test: → socialidentity
-            </button>
-            <button
-              onClick={() => {
-                console.log('🧪 Test: Navigate to text-page');
-                window.location.href = '/text-page';
-              }}
-              style={{
-                background: 'rgba(0, 255, 0, 0.8)',
-                color: 'white',
-                border: 'none',
-                padding: '8px 12px',
-                borderRadius: '4px',
-                fontSize: '12px',
-                cursor: 'pointer'
-              }}
-            >
-              Test: → text-page
-            </button>
-            {/* Debug Info */}
-            <div style={{
-              background: 'rgba(0, 0, 0, 0.8)',
-              color: 'white',
-              padding: '8px',
-              borderRadius: '4px',
-              fontSize: '10px',
-              maxWidth: '200px'
-            }}>
-              <div>Loading: {false} (Redirecting)</div>
-              <div>Error: {null} (Redirecting)</div>
-              <div>Has Data: {false} (Redirecting)</div>
-              <div>Title: (Redirecting)</div>
-            </div>
-          </div>
-          
-          {/* Latest Mint Info Display */}
-          {/* Invisible "View Gallery" Button Overlay - RESPONSIVE POSITIONING */}
+          {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
           <button
             onClick={() => {
               console.log('View Gallery clicked!');
