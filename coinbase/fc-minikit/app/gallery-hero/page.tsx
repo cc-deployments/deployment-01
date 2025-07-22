@@ -237,60 +237,6 @@ export default function GalleryHero() {
             priority
           />
           
-          {/* TEST NAVIGATION BUTTONS - FOR DEBUGGING */}
-          <div style={{
-            position: 'absolute',
-            top: '10px',
-            left: '10px',
-            zIndex: 2000,
-            display: 'flex',
-            gap: '10px',
-            flexDirection: 'column'
-          }}>
-            <button
-              onClick={() => {
-                console.log('🧪 Test: Navigate to gallery-hero-2');
-                if (isInMiniApp) {
-                  sdk.actions.openUrl('/gallery-hero-2');
-                } else {
-                  window.location.href = '/gallery-hero-2';
-                }
-              }}
-              style={{
-                background: 'rgba(255, 0, 0, 0.8)',
-                color: 'white',
-                border: 'none',
-                padding: '8px 12px',
-                borderRadius: '4px',
-                fontSize: '12px',
-                cursor: 'pointer'
-              }}
-            >
-              Test: → gallery-hero-2
-            </button>
-            <button
-              onClick={() => {
-                console.log('🧪 Test: Navigate to text-page');
-                if (isInMiniApp) {
-                  sdk.actions.openUrl('/text-page');
-                } else {
-                  window.location.href = '/text-page';
-                }
-              }}
-              style={{
-                background: 'rgba(0, 255, 0, 0.8)',
-                color: 'white',
-                border: 'none',
-                padding: '8px 12px',
-                borderRadius: '4px',
-                fontSize: '12px',
-                cursor: 'pointer'
-              }}
-            >
-              Test: → text-page
-            </button>
-          </div>
-
           {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
           <button
             onClick={handleUnlockRide}
