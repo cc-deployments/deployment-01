@@ -42,20 +42,20 @@ export default function ManifoldGallery() {
     };
 
     // Redirect to actual Manifold gallery - MANUAL ONLY
-    const redirectToManifold = () => {
-      console.log('🔄 Redirecting to Manifold gallery: https://manifold.xyz/@carculture');
-      // Manual redirect only - no automatic redirect
-      try {
-        const newWindow = window.open('https://manifold.xyz/@carculture', '_blank', 'noopener,noreferrer');
-        if (!newWindow) {
-          console.log('⚠️ Popup blocked, using location.href');
-          window.location.href = 'https://manifold.xyz/@carculture';
-        }
-      } catch {
-        console.log('❌ Redirect failed, using location.href');
-        window.location.href = 'https://manifold.xyz/@carculture';
-      }
-    };
+    // const redirectToManifold = () => {
+    //   console.log('🔄 Redirecting to Manifold gallery: https://manifold.xyz/@carculture');
+    //   // Manual redirect only - no automatic redirect
+    //   try {
+    //     const newWindow = window.open('https://manifold.xyz/@carculture', '_blank', 'noopener,noreferrer');
+    //     if (!newWindow) {
+    //       console.log('⚠️ Popup blocked, using location.href');
+    //       window.location.href = 'https://manifold.xyz/@carculture';
+    //     }
+    //   } catch {
+    //     console.log('❌ Redirect failed, using location.href');
+    //     window.location.href = 'https://manifold.xyz/@carculture';
+    //   }
+    // };
 
     initializeSDK();
     // redirectToManifold(); // REMOVED - Manual only
