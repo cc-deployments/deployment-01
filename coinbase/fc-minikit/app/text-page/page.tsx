@@ -241,12 +241,12 @@ export default function TextPage() {
             style={{
               position: 'absolute',
               left: '50%',
-              top: '63.6%', // Centered vertically
+              top: '61.5%', // Moved up 50px (63.6% - 2.08% = 61.5%)
               transform: 'translateX(-50%)', // Centers the button horizontally
-              width: '71.4%', // 900px / 1260px = 71.4%
+              width: '67.4%', // Decreased by 50px (71.4% - 3.97% = 67.4%)
               height: '2%', // Approximately 50px / 2400px = 2%
-              background: 'transparent', // Invisible background
-              border: 'none', // No border
+              background: 'transparent',
+              border: 'none',
               cursor: 'pointer',
               zIndex: 20,
             }}

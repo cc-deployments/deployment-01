@@ -259,9 +259,9 @@ export default function GalleryHero() {
             style={{
               position: 'absolute',
               left: '50%',
-              top: '77%', // Centered vertically (1850px / 2400px ≈ 77%)
+              top: '74.9%', // Moved up 50px (77% - 2.08% = 74.9%)
               transform: 'translateX(-50%)', // Centers the button horizontally
-              width: '16%', // Approximately 200px / 1260px = 16%
+              width: '59.5%', // Decreased by 50px (63.5% - 3.97% = 59.5%)
               height: '4%', // Approximately 100px / 2400px = 4%
               background: 'transparent',
               border: 'none',
@@ -275,11 +275,11 @@ export default function GalleryHero() {
             onClick={handleShare}
             style={{
               position: 'absolute',
-              left: '87%', // Approximately 1100px / 1260px = 87%
-              top: '77%', // Centered vertically (1850px / 2400px ≈ 77%)
+              left: '89.4%', // Moved another 20px to the right (87.8% + 1.59% = 89.4%)
+              top: '75.3%', // Moved center down 10px (74.9% + 0.42% = 75.3%)
               transform: 'translateX(-50%)', // Centers the button horizontally
-              width: '8%', // Approximately 100px / 1260px = 8%
-              height: '2%', // Approximately 50px / 2400px = 2%
+              width: '7.2%', // Decreased by 10px (8% - 0.79% = 7.2%)
+              height: '3.1%', // Increased to 75px (75px / 2400px = 3.1%)
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
