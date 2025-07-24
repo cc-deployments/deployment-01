@@ -243,7 +243,7 @@ export default function TextPage() {
               left: '50%',
               top: '63.6%', // Centered vertically
               transform: 'translateX(-50%)', // Centers the button horizontally
-              width: '24%', // Approximately 300px / 1260px = 24%
+              width: '71.4%', // 900px / 1260px = 71.4%
               height: '2%', // Approximately 50px / 2400px = 2%
               background: 'transparent', // Invisible background
               border: 'none', // No border
