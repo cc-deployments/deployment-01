@@ -5,7 +5,7 @@ import { sdk } from '@farcaster/miniapp-sdk';
 
 export default function SDKTest() {
   const [results, setResults] = useState<string[]>([]);
-  const [isInMiniApp, setIsInMiniApp] = useState(false);
+  const [environmentStatus, setEnvironmentStatus] = useState<string>('Unknown');
 
   const addResult = (message: string) => {
     setResults(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
@@ -33,7 +33,7 @@ export default function SDKTest() {
           
           // Test environment detection using Base App method
           const baseAppStatus = context?.client?.clientFid === 309857;
-          setIsInMiniApp(baseAppStatus);
+          setEnvironmentStatus(baseAppStatus ? 'Base App' : 'Web Browser');
           addResult(`✅ Environment detection: ${baseAppStatus ? 'Base App' : 'Web Browser'}`);
         } catch (error) {
           addResult(`❌ sdk.context error: ${error}`);
@@ -77,7 +77,8 @@ export default function SDKTest() {
       
       <div style={{ marginTop: '20px' }}>
         <h3>Environment Status:</h3>
-        <p>Is in Base App: {isInMiniApp ? 'Yes' : 'No'}</p>
+        <p>Environment: {environmentStatus}</p>
+        <p>CBW Compatibility: ✅ Using direct context checking</p>
       </div>
     </div>
   );
