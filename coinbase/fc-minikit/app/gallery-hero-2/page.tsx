@@ -1,13 +1,11 @@
 "use client";
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
 
 export default function GalleryHero2() {
-  const [isInMiniApp, setIsInMiniApp] = useState(false);
-
   useEffect(() => {
     const initializeSDK = async () => {
       try {
@@ -18,7 +16,6 @@ export default function GalleryHero2() {
         // Get SDK context for environment detection
         const context = await sdk.context;
         const baseAppStatus = context?.client?.clientFid === 309857;
-        setIsInMiniApp(baseAppStatus);
         console.log('📍 Is in Base App:', baseAppStatus);
         
       } catch (error) {
@@ -29,23 +26,35 @@ export default function GalleryHero2() {
     initializeSDK();
   }, []);
 
-  const handleKeyPress = useCallback((event: KeyboardEvent) => {
+  const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/text-page');
-      } else {
+      try {
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/text-page');
+        } else {
+          window.location.href = '/text-page';
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
         window.location.href = '/text-page';
       }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/gallery-hero');
-      } else {
+      try {
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/gallery-hero');
+        } else {
+          window.location.href = '/gallery-hero';
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
         window.location.href = '/gallery-hero';
       }
     }
-  }, [isInMiniApp]);
+  }, []);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
@@ -53,19 +62,31 @@ export default function GalleryHero2() {
   }, [handleKeyPress]);
 
   const handlers = useSwipeable({
-    onSwipedUp: () => {
+    onSwipedUp: async () => {
       console.log('⬆️ Swipe up detected - navigating to text-page');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/text-page');
-      } else {
+      try {
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/text-page');
+        } else {
+          window.location.href = '/text-page';
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
         window.location.href = '/text-page';
       }
     },
-    onSwipedDown: () => {
+    onSwipedDown: async () => {
       console.log('⬇️ Swipe down detected - navigating to gallery-hero');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/gallery-hero');
-      } else {
+      try {
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/gallery-hero');
+        } else {
+          window.location.href = '/gallery-hero';
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
         window.location.href = '/gallery-hero';
       }
     },
@@ -87,7 +108,7 @@ export default function GalleryHero2() {
     <>
       <div 
         {...handlers} 
-        className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
+        className="gallery-hero-container"
         style={{
           width: '100vw',
           height: '100vh',
