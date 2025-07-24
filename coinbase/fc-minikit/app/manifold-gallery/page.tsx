@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
 
 export default function ManifoldGallery() {
-  const [isInMiniApp, setIsInMiniApp] = useState(false);
-
   useEffect(() => {
     // IMMEDIATE REDIRECT - No delay, no SDK initialization needed
     const redirectToManifold = async () => {
@@ -16,7 +14,6 @@ export default function ManifoldGallery() {
         // Check if we're in a Mini App environment
         const context = await sdk.context;
         const baseAppStatus = context?.client?.clientFid === 309857;
-        setIsInMiniApp(baseAppStatus);
         
         if (baseAppStatus) {
           console.log('📱 Using sdk.actions.openUrl() for Mini App');
@@ -37,23 +34,35 @@ export default function ManifoldGallery() {
   }, []);
 
   // Keep minimal navigation handlers in case redirect fails
-  const handleKeyPress = useCallback((event: KeyboardEvent) => {
+  const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/socialidentity');
-      } else {
+      try {
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/socialidentity');
+        } else {
+          window.location.href = '/socialidentity';
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
         window.location.href = '/socialidentity';
       }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/text-page');
-      } else {
+      try {
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/text-page');
+        } else {
+          window.location.href = '/text-page';
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
         window.location.href = '/text-page';
       }
     }
-  }, [isInMiniApp]);
+  }, []);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
@@ -61,19 +70,31 @@ export default function ManifoldGallery() {
   }, [handleKeyPress]);
 
   const handlers = useSwipeable({
-    onSwipedUp: () => {
+    onSwipedUp: async () => {
       console.log('⬆️ Swipe up detected - navigating to socialidentity');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/socialidentity');
-      } else {
+      try {
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/socialidentity');
+        } else {
+          window.location.href = '/socialidentity';
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
         window.location.href = '/socialidentity';
       }
     },
-    onSwipedDown: () => {
+    onSwipedDown: async () => {
       console.log('⬇️ Swipe down detected - navigating to text-page');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/text-page');
-      } else {
+      try {
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/text-page');
+        } else {
+          window.location.href = '/text-page';
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
         window.location.href = '/text-page';
       }
     },
@@ -95,7 +116,7 @@ export default function ManifoldGallery() {
   return (
     <div 
       {...handlers} 
-      className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
+      className="gallery-hero-container"
       style={{
         width: '100vw',
         height: '100vh',
