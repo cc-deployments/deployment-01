@@ -6,8 +6,6 @@ import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
 
 export default function TextPage() {
-  const [isInMiniApp, setIsInMiniApp] = useState(false);
-
   useEffect(() => {
     const initializeSDK = async () => {
       try {
@@ -18,7 +16,6 @@ export default function TextPage() {
         // Get SDK context for environment detection
         const context = await sdk.context;
         const baseAppStatus = context?.client?.clientFid === 309857;
-        setIsInMiniApp(baseAppStatus);
         console.log('📍 Is in Base App:', baseAppStatus);
         
       } catch (error) {
@@ -40,23 +37,35 @@ export default function TextPage() {
     initializeSDK();
   }, []);
 
-  const handleKeyPress = useCallback((event: KeyboardEvent) => {
+  const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/manifold-gallery');
-      } else {
+      try {
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/manifold-gallery');
+        } else {
+          window.location.href = '/manifold-gallery';
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
         window.location.href = '/manifold-gallery';
       }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/gallery-hero-2');
-      } else {
+      try {
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/gallery-hero-2');
+        } else {
+          window.location.href = '/gallery-hero-2';
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
         window.location.href = '/gallery-hero-2';
       }
     }
-  }, [isInMiniApp]);
+  }, []);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
@@ -91,7 +100,7 @@ export default function TextPage() {
     });
   };
 
-  const onTouchEnd = () => {
+  const onTouchEnd = async () => {
     console.log('👆 Manual touch end detected');
     console.log('Touch start:', touchStart);
     console.log('Touch end:', touchEnd);
@@ -109,17 +118,27 @@ export default function TextPage() {
     console.log('Is vertical swipe:', isVerticalSwipe);
 
     if (isVerticalSwipe && Math.abs(distanceY) > minSwipeDistance) {
-      if (distanceY > 0) {
-        console.log('⬆️ Manual swipe up detected - navigating to manifold-gallery');
-        if (isInMiniApp) {
-          sdk.actions.openUrl('/manifold-gallery');
+      try {
+        const context = await sdk.context;
+        if (distanceY > 0) {
+          console.log('⬆️ Manual swipe up detected - navigating to manifold-gallery');
+          if (context?.client?.clientFid === 309857) {
+            sdk.actions.openUrl('/manifold-gallery');
+          } else {
+            window.location.href = '/manifold-gallery';
+          }
         } else {
-          window.location.href = '/manifold-gallery';
+          console.log('⬇️ Manual swipe down detected - navigating to gallery-hero-2');
+          if (context?.client?.clientFid === 309857) {
+            sdk.actions.openUrl('/gallery-hero-2');
+          } else {
+            window.location.href = '/gallery-hero-2';
+          }
         }
-      } else {
-        console.log('⬇️ Manual swipe down detected - navigating to gallery-hero-2');
-        if (isInMiniApp) {
-          sdk.actions.openUrl('/gallery-hero-2');
+      } catch (error) {
+        console.error('Navigation error:', error);
+        if (distanceY > 0) {
+          window.location.href = '/manifold-gallery';
         } else {
           window.location.href = '/gallery-hero-2';
         }
@@ -130,47 +149,69 @@ export default function TextPage() {
   };
 
   // Simple click-based navigation as fallback
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = async (e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const clickY = e.clientY - rect.top;
     const clickX = e.clientX - rect.left;
     
     console.log('🖱️ Click detected at:', { x: clickX, y: clickY });
     
-    // Top 30% of screen = swipe down
-    if (clickY < rect.height * 0.3) {
-      console.log('⬇️ Top area clicked - navigating to gallery-hero-2');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/gallery-hero-2');
-      } else {
-        window.location.href = '/gallery-hero-2';
+    try {
+      const context = await sdk.context;
+      // Top 30% of screen = swipe down
+      if (clickY < rect.height * 0.3) {
+        console.log('⬇️ Top area clicked - navigating to gallery-hero-2');
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/gallery-hero-2');
+        } else {
+          window.location.href = '/gallery-hero-2';
+        }
       }
-    }
-    // Bottom 30% of screen = swipe up
-    else if (clickY > rect.height * 0.7) {
-      console.log('⬆️ Bottom area clicked - navigating to manifold-gallery');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/manifold-gallery');
-      } else {
+      // Bottom 30% of screen = swipe up
+      else if (clickY > rect.height * 0.7) {
+        console.log('⬆️ Bottom area clicked - navigating to manifold-gallery');
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/manifold-gallery');
+        } else {
+          window.location.href = '/manifold-gallery';
+        }
+      }
+    } catch (error) {
+      console.error('Navigation error:', error);
+      if (clickY < rect.height * 0.3) {
+        window.location.href = '/gallery-hero-2';
+      } else if (clickY > rect.height * 0.7) {
         window.location.href = '/manifold-gallery';
       }
     }
   };
 
   const handlers = useSwipeable({
-    onSwipedUp: () => {
+    onSwipedUp: async () => {
       console.log('⬆️ Swipe up detected - navigating to manifold-gallery');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/manifold-gallery');
-      } else {
+      try {
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/manifold-gallery');
+        } else {
+          window.location.href = '/manifold-gallery';
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
         window.location.href = '/manifold-gallery';
       }
     },
-    onSwipedDown: () => {
+    onSwipedDown: async () => {
       console.log('⬇️ Swipe down detected - navigating to gallery-hero-2');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/gallery-hero-2');
-      } else {
+      try {
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/gallery-hero-2');
+        } else {
+          window.location.href = '/gallery-hero-2';
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
         window.location.href = '/gallery-hero-2';
       }
     },
@@ -198,7 +239,7 @@ export default function TextPage() {
     <>
       <div 
         {...handlers} 
-        className={`gallery-hero-container ${isInMiniApp ? 'mini-app-environment' : ''}`}
+        className="gallery-hero-container"
         style={{
           width: '100vw',
           height: '100vh',
