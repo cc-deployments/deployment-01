@@ -4,54 +4,39 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   const manifest = {
     accountAssociation: {
-      header: process.env.FARCASTER_HEADER,
-      payload: process.env.FARCASTER_PAYLOAD,
-      signature: process.env.FARCASTER_SIGNATURE,
+      header: "eyJmaWQiOjI3MDE3MCwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDE3NUUwMEZkMjU2NTFBNDhlMzliOUYyNTEyNjUwYmY0ZjU5MkJGNTkifQ",
+      payload: "eyJkb21haW4iOiJ3ZWIzLXNvY2lhbC1zdGFydGVyLWZjLW1pbmlraXQudmVyY2VsLmFwcCJ9",
+      signature: "MHhjMTY3ODA5YThlMDYyZWQ0ZTg4Zjk0MDQyNGI2NTFiZjZlYTRhYzMzOWJmYTdlNDFmNTQ0NDVjYzQ4YmI0ZjdhNWI2MDIyZWE1NzM2NGU0YzY5M2E2ZDI0MGFiNTA5MzhlZjZjYTQyMmE2NDNhNzc0ZjVjZGEwOGRiN2NkZGRmNjFi"
     },
-    miniapp: {
-      version: "1",
+    frame: {
       name: "CarCulture: CarMania Garage",
-      subtitle: "Daily Drops, Legendary Rides",
-      description: "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
-      iconUrl: "https://web3-social-starter-fc-minikit.vercel.app/favicon.png",
+      version: "1",
+      iconUrl: "https://web3-social-starter-fc-minikit.vercel.app/icon.png",
+      homeUrl: "https://web3-social-starter-fc-minikit.vercel.app",
+      imageUrl: "https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png",
+      buttonTitle: "Unlock the Ride",
       splashImageUrl: "https://web3-social-starter-fc-minikit.vercel.app/splash.png",
       splashBackgroundColor: "#a32428",
-      homeUrl: "https://web3-social-starter-fc-minikit.vercel.app",
       webhookUrl: "https://web3-social-starter-fc-minikit.vercel.app/api/webhook",
-      primaryCategory: "art-creativity",
-      heroImageUrl: "https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png",
-      tagline: "Drive the Past. Own the Now.",
-      ogTitle: "CarCulture: CarMania Garage",
-      ogDescription: "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day'",
-      ogImageUrl: "https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png",
-      castShareUrl: "https://web3-social-starter-fc-minikit.vercel.app/gallery-hero",
+      subtitle: "Daily Drops, Legendary Rides",
+      description: "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
       screenshotUrls: [
         "https://web3-social-starter-fc-minikit.vercel.app/screenshot1.png"
       ],
+      primaryCategory: "art-creativity",
       tags: [
         "social",
-        "carculture", 
+        "carculture",
         "car",
         "storytelling",
         "collectibles"
       ],
-      previewImageUrl: "https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png",
-      buttonTitle: "Unlock the Ride",
-      // Embed meta tags for FC embed tool
-      "fc:miniapp": {
-        version: "1",
-        imageUrl: "https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png",
-        button: {
-          title: "Unlock the Ride",
-          action: {
-            type: "launch_miniapp",
-            url: "https://web3-social-starter-fc-minikit.vercel.app/gallery-hero",
-            name: "Car Culture: CarMania Garage",
-            splashImageUrl: "https://i.imgur.com/y3PmlLB.jpeg",
-            splashBackgroundColor: "#a32428"
-          }
-        }
-      }
+      heroImageUrl: "https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png",
+      tagline: "Drive the Past. Own the Now.",
+      ogTitle: "CarCulture: CarMania Garage",
+      ogDescription: "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day'",
+      ogImageUrl: "https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png",
+      castShareUrl: "https://web3-social-starter-fc-minikit.vercel.app/gallery-hero"
     }
   };
 
