@@ -102,23 +102,95 @@ This is the main directory containing your CarMania app. All files and folders m
 - **Embed Image:** `https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png`
 - **Local Images:** Stored in `public/` directory
 
+## 🏦 Coinbase Wallet (CBW) Compatibility - 2025-01-27
+
+### **🔍 Compatibility Analysis:**
+Following BASE AI recommendations for CBW Mini App compatibility, we identified and resolved compatibility issues:
+
+### **❌ Issues Found:**
+1. **Environment Detection Pattern:** Using `isInMiniApp` state variables instead of direct context checking
+   - **Files Affected:** `text-page/page.tsx`, `gallery-hero/page.tsx`, `gallery-hero-2/page.tsx`, `socialidentity/page.tsx`, `sdk-test/page.tsx`, `manifold-gallery/page.tsx`
+   - **Issue:** Not following BASE AI's recommended pattern for CBW compatibility
+
+### **✅ Required Pattern Found:**
+- **Ready State Pattern:** `sdk.actions.ready()` properly implemented in all pages
+- **No Haptics Usage:** No `sdk.haptics.*` calls found
+- **No Warpcast Composer URLs:** No `warpcast.com/~/compose` or `farcast.com/~/compose` URLs
+- **No Token Swap:** No `swapToken` usage found
+
+### **🔧 Refactoring Changes:**
+**Before (Incompatible):**
+```typescript
+const [isInMiniApp, setIsInMiniApp] = useState(false);
+// ...
+const baseAppStatus = context?.client?.clientFid === 309857;
+setIsInMiniApp(baseAppStatus);
+// ...
+if (isInMiniApp) {
+  sdk.actions.openUrl('/next-page');
+} else {
+  window.location.href = '/next-page';
+}
+```
+
+**After (CBW Compatible):**
+```typescript
+// Direct context checking - no state variables needed
+try {
+  const context = await sdk.context;
+  if (context?.client?.clientFid === 309857) {
+    sdk.actions.openUrl('/next-page');
+  } else {
+    window.location.href = '/next-page';
+  }
+} catch (error) {
+  console.error('Navigation error:', error);
+  window.location.href = '/next-page';
+}
+```
+
+### **📋 Implementation Status:**
+- ✅ **text-page/page.tsx** - Refactored to use direct context checking
+- ✅ **gallery-hero/page.tsx** - Refactored to use direct context checking
+- 🔄 **gallery-hero-2/page.tsx** - Pending refactor
+- 🔄 **socialidentity/page.tsx** - Pending refactor
+- 🔄 **sdk-test/page.tsx** - Pending refactor
+- 🔄 **manifold-gallery/page.tsx** - Pending refactor
+
+### **🎯 Benefits:**
+1. **Eliminates State Management Complexity:** No need to store environment state in React state
+2. **More Explicit and Reliable:** Clear about which specific client you're targeting
+3. **Follows BASE AI Best Practices:** Uses the officially recommended approach
+4. **More Compatible with CBW:** Direct comparison is more reliable than stored state
+
+### **🧪 Testing Results:**
+- ✅ **Localhost Testing:** Pages load without errors
+- ✅ **Navigation Working:** Swipe and keyboard navigation functional
+- ✅ **No Console Errors:** Clean JavaScript execution
+- ✅ **Fast Refresh Working:** Development server responding correctly
+
+---
+
 ## 🚀 Next Steps
 
 ### **Immediate:**
 - ✅ **Embed validation working**
 - ✅ **App deployed and functional**
 - ✅ **Manifest structure correct**
+- 🔄 **CBW compatibility refactoring in progress**
 
 ### **Future Enhancements:**
+- [ ] **Complete CBW compatibility refactoring**
 - [ ] **Test in Farcaster Preview Tool**
 - [ ] **Submit to Farcaster Mini App directory**
+- [ ] **Submit to Coinbase Wallet Mini App directory**
 - [ ] **Add more car showcases**
 - [ ] **Enhance wallet integration**
 
 ---
 
-**Last Updated:** 2025-07-20  
-**Status:** ✅ Embed validation successful - App ready for Farcaster ecosystem
+**Last Updated:** 2025-01-27  
+**Status:** ✅ Embed validation successful - CBW compatibility refactoring in progress
 
 ## 📅 PROGRESS UPDATE - 2025-07-21 (16 HOUR SESSION)
 
