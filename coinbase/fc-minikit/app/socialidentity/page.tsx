@@ -9,7 +9,7 @@ import { useSwipeable } from 'react-swipeable';
 
 export default function SocialIdentityPage() {
   const { address, isConnected } = useAccount();
-  const [isInMiniApp, setIsInMiniApp] = useState(false);
+  const [environmentInfo, setEnvironmentInfo] = useState<{ isBaseApp: boolean; context: unknown } | null>(null);
 
   useEffect(() => {
     const checkEnvironment = async () => {
@@ -17,7 +17,7 @@ export default function SocialIdentityPage() {
         // Use recommended Base App detection method
         const context = await sdk.context;
         const baseAppStatus = context?.client?.clientFid === 309857;
-        setIsInMiniApp(baseAppStatus);
+        setEnvironmentInfo({ isBaseApp: baseAppStatus, context });
         console.log('📍 Is in Base App:', baseAppStatus);
         
         if (baseAppStatus) {
@@ -39,23 +39,35 @@ export default function SocialIdentityPage() {
   }, []);
 
   // Add navigation handlers
-  const handleKeyPress = useCallback((event: KeyboardEvent) => {
+  const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/gallery-hero');
-      } else {
+      try {
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/gallery-hero');
+        } else {
+          window.location.href = '/gallery-hero';
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
         window.location.href = '/gallery-hero';
       }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/manifold-gallery');
-      } else {
+      try {
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/manifold-gallery');
+        } else {
+          window.location.href = '/manifold-gallery';
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
         window.location.href = '/manifold-gallery';
       }
     }
-  }, [isInMiniApp]);
+  }, []);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
@@ -63,19 +75,31 @@ export default function SocialIdentityPage() {
   }, [handleKeyPress]);
 
   const handlers = useSwipeable({
-    onSwipedUp: () => {
+    onSwipedUp: async () => {
       console.log('⬆️ Swipe up detected - navigating to gallery-hero');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/gallery-hero');
-      } else {
+      try {
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/gallery-hero');
+        } else {
+          window.location.href = '/gallery-hero';
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
         window.location.href = '/gallery-hero';
       }
     },
-    onSwipedDown: () => {
+    onSwipedDown: async () => {
       console.log('⬇️ Swipe down detected - navigating to manifold-gallery');
-      if (isInMiniApp) {
-        sdk.actions.openUrl('/manifold-gallery');
-      } else {
+      try {
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl('/manifold-gallery');
+        } else {
+          window.location.href = '/manifold-gallery';
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
         window.location.href = '/manifold-gallery';
       }
     },
@@ -88,6 +112,7 @@ export default function SocialIdentityPage() {
   // Use wagmi address for now since Base App provider access is limited
   const displayAddress = address;
   const isConnectedInMiniApp = isConnected;
+  const isInBaseApp = environmentInfo?.isBaseApp || false;
 
   if (!isConnectedInMiniApp || !displayAddress) {
     return (
@@ -144,7 +169,7 @@ export default function SocialIdentityPage() {
             </button>
           </div>
           <p className="text-gray-600 mb-6">
-            {isInMiniApp 
+            {isInBaseApp 
               ? "Please connect your wallet in Base App to view your social identity."
               : "Please connect your wallet to view your social identity."
             }
@@ -152,7 +177,7 @@ export default function SocialIdentityPage() {
           
           {/* Mini App-specific wallet connection */}
           <div className="mb-6">
-            {isInMiniApp ? (
+            {isInBaseApp ? (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <p className="text-sm text-blue-800">
                   <strong>Base App Environment:</strong><br />
@@ -174,7 +199,7 @@ export default function SocialIdentityPage() {
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
             <p className="text-sm text-gray-700">
               <strong>Debug Info:</strong><br />
-              Environment: {isInMiniApp ? 'Base App' : 'Web Browser'}<br />
+              Environment: {isInBaseApp ? 'Base App' : 'Web Browser'}<br />
               Connected: {isConnectedInMiniApp ? 'Yes' : 'No'}<br />
               Address: {displayAddress || 'None'}<br />
               Chain: {base.name}<br />
@@ -205,7 +230,7 @@ export default function SocialIdentityPage() {
         <div className="mt-6 bg-gray-50 border border-gray-200 rounded-lg p-4">
           <p className="text-sm text-gray-700">
             <strong>Debug Info:</strong><br />
-            Environment: {isInMiniApp ? 'Base App' : 'Web Browser'}<br />
+            Environment: {isInBaseApp ? 'Base App' : 'Web Browser'}<br />
             Connected: {isConnectedInMiniApp ? 'Yes' : 'No'}<br />
             Address: {displayAddress}<br />
             Chain: {base.name}<br />
