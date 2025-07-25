@@ -1,5 +1,91 @@
 # [2025-07-02] Architecture and UI/UX Refactor Progress
 
+## 🏗️ **BASE AI MONOREPO ARCHITECTURE RECOMMENDATIONS** (2025-01-27)
+
+### **🏛️ Recommended Architecture: Separate Layouts Per App with Shared Providers**
+
+**BASE AI Strategy:** Each app should have its own layout that imports shared providers from packages.
+
+#### **📁 Target Structure:**
+```
+CCulture-Apps-New/
+├── packages/
+│   ├── shared-ui/
+│   │   ├── components/
+│   │   │   ├── Button/
+│   │   │   ├── Modal/
+│   │   │   └── index.ts
+│   │   └── styles/
+│   │       └── globals.css
+│   ├── shared-auth/
+│   │   └── (authentication providers)
+│   ├── shared-utils/
+│   │   ├── constants/
+│   │   ├── helpers/
+│   │   └── types/
+│   └── shared-config/
+│       ├── eslint-config/
+│       ├── typescript-config/
+│       └── tailwind-config/
+├── coinbase/
+│   ├── fc-minikit/          # Farcaster MiniApp
+│   │   └── app/
+│   │       └── layout.tsx   # App-specific layout
+│   ├── socialidentity/       # Social Identity App
+│   │   └── app/
+│   │       └── layout.tsx   # App-specific layout
+│   └── nft-gallery/         # NFT Gallery App
+│       └── app/
+│           └── layout.tsx   # App-specific layout
+└── app/                     # Root app (optional)
+    └── layout.tsx           # Root layout (if needed)
+```
+
+#### **🔧 Development Strategy: Separate Dev Servers**
+
+**BASE AI Recommendation:** Use separate dev servers for complex setups with different app types.
+
+**Implementation:**
+```json
+// Root package.json
+{
+  "scripts": {
+    "dev:fc": "cd coinbase/fc-minikit && npm run dev",
+    "dev:social": "cd coinbase/socialidentity && npm run dev",
+    "dev:gallery": "cd coinbase/nft-gallery && npm run dev",
+    "dev:all": "concurrently \"npm run dev:fc\" \"npm run dev:social\" \"npm run dev:gallery\""
+  }
+}
+```
+
+#### **🚀 Deployment Strategy: Separate Configs Per App**
+
+- **Farcaster MiniApp:** Requires manifest file, specific deployment
+- **Social Identity App:** Standard web app deployment
+- **NFT Gallery:** Standard web app deployment
+
+#### **📦 TypeScript Path Mapping:**
+```json
+// apps/*/tsconfig.json
+{
+  "compilerOptions": {
+    "paths": {
+      "@/shared-auth": ["../../packages/shared-auth"],
+      "@/shared-ui": ["../../packages/shared-ui"],
+      "@/shared-utils": ["../../packages/shared-utils"]
+    }
+  }
+}
+```
+
+#### **🔧 Current Implementation Steps:**
+1. **Move shared logic to packages:** Extract common providers and configurations
+2. **Make layouts app-specific:** Each app imports what it needs from packages
+3. **Use consistent naming:** Ensure each app's layout serves its specific purpose
+4. **Implement proper TypeScript paths:** Configure path mapping in each app's tsconfig.json
+
+---
+
 ## Recent Updates (July 1–2, 2025)
 - Unified all social identity and wallet logic in `shared/identity/` (OnchainKit, Farcaster, wrappers, etc.)
 - Removed legacy/duplicate folders and archived unused code (e.g., _archive_neynar_v2, duplicate coinbase folders)
