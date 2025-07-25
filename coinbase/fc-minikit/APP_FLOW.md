@@ -294,3 +294,79 @@ coinbase/fc-minikit/
 
 **Last Updated:** 2025-01-27  
 **Status:** ✅ Neynar integration complete - Environment variable setup needed
+
+## 🏗️ **MONOREPO DEPLOYMENT CONFIGURATION** (2025-01-27)
+
+### **📦 Monorepo Structure:**
+```
+CCulture-Apps-New/
+├── coinbase/
+│   ├── fc-minikit/          ← Farcaster MiniApp (main focus)
+│   ├── socialidentity/       ← Social Identity App  
+│   ├── nft-gallery/         ← NFT Gallery App
+│   └── components/          ← Shared Components
+├── packages/                ← Shared Packages
+├── app/                     ← Root App (if any)
+├── README/                  ← Documentation
+├── TODO/                    ← TODO Lists
+├── smart-contracts/         ← Smart Contracts
+├── oracle/                  ← Oracle Services
+├── agents/                  ← AI Agents
+└── vercel.json             ← Monorepo Deployment Config
+```
+
+### **🚀 Deployment Strategy:**
+
+#### **Vercel Configuration:**
+- **Monorepo Setup**: Configured to deploy entire repository
+- **Multiple Apps**: Supports all apps in `coinbase/` directory
+- **Turborepo**: Uses workspaces for efficient builds
+- **Build Command**: `npm run dev` (targets fc-minikit for now)
+- **Framework**: Next.js for all apps
+
+#### **Cloudflare Workers:**
+- **Location**: `coinbase/fc-minikit/wrangler.toml`
+- **Source**: `coinbase/fc-minikit/src/index.js`
+- **Deployment**: From fc-minikit directory
+- **Database**: D1 Database (`carmania-db`)
+- **Cache**: KV Namespace (`CARMANIA_CACHE`)
+- **Storage**: R2 Bucket (`carmania-storage`)
+
+### **✅ Current Deployment Status:**
+
+#### **Vercel:**
+- ✅ **Monorepo Configuration**: Updated `vercel.json` for multi-app support
+- ✅ **Build Commands**: Configured for all `coinbase/*` apps
+- ✅ **Framework Detection**: Next.js for all apps
+- 🔄 **Auto-deploy**: Triggers on git push to main
+
+#### **Cloudflare Workers:**
+- ✅ **Files in Correct Location**: `coinbase/fc-minikit/`
+- ✅ **Local Deployment**: `wrangler deploy` working
+- ✅ **Database Connected**: D1 database operational
+- ✅ **API Endpoints**: Cars and Mints endpoints ready
+- 🔄 **GitHub Actions**: Should deploy automatically
+
+### **🎯 Deployment Flow:**
+1. **Git Push** → Triggers GitHub Actions
+2. **GitHub Actions** → Deploys entire monorepo
+3. **Vercel** → Builds all apps in `coinbase/` directory
+4. **Cloudflare Workers** → Deploys from `coinbase/fc-minikit/`
+
+### **📋 Next Steps:**
+1. **Commit Changes**: Push monorepo configuration
+2. **Monitor Deployments**: Check Vercel and Cloudflare Workers status
+3. **Test All Apps**: Verify all apps in `coinbase/` deploy correctly
+4. **Environment Variables**: Configure for all apps
+
+### **🔧 Configuration Files:**
+- **Root `vercel.json`**: Monorepo deployment configuration
+- **`coinbase/fc-minikit/vercel.json`**: App-specific headers
+- **`coinbase/fc-minikit/wrangler.toml`**: Cloudflare Workers config
+- **`turbo.json`**: Turborepo build pipeline
+- **Root `package.json`**: Workspace configuration
+
+---
+
+**Last Updated:** 2025-01-27  
+**Status:** ✅ Monorepo deployment configured - Ready for commit and push

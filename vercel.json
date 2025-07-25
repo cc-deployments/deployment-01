@@ -5,5 +5,16 @@
       "destination": "https://api.farcaster.xyz/miniapps/hosted-manifest/0197eff8-b3b9-5206-48c3-004415cfae5f",
       "permanent": false
     }
-  ]
+  ],
+  "functions": {
+    "coinbase/fc-minikit/app/**/*.ts": {
+      "runtime": "nodejs18.x"
+    },
+    "coinbase/socialidentity/app/**/*.ts": {
+      "runtime": "nodejs18.x"
+    },
+    "coinbase/nft-gallery/**/*.ts": {
+      "runtime": "nodejs18.x"
+    }
+  }
 } 
