@@ -3,8 +3,11 @@
 import { useEffect, useCallback } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
+import { useSafeArea } from '../hooks/useSafeArea'; // Import the safe area hook
 
 export default function ManifoldGallery() {
+  const { safeArea, isLoading } = useSafeArea(); // Use the safe area hook
+
   useEffect(() => {
     // IMMEDIATE REDIRECT - No delay, no SDK initialization needed
     const redirectToManifold = async () => {
@@ -112,6 +115,26 @@ export default function ManifoldGallery() {
     rotationAngle: 0,
   });
 
+  // Debug: Log safe area values
+  console.log('📱 Safe area insets:', safeArea);
+
+  // Show loading state while safe area is being determined
+  if (isLoading) {
+    return (
+      <div style={{
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#000',
+        color: '#fff'
+      }}>
+        Loading...
+      </div>
+    );
+  }
+
   // Return empty div - no intermediate display
   return (
     <div 
@@ -123,7 +146,12 @@ export default function ManifoldGallery() {
         position: 'relative',
         overflow: 'hidden',
         cursor: 'grab',
-        background: 'transparent'
+        background: 'transparent',
+        // Apply safe area padding to the main container
+        paddingTop: `${safeArea.top}px`,
+        paddingBottom: `${safeArea.bottom}px`,
+        paddingLeft: `${safeArea.left}px`,
+        paddingRight: `${safeArea.right}px`,
       }}
       onMouseDown={() => console.log('🖱️ Mouse down detected')}
       onTouchStart={() => console.log('👆 Touch start detected')}
