@@ -312,16 +312,25 @@ CCulture-Apps-New/
 ├── smart-contracts/         ← Smart Contracts
 ├── oracle/                  ← Oracle Services
 ├── agents/                  ← AI Agents
+├── .github/workflows/       ← GitHub Actions
 └── vercel.json             ← Monorepo Deployment Config
 ```
 
-### **🚀 Deployment Strategy:**
+### **🚀 Comprehensive Deployment Strategy:**
+
+#### **GitHub Actions Workflow:**
+- **File**: `.github/workflows/cloudflare-only.yml` (renamed to deploy-monorepo.yml)
+- **Trigger**: Any push to `main` branch
+- **Scope**: **ENTIRE MONOREPO** (not just fc-minikit)
+- **Jobs**: 
+  1. **Deploy to Vercel** (All Apps)
+  2. **Deploy Cloudflare Workers** (fc-minikit only)
 
 #### **Vercel Configuration:**
 - **Monorepo Setup**: Configured to deploy entire repository
 - **Multiple Apps**: Supports all apps in `coinbase/` directory
 - **Turborepo**: Uses workspaces for efficient builds
-- **Build Command**: `npm run dev` (targets fc-minikit for now)
+- **Build Command**: Builds all apps in parallel
 - **Framework**: Next.js for all apps
 
 #### **Cloudflare Workers:**
@@ -334,6 +343,13 @@ CCulture-Apps-New/
 
 ### **✅ Current Deployment Status:**
 
+#### **GitHub Actions:**
+- ✅ **Comprehensive Workflow**: Deploys entire monorepo
+- ✅ **Vercel Integration**: All apps deploy to Vercel
+- ✅ **Cloudflare Workers**: API backend deployment
+- ✅ **Dependencies**: Cloudflare waits for Vercel completion
+- 🔄 **Auto-deploy**: Triggers on any git push to main
+
 #### **Vercel:**
 - ✅ **Monorepo Configuration**: Updated `vercel.json` for multi-app support
 - ✅ **Build Commands**: Configured for all `coinbase/*` apps
@@ -345,21 +361,22 @@ CCulture-Apps-New/
 - ✅ **Local Deployment**: `wrangler deploy` working
 - ✅ **Database Connected**: D1 database operational
 - ✅ **API Endpoints**: Cars and Mints endpoints ready
-- 🔄 **GitHub Actions**: Should deploy automatically
+- 🔄 **GitHub Actions**: Deploys automatically after Vercel
 
 ### **🎯 Deployment Flow:**
 1. **Git Push** → Triggers GitHub Actions
 2. **GitHub Actions** → Deploys entire monorepo
-3. **Vercel** → Builds all apps in `coinbase/` directory
-4. **Cloudflare Workers** → Deploys from `coinbase/fc-minikit/`
+3. **Vercel Job** → Builds and deploys all apps in `coinbase/` directory
+4. **Cloudflare Job** → Deploys Workers from `coinbase/fc-minikit/`
 
-### **📋 Next Steps:**
-1. **Commit Changes**: Push monorepo configuration
-2. **Monitor Deployments**: Check Vercel and Cloudflare Workers status
-3. **Test All Apps**: Verify all apps in `coinbase/` deploy correctly
-4. **Environment Variables**: Configure for all apps
+### **📋 Required Secrets:**
+- `VERCEL_TOKEN`: Vercel deployment token
+- `ORG_ID`: Vercel organization ID
+- `PROJECT_ID`: Vercel project ID
+- `CLOUDFLARE_API_TOKEN`: Cloudflare API token
 
 ### **🔧 Configuration Files:**
+- **`.github/workflows/cloudflare-only.yml`**: Comprehensive deployment workflow
 - **Root `vercel.json`**: Monorepo deployment configuration
 - **`coinbase/fc-minikit/vercel.json`**: App-specific headers
 - **`coinbase/fc-minikit/wrangler.toml`**: Cloudflare Workers config
@@ -369,4 +386,4 @@ CCulture-Apps-New/
 ---
 
 **Last Updated:** 2025-01-27  
-**Status:** ✅ Monorepo deployment configured - Ready for commit and push
+**Status:** ✅ Comprehensive monorepo deployment configured - Ready for commit and push

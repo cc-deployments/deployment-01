@@ -1,13 +1,46 @@
-name: Deploy Cloudflare Workers
+name: Deploy Monorepo (Vercel + Cloudflare Workers)
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  deploy:
+  deploy-vercel:
     runs-on: ubuntu-latest
-    name: Deploy to Cloudflare Workers
+    name: Deploy to Vercel (All Apps)
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Build all apps
+        run: |
+          echo "Building monorepo apps..."
+          cd coinbase/fc-minikit && npm run build
+          cd ../socialidentity && npm run build
+          cd ../nft-gallery && npm run build
+          
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.ORG_ID }}
+          vercel-project-id: ${{ secrets.PROJECT_ID }}
+          working-directory: ./
+          
+  deploy-cloudflare:
+    runs-on: ubuntu-latest
+    name: Deploy Cloudflare Workers
+    needs: deploy-vercel
     
     steps:
       - name: Checkout code
@@ -20,7 +53,7 @@ jobs:
           cache: 'npm'
           
       - name: Install Wrangler CLI
-        run: npm install -g wrangler@4.25.3
+        run: npm install -g wrangler@4.24.0
         
       - name: Deploy to Cloudflare Workers
         run: |
