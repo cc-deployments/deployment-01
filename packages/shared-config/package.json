@@ -1,0 +1,19 @@
+{
+  "name": "@cculture/shared-config",
+  "version": "1.0.0",
+  "description": "Shared environment configuration for CCulture monorepo",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "build": "tsc",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "exports": {
+    ".": "./env.ts"
+  }
+} 
