@@ -4,8 +4,11 @@ import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
+import { useSafeArea } from '../hooks/useSafeArea'; // Import the safe area hook
 
 export default function GalleryHero() {
+  const { safeArea, isLoading } = useSafeArea(); // Use the safe area hook
+
   useEffect(() => {
     const initializeSDK = async () => {
       try {
@@ -252,6 +255,26 @@ export default function GalleryHero() {
     document.body.appendChild(dialog);
   };
 
+  // Debug: Log safe area values
+  console.log('📱 Safe area insets:', safeArea);
+
+  // Show loading state while safe area is being determined
+  if (isLoading) {
+    return (
+      <div style={{
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#000',
+        color: '#fff'
+      }}>
+        Loading...
+      </div>
+    );
+  }
+
   return (
     <>
       <div 
@@ -264,6 +287,11 @@ export default function GalleryHero() {
           overflow: 'visible',
           backgroundColor: 'transparent',
           cursor: 'grab', // Add cursor to show it's interactive
+          // Apply safe area padding to the main container
+          paddingTop: `${safeArea.top}px`,
+          paddingBottom: `${safeArea.bottom}px`,
+          paddingLeft: `${safeArea.left}px`,
+          paddingRight: `${safeArea.right}px`,
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
         onTouchStart={() => console.log('👆 Touch start detected')}
@@ -275,18 +303,26 @@ export default function GalleryHero() {
             alt="Gallery Hero"
             width={1260}
             height={2400}
-            style={{ width: '100%', height: 'auto', aspectRatio: '1260 / 2400', objectFit: 'cover', display: 'block' }}
+            style={{ 
+              width: '100%', 
+              height: 'auto', 
+              aspectRatio: '1260 / 2400', 
+              objectFit: 'cover', 
+              display: 'block',
+              // Ensure image respects safe areas
+              maxHeight: `calc(100vh - ${safeArea.top + safeArea.bottom}px)`
+            }}
             priority
           />
           
-          {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
+          {/* Invisible "Unlock the Ride" Button Overlay - SAFE AREA AWARE */}
           <button
             onClick={handleUnlockRide}
             onMouseEnter={() => console.log('🖱️ Mouse over UNLOCK button area')}
             style={{
               position: 'absolute',
               left: '50%',
-              top: '74.9%', // Moved up 50px (77% - 2.08% = 74.9%)
+              top: `calc(74.9% - ${safeArea.bottom}px)`, // Adjust for bottom safe area
               transform: 'translateX(-50%)', // Centers the button horizontally
               width: '59.5%', // Decreased by 50px (63.5% - 3.97% = 59.5%)
               height: '4%', // Approximately 100px / 2400px = 4%
@@ -297,13 +333,13 @@ export default function GalleryHero() {
             }}
           />
 
-          {/* Invisible "Share" Button Overlay - RESPONSIVE POSITIONING */}
+          {/* Invisible "Share" Button Overlay - SAFE AREA AWARE */}
           <button
             onClick={handleShare}
             style={{
               position: 'absolute',
-              left: '89.4%', // Moved another 20px to the right (87.8% + 1.59% = 89.4%)
-              top: '75.3%', // Moved center down 10px (74.9% + 0.42% = 75.3%)
+              left: `calc(89.4% - ${safeArea.right}px)`, // Adjust for right safe area
+              top: `calc(75.3% - ${safeArea.bottom}px)`, // Adjust for bottom safe area
               transform: 'translateX(-50%)', // Centers the button horizontally
               width: '7.2%', // Decreased by 10px (8% - 0.79% = 7.2%)
               height: '3.1%', // Increased to 75px (75px / 2400px = 3.1%)
