@@ -3,10 +3,6 @@ name: Deploy Cloudflare Workers
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'coinbase/fc-minikit/src/**'
-      - 'coinbase/fc-minikit/wrangler.toml'
-      - '.github/workflows/cloudflare-only.yml'
 
 jobs:
   deploy:
@@ -24,7 +20,7 @@ jobs:
           cache: 'npm'
           
       - name: Install Wrangler CLI
-        run: npm install -g wrangler@latest
+        run: npm install -g wrangler@4.25.3
         
       - name: Deploy to Cloudflare Workers
         run: |
