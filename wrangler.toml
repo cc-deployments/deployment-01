@@ -1,0 +1,27 @@
+name = "ccult"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "carmania-db"
+database_id = "3f77a2ef-cccb-4334-8b29-3d82de26c370"
+
+# KV Namespace binding
+[[kv_namespaces]]
+binding = "CACHE"
+id = "0602ae677d7d46cfbc06751d79a727ce"
+
+# R2 Bucket binding
+[[r2_buckets]]
+binding = "STORAGE"
+bucket_name = "carmania-storage"
+
+# Environment variables
+[vars]
+ENVIRONMENT = "production"
+
+# Local development
+[dev]
+port = 8787 
