@@ -4,8 +4,11 @@ import { useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
+import { useSafeArea } from '../hooks/useSafeArea';
 
 export default function TextPage() {
+  const { safeArea, isLoading } = useSafeArea();
+
   useEffect(() => {
     const initializeSDK = async () => {
       try {
@@ -235,6 +238,27 @@ export default function TextPage() {
     rotationAngle: 0, // No rotation angle restriction
   });
 
+  // Debug: Log safe area values
+  console.log('📱 Safe area insets:', safeArea);
+
+  // Show loading state while safe area is being determined
+  if (isLoading) {
+    return (
+      <div style={{
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#000',
+        color: '#fff',
+        fontSize: '16px'
+      }}>
+        Loading...
+      </div>
+    );
+  }
+
   return (
     <>
       <div 
@@ -246,7 +270,12 @@ export default function TextPage() {
           position: 'relative',
           overflow: 'hidden',
           backgroundColor: '#000',
-          cursor: 'grab', // Add cursor to show it's interactive
+          cursor: 'grab',
+          // Apply safe area insets to prevent content from being hidden
+          paddingTop: `${safeArea.top}px`,
+          paddingBottom: `${safeArea.bottom}px`,
+          paddingLeft: `${safeArea.left}px`,
+          paddingRight: `${safeArea.right}px`,
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
         onTouchStart={onTouchStart}
@@ -254,18 +283,26 @@ export default function TextPage() {
         onTouchEnd={onTouchEnd}
         onClick={handleClick}
       >
-        {/* Image area - Responsive container */}
+        {/* Image area - Responsive container with safe area consideration */}
         <div className="gallery-hero-image-container">
           <Image
             src="/text-page.png"
             alt="Text Page"
             width={1260}
             height={2400}
-            style={{ width: '100%', height: 'auto', aspectRatio: '1260 / 2400', objectFit: 'cover', display: 'block' }}
+            style={{ 
+              width: '100%', 
+              height: 'auto', 
+              aspectRatio: '1260 / 2400', 
+              objectFit: 'cover', 
+              display: 'block',
+              // Ensure image respects safe areas
+              maxHeight: `calc(100vh - ${safeArea.top + safeArea.bottom}px)`
+            }}
             priority
           />
           
-          {/* Invisible "Unlock the Ride" Button Overlay - RESPONSIVE POSITIONING */}
+          {/* Invisible "Unlock the Ride" Button Overlay - SAFE AREA AWARE */}
           <button
             onClick={() => {
               console.log('Unlock Ride clicked!');
@@ -282,10 +319,10 @@ export default function TextPage() {
             style={{
               position: 'absolute',
               left: '50%',
-              top: '61.5%', // Moved up 50px (63.6% - 2.08% = 61.5%)
-              transform: 'translateX(-50%)', // Centers the button horizontally
-              width: '67.4%', // Decreased by 50px (71.4% - 3.97% = 67.4%)
-              height: '2%', // Approximately 50px / 2400px = 2%
+              top: '61.5%', // Percentage positioning (safe area handled by container padding)
+              transform: 'translateX(-50%)',
+              width: '67.4%',
+              height: '2%',
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
