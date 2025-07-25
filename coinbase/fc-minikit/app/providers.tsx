@@ -5,7 +5,7 @@ import { base } from "wagmi/chains";
 import { MiniKitProvider } from "@coinbase/onchainkit/minikit";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { sdk } from '@farcaster/miniapp-sdk';
-import { getAppSpecificConfig } from '../../../packages/shared-config';
+import { getSharedEnvConfig } from '../../../packages/shared-config';
 
 // Context provider for Farcaster SDK
 function FarcasterContextProvider({ children }: { children: ReactNode }) {
@@ -44,7 +44,7 @@ function FarcasterContextProvider({ children }: { children: ReactNode }) {
 
 export function Providers(props: { children: ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
-  const config = getAppSpecificConfig('fc-minikit');
+  const config = getSharedEnvConfig();
 
   return (
     <MiniKitProvider
