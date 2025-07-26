@@ -151,11 +151,43 @@
 - **Environment configuration centralized**
 - **TypeScript errors resolved**
 
+### **✅ Cloudflare API Token Working:**
+- **User API Token tested and working** locally
+- **All required permissions confirmed** (Workers Scripts, KV, R2, etc.)
+- **Documentation updated** with working solution
+- **Ready for GitHub Actions deployment**
+
 ### **✅ Foundation Ready for Tomorrow:**
 - **Phases 1 & 2 completed** (Environment + Shared Auth)
 - **Ready to start Phase 3** (Shared UI Components)
 - **Deployment pipeline stable**
 - **No blocking issues**
+
+---
+
+## 🔄 **PRE-LAUNCH TODO: Migrate to Account API Tokens**
+
+### **Priority:** Medium (before production launch)
+### **Effort:** 2-3 hours
+### **Status:** PENDING
+
+### **Tasks:**
+- [ ] Create Account API Token with same permissions as User token
+- [ ] Test Account token locally (authentication + deployment)
+- [ ] Update GitHub Actions to use Account token
+- [ ] Update documentation with Account token approach
+- [ ] Remove User API Token
+- [ ] Test full deployment pipeline with Account token
+
+### **Benefits:**
+- ✅ Follows Cloudflare best practices
+- ✅ Better for team environments
+- ✅ More granular security control
+- ✅ Future-proof approach
+
+### **Timeline:**
+- **Before production launch** (not urgent for current development)
+- **After GitHub Actions is working** with current User token
 
 ---
 

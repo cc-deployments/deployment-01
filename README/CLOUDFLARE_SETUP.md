@@ -92,36 +92,55 @@ Update your MiniApp components to use these API endpoints instead of localStorag
 
 ## GitHub Actions API Token Setup
 
-### Required API Token Permissions for Automated Deployment:
+### **✅ WORKING SOLUTION (User API Token)**
 
-#### **Account Permissions:**
-- **Cloudflare Workers** → `Edit` (deploy workers)
-- **Workers Scripts** → `Edit` (manage scripts)
-- **Workers Routes** → `Edit` (manage routes)
+We use a **User API Token** with the following permissions that have been tested and confirmed working:
 
-#### **User Permissions:**
-- **User Details** → `Read` (required for authentication)
-- **User** → `Read` (account information)
+#### **Required Permissions (Tested & Working):**
+- **Account** → **Workers Scripts** → `Edit`
+- **Account** → **Workers KV Storage** → `Edit`
+- **Account** → **Workers R2 Storage** → `Edit`
+- **Account** → **Workers Builds Configuration** → `Edit`
+- **Account** → **Workers Observability** → `Read`
 
-#### **Resource Permissions:**
-- **D1 Database** → `Edit` (for database operations)
-- **KV Storage** → `Edit` (for cache operations)
-- **R2 Storage** → `Edit` (for file storage)
+#### **Account Resources:**
+- **Include**: `carculture.com`
 
 ### **Step-by-Step Token Creation:**
 1. Go to: https://dash.cloudflare.com/profile/api-tokens
 2. Click **"Create Token"** → **"Custom token"**
-3. Set permissions as listed above
-4. Set Account Resources to `carculture.com`
-5. Create token and copy immediately
-6. Add to GitHub Secrets as `CLOUDFLARE_API_TOKEN`
+3. Set **Token name**: `GitHub Actions - CarMania Workers`
+4. Add the permissions listed above
+5. Set Account Resources to `carculture.com`
+6. Click **"Create Token"** and copy immediately
+7. Add to GitHub Secrets as `CLOUDFLARE_API_TOKEN`
 
 ### **Testing Token Locally:**
 ```bash
 cd coinbase/cloudflare-api
 export CLOUDFLARE_API_TOKEN='your-token-here'
-./test-deployment.sh
-``` 
+wrangler whoami  # Test authentication
+wrangler deploy --dry-run  # Test deployment
+```
+
+### **✅ Verification Commands:**
+```bash
+# Test authentication
+wrangler whoami
+
+# Test deployment (dry-run)
+wrangler deploy --dry-run
+
+# Expected output shows:
+# - Account: carculture.com
+# - All bindings accessible (D1, KV, R2)
+# - No authentication errors
+```
+
+### **🔄 Future Improvement (Pre-Launch):**
+- **Migrate to Account API Tokens** for better security
+- **Add to TODO** before production launch
+- **Follow Cloudflare best practices** for team environments 
 
 ## **🏗️ BASE AI Monorepo Architecture Recommendation**
 
