@@ -205,6 +205,59 @@ https://ccult.carculture-com.workers.dev
 - **CORS**: Enabled for all origins
 - **Status**: ✅ LIVE AND OPERATIONAL
 
+## **📋 COMPLETE API VALUES FOR RECORDS**
+
+### **🔐 Cloudflare Account Details:**
+- **Account Name**: `carculture.com`
+- **Account ID**: `b890b200e5f45415e66944982aad0a23`
+- **Email**: `cindy.lewis@me.com`
+
+### **⚙️ Cloudflare Worker Configuration:**
+- **Worker Name**: `ccult`
+- **Main File**: `index.js`
+- **Compatibility Date**: `2024-01-01`
+
+### **🗄️ Database & Storage Resources:**
+
+#### **D1 Database:**
+- **Binding**: `DB`
+- **Database Name**: `carmania-db`
+- **Database ID**: `3f77a2ef-cccb-4334-8b29-3d82de26c370`
+
+#### **KV Namespace (Cache):**
+- **Binding**: `CACHE`
+- **Namespace ID**: `0602ae677d7d46cfbc06751d79a727ce`
+- **Name**: `CARMANIA_CACHE`
+
+#### **R2 Bucket (Storage):**
+- **Binding**: `STORAGE`
+- **Bucket Name**: `carmania-storage`
+
+### **🔑 Token Permissions (Updated 2025-07-26):**
+- `account (read)`
+- `user (read)` ✅ (Includes Memberships)
+- `workers (write)`
+- `workers_kv (write)`
+- `workers_routes (write)`
+- `workers_scripts (write)`
+- `workers_tail (read)`
+- `d1 (write)`
+- `pages (write)`
+- `zone (read)`
+- `ssl_certs (write)`
+- `ai (write)`
+- `queues (write)`
+- `pipelines (write)`
+- `secrets_store (write)`
+- `containers (write)`
+- `cloudchamber (write)`
+- `offline_access`
+
+### **🌐 GitHub Repository:**
+- **Repository**: `flatout/web3-social-starter`
+- **GitHub Secret**: `CLOUDFLARE_API_TOKEN`
+- **Token Name**: `GitHub Actions - CarMania Workers`
+
 ## **🛠️ Deployment Workflow**
 
 ### **Step-by-Step Process (Completed):**

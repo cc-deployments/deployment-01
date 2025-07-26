@@ -2,6 +2,7 @@
 # Trigger Vercel deployment Mon Jun 30 02:14:01 EDT 2025
 # Trigger Vercel deployment Mon Jun 30 02:23:09 EDT 2025
 # Test Cloudflare deployment - Token updated 2025-07-26
+# Test Cloudflare deployment - Token permissions updated with Memberships 2025-07-26
 
 # Deployment & Troubleshooting Notes (2025-06-30)
 
