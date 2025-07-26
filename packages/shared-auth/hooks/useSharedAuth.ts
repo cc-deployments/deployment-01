@@ -14,15 +14,13 @@ export function useSharedAuth(): SharedAuthState {
   const { connect } = useConnect();
   const { disconnect } = useDisconnect();
   
-  // Try to get MiniKit context if available
   let miniKitContext;
   try {
-    // This will only work in MiniKit environment
+    // Import useMiniKit only if available
     const { useMiniKit } = require('@coinbase/onchainkit/minikit');
     miniKitContext = useMiniKit();
   } catch {
     // MiniKit not available in this environment
-    miniKitContext = null;
   }
   
   return {
