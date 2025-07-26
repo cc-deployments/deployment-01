@@ -9,16 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@coinbase/onchainkit": "^0.35.2",
+    "@cculture/shared-auth": "file:../../../packages/shared-auth",
+    "@cculture/shared-config": "file:../../../packages/shared-config",
+    "@coinbase/onchainkit": "0.38.15",
+    "@privy-io/react-auth": "2.17.2",
+    "@rainbow-me/rainbowkit": "^2.2.8",
+    "@tanstack/react-query": "^5",
     "framer-motion": "^11.10.0",
     "lucide": "^0.447.0",
     "lucide-react": "^0.447.0",
     "next": "^14.2.5",
-    "permissionless": "^0.1.26",
+    "permissionless": "^0.2.52",
     "react": "^18",
     "react-dom": "^18",
     "shimmer-css": "^1.0.1",
-    "siwe": "^2.3.2"
+    "siwe": "^2.3.2",
+    "viem": "^2.31.4",
+    "wagmi": "^2.15.6"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.3",
@@ -33,6 +40,7 @@
     "autoprefixer": "^10.4.19",
     "bufferutil": "^4.0.7",
     "encoding": "^0.1.13",
+    "ignore-loader": "^0.1.2",
     "jsdom": "^24.1.0",
     "lokijs": "^1.5.12",
     "pino-pretty": "^10.2.0",
@@ -43,4 +51,4 @@
     "utf-8-validate": "^6.0.3",
     "vitest": "^2.0.1"
   }
-} 
+}
