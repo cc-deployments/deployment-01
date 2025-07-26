@@ -17,7 +17,7 @@ export async function GET() {
       buttonTitle: "Unlock the Ride",
       splashImageUrl: "https://web3-social-starter-fc-minikit.vercel.app/splash.png",
       splashBackgroundColor: "#a32428",
-      webhookUrl: "https://api.neynar.com/f/app/70171be3-816f-416d-b846-4328fb0d210a/event",
+      // webhookUrl: "https://api.neynar.com/f/app/70171be3-816f-416d-b846-4328fb0d210a/event", // Removed - legacy Neynar reference
       subtitle: "Daily Drops, Legendary Rides",
       description: "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
       screenshotUrls: [
