@@ -45,6 +45,141 @@ CCulture-Apps-New/
 
 ---
 
+## 🚀 **STEP 1 IMPLEMENTATION: Monorepo Import Resolution (2025-07-27)**
+
+### **🎯 Current Issue:**
+- Import errors with `getAppSpecificConfig` vs `getSharedEnvConfig`
+- Module resolution cache issues
+- Relative imports like `../../../packages/shared-config/env`
+
+### **✅ BASE AI Solution:**
+
+#### **1. TypeScript Path Mapping (Recommended)**
+
+**Configure in `coinbase/fc-minikit/tsconfig.json`:**
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["../../../packages/shared-config/*"],
+      "@shared/env": ["../../../packages/shared-config/env"]
+    }
+  }
+}
+```
+
+**Update import in `app/providers.tsx`:**
+```tsx
+// Instead of: import from '../../../packages/shared-config/env'
+import { getSharedEnvConfig } from '@shared/env';
+```
+
+#### **2. Next.js Configuration**
+
+**Update `coinbase/fc-minikit/next.config.js`:**
+```js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    externalDir: true, // Allow imports from outside the project directory
+  },
+};
+
+module.exports = nextConfig;
+```
+
+#### **3. Clear Development Cache**
+
+**Complete cache clearing process:**
+```bash
+# Stop dev server completely
+# Clear Next.js cache
+rm -rf .next
+rm -rf node_modules/.cache
+
+# Clear TypeScript cache
+rm -rf tsconfig.tsbuildinfo
+
+# Restart dev server
+npm run dev
+```
+
+#### **4. Monorepo Package Management**
+
+**Option A: Workspace Dependencies (Recommended)**
+
+**Add to `fc-minikit/package.json`:**
+```json
+{
+  "dependencies": {
+    "@cculture/shared-config": "workspace:*"
+  }
+}
+```
+
+**Update `packages/shared-config/package.json`:**
+```json
+{
+  "name": "@cculture/shared-config",
+  "version": "1.0.0",
+  "main": "./env.ts",
+  "exports": {
+    ".": "./env.ts",
+    "./env": "./env.ts"
+  }
+}
+```
+
+#### **5. Verify File Structure**
+
+**Ensure structure:**
+```
+CCulture-Apps-New/
+├── packages/
+│   └── shared-config/
+│       ├── package.json
+│       └── env.ts (exports getSharedEnvConfig)
+└── coinbase/
+    └── fc-minikit/
+        ├── package.json
+        ├── tsconfig.json
+        └── app/
+            └── providers.tsx
+```
+
+#### **6. Export/Import Syntax**
+
+**In `packages/shared-config/env.ts`:**
+```typescript
+// Named export (recommended)
+export function getSharedEnvConfig() {
+  // implementation
+}
+```
+
+**In `app/providers.tsx`:**
+```typescript
+// Named import
+import { getSharedEnvConfig } from '@shared/env';
+```
+
+### **🔧 Implementation Steps:**
+
+1. **Configure TypeScript paths** in `fc-minikit/tsconfig.json`
+2. **Update Next.js config** to allow external imports
+3. **Clear all caches** and restart dev server
+4. **Test import resolution** with new path mapping
+5. **Verify no remaining references** to old function names
+
+### **✅ Success Criteria:**
+- [ ] No import errors in dev server
+- [ ] `getSharedEnvConfig` imports successfully
+- [ ] Clean TypeScript compilation
+- [ ] Working development server
+
+---
+
 ## 🔐 **2. Shared User Context and Hooks - BASE AI Recommendation**
 
 ### **Core Shared Package Structure:**
@@ -821,6 +956,72 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 2. **Update ARCHITECTURE.md:** Document hybrid approach
 3. **Create Implementation Guide:** Step-by-step migration plan
 4. **Update TODO List:** Prioritize based on BASE AI guidance
+
+---
+
+## **📝 IMPLEMENTATION PROGRESS & DECISIONS (2025-07-26)**
+
+### **🎯 Current Status: Phase 1 - Fix Build Issues**
+
+**What We're Doing:**
+1. **Temporarily using relative imports** instead of TypeScript path mapping
+2. **Keeping Cloudflare files in fc-minikit/** for now (to fix build)
+3. **Testing shared dependencies** before restructuring
+
+**Why This Approach:**
+- ✅ **Immediate fix** - Get FC MiniApp building and working
+- ✅ **Test shared auth** - Verify BASE AI's shared dependency strategy works
+- ✅ **Incremental progress** - Don't break everything at once
+- ✅ **Rollback safety** - Can easily revert if issues arise
+
+### **🔧 Current Implementation:**
+
+**Shared Dependencies (BASE AI Strategy):**
+```json
+// Root package.json - Updated to newer versions
+"permissionless": "^0.2.52",  // Updated from 0.1.26
+"viem": "^2.31.4",            // Consolidated version
+"resolutions": {
+  "viem": "2.31.4"           // Force single version
+}
+```
+
+**FC MiniApp (Cleaned):**
+```json
+// Removed duplicate dependencies
+- "wagmi": "^2.5.7" ❌ (now from shared-auth)
+- "viem": "^2.7.9" ❌ (now from shared-auth)  
+- "@tanstack/react-query": "^5" ❌ (now from shared-auth)
++ "@cculture/shared-auth": "file:../../../packages/shared-auth" ✅
++ "@cculture/shared-config": "file:../../../packages/shared-config" ✅
+```
+
+**Temporary Import Strategy:**
+```typescript
+// Using relative imports until path mapping works
+import { getSharedEnvConfig } from '../../../packages/shared-config/env';
+import { MiniKitAuthProvider } from '../../../packages/shared-auth/providers/MiniKitAuthProvider';
+```
+
+### **📋 Next Steps (Phase 2):**
+
+**After build is working:**
+1. **Move Cloudflare files** to `coinbase/cloudflare-api/`
+2. **Fix TypeScript path mapping** with proper webpack config
+3. **Test all apps** with new structure
+4. **Update deployment scripts**
+
+### **⚠️ Known Issues:**
+- **ESLint errors** in `src/index.js` (Cloudflare Worker mixed with Next.js)
+- **TypeScript path mapping** not working in Next.js webpack
+- **Cloudflare files** should be in separate directory
+
+### **🔄 Rollback Plan:**
+If issues arise, we can:
+1. **Revert to direct dependencies** in FC MiniApp
+2. **Use original import paths** 
+3. **Keep Cloudflare files** in current location
+4. **Document learnings** for next attempt
 
 ---
 

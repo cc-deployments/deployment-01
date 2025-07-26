@@ -1,11 +1,9 @@
 "use client";
 
-import { type ReactNode, useEffect, useState } from "react";
-import { base } from "wagmi/chains";
-import { MiniKitProvider } from "@coinbase/onchainkit/minikit";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { type ReactNode, useEffect } from "react";
 import { sdk } from '@farcaster/miniapp-sdk';
-import { getSharedEnvConfig } from '../../../packages/shared-config';
+import { getSharedEnvConfig } from '../../../packages/shared-config/env';
+import { MiniKitAuthProvider } from '../../../packages/shared-auth/providers/MiniKitAuthProvider';
 
 // Context provider for Farcaster SDK
 function FarcasterContextProvider({ children }: { children: ReactNode }) {
@@ -43,19 +41,16 @@ function FarcasterContextProvider({ children }: { children: ReactNode }) {
 }
 
 export function Providers(props: { children: ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
   const config = getSharedEnvConfig();
 
   return (
-    <MiniKitProvider
+    <MiniKitAuthProvider
       apiKey={config.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
-      chain={base}
+      projectName={config.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME}
     >
-      <QueryClientProvider client={queryClient}>
-        <FarcasterContextProvider>
-          {props.children}
-        </FarcasterContextProvider>
-      </QueryClientProvider>
-    </MiniKitProvider>
+      <FarcasterContextProvider>
+        {props.children}
+      </FarcasterContextProvider>
+    </MiniKitAuthProvider>
   );
 }

@@ -90,6 +90,48 @@ Update your MiniApp components to use these API endpoints instead of localStorag
 - No authentication implemented (add as needed)
 - Consider adding rate limiting for production 
 
+## **🏗️ BASE AI Monorepo Architecture Recommendation**
+
+### **Current Issue:**
+Cloudflare Worker files are mixed inside the FC MiniApp directory:
+```
+coinbase/fc-minikit/
+├── app/           # Next.js MiniApp
+├── src/index.js   # Cloudflare Worker ❌ (mixed)
+└── wrangler.toml  # Cloudflare config
+```
+
+### **BASE AI's Recommended Structure:**
+```
+CCulture-Apps-New/
+├── coinbase/
+│   ├── fc-minikit/           # Next.js MiniApp (clean)
+│   │   ├── app/
+│   │   └── (no Cloudflare files)
+│   ├── socialidentity/       # Social Identity web app
+│   ├── web-app/             # Main web app
+│   └── cloudflare-api/      # Separate Cloudflare Worker
+│       ├── src/index.js
+│       └── wrangler.toml
+└── packages/
+    ├── shared-auth/         # Shared authentication
+    ├── shared-config/       # Shared environment config
+    └── shared-ui/          # Shared UI components
+```
+
+### **Benefits of BASE AI's Structure:**
+- ✅ **Separation of concerns** - Each app has its own directory
+- ✅ **Shared dependencies** - All apps use shared packages
+- ✅ **Clean deployment** - Each app can deploy independently
+- ✅ **Easy maintenance** - Clear boundaries between apps
+- ✅ **Scalable architecture** - Easy to add new apps
+
+### **Migration Steps:**
+1. Create `coinbase/cloudflare-api/` directory
+2. Move `src/index.js` and `wrangler.toml` from `fc-minikit/`
+3. Update deployment scripts to target correct directories
+4. Test all apps work with new structure
+
 ## **✅ LIVE WORKER STATUS**
 
 ### **🌐 Your Live Worker URL:**

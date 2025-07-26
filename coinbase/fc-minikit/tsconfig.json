@@ -21,10 +21,14 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./*"
-      ]
+      ],
+      "@shared/*": ["../../../packages/shared-config/*"],
+      "@shared/env": ["../../../packages/shared-config/env"],
+      "@shared/auth": ["../../../packages/shared-auth"]
     },
     "target": "ES2017"
   },

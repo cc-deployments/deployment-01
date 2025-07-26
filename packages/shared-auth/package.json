@@ -1,0 +1,30 @@
+{
+  "name": "@cculture/shared-auth",
+  "version": "1.0.0",
+  "description": "Shared authentication providers and hooks for CCulture monorepo",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "build": "tsc",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@coinbase/onchainkit": "0.38.15",
+    "@tanstack/react-query": "^5",
+    "wagmi": "^2.5.7",
+    "viem": "^2.31.4",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^5"
+  },
+  "exports": {
+    ".": "./index.ts",
+    "./providers": "./providers/index.ts",
+    "./hooks": "./hooks/index.ts",
+    "./types": "./types/index.ts"
+  }
+} 
