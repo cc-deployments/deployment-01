@@ -27,6 +27,9 @@ jobs:
           echo "Current directory: $(pwd)"
           echo "Files in directory: $(ls -la)"
           echo "Wrangler version: $(wrangler --version)"
+          echo "=== WRANGLER.TOML CONTENT ==="
+          cat wrangler.toml
+          echo "=== END WRANGLER.TOML ==="
           WRANGLER_TELEMETRY_DISABLED=1 wrangler deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }} 
