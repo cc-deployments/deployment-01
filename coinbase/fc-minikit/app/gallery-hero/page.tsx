@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { useSafeArea } from '../hooks/useSafeArea'; // Import the safe area hook
+import { WalletConnection } from '../../../../packages/shared-ui/components/WalletConnection';
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea(); // Use the safe area hook
@@ -277,6 +278,19 @@ export default function GalleryHero() {
 
   return (
     <>
+      {/* Test WalletConnection Component */}
+      <div style={{ 
+        position: 'fixed', 
+        top: '10px', 
+        right: '10px', 
+        zIndex: 2000,
+        background: 'rgba(0,0,0,0.8)',
+        padding: '10px',
+        borderRadius: '8px'
+      }}>
+        <WalletConnection variant="minikit" />
+      </div>
+      
       <div 
         {...handlers} 
         className="gallery-hero-container"
