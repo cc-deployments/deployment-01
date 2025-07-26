@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@cculture/shared-auth": "file:../../../packages/shared-auth",
-    "@cculture/shared-config": "file:../../../packages/shared-config",
+    "@cculture/shared-ui": "file:../../../packages/shared-ui",
+    "@cculture/privy": "file:../../../packages/privy",
     "@coinbase/onchainkit": "0.38.15",
     "@coinbase/wallet-sdk": "^3.9.0",
     "@farcaster/miniapp-sdk": "^0.1.7",

@@ -86,6 +86,30 @@ CCulture-Apps-New/
 
 ---
 
+## 🧹 **Architecture Cleanup (2025-07-26)**
+
+### **Legacy Package Removal:**
+- **Deleted:** `packages/sharedauth/` - Legacy standalone app causing confusion
+- **Reason:** Not used by main applications, similar name to `packages/shared-auth/`
+- **Impact:** None - main apps use proper BASE AI recommended structure
+
+### **Current Clean Architecture:**
+```
+packages/
+├── shared-auth/     # ✅ Proper shared authentication (BASE AI)
+├── shared-ui/       # ✅ Shared UI components
+├── shared-config/   # ✅ Shared environment configuration
+└── privy/          # ✅ Shared Privy package (for future use)
+```
+
+### **Benefits:**
+- **Eliminated Confusion:** No more similar-named directories
+- **Clean Architecture:** Only BASE AI recommended structure remains
+- **No Impact:** Main apps (`fc-minikit`, `socialidentity`) don't use deleted package
+- **Privy Still Available:** `packages/privy/` remains for any apps that need it
+
+---
+
 ## Recent Updates (July 1–2, 2025)
 - Unified all social identity and wallet logic in `shared/identity/` (OnchainKit, Farcaster, wrappers, etc.)
 - Removed legacy/duplicate folders and archived unused code (e.g., _archive_neynar_v2, duplicate coinbase folders)

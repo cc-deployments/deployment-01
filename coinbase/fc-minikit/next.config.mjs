@@ -15,8 +15,9 @@ const nextConfig = {
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@shared/env': path.resolve(__dirname, '../../../packages/shared-config/env'),
       '@shared/auth': path.resolve(__dirname, '../../../packages/shared-auth'),
+      '@shared/ui': path.resolve(__dirname, '../../../packages/shared-ui'),
+      '@shared/privy': path.resolve(__dirname, '../../../packages/privy'),
     };
     return config;
   },

@@ -23,12 +23,9 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "@shared/*": ["../../../packages/shared-config/*"],
-      "@shared/env": ["../../../packages/shared-config/env"],
-      "@shared/auth": ["../../../packages/shared-auth"]
+      "@shared/auth": ["../../../packages/shared-auth"],
+      "@shared/ui": ["../../../packages/shared-ui"],
+      "@shared/privy": ["../../../packages/privy"]
     },
     "target": "ES2017"
   },

@@ -2,7 +2,6 @@
 
 import { type ReactNode, useEffect } from "react";
 import { sdk } from '@farcaster/miniapp-sdk';
-import { getSharedEnvConfig } from '../../../packages/shared-config/env';
 import { MiniKitAuthProvider } from '../../../packages/shared-auth/providers/MiniKitAuthProvider';
 
 // Context provider for Farcaster SDK
@@ -41,13 +40,8 @@ function FarcasterContextProvider({ children }: { children: ReactNode }) {
 }
 
 export function Providers(props: { children: ReactNode }) {
-  const config = getSharedEnvConfig();
-
   return (
-    <MiniKitAuthProvider
-      apiKey={config.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
-      projectName={config.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME}
-    >
+    <MiniKitAuthProvider>
       <FarcasterContextProvider>
         {props.children}
       </FarcasterContextProvider>

@@ -56,6 +56,28 @@
 - **Viem:** All apps use 2.33.1 ✅
 - **Wagmi:** All apps use 2.16.0 ✅
 
+## **🧹 Architecture Cleanup (2025-07-26)**
+
+### **Legacy Package Removal:**
+- **Deleted:** `packages/sharedauth/` - Legacy standalone app
+- **Reason:** Not used by main applications, similar name to `packages/shared-auth/`
+- **Impact:** None - main apps use proper BASE AI recommended structure
+
+### **Current Clean Architecture:**
+```
+packages/
+├── shared-auth/     # ✅ Proper shared authentication (BASE AI)
+├── shared-ui/       # ✅ Shared UI components  
+├── shared-config/   # ✅ Shared environment configuration
+└── privy/          # ✅ Shared Privy package (for future use)
+```
+
+### **Benefits:**
+- **Eliminated Confusion:** No more similar-named directories
+- **Clean Architecture:** Only BASE AI recommended structure remains
+- **No Impact:** Main apps (`fc-minikit`, `socialidentity`) don't use deleted package
+- **Privy Still Available:** `packages/privy/` remains for any apps that need it
+
 ## **🤔 Why You Still Need Multiple Installations**
 
 ### **Even with Shared Auth, You Need Multiple Installations Because:**
