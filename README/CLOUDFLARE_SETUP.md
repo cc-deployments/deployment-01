@@ -88,7 +88,40 @@ Update your MiniApp components to use these API endpoints instead of localStorag
 ## Security Notes
 - CORS is enabled for all origins (update for production)
 - No authentication implemented (add as needed)
-- Consider adding rate limiting for production 
+- Consider adding rate limiting for production
+
+## GitHub Actions API Token Setup
+
+### Required API Token Permissions for Automated Deployment:
+
+#### **Account Permissions:**
+- **Cloudflare Workers** → `Edit` (deploy workers)
+- **Workers Scripts** → `Edit` (manage scripts)
+- **Workers Routes** → `Edit` (manage routes)
+
+#### **User Permissions:**
+- **User Details** → `Read` (required for authentication)
+- **User** → `Read` (account information)
+
+#### **Resource Permissions:**
+- **D1 Database** → `Edit` (for database operations)
+- **KV Storage** → `Edit` (for cache operations)
+- **R2 Storage** → `Edit` (for file storage)
+
+### **Step-by-Step Token Creation:**
+1. Go to: https://dash.cloudflare.com/profile/api-tokens
+2. Click **"Create Token"** → **"Custom token"**
+3. Set permissions as listed above
+4. Set Account Resources to `carculture.com`
+5. Create token and copy immediately
+6. Add to GitHub Secrets as `CLOUDFLARE_API_TOKEN`
+
+### **Testing Token Locally:**
+```bash
+cd coinbase/cloudflare-api
+export CLOUDFLARE_API_TOKEN='your-token-here'
+./test-deployment.sh
+``` 
 
 ## **🏗️ BASE AI Monorepo Architecture Recommendation**
 
