@@ -3,7 +3,6 @@
 export interface SharedEnvConfig {
   // OnchainKit Configuration
   NEXT_PUBLIC_ONCHAINKIT_API_KEY?: string;
-  NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID?: string;
   NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME?: string;
   
   // Farcaster MiniApp specific
@@ -17,10 +16,6 @@ export interface SharedEnvConfig {
   // App Configuration
   NEXT_PUBLIC_APP_URL?: string;
   NODE_ENV?: string;
-  
-  // WalletConnect Configuration
-  NEXT_PUBLIC_WC_PROJECT_ID?: string;
-  NEXT_PUBLIC_CDP_API_KEY?: string;
   
   // Smart Contract Addresses
   NEXT_PUBLIC_BASE_ERC721_CONTRACT?: string;
@@ -37,7 +32,6 @@ export function getSharedEnvConfig(): SharedEnvConfig {
   return {
     // OnchainKit Configuration
     NEXT_PUBLIC_ONCHAINKIT_API_KEY: process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY,
-    NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
     NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
     
     // Farcaster MiniApp specific
@@ -51,10 +45,6 @@ export function getSharedEnvConfig(): SharedEnvConfig {
     // App Configuration
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NODE_ENV: process.env.NODE_ENV,
-    
-    // WalletConnect Configuration
-    NEXT_PUBLIC_WC_PROJECT_ID: process.env.NEXT_PUBLIC_WC_PROJECT_ID,
-    NEXT_PUBLIC_CDP_API_KEY: process.env.NEXT_PUBLIC_CDP_API_KEY,
     
     // Smart Contract Addresses
     NEXT_PUBLIC_BASE_ERC721_CONTRACT: process.env.NEXT_PUBLIC_BASE_ERC721_CONTRACT,
