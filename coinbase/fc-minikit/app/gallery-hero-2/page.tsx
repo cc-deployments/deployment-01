@@ -4,12 +4,13 @@ import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
-import { useOpenUrl } from '@coinbase/onchainkit/minikit';
+import { useOpenUrl, useMiniKit } from '@coinbase/onchainkit/minikit';
 import { useSafeArea } from '../hooks/useSafeArea';
 
 export default function GalleryHero2() {
   const { safeArea, isLoading } = useSafeArea();
   const openUrl = useOpenUrl(); // Use BASE AI's recommended hook for URL opening
+  const { setFrameReady, isFrameReady } = useMiniKit(); // Add MiniKit context
 
   useEffect(() => {
     const initializeSDK = async () => {
@@ -30,6 +31,14 @@ export default function GalleryHero2() {
 
     initializeSDK();
   }, []);
+
+  // Add frame readiness logic as recommended by BASE AI
+  useEffect(() => {
+    if (!isFrameReady) {
+      console.log('🖼️ Setting frame ready...');
+      setFrameReady();
+    }
+  }, [setFrameReady, isFrameReady]);
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
@@ -171,56 +180,58 @@ export default function GalleryHero2() {
           />
           
           {/* Invisible "Unlock the Ride" Button Overlay - SAFE AREA AWARE */}
-          <button
-            onClick={async () => {
-              console.log('🚗 Unlock Ride clicked!');
-              
-              try {
-                // Step 1: Fetch dynamic URL from Cloudflare API (Base-compliant)
-                console.log('📡 Fetching current mint URL from Cloudflare API...');
-                const response = await fetch('https://ccult.carculture-com.workers.dev/api/cars/active');
-                const activeCar = await response.json();
+          {isFrameReady && (
+            <button
+              onClick={async () => {
+                console.log('🚗 Unlock Ride clicked!');
                 
-                if (activeCar && activeCar.mint_url) {
-                  console.log('✅ Got dynamic URL:', activeCar.mint_url);
+                try {
+                  // Step 1: Fetch dynamic URL from Cloudflare API (Base-compliant)
+                  console.log('📡 Fetching current mint URL from Cloudflare API...');
+                  const response = await fetch('https://ccult.carculture-com.workers.dev/api/cars/active');
+                  const activeCar = await response.json();
                   
-                  // Step 2: Use the recommended useOpenUrl hook (Base-compliant)
-                  openUrl(activeCar.mint_url);
-                } else {
-                  console.log('⚠️ No active car found, using fallback URL');
+                  if (activeCar && activeCar.mint_url) {
+                    console.log('✅ Got dynamic URL:', activeCar.mint_url);
+                    
+                    // Step 2: Use the recommended useOpenUrl hook (Base-compliant)
+                    openUrl(activeCar.mint_url);
+                  } else {
+                    console.log('⚠️ No active car found, using fallback URL');
+                    // Fallback to current hardcoded URL
+                    const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
+                    openUrl(fallbackUrl);
+                  }
+                } catch (error) {
+                  console.error('❌ Error fetching dynamic URL:', error);
                   // Fallback to current hardcoded URL
                   const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
                   openUrl(fallbackUrl);
                 }
-              } catch (error) {
-                console.error('❌ Error fetching dynamic URL:', error);
-                // Fallback to current hardcoded URL
-                const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
-                openUrl(fallbackUrl);
-              }
-            }}
-            onTouchStart={(e) => {
-              e.stopPropagation(); // Prevent container touch handlers from interfering
-              console.log('👆 Touch start on UNLOCK button');
-            }}
-            onTouchEnd={(e) => {
-              e.stopPropagation(); // Prevent container touch handlers from interfering
-              console.log('👆 Touch end on UNLOCK button');
-            }}
-            style={{
-              position: 'absolute',
-              left: '50%',
-              top: `calc(63.6% - ${safeArea.bottom}px)`, // Adjust for bottom safe area
-              transform: 'translateX(-50%)', // Centers the button horizontally
-              width: '24%', // Approximately 300px / 1260px = 24%
-              height: '2%', // Approximately 50px / 2400px = 2%
-              background: 'transparent', // Invisible background
-              border: 'none', // No border
-              cursor: 'pointer',
-              zIndex: 20,
-            }}
-            title="Unlock the Ride"
-          />
+              }}
+              onTouchStart={(e) => {
+                e.stopPropagation(); // Prevent container touch handlers from interfering
+                console.log('👆 Touch start on UNLOCK button');
+              }}
+              onTouchEnd={(e) => {
+                e.stopPropagation(); // Prevent container touch handlers from interfering
+                console.log('👆 Touch end on UNLOCK button');
+              }}
+              style={{
+                position: 'absolute',
+                left: '50%',
+                top: `calc(63.6% - ${safeArea.bottom}px)`, // Adjust for bottom safe area
+                transform: 'translateX(-50%)', // Centers the button horizontally
+                width: '24%', // Approximately 300px / 1260px = 24%
+                height: '2%', // Approximately 50px / 2400px = 2%
+                background: 'transparent', // Invisible background
+                border: 'none', // No border
+                cursor: 'pointer',
+                zIndex: 20,
+              }}
+              title="Unlock the Ride"
+            />
+          )}
         </div>
       </div>
     </>

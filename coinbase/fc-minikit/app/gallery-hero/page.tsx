@@ -4,12 +4,13 @@ import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
-import { useOpenUrl } from '@coinbase/onchainkit/minikit';
+import { useOpenUrl, useMiniKit } from '@coinbase/onchainkit/minikit';
 import { useSafeArea } from '../hooks/useSafeArea'; // Import the safe area hook
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea(); // Use the safe area hook
   const openUrl = useOpenUrl(); // Use BASE AI's recommended hook for URL opening
+  const { setFrameReady, isFrameReady } = useMiniKit(); // Add MiniKit context
 
   useEffect(() => {
     const initializeSDK = async () => {
@@ -41,6 +42,14 @@ export default function GalleryHero() {
 
     initializeSDK();
   }, []);
+
+  // Add frame readiness logic as recommended by BASE AI
+  useEffect(() => {
+    if (!isFrameReady) {
+      console.log('🖼️ Setting frame ready...');
+      setFrameReady();
+    }
+  }, [setFrameReady, isFrameReady]);
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     console.log('🎹 Key pressed:', event.key);
@@ -344,70 +353,74 @@ export default function GalleryHero() {
           />
           
           {/* Invisible "Unlock the Ride" Button Overlay - SAFE AREA AWARE */}
-          <button
-            onClick={handleUnlockRide}
-            onMouseEnter={() => console.log('🖱️ Mouse over UNLOCK button area')}
-            onTouchStart={(e) => {
-              e.stopPropagation(); // Prevent container touch handlers from interfering
-              console.log('👆 Touch start on UNLOCK button - FUNCTION CALLED');
-              console.log('📍 Touch coordinates:', e.touches[0].clientX, e.touches[0].clientY);
-              console.log('🎯 Button element:', e.currentTarget);
-            }}
-            onTouchEnd={(e) => {
-              e.stopPropagation(); // Prevent container touch handlers from interfering
-              console.log('👆 Touch end on UNLOCK button - FUNCTION CALLED');
-              console.log('📍 Touch coordinates:', e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-            }}
-            style={{
-              position: 'absolute',
-              bottom: '25%', // Position from bottom instead of top
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '80%',
-              height: '60px',
-              backgroundColor: 'rgba(255, 0, 0, 0.3)', // Debug overlay
-              border: '2px solid red', // Debug border
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '16px',
-              fontWeight: 'bold',
-              color: 'white',
-              cursor: 'pointer',
-              zIndex: 1000, // Ensure button is on top
-              userSelect: 'none',
-              WebkitUserSelect: 'none',
-              MozUserSelect: 'none',
-              msUserSelect: 'none',
-              pointerEvents: 'auto', // Ensure touch events work
-            }}
-          />
+          {isFrameReady && (
+            <button
+              onClick={handleUnlockRide}
+              onMouseEnter={() => console.log('🖱️ Mouse over UNLOCK button area')}
+              onTouchStart={(e) => {
+                e.stopPropagation(); // Prevent container touch handlers from interfering
+                console.log('👆 Touch start on UNLOCK button - FUNCTION CALLED');
+                console.log('📍 Touch coordinates:', e.touches[0].clientX, e.touches[0].clientY);
+                console.log('🎯 Button element:', e.currentTarget);
+              }}
+              onTouchEnd={(e) => {
+                e.stopPropagation(); // Prevent container touch handlers from interfering
+                console.log('👆 Touch end on UNLOCK button - FUNCTION CALLED');
+                console.log('📍 Touch coordinates:', e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+              }}
+              style={{
+                position: 'absolute',
+                bottom: '25%', // Position from bottom instead of top
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '80%',
+                height: '60px',
+                backgroundColor: 'rgba(255, 0, 0, 0.3)', // Debug overlay
+                border: '2px solid red', // Debug border
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                color: 'white',
+                cursor: 'pointer',
+                zIndex: 1000, // Ensure button is on top
+                userSelect: 'none',
+                WebkitUserSelect: 'none',
+                MozUserSelect: 'none',
+                msUserSelect: 'none',
+                pointerEvents: 'auto', // Ensure touch events work
+              }}
+            />
+          )}
 
           {/* Invisible "Share" Button Overlay - SAFE AREA AWARE */}
-          <button
-            onClick={handleShare}
-            onTouchStart={(e) => {
-              e.stopPropagation(); // Prevent container touch handlers from interfering
-              console.log('👆 Touch start on SHARE button');
-            }}
-            onTouchEnd={(e) => {
-              e.stopPropagation(); // Prevent container touch handlers from interfering
-              console.log('👆 Touch end on SHARE button');
-            }}
-            style={{
-              position: 'absolute',
-              left: `calc(89.4% - ${safeArea.right}px)`, // Adjust for right safe area
-              top: `calc(75.3% - ${safeArea.bottom}px)`, // Adjust for bottom safe area
-              transform: 'translateX(-50%)', // Centers the button horizontally
-              width: '7.2%', // Decreased by 10px (8% - 0.79% = 7.2%)
-              height: '3.1%', // Increased to 75px (75px / 2400px = 3.1%)
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              zIndex: 1000,
-            }}
-          />
+          {isFrameReady && (
+            <button
+              onClick={handleShare}
+              onTouchStart={(e) => {
+                e.stopPropagation(); // Prevent container touch handlers from interfering
+                console.log('👆 Touch start on SHARE button');
+              }}
+              onTouchEnd={(e) => {
+                e.stopPropagation(); // Prevent container touch handlers from interfering
+                console.log('👆 Touch end on SHARE button');
+              }}
+              style={{
+                position: 'absolute',
+                left: `calc(89.4% - ${safeArea.right}px)`, // Adjust for right safe area
+                top: `calc(75.3% - ${safeArea.bottom}px)`, // Adjust for bottom safe area
+                transform: 'translateX(-50%)', // Centers the button horizontally
+                width: '7.2%', // Decreased by 10px (8% - 0.79% = 7.2%)
+                height: '3.1%', // Increased to 75px (75px / 2400px = 3.1%)
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                zIndex: 1000,
+              }}
+            />
+          )}
         </div>
       </div>
     </>
