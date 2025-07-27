@@ -5,9 +5,11 @@ import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { useSafeArea } from '../hooks/useSafeArea'; // Import the safe area hook
+import { useOpenUrl } from '@coinbase/onchainkit/minikit'; // Import the recommended hook
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea(); // Use the safe area hook
+  const openUrl = useOpenUrl(); // Use the recommended hook for URL opening
 
   useEffect(() => {
     const initializeSDK = async () => {
@@ -145,34 +147,19 @@ export default function GalleryHero() {
       if (activeCar && activeCar.mint_url) {
         console.log('✅ Got dynamic URL:', activeCar.mint_url);
         
-        // Step 2: Use SDK action for navigation (Base-compliant)
-        const context = await sdk.context;
-        if (context?.client?.clientFid === 309857) {
-          sdk.actions.openUrl(activeCar.mint_url);
-        } else {
-          window.location.href = activeCar.mint_url;
-        }
+        // Step 2: Use the recommended useOpenUrl hook (Base-compliant)
+        openUrl(activeCar.mint_url);
       } else {
         console.log('⚠️ No active car found, using fallback URL');
         // Fallback to current hardcoded URL
         const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
-        const context = await sdk.context;
-        if (context?.client?.clientFid === 309857) {
-          sdk.actions.openUrl(fallbackUrl);
-        } else {
-          window.location.href = fallbackUrl;
-        }
+        openUrl(fallbackUrl);
       }
     } catch (error) {
       console.error('❌ Error fetching dynamic URL:', error);
       // Fallback to current hardcoded URL
       const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
-      const context = await sdk.context;
-      if (context?.client?.clientFid === 309857) {
-        sdk.actions.openUrl(fallbackUrl);
-      } else {
-        window.location.href = fallbackUrl;
-      }
+      openUrl(fallbackUrl);
     }
   };
 
