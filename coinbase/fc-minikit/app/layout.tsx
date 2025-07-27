@@ -12,6 +12,27 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://web3-social-starter-fc-minikit.vercel.app',
   },
+  title: 'CarCulture: CarMania Garage',
+  description: 'Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.',
+  openGraph: {
+    title: 'CarCulture: CarMania Garage',
+    description: 'Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.',
+    images: [
+      {
+        url: 'https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png',
+        width: 1200,
+        height: 630,
+        alt: 'CarCulture: CarMania Garage',
+      }
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'CarCulture: CarMania Garage',
+    description: 'Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.',
+    images: ['https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png'],
+  },
   // ...add any other metadata fields here as needed
 };
 
