@@ -353,125 +353,119 @@ export default function GalleryHero() {
           />
           
           {/* Invisible "Unlock the Ride" Button Overlay - SAFE AREA AWARE */}
-          {isFrameReady && (
-                    <button
-                      onClick={handleUnlockRide}
-                      onTouchStart={(e) => {
-                        e.stopPropagation();
-                        console.log('👆 Touch start on UNLOCK button - FUNCTION CALLED');
-                        console.log('📍 Touch coordinates:', e.touches[0].clientX, e.touches[0].clientY);
-                        console.log('🎯 Button element:', e.currentTarget);
-                      }}
-                      onTouchEnd={(e) => {
-                        e.stopPropagation();
-                        console.log('👆 Touch end on UNLOCK button - FUNCTION CALLED');
-                        console.log('📍 Touch coordinates:', e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-                      }}
-                      style={{
-                        position: 'absolute',
-                        bottom: '20%', // Move down from 25%
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        width: '40%',
-                        height: '25px', // Much shorter - reduced from 40px
-                        backgroundColor: 'rgba(255, 0, 0, 0.3)',
-                        border: '2px solid red',
-                        borderRadius: '8px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '14px',
-                        fontWeight: 'bold',
-                        color: 'white',
-                        cursor: 'pointer',
-                        zIndex: 1000,
-                        userSelect: 'none',
-                        WebkitUserSelect: 'none',
-                        MozUserSelect: 'none',
-                        msUserSelect: 'none',
-                        pointerEvents: 'auto',
-                      }}
-                    />
-                  )}
+          <button
+            onClick={handleUnlockRide}
+            onTouchStart={(e) => {
+              e.stopPropagation();
+              console.log('👆 Touch start on UNLOCK button - FUNCTION CALLED');
+              console.log('📍 Touch coordinates:', e.touches[0].clientX, e.touches[0].clientY);
+              console.log('🎯 Button element:', e.currentTarget);
+            }}
+            onTouchEnd={(e) => {
+              e.stopPropagation();
+              console.log('👆 Touch end on UNLOCK button - FUNCTION CALLED');
+              console.log('📍 Touch coordinates:', e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+            }}
+            style={{
+              position: 'absolute',
+              bottom: '30%', // Move up from 20%
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '60%', // Wider - increased from 40%
+              height: '35px', // Slightly taller - increased from 25px
+              backgroundColor: 'rgba(255, 0, 0, 0.3)',
+              border: '2px solid red',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '14px',
+              fontWeight: 'bold',
+              color: 'white',
+              cursor: 'pointer',
+              zIndex: 1000,
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
+              MozUserSelect: 'none',
+              msUserSelect: 'none',
+              pointerEvents: 'auto',
+            }}
+          />
 
-                  {/* Navigation Buttons */}
-                  {isFrameReady && (
-                    <>
-                      <button
-                        onClick={() => window.location.href = '/text-page'}
-                        style={{
-                          position: 'absolute',
-                          top: '20px',
-                          left: '20px',
-                          width: '40px',
-                          height: '40px',
-                          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                          border: 'none',
-                          borderRadius: '50%',
-                          color: 'white',
-                          fontSize: '12px',
-                          cursor: 'pointer',
-                          zIndex: 1001,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                        title="Go to Text Page"
-                      >
-                        T
-                      </button>
-                      <button
-                        onClick={() => window.location.href = '/gallery-hero-2'}
-                        style={{
-                          position: 'absolute',
-                          top: '20px',
-                          right: '20px',
-                          width: '40px',
-                          height: '40px',
-                          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                          border: 'none',
-                          borderRadius: '50%',
-                          color: 'white',
-                          fontSize: '12px',
-                          cursor: 'pointer',
-                          zIndex: 1001,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                        title="Go to Gallery Hero 2"
-                      >
-                        G2
-                      </button>
-                    </>
-                  )}
-
-          {/* Invisible "Share" Button Overlay - SAFE AREA AWARE */}
-          {isFrameReady && (
+          {/* Navigation Buttons */}
+          <>
             <button
-              onClick={handleShare}
-              onTouchStart={(e) => {
-                e.stopPropagation(); // Prevent container touch handlers from interfering
-                console.log('👆 Touch start on SHARE button');
-              }}
-              onTouchEnd={(e) => {
-                e.stopPropagation(); // Prevent container touch handlers from interfering
-                console.log('👆 Touch end on SHARE button');
-              }}
+              onClick={() => window.location.href = '/text-page'}
               style={{
                 position: 'absolute',
-                left: `calc(89.4% - ${safeArea.right}px)`, // Adjust for right safe area
-                top: `calc(75.3% - ${safeArea.bottom}px)`, // Adjust for bottom safe area
-                transform: 'translateX(-50%)', // Centers the button horizontally
-                width: '7.2%', // Decreased by 10px (8% - 0.79% = 7.2%)
-                height: '3.1%', // Increased to 75px (75px / 2400px = 3.1%)
-                background: 'transparent',
+                top: '20px',
+                left: '20px',
+                width: '40px',
+                height: '40px',
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
                 border: 'none',
+                borderRadius: '50%',
+                color: 'white',
+                fontSize: '12px',
                 cursor: 'pointer',
-                zIndex: 1000,
+                zIndex: 1001,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
-            />
-          )}
+              title="Go to Text Page"
+            >
+              T
+            </button>
+            <button
+              onClick={() => window.location.href = '/gallery-hero-2'}
+              style={{
+                position: 'absolute',
+                top: '20px',
+                right: '20px',
+                width: '40px',
+                height: '40px',
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                border: 'none',
+                borderRadius: '50%',
+                color: 'white',
+                fontSize: '12px',
+                cursor: 'pointer',
+                zIndex: 1001,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              title="Go to Gallery Hero 2"
+            >
+              G2
+            </button>
+          </>
+
+          {/* Invisible "Share" Button Overlay - SAFE AREA AWARE */}
+          <button
+            onClick={handleShare}
+            onTouchStart={(e) => {
+              e.stopPropagation(); // Prevent container touch handlers from interfering
+              console.log('👆 Touch start on SHARE button');
+            }}
+            onTouchEnd={(e) => {
+              e.stopPropagation(); // Prevent container touch handlers from interfering
+              console.log('👆 Touch end on SHARE button');
+            }}
+            style={{
+              position: 'absolute',
+              left: `calc(89.4% - ${safeArea.right}px)`, // Adjust for right safe area
+              top: `calc(75.3% - ${safeArea.bottom}px)`, // Adjust for bottom safe area
+              transform: 'translateX(-50%)', // Centers the button horizontally
+              width: '7.2%', // Decreased by 10px (8% - 0.79% = 7.2%)
+              height: '3.1%', // Increased to 75px (75px / 2400px = 3.1%)
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              zIndex: 1000,
+            }}
+          />
         </div>
       </div>
     </>
