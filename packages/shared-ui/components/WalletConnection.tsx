@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useSharedAuth, useWalletConnection } from '../../shared-auth/hooks';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+// RainbowKit import removed - OnchainKit handles wallet connections
 import { Wallet } from '@coinbase/onchainkit/wallet';
 
 interface WalletConnectionProps {
@@ -25,11 +25,11 @@ export function WalletConnection({
     );
   }
 
-  // Standard apps can use RainbowKit
+  // Standard apps can use RainbowKit (fallback to OnchainKit)
   if (variant === 'rainbowkit') {
     return (
       <div className={className}>
-        <ConnectButton />
+        <Wallet />
       </div>
     );
   }

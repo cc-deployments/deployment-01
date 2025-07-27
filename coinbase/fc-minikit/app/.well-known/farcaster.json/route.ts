@@ -31,7 +31,7 @@ export async function GET() {
         "carculture",
         "car",
         "storytelling",
-        "collectibles"
+        "art"
       ],
       heroImageUrl: "https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png",
       tagline: "Drive the Past. Own the Now.",
