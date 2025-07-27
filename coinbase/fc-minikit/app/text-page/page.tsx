@@ -5,11 +5,9 @@ import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { useSafeArea } from '../hooks/useSafeArea';
-import { useOpenUrl } from '@coinbase/onchainkit/minikit';
 
 export default function TextPage() {
   const { safeArea, isLoading } = useSafeArea();
-  const openUrl = useOpenUrl();
 
   useEffect(() => {
     const initializeSDK = async () => {
@@ -310,28 +308,35 @@ export default function TextPage() {
               console.log('🚗 Unlock the Ride clicked!');
               
               try {
-                // Step 1: Fetch dynamic URL from Cloudflare API (Base-compliant)
+                // Step 1: Fetch dynamic URL from Cloudflare API
                 console.log('📡 Fetching current mint URL from Cloudflare API...');
                 const response = await fetch('https://ccult.carculture-com.workers.dev/api/cars/active');
                 const activeCar = await response.json();
                 
                 if (activeCar && activeCar.mint_url) {
                   console.log('✅ Got dynamic URL:', activeCar.mint_url);
-                  
-                  // Step 2: Use the recommended useOpenUrl hook (Base-compliant)
-                  openUrl(activeCar.mint_url);
+                  // Use the recommended useOpenUrl hook (handles fallbacks automatically)
+                  sdk.actions.openUrl(activeCar.mint_url);
                 } else {
                   console.log('⚠️ No active car found, using fallback URL');
                   // Fallback to current hardcoded URL
                   const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
-                  openUrl(fallbackUrl);
+                  sdk.actions.openUrl(fallbackUrl);
                 }
               } catch (error) {
                 console.error('❌ Error fetching dynamic URL:', error);
                 // Fallback to current hardcoded URL
                 const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
-                openUrl(fallbackUrl);
+                sdk.actions.openUrl(fallbackUrl);
               }
+            }}
+            onTouchStart={(e) => {
+              e.stopPropagation(); // Prevent container touch handlers from interfering
+              console.log('👆 Touch start on UNLOCK button');
+            }}
+            onTouchEnd={(e) => {
+              e.stopPropagation(); // Prevent container touch handlers from interfering
+              console.log('👆 Touch end on UNLOCK button');
             }}
             style={{
               position: 'absolute',
