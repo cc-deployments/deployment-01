@@ -303,17 +303,12 @@ export default function GalleryHero() {
         {...handlers} 
         className="gallery-hero-container"
         style={{
+          position: 'relative',
           width: '100vw',
           height: '100vh',
-          position: 'relative',
           overflow: 'hidden',
           backgroundColor: '#000',
-          cursor: 'grab', // Add cursor to show it's interactive
-          // Apply safe area padding to the main container
-          paddingTop: `${safeArea.top}px`,
-          paddingBottom: `${safeArea.bottom}px`,
-          paddingLeft: `${safeArea.left}px`,
-          paddingRight: `${safeArea.right}px`,
+          border: '2px solid blue', // Debug container border
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
         onTouchStart={() => console.log('👆 Touch start detected')}
@@ -353,15 +348,26 @@ export default function GalleryHero() {
             }}
             style={{
               position: 'absolute',
+              top: `calc(74.9% + 25px - ${safeArea.bottom}px)`,
               left: '50%',
-              top: `calc(74.9% + 25px - ${safeArea.bottom}px)`, // Moved down by 25px
-              transform: 'translateX(-50%)', // Centers the button horizontally
-              width: '59.5%', // Decreased by 50px (63.5% - 3.97% = 59.5%)
-              height: '4%', // Approximately 100px / 2400px = 4%
-              background: 'transparent',
-              border: 'none',
+              transform: 'translateX(-50%)',
+              width: '80%',
+              height: '60px',
+              backgroundColor: 'rgba(255, 0, 0, 0.3)', // Debug overlay
+              border: '2px solid red', // Debug border
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '16px',
+              fontWeight: 'bold',
+              color: 'white',
               cursor: 'pointer',
-              zIndex: 1000,
+              zIndex: 1000, // Ensure button is on top
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
+              MozUserSelect: 'none',
+              msUserSelect: 'none',
             }}
           />
 

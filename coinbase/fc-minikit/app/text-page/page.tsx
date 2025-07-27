@@ -267,17 +267,12 @@ export default function TextPage() {
         {...handlers} 
         className="gallery-hero-container"
         style={{
+          position: 'relative',
           width: '100vw',
           height: '100vh',
-          position: 'relative',
           overflow: 'hidden',
           backgroundColor: '#000',
-          cursor: 'grab',
-          // Apply safe area insets to prevent content from being hidden
-          paddingTop: `${safeArea.top}px`,
-          paddingBottom: `${safeArea.bottom}px`,
-          paddingLeft: `${safeArea.left}px`,
-          paddingRight: `${safeArea.right}px`,
+          border: '2px solid green', // Debug container border
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
         onTouchStart={onTouchStart}
@@ -342,15 +337,26 @@ export default function TextPage() {
             }}
             style={{
               position: 'absolute',
+              top: `calc(61.5% + 10px)`,
               left: '50%',
-              top: 'calc(61.5% + 10px)', // Moved down by 10px
               transform: 'translateX(-50%)',
-              width: '67.4%',
-              height: '4.1%', // Increased by 50px (was 2%, now 4.1% for 50px more height)
-              background: 'transparent',
-              border: 'none',
+              width: '80%',
+              height: '60px',
+              backgroundColor: 'rgba(255, 0, 0, 0.3)', // Debug overlay
+              border: '2px solid red', // Debug border
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '16px',
+              fontWeight: 'bold',
+              color: 'white',
               cursor: 'pointer',
-              zIndex: 20,
+              zIndex: 1000, // Ensure button is on top
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
+              MozUserSelect: 'none',
+              msUserSelect: 'none',
             }}
             title="Unlock the Ride"
           />
