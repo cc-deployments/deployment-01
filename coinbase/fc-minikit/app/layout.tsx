@@ -17,21 +17,37 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'CarCulture: CarMania Garage',
     description: 'Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.',
+    url: 'https://web3-social-starter-fc-minikit.vercel.app',
+    siteName: 'CarCulture: CarMania Garage',
     images: [
       {
         url: 'https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png',
         width: 1200,
         height: 630,
         alt: 'CarCulture: CarMania Garage',
+        type: 'image/png',
       }
     ],
     type: 'website',
+    locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'CarCulture: CarMania Garage',
     description: 'Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.',
     images: ['https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png'],
+    creator: '@carculture',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   // ...add any other metadata fields here as needed
 };
