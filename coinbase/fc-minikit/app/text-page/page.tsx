@@ -218,12 +218,24 @@ export default function TextPage() {
         window.location.href = '/gallery-hero-2';
       }
     },
-    trackMouse: false, // Disable mouse tracking to reduce conflicts
-    delta: 50, // Increased delta for more intentional swipes
-    swipeDuration: 500, // Slower duration to avoid accidental triggers
-    preventScrollOnSwipe: true,
-    trackTouch: true,
-    rotationAngle: 0,
+    onSwipedLeft: () => {
+      console.log('⬅️ Swipe left detected');
+    },
+    onSwipedRight: () => {
+      console.log('➡️ Swipe right detected');
+    },
+    onSwipeStart: () => {
+      console.log('🎯 Swipe started');
+    },
+    onSwiped: () => {
+      console.log('🏁 Swipe ended');
+    },
+    trackMouse: true,
+    delta: 15, // Lowered delta for easier mobile detection
+    swipeDuration: 300, // Faster duration for mobile
+    preventScrollOnSwipe: true, // Prevent scroll interference
+    trackTouch: true, // Ensure touch events are tracked
+    rotationAngle: 0, // No rotation angle restriction
   });
 
   // Debug: Log safe area values
@@ -290,25 +302,56 @@ export default function TextPage() {
             priority
           />
           
-          {/* Invisible "Unlock the Ride" Button Overlay - SIMPLIFIED */}
+          {/* Invisible "Unlock the Ride" Button Overlay - SAFE AREA AWARE */}
           <button
-            onClick={() => {
+            onClick={async () => {
               console.log('🚗 Unlock the Ride clicked!');
-              // Universal navigation - works in all environments
+              
               try {
-                window.open('https://app.manifold.xyz/c/man-driving-car', '_blank', 'noopener,noreferrer');
-                console.log('✅ Opened Manifold mint URL via universal navigation');
+                // Step 1: Fetch dynamic URL from Cloudflare API (Base-compliant)
+                console.log('📡 Fetching current mint URL from Cloudflare API...');
+                const response = await fetch('https://ccult.carculture-com.workers.dev/api/cars/active');
+                const activeCar = await response.json();
+                
+                if (activeCar && activeCar.mint_url) {
+                  console.log('✅ Got dynamic URL:', activeCar.mint_url);
+                  
+                  // Step 2: Use SDK action for navigation (Base-compliant)
+                  const context = await sdk.context;
+                  if (context?.client?.clientFid === 309857) {
+                    console.log('📱 Using sdk.actions.openUrl() for Base App');
+                    sdk.actions.openUrl(activeCar.mint_url);
+                  } else {
+                    console.log('🌐 Using window.open() for web browser');
+                    window.open(activeCar.mint_url, '_blank', 'noopener,noreferrer');
+                  }
+                } else {
+                  console.log('⚠️ No active car found, using fallback URL');
+                  // Fallback to current hardcoded URL
+                  const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
+                  const context = await sdk.context;
+                  if (context?.client?.clientFid === 309857) {
+                    sdk.actions.openUrl(fallbackUrl);
+                  } else {
+                    window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+                  }
+                }
               } catch (error) {
-                console.error('Error opening URL:', error);
-                // Fallback to regular window.open
-                window.open('https://app.manifold.xyz/c/man-driving-car', '_blank');
+                console.error('❌ Error fetching dynamic URL:', error);
+                // Fallback to current hardcoded URL
+                const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
+                const context = await sdk.context;
+                if (context?.client?.clientFid === 309857) {
+                  sdk.actions.openUrl(fallbackUrl);
+                } else {
+                  window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+                }
               }
             }}
-            onMouseEnter={() => console.log('🖱️ Mouse over UNLOCK button area')}
             style={{
               position: 'absolute',
               left: '50%',
-              top: '61.5%',
+              top: '61.5%', // Percentage positioning (safe area handled by container padding)
               transform: 'translateX(-50%)',
               width: '67.4%',
               height: '2%',

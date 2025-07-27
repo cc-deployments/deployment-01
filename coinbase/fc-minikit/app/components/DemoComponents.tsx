@@ -1,7 +1,7 @@
 "use client";
 
 import { type ReactNode, useCallback, useMemo, useState } from "react";
-import { useAccount } from "wagmi";
+import { useSharedAuth } from "../../../../packages/shared-auth/hooks/useSharedAuth";
 import {
   Transaction,
   TransactionButton,
@@ -467,13 +467,13 @@ function NotificationTestCard() {
 
 
 function TransactionCard() {
-  const { address } = useAccount();
+  const { address } = useSharedAuth();
 
   // Example transaction call - sending 0 ETH to self
   const calls = useMemo(() => address
     ? [
         {
-          to: address,
+          to: address as `0x${string}`,
           data: "0x" as `0x${string}`,
           value: BigInt(0),
         },

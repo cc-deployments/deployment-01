@@ -21,6 +21,18 @@ jobs:
       - name: Install Wrangler CLI
         run: npm install -g wrangler@4.26.0
         
+      - name: Verify Cloudflare Token
+        run: |
+          echo "Testing Cloudflare API token..."
+          if [ -z "${{ secrets.CLOUDFLARE_API_TOKEN }}" ]; then
+            echo "❌ CLOUDFLARE_API_TOKEN is not set"
+            exit 1
+          else
+            echo "✅ CLOUDFLARE_API_TOKEN is set"
+          fi
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        
       - name: Deploy to Cloudflare Workers
         run: |
           cd coinbase/cloudflare-api
@@ -30,6 +42,7 @@ jobs:
           echo "=== WRANGLER.TOML CONTENT ==="
           cat wrangler.toml
           echo "=== END WRANGLER.TOML ==="
+          echo "Deploying to Cloudflare Workers..."
           WRANGLER_TELEMETRY_DISABLED=1 wrangler deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }} 

@@ -365,4 +365,26 @@ The project uses CSV files as a local SQL database for tracking assets and conte
 ### **Git Tracking**
 - ✅ **Tracked**: All CSV database files
 - ❌ **Untracked**: Binary image files (intentional)
-- **Version control**: Database structure and metadata only 
+- **Version control**: Database structure and metadata only
+
+## **🎯 CURRENT RECENT IMAGE WORKFLOW (2025-07-27)**
+
+### **Quick Fix Implementation:**
+- **Previous URL**: `https://app.manifold.xyz/c/man-driving-car` (April 22, 2025 - outdated)
+- **Current URL**: `https://app.manifold.xyz/c/light-bulb-moment` (July 4, 2025 - current)
+- **Status**: ✅ All "Unlock the Ride" buttons updated to current recent image
+
+### **Updated Files:**
+1. **`text-page/page.tsx`** - Updated hardcoded URL
+2. **`gallery-hero/page.tsx`** - Updated hardcoded URL  
+3. **`gallery-hero-2/page.tsx`** - Updated hardcoded URL
+
+### **Next Steps for Dynamic System:**
+1. **Populate Cloudflare Database** with current images from CSV
+2. **Implement API Integration** to fetch most recent mint URL
+3. **Update Documentation** with full dynamic workflow
+
+### **Database Analysis Results:**
+- **Most Recent Published**: "Light Bulb Moment" (July 4, 2025)
+- **Latest Scheduled**: "Teenyosaurus" (July 9, 2025)
+- **Current Active**: "Light Bulb Moment" - `https://app.manifold.xyz/c/light-bulb-moment` 

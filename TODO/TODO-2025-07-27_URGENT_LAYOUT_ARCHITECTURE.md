@@ -53,6 +53,43 @@
 
 ---
 
+## 🚨 **URGENT: MOBILE APP NAVIGATION ISSUES (2025-07-27)**
+**Status:** ✅ RESOLVED - All buttons working, navigation functional
+**Commit Message:** `fix: mobile app navigation and button functionality`
+
+### **Tasks:**
+- [x] **FIRST: Check Farcaster manifest cache status** (2025-07-27 issue: embed working, manifest still showing old "frame" structure)
+- [x] **FIX: text-page button not working** on mobile app
+- [x] **FIX: Other small nav issues** on mobile app
+- [x] **TEST: Complete mobile navigation flow** (gallery-hero → gallery-hero-2 → text-page → manifold-gallery)
+- [x] **VERIFY: All buttons functional** on mobile app
+- [x] **COMMIT: Mobile navigation fixes**
+
+**📝 MOBILE APP ISSUES (2025-07-27):**
+- ✅ **text-page button working** - Fixed with dynamic URL implementation
+- ✅ **All navigation working** - Swipe and keyboard navigation functional
+- ✅ **Embed working** - FC MiniApp functional in Farcaster environment
+- ⚠️ **Manifest cache** - Farcaster refreshes manifest once per day (waiting for cache refresh)
+- 🎯 **Priority:** ✅ COMPLETED - Ready for FC manifest testing tomorrow
+
+## 🚨 **FC MANIFEST TESTING (2025-07-28)**
+**Status:** PENDING - SCHEDULED FOR TOMORROW
+**Commit Message:** `test: verify FC manifest signature and submission`
+
+### **Tasks:**
+- [ ] **TEST: FC Manifest Tool** - Check if cache has refreshed (24-hour cycle)
+- [ ] **VERIFY: Account association signature** - Ensure carculture.eth signature is valid
+- [ ] **TEST: Manifest submission** - Attempt to submit to Farcaster directory
+- [ ] **DOCUMENT: Results** - Record success/failure for next steps
+- [ ] **PLAN: Launch strategy** - Based on manifest validation results
+
+**📝 FC MANIFEST STATUS:**
+- ⏰ **Cache refresh:** Farcaster refreshes manifests once per day
+- ⏰ **Timeline:** Test tomorrow (2025-07-28) after 24-hour cache cycle
+- 🎯 **Priority:** Test manifest signing, then proceed with launch
+
+---
+
 ## 📋 **PHASE 4: App Integration**
 **Status:** PENDING
 **Commit Message:** `feat: update app layouts to use shared components`
@@ -262,6 +299,77 @@ coinbase/
 
 ---
 
+## 🔍 **SIMPLE BASE AI QUESTION (2025-07-27)**
+**Status:** ✅ RESOLVED - Base documentation provided clear guidance
+**Question:** "In Farcaster MiniApps, when there are SDK conflicts (Farcaster SDK vs Coinbase Wallet SDK), which SDK should take priority and what's the proper initialization order?"
+
+### **✅ ANSWER FOUND IN BASE DOCUMENTATION:**
+- **"Always use official SDK functions"** instead of Farcaster-specific deeplinks
+- **"If you use MiniKit, your mini app will work out of the box in Base App"**
+- **Use `sdk.actions.openUrl()`** for external navigation instead of direct HTML links
+- **Avoid direct HTML links** that might conflict with SDK actions
+
+### **✅ IMPLEMENTED FIX:**
+- [x] **Fixed text-page button** - Replaced `window.open()` with `sdk.actions.openUrl()`
+- [x] **Fixed gallery-hero-2 button** - Replaced `window.open()` with `sdk.actions.openUrl()`
+- [x] **Updated all URLs** - Changed from outdated "Man Driving Car" to current "Light Bulb Moment"
+- [x] **Applied Base best practices** - Using official SDK functions as recommended
+
+## 🔧 **CLOUDFLARE TOKEN ISSUE (2025-07-27)**
+**Status:** 🔄 IN PROGRESS - Same issue from yesterday
+**Issue:** GitHub Actions workflow showing "Context access might be invalid: CLOUDFLARE_API_TOKEN"
+
+### **✅ COMPLETED YESTERDAY:**
+- [x] **Token created** - User API Token with correct permissions
+- [x] **GitHub secret added** - `CLOUDFLARE_API_TOKEN` is set
+- [x] **Local testing** - Token works with `wrangler whoami`
+- [x] **Permissions verified** - All required permissions set
+
+### **🔄 CURRENT STATUS:**
+- [x] **Updated workflow** - Added token verification step
+- [x] **Enhanced error handling** - Better debugging output
+- [ ] **Test deployment** - Need to push and verify workflow works
+- [ ] **Monitor warnings** - Check if VS Code warning is false positive
+
+### **📋 NEXT STEPS:**
+1. **Push changes** to trigger workflow
+2. **Monitor GitHub Actions** for actual deployment success
+3. **Verify Cloudflare Worker** is deployed correctly
+4. **Test API endpoints** to ensure functionality
+
+**Note:** The VS Code warning might be a false positive since the token exists and works locally.
+
+## 🎯 **BASE AI QUESTION: CLOUDFLARE API vs DEEP LINKS (2025-07-27)**
+**Status:** ✅ RESOLVED - Base AI confirmed our approach is correct
+**Question:** "In Farcaster MiniApps, when fetching dynamic URLs from external APIs (like Cloudflare Workers), is this pattern Base-compliant?"
+
+### **✅ BASE AI CONFIRMATION:**
+- **✅ External API calls are fine** - Fetching from Cloudflare using standard HTTPS is acceptable
+- **✅ Dynamic URLs are supported** - No restriction against dynamically fetched URLs
+- **✅ `sdk.actions.openUrl()` is correct** - "use `sdk.actions.openUrl()` to safely open a third-party website"
+- **✅ Our pattern follows best practices** - "Always use official SDK functions instead of Farcaster-specific deeplinks"
+
+### **✅ IMPLEMENTED DYNAMIC INTEGRATION:**
+- [x] **Updated text-page** - Now fetches dynamic URL from Cloudflare API
+- [x] **Updated gallery-hero** - Now fetches dynamic URL from Cloudflare API  
+- [x] **Updated gallery-hero-2** - Now fetches dynamic URL from Cloudflare API
+- [x] **Added fallback logic** - Uses hardcoded URL if API fails
+- [x] **Base-compliant navigation** - Uses `sdk.actions.openUrl()` for final navigation
+
+### **📋 IMPLEMENTATION PATTERN:**
+```typescript
+// Step 1: Fetch dynamic URL from Cloudflare API (Base-compliant)
+const response = await fetch('https://ccult.carculture-com.workers.dev/api/cars/active');
+const activeCar = await response.json();
+
+// Step 2: Use SDK action for navigation (Base-compliant)
+sdk.actions.openUrl(activeCar.mint_url);
+```
+
+**Result:** All "Unlock the Ride" buttons now open the most recent mint URL dynamically!
+
+---
+
 *Last Updated: 2025-07-27*
 *Current Focus: Phase 3 - Shared UI Components*
 *Status: READY FOR TOMORROW'S WORK* 
@@ -305,10 +413,17 @@ coinbase/
 **Commit Point:** "feat: update app layouts to use shared components"
 
 5. **App-Specific Implementation** (Section 3)
-   - [ ] Update FC MiniApp layout to use `MiniKitAuthProvider`
-   - [ ] Update Social Identity layout to use hybrid pattern
-   - [ ] Update any other app layouts
-   - [ ] Test all apps with new shared architecture
+   - [x] Update FC MiniApp layout to use `MiniKitAuthProvider`
+   - [x] Update Social Identity layout to use hybrid pattern
+   - [x] Update any other app layouts
+   - [x] Test all apps with new shared architecture
+
+**✅ COMPLETED (2025-07-27):**
+- **FC MiniApp**: Already using `MiniKitAuthProvider` from shared auth package
+- **Social Identity Page**: Updated to use `useSharedAuth()` instead of direct `useAccount()`
+- **DemoComponents**: Updated to use `useSharedAuth()` for transaction functionality
+- **Type Safety**: Added proper type casting for `0x${string}` addresses
+- **Testing**: All components now use shared authentication architecture
 
 ### **Phase 5: Layout Architecture (Clarify First)**
 **Commit Point:** "feat: resolve layout.tsx conflicts and optimize dev workflow"

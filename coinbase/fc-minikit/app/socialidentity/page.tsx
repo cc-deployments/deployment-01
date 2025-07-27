@@ -1,14 +1,14 @@
 "use client";
 
 import { Name, Address, Avatar, Identity } from '@coinbase/onchainkit/identity';
-import { useAccount } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { useEffect, useState, useCallback } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { useSwipeable } from 'react-swipeable';
+import { useSharedAuth } from '../../../../packages/shared-auth/hooks/useSharedAuth';
 
 export default function SocialIdentityPage() {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useSharedAuth();
   const [environmentInfo, setEnvironmentInfo] = useState<{ isBaseApp: boolean; context: unknown } | null>(null);
 
   useEffect(() => {
@@ -222,8 +222,8 @@ export default function SocialIdentityPage() {
         {/* Following BASE/Coinbase's exact Identity component pattern */}
         <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
           <Avatar />
-          <Name address={displayAddress} />
-          <Address address={displayAddress} />
+          <Name address={displayAddress as `0x${string}`} />
+          <Address address={displayAddress as `0x${string}`} />
         </Identity>
 
         {/* Debug info */}

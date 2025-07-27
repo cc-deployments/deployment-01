@@ -135,16 +135,44 @@ export default function GalleryHero() {
 
   const handleUnlockRide = async () => {
     console.log('🚗 Unlock the Ride clicked');
+    
     try {
-      const context = await sdk.context;
-      if (context?.client?.clientFid === 309857) {
-        sdk.actions.openUrl('https://app.manifold.xyz/c/man-driving-car');
+      // Step 1: Fetch dynamic URL from Cloudflare API (Base-compliant)
+      console.log('📡 Fetching current mint URL from Cloudflare API...');
+      const response = await fetch('https://ccult.carculture-com.workers.dev/api/cars/active');
+      const activeCar = await response.json();
+      
+      if (activeCar && activeCar.mint_url) {
+        console.log('✅ Got dynamic URL:', activeCar.mint_url);
+        
+        // Step 2: Use SDK action for navigation (Base-compliant)
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl(activeCar.mint_url);
+        } else {
+          window.location.href = activeCar.mint_url;
+        }
       } else {
-        window.location.href = 'https://app.manifold.xyz/c/man-driving-car';
+        console.log('⚠️ No active car found, using fallback URL');
+        // Fallback to current hardcoded URL
+        const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
+        const context = await sdk.context;
+        if (context?.client?.clientFid === 309857) {
+          sdk.actions.openUrl(fallbackUrl);
+        } else {
+          window.location.href = fallbackUrl;
+        }
       }
     } catch (error) {
-      console.error('Navigation error:', error);
-      window.location.href = 'https://app.manifold.xyz/c/man-driving-car';
+      console.error('❌ Error fetching dynamic URL:', error);
+      // Fallback to current hardcoded URL
+      const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
+      const context = await sdk.context;
+      if (context?.client?.clientFid === 309857) {
+        sdk.actions.openUrl(fallbackUrl);
+      } else {
+        window.location.href = fallbackUrl;
+      }
     }
   };
 
