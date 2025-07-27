@@ -341,18 +341,18 @@ export default function TextPage() {
               }}
               style={{
                 position: 'absolute',
-                bottom: '30%',
+                bottom: '35%', // Move up from 30%
                 left: '50%',
                 transform: 'translateX(-50%)',
-                width: '40%', // Much smaller - reduced from 80%
-                height: '40px', // Smaller height
-                backgroundColor: 'rgba(255, 0, 0, 0.3)', // Keep debug overlay
-                border: '2px solid red', // Keep debug border
+                width: '40%',
+                height: '25px', // Much shorter - reduced from 40px
+                backgroundColor: 'rgba(255, 0, 0, 0.3)',
+                border: '2px solid red',
                 borderRadius: '8px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '14px', // Smaller font
+                fontSize: '14px',
                 fontWeight: 'bold',
                 color: 'white',
                 cursor: 'pointer',
