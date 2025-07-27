@@ -312,65 +312,56 @@ export default function TextPage() {
           {isFrameReady && (
             <button
               onClick={async () => {
-                console.log('🚗 Unlock the Ride clicked!');
-                
                 try {
-                  // Step 1: Fetch dynamic URL from Cloudflare API
-                  console.log('📡 Fetching current mint URL from Cloudflare API...');
-                  const response = await fetch('https://ccult.carculture-com.workers.dev/api/cars/active');
-                  const activeCar = await response.json();
+                  console.log('🚀 UNLOCK THE RIDE button clicked');
                   
-                  if (activeCar && activeCar.mint_url) {
-                    console.log('✅ Got dynamic URL:', activeCar.mint_url);
-                    // Use the recommended useOpenUrl hook (handles fallbacks automatically)
-                    openUrl(activeCar.mint_url);
-                  } else {
-                    console.log('⚠️ No active car found, using fallback URL');
-                    // Fallback to current hardcoded URL
-                    const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
-                    openUrl(fallbackUrl);
-                  }
+                  // Get dynamic mint URL from API
+                  const response = await fetch('https://ccult.carculture-com.workers.dev/api/cars/active');
+                  const data = await response.json();
+                  const mintUrl = data.mintUrl || 'https://manifold.xyz/@carculture';
+                  
+                  console.log('🔗 Opening mint URL:', mintUrl);
+                  openUrl(mintUrl);
                 } catch (error) {
-                  console.error('❌ Error fetching dynamic URL:', error);
-                  // Fallback to current hardcoded URL
-                  const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
-                  openUrl(fallbackUrl);
+                  console.error('❌ Error opening mint URL:', error);
+                  // Fallback to default URL
+                  openUrl('https://manifold.xyz/@carculture');
                 }
               }}
               onTouchStart={(e) => {
-                e.stopPropagation(); // Prevent container touch handlers from interfering
+                e.stopPropagation();
                 console.log('👆 Touch start on UNLOCK button - FUNCTION CALLED');
                 console.log('📍 Touch coordinates:', e.touches[0].clientX, e.touches[0].clientY);
                 console.log('🎯 Button element:', e.currentTarget);
               }}
               onTouchEnd={(e) => {
-                e.stopPropagation(); // Prevent container touch handlers from interfering
+                e.stopPropagation();
                 console.log('👆 Touch end on UNLOCK button - FUNCTION CALLED');
                 console.log('📍 Touch coordinates:', e.changedTouches[0].clientX, e.changedTouches[0].clientY);
               }}
               style={{
                 position: 'absolute',
-                bottom: '30%', // Position from bottom instead of top
+                bottom: '30%',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                width: '80%',
-                height: '60px',
-                backgroundColor: 'rgba(255, 0, 0, 0.3)', // Debug overlay
-                border: '2px solid red', // Debug border
+                width: '40%', // Much smaller - reduced from 80%
+                height: '40px', // Smaller height
+                backgroundColor: 'rgba(255, 0, 0, 0.3)', // Keep debug overlay
+                border: '2px solid red', // Keep debug border
                 borderRadius: '8px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '16px',
+                fontSize: '14px', // Smaller font
                 fontWeight: 'bold',
                 color: 'white',
                 cursor: 'pointer',
-                zIndex: 1000, // Ensure button is on top
+                zIndex: 1000,
                 userSelect: 'none',
                 WebkitUserSelect: 'none',
                 MozUserSelect: 'none',
                 msUserSelect: 'none',
-                pointerEvents: 'auto', // Ensure touch events work
+                pointerEvents: 'auto',
               }}
               title="Unlock the Ride"
             />

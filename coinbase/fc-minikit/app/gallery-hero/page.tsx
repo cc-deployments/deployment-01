@@ -354,46 +354,97 @@ export default function GalleryHero() {
           
           {/* Invisible "Unlock the Ride" Button Overlay - SAFE AREA AWARE */}
           {isFrameReady && (
-            <button
-              onClick={handleUnlockRide}
-              onMouseEnter={() => console.log('🖱️ Mouse over UNLOCK button area')}
-              onTouchStart={(e) => {
-                e.stopPropagation(); // Prevent container touch handlers from interfering
-                console.log('👆 Touch start on UNLOCK button - FUNCTION CALLED');
-                console.log('📍 Touch coordinates:', e.touches[0].clientX, e.touches[0].clientY);
-                console.log('🎯 Button element:', e.currentTarget);
-              }}
-              onTouchEnd={(e) => {
-                e.stopPropagation(); // Prevent container touch handlers from interfering
-                console.log('👆 Touch end on UNLOCK button - FUNCTION CALLED');
-                console.log('📍 Touch coordinates:', e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-              }}
-              style={{
-                position: 'absolute',
-                bottom: '25%', // Position from bottom instead of top
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '80%',
-                height: '60px',
-                backgroundColor: 'rgba(255, 0, 0, 0.3)', // Debug overlay
-                border: '2px solid red', // Debug border
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '16px',
-                fontWeight: 'bold',
-                color: 'white',
-                cursor: 'pointer',
-                zIndex: 1000, // Ensure button is on top
-                userSelect: 'none',
-                WebkitUserSelect: 'none',
-                MozUserSelect: 'none',
-                msUserSelect: 'none',
-                pointerEvents: 'auto', // Ensure touch events work
-              }}
-            />
-          )}
+                    <button
+                      onClick={handleUnlockRide}
+                      onTouchStart={(e) => {
+                        e.stopPropagation();
+                        console.log('👆 Touch start on UNLOCK button - FUNCTION CALLED');
+                        console.log('📍 Touch coordinates:', e.touches[0].clientX, e.touches[0].clientY);
+                        console.log('🎯 Button element:', e.currentTarget);
+                      }}
+                      onTouchEnd={(e) => {
+                        e.stopPropagation();
+                        console.log('👆 Touch end on UNLOCK button - FUNCTION CALLED');
+                        console.log('📍 Touch coordinates:', e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+                      }}
+                      style={{
+                        position: 'absolute',
+                        bottom: '25%',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        width: '40%', // Much smaller - reduced from 80%
+                        height: '40px', // Smaller height
+                        backgroundColor: 'rgba(255, 0, 0, 0.3)', // Keep debug overlay
+                        border: '2px solid red', // Keep debug border
+                        borderRadius: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '14px', // Smaller font
+                        fontWeight: 'bold',
+                        color: 'white',
+                        cursor: 'pointer',
+                        zIndex: 1000,
+                        userSelect: 'none',
+                        WebkitUserSelect: 'none',
+                        MozUserSelect: 'none',
+                        msUserSelect: 'none',
+                        pointerEvents: 'auto',
+                      }}
+                    />
+                  )}
+
+                  {/* Navigation Buttons */}
+                  {isFrameReady && (
+                    <>
+                      <button
+                        onClick={() => window.location.href = '/text-page'}
+                        style={{
+                          position: 'absolute',
+                          top: '20px',
+                          left: '20px',
+                          width: '40px',
+                          height: '40px',
+                          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                          border: 'none',
+                          borderRadius: '50%',
+                          color: 'white',
+                          fontSize: '12px',
+                          cursor: 'pointer',
+                          zIndex: 1001,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                        title="Go to Text Page"
+                      >
+                        T
+                      </button>
+                      <button
+                        onClick={() => window.location.href = '/gallery-hero-2'}
+                        style={{
+                          position: 'absolute',
+                          top: '20px',
+                          right: '20px',
+                          width: '40px',
+                          height: '40px',
+                          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                          border: 'none',
+                          borderRadius: '50%',
+                          color: 'white',
+                          fontSize: '12px',
+                          cursor: 'pointer',
+                          zIndex: 1001,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                        title="Go to Gallery Hero 2"
+                      >
+                        G2
+                      </button>
+                    </>
+                  )}
 
           {/* Invisible "Share" Button Overlay - SAFE AREA AWARE */}
           {isFrameReady && (
