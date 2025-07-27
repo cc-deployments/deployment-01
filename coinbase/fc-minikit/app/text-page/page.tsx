@@ -4,10 +4,12 @@ import { useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
+import { useOpenUrl } from '@coinbase/onchainkit/minikit';
 import { useSafeArea } from '../hooks/useSafeArea';
 
 export default function TextPage() {
   const { safeArea, isLoading } = useSafeArea();
+  const openUrl = useOpenUrl(); // Use BASE AI's recommended hook for URL opening
 
   useEffect(() => {
     const initializeSDK = async () => {
@@ -316,18 +318,18 @@ export default function TextPage() {
                 if (activeCar && activeCar.mint_url) {
                   console.log('✅ Got dynamic URL:', activeCar.mint_url);
                   // Use the recommended useOpenUrl hook (handles fallbacks automatically)
-                  sdk.actions.openUrl(activeCar.mint_url);
+                  openUrl(activeCar.mint_url);
                 } else {
                   console.log('⚠️ No active car found, using fallback URL');
                   // Fallback to current hardcoded URL
                   const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
-                  sdk.actions.openUrl(fallbackUrl);
+                  openUrl(fallbackUrl);
                 }
               } catch (error) {
                 console.error('❌ Error fetching dynamic URL:', error);
                 // Fallback to current hardcoded URL
                 const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
-                sdk.actions.openUrl(fallbackUrl);
+                openUrl(fallbackUrl);
               }
             }}
             onTouchStart={(e) => {
