@@ -136,7 +136,9 @@ export default function GalleryHero() {
   });
 
   const handleUnlockRide = async () => {
-    console.log('🚗 Unlock the Ride clicked');
+    console.log('🚗 Unlock the Ride clicked - FUNCTION CALLED');
+    console.log('📍 Current URL:', window.location.href);
+    console.log('📱 User Agent:', navigator.userAgent);
     
     try {
       // Step 1: Fetch dynamic URL from Cloudflare API
@@ -147,18 +149,24 @@ export default function GalleryHero() {
       if (activeCar && activeCar.mint_url) {
         console.log('✅ Got dynamic URL:', activeCar.mint_url);
         // Use BASE AI's recommended useOpenUrl hook (handles fallbacks automatically)
+        console.log('🔗 Calling openUrl with:', activeCar.mint_url);
         openUrl(activeCar.mint_url);
+        console.log('✅ openUrl called successfully');
       } else {
         console.log('⚠️ No active car found, using fallback URL');
         // Fallback to current hardcoded URL
         const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
+        console.log('🔗 Calling openUrl with fallback:', fallbackUrl);
         openUrl(fallbackUrl);
+        console.log('✅ openUrl fallback called successfully');
       }
     } catch (error) {
       console.error('❌ Error fetching dynamic URL:', error);
       // Fallback to current hardcoded URL
       const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
+      console.log('🔗 Calling openUrl with error fallback:', fallbackUrl);
       openUrl(fallbackUrl);
+      console.log('✅ openUrl error fallback called successfully');
     }
   };
 
@@ -346,7 +354,7 @@ export default function GalleryHero() {
             style={{
               position: 'absolute',
               left: '50%',
-              top: `calc(74.9% - ${safeArea.bottom}px)`, // Adjust for bottom safe area
+              top: `calc(74.9% + 25px - ${safeArea.bottom}px)`, // Moved down by 25px
               transform: 'translateX(-50%)', // Centers the button horizontally
               width: '59.5%', // Decreased by 50px (63.5% - 3.97% = 59.5%)
               height: '4%', // Approximately 100px / 2400px = 4%

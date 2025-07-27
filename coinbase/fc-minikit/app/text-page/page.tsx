@@ -343,10 +343,10 @@ export default function TextPage() {
             style={{
               position: 'absolute',
               left: '50%',
-              top: '61.5%', // Percentage positioning (safe area handled by container padding)
+              top: 'calc(61.5% + 10px)', // Moved down by 10px
               transform: 'translateX(-50%)',
               width: '67.4%',
-              height: '2%',
+              height: '4.1%', // Increased by 50px (was 2%, now 4.1% for 50px more height)
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
