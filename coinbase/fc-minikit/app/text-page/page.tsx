@@ -340,7 +340,7 @@ export default function TextPage() {
             }}
             style={{
               position: 'absolute',
-              top: 'calc(50vh + 100px)', // Viewport-based positioning instead of percentage
+              bottom: '30%', // Position from bottom instead of top
               left: '50%',
               transform: 'translateX(-50%)',
               width: '80%',
@@ -360,6 +360,7 @@ export default function TextPage() {
               WebkitUserSelect: 'none',
               MozUserSelect: 'none',
               msUserSelect: 'none',
+              pointerEvents: 'auto', // Ensure touch events work
             }}
             title="Unlock the Ride"
           />

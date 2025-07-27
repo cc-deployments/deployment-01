@@ -26,6 +26,7 @@ const nextConfig = {
   
   // Configure external image domains
   images: {
+    unoptimized: true, // Fix for Vercel production image loading
     remotePatterns: [
       {
         protocol: 'https',

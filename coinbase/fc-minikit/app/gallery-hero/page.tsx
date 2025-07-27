@@ -316,7 +316,7 @@ export default function GalleryHero() {
         onTouchMove={() => console.log('👆 Touch move detected')}
       >
         {/* Image area - Responsive container */}
-        <div className="gallery-hero-image-container">
+        <div className="gallery-hero-image-container" style={{ position: 'relative', width: '100%', height: '100%' }}>
           <Image
             src="/carmania-gallery-hero.png"
             alt="Gallery Hero"
@@ -324,14 +324,23 @@ export default function GalleryHero() {
             height={2400}
             style={{ 
               width: '100%', 
-              height: 'auto', 
-              aspectRatio: '1260 / 2400', 
+              height: '100%', 
               objectFit: 'cover', 
               display: 'block',
-              // Ensure image respects safe areas
-              maxHeight: `calc(100vh - ${safeArea.top + safeArea.bottom}px)`
+              position: 'absolute',
+              top: 0,
+              left: 0,
             }}
             priority
+            unoptimized={true} // Force unoptimized for Vercel production
+            onError={(e) => {
+              console.error('❌ Image failed to load:', e);
+              // Fallback to a different image or background color
+              e.currentTarget.style.display = 'none';
+            }}
+            onLoad={() => {
+              console.log('✅ Image loaded successfully');
+            }}
           />
           
           {/* Invisible "Unlock the Ride" Button Overlay - SAFE AREA AWARE */}
@@ -351,7 +360,7 @@ export default function GalleryHero() {
             }}
             style={{
               position: 'absolute',
-              top: 'calc(50vh + 200px)', // Viewport-based positioning instead of percentage
+              bottom: '25%', // Position from bottom instead of top
               left: '50%',
               transform: 'translateX(-50%)',
               width: '80%',
@@ -371,6 +380,7 @@ export default function GalleryHero() {
               WebkitUserSelect: 'none',
               MozUserSelect: 'none',
               msUserSelect: 'none',
+              pointerEvents: 'auto', // Ensure touch events work
             }}
           />
 
