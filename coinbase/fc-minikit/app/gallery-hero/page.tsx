@@ -340,15 +340,18 @@ export default function GalleryHero() {
             onMouseEnter={() => console.log('🖱️ Mouse over UNLOCK button area')}
             onTouchStart={(e) => {
               e.stopPropagation(); // Prevent container touch handlers from interfering
-              console.log('👆 Touch start on UNLOCK button');
+              console.log('👆 Touch start on UNLOCK button - FUNCTION CALLED');
+              console.log('📍 Touch coordinates:', e.touches[0].clientX, e.touches[0].clientY);
+              console.log('🎯 Button element:', e.currentTarget);
             }}
             onTouchEnd={(e) => {
               e.stopPropagation(); // Prevent container touch handlers from interfering
-              console.log('👆 Touch end on UNLOCK button');
+              console.log('👆 Touch end on UNLOCK button - FUNCTION CALLED');
+              console.log('📍 Touch coordinates:', e.changedTouches[0].clientX, e.changedTouches[0].clientY);
             }}
             style={{
               position: 'absolute',
-              top: `calc(74.9% + 25px - ${safeArea.bottom}px)`,
+              top: 'calc(50vh + 200px)', // Viewport-based positioning instead of percentage
               left: '50%',
               transform: 'translateX(-50%)',
               width: '80%',
