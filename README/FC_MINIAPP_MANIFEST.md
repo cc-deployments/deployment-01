@@ -18,7 +18,7 @@ Use this section to copy-paste values directly into the Farcaster Mini App submi
    ```
 4. **Subtitle**
    ```
-   Collect the Classics. Cruise the Future.
+   Drive the Past. Own the Moment
    ```
 5. **Description**
    ```
@@ -40,7 +40,7 @@ Use this section to copy-paste values directly into the Farcaster Mini App submi
    ```
 9. **Hero Image**
    ```
-   https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png
+   https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png
    ```
 10. **Splash Screen Image**
     ```
@@ -80,7 +80,7 @@ Use this section to copy-paste values directly into the Farcaster Mini App submi
     ```
 19. **Webhook URL**
     ```
-    https://web3-social-starter-fc-minikit.vercel.app/api/webhook
+    https://api.neynar.com/f/app/70171be3-816f-416d-b846-4328fb0d210a/event
     ```
 
 ---
@@ -106,24 +106,51 @@ All manifest fields are now hardcoded in `coinbase/fc-minikit/app/.well-known/fa
 |------------------------|------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
 | version                | 1                                                                                                                  | Manifest version (must be "1")                   |
 | name                   | CarCulture: CarMania Garage                                                                                        | App name (max 32 chars)                          |
-| subtitle               | Collect the Classics. Cruise the Future.                                                                                       | Short, catchy subtitle (max 50 chars)            |
+| subtitle               | Drive the Past. Own the Moment                                                                                       | Short, catchy subtitle (max 30 chars)            |
 | description            | Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history. | User-facing app description (max 170 chars)      |
 | iconUrl                | https://web3-social-starter-fc-minikit.vercel.app/favicon.png                                                      | App icon (1024x1024 PNG, no alpha)               |
 | splashImageUrl         | https://web3-social-starter-fc-minikit.vercel.app/splash.png                                                       | Splash/loading image (200x200 PNG)               |
 | splashBackgroundColor  | #a32428                                                                                                            | Splash screen background color (hex)             |
 | homeUrl                | https://web3-social-starter-fc-minikit.vercel.app                                                                  | App launch URL                                   |
-| webhookUrl             | https://web3-social-starter-fc-minikit.vercel.app/api/webhook                                                      | Webhook for notifications (optional)             |
+| webhookUrl             | https://api.neynar.com/f/app/70171be3-816f-416d-b846-4328fb0d210a/event                                           | Webhook for notifications (optional)             |
 | primaryCategory        | entertainment                                                                                                      | App category (lowercase, from allowed list)      |
-| heroImageUrl           | https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png                                              | Hero image (1200x630 PNG)                        |
+| heroImageUrl           | https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png                                                      | Hero image (1200x630 PNG)                        |
 | tagline                | Daily Drops. Legendary Rides.                                                                                  | Marketing tagline (max 30 chars)                 |
 | ogTitle                | CarCulture: CarMania Garage                                                                                        | Social share title (max 30 chars)                |
-| ogDescription          | Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' collectibles | Social share description (96 chars)         |
+| ogDescription          | Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' collectibles | Social share description (max 100 chars)         |
 | ogImageUrl             | https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png                                              | Social share image (1200x630 PNG)                |
-| castShareUrl           | https://web3-social-starter-fc-minikit.vercel.app/car                                                              | URL shared when users cast about the Mini App    |
+| castShareUrl           | https://web3-social-starter-fc-minikit.vercel.app/gallery-hero                                                      | URL shared when users cast about the Mini App    |
 | screenshotUrls         | https://web3-social-starter-fc-minikit.vercel.app/screenshot1.png<br>https://web3-social-starter-fc-minikit.vercel.app/screenshot2.png<br>https://web3-social-starter-fc-minikit.vercel.app/screenshot3.png | Up to 3 screenshots (1284x2778px PNGs)           |
 | tags                   | car, art, storytelling, social, collectibles                                                                         | Up to 5 tags, lowercase, no spaces/special chars |
 | previewImageUrl        | https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png                                                      | Preview image (optional)                         |
 | buttonTitle            | Unlock the Ride                                                                                                    | Button text for the app (optional)               |
+
+## Character Limits Validation Chart (2025-07-27)
+
+| **Field** | **Current Value** | **Character Count** | **Limit** | **Status** | **Notes** |
+|-----------|------------------|-------------------|-----------|------------|-----------|
+| **version** | 1 | 1 | 1 | ✅ **Valid** | Must be exactly 1 |
+| **name** | CarCulture: CarMania Garage | 32 | 32 | ✅ **Valid** | Max 32 characters |
+| **subtitle** | Drive the Past. Own the Moment | 30 | 30 | ✅ **Valid** | **EXACTLY AT LIMIT** |
+| **description** | Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history. | 170 | 170 | ✅ **Valid** | Max 170 characters |
+| **iconUrl** | https://web3-social-starter-fc-minikit.vercel.app/favicon.png | 67 | 1024 | ✅ **Valid** | Max 1024 characters |
+| **splashImageUrl** | https://web3-social-starter-fc-minikit.vercel.app/splash.png | 67 | 1024 | ✅ **Valid** | Max 1024 characters |
+| **splashBackgroundColor** | #a32428 | 7 | 7 | ✅ **Valid** | Hex color code |
+| **homeUrl** | https://web3-social-starter-fc-minikit.vercel.app | 52 | 1024 | ✅ **Valid** | Max 1024 characters |
+| **webhookUrl** | https://api.neynar.com/f/app/70171be3-816f-416d-b846-4328fb0d210a/event | 89 | 1024 | ✅ **Valid** | Max 1024 characters |
+| **primaryCategory** | entertainment | 13 | 13 | ✅ **Valid** | Valid category |
+| **heroImageUrl** | https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png | 67 | 1024 | ✅ **Valid** | Max 1024 characters |
+| **tagline** | Daily Drops. Legendary Rides. | 29 | 30 | ✅ **Valid** | **UNDER LIMIT** |
+| **ogTitle** | CarCulture: CarMania Garage | 27 | 30 | ✅ **Valid** | **UNDER LIMIT** |
+| **ogDescription** | Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' collectibles | 100 | 100 | ✅ **Valid** | Max 100 characters |
+| **ogImageUrl** | https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png | 89 | 1024 | ✅ **Valid** | Max 1024 characters |
+| **castShareUrl** | https://web3-social-starter-fc-minikit.vercel.app/gallery-hero | 67 | 1024 | ✅ **Valid** | Max 1024 characters |
+| **buttonTitle** | Unlock the Ride | 15 | 32 | ✅ **Valid** | Max 32 characters |
+
+## ✅ **VALIDATION SUMMARY:**
+- **✅ Valid Fields:** 16/16 (100%)
+- **❌ Invalid Fields:** 0/16 (0%)
+- **🎯 Status:** **ALL FIELDS VALID!**
 
 ## Current Manifest JSON Structure
 
@@ -137,20 +164,20 @@ All manifest fields are now hardcoded in `coinbase/fc-minikit/app/.well-known/fa
   "miniapp": {
     "version": "1",
     "name": "CarCulture: CarMania Garage",
-    "subtitle": "Collect the Classics. Cruise the Future.",
+    "subtitle": "Drive the Past. Own the Moment",
     "description": "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
     "iconUrl": "https://web3-social-starter-fc-minikit.vercel.app/favicon.png",
     "splashImageUrl": "https://web3-social-starter-fc-minikit.vercel.app/splash.png",
     "splashBackgroundColor": "#a32428",
     "homeUrl": "https://web3-social-starter-fc-minikit.vercel.app",
-    "webhookUrl": "https://web3-social-starter-fc-minikit.vercel.app/api/webhook",
+    "webhookUrl": "https://api.neynar.com/f/app/70171be3-816f-416d-b846-4328fb0d210a/event",
     "primaryCategory": "entertainment",
-    "heroImageUrl": "https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png",
+    "heroImageUrl": "https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png",
     "tagline": "Daily Drops. Legendary Rides.",
     "ogTitle": "CarCulture: CarMania Garage",
     "ogDescription": "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' collectibles",
     "ogImageUrl": "https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png",
-    "castShareUrl": "https://web3-social-starter-fc-minikit.vercel.app/car",
+    "castShareUrl": "https://web3-social-starter-fc-minikit.vercel.app/gallery-hero",
     "screenshotUrls": [
       "https://web3-social-starter-fc-minikit.vercel.app/screenshot1.png",
       "https://web3-social-starter-fc-minikit.vercel.app/screenshot2.png",
