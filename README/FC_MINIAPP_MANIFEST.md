@@ -161,7 +161,7 @@ All manifest fields are now hardcoded in `coinbase/fc-minikit/app/.well-known/fa
       "art", 
       "storytelling",
       "social",
-      "collectibles"
+      "art"
     ],
     "previewImageUrl": "https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png",
     "buttonTitle": "Unlock the Ride"
