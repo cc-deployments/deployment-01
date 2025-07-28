@@ -1,147 +1,89 @@
-# MiniKit Template
+# CarMania Farcaster Mini App
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-onchain --mini`](), configured with:
+A Farcaster Mini App built with Next.js 14/15 and MiniKit for Base App compatibility.
 
-- [MiniKit](https://docs.base.org/builderkits/minikit/overview)
-- [OnchainKit](https://www.base.org/builders/onchainkit)
-- [Tailwind CSS](https://tailwindcss.com)
-- [Next.js](https://nextjs.org/docs)
+## Features
 
-## Getting Started
+- **Farcaster Mini App**: Compatible with Base App and Farcaster ecosystem
+- **MiniKit Integration**: Uses `@coinbase/onchainkit/minikit` hooks for optimal compatibility
+- **Responsive Design**: Mobile-first design with proper safe area handling
+- **Swipe Navigation**: Intuitive gesture-based navigation between pages
+- **Universal Sharing**: Cross-platform sharing functionality
 
-1. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-# or
-pnpm install
-# or
-bun install
-```
+## MiniKit Hooks Implementation
 
-2. Verify environment variables, these will be set up by the `npx create-onchain --mini` command:
+### Navigation & URL Opening
+- **`useOpenUrl()`**: Used for external links and page navigation
+- **Example**: `openUrl('https://app.manifold.xyz/c/light-bulb-moment')`
 
-You can regenerate the FARCASTER Account Association environment variables by running `npx create-onchain --manifest` in your project directory.
+### Universal Sharing
+- **`useComposeCast()`**: The correct MiniKit hook for universal sharing across all environments
+- **Works on**: Desktop, mobile, and Farcaster Frame environments
+- **Implementation**:
+  ```tsx
+  import { useComposeCast } from '@coinbase/onchainkit/minikit';
+  
+  export default function ShareButton() {
+    const { composeCast } = useComposeCast();
+  
+    const handleShare = () => {
+      composeCast({
+        text: 'Check out this awesome content!',
+        embeds: ['https://your-app-url.com'], // Optional
+      });
+    };
+  
+    return (
+      <button onClick={handleShare}>
+        Share
+      </button>
+    );
+  }
+  ```
 
-The environment variables enable the following features:
-
-- Frame metadata - Sets up the Frame Embed that will be shown when you cast your frame
-- Account association - Allows users to add your frame to their account, enables notifications
-- Redis API keys - Enable Webhooks and background notifications for your application by storing users notification details
-
-```bash
-# Shared/OnchainKit variables
-NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=
-NEXT_PUBLIC_URL=
-NEXT_PUBLIC_ICON_URL=
-NEXT_PUBLIC_ONCHAINKIT_API_KEY=
-
-# Frame metadata
-FARCASTER_HEADER=
-FARCASTER_PAYLOAD=
-FARCASTER_SIGNATURE=
-NEXT_PUBLIC_APP_ICON=
-NEXT_PUBLIC_APP_SUBTITLE=
-NEXT_PUBLIC_APP_DESCRIPTION=
-NEXT_PUBLIC_APP_SPLASH_IMAGE=
-NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=
-NEXT_PUBLIC_APP_PRIMARY_CATEGORY=
-NEXT_PUBLIC_APP_HERO_IMAGE=
-NEXT_PUBLIC_APP_TAGLINE=Drive the Past. Claim the Future.
-NEXT_PUBLIC_APP_OG_TITLE=
-NEXT_PUBLIC_APP_OG_DESCRIPTION=
-NEXT_PUBLIC_APP_OG_IMAGE=
-
-# Redis config
-REDIS_URL=
-REDIS_TOKEN=
-```
-
-3. Start the development server:
-```bash
-npm run dev
-```
-
-## Template Features
-
-### Frame Configuration
-- `.well-known/farcaster.json` endpoint configured for Frame metadata and account association
-- Frame metadata automatically added to page headers in `layout.tsx`
-
-### Background Notifications
-- Redis-backed notification system using Upstash
-- Ready-to-use notification endpoints in `api/notify` and `api/webhook`
-- Notification client utilities in `lib/notification-client.ts`
-
-### Theming
-- Custom theme defined in `theme.css` with OnchainKit variables
-- Pixel font integration with Pixelify Sans
-- Dark/light mode support through OnchainKit
-
-### MiniKit Provider
-The app is wrapped with `MiniKitProvider` in `providers.tsx`, configured with:
-- OnchainKit integration
-- Access to Frames context
-- Sets up Wagmi Connectors
-- Sets up Frame SDK listeners
-- Applies Safe Area Insets
-
-## Customization
-
-To get started building your own frame, follow these steps:
-
-1. Remove the DemoComponents:
-   - Delete `components/DemoComponents.tsx`
-   - Remove demo-related imports from `page.tsx`
-
-2. Start building your Frame:
-   - Modify `page.tsx` to create your Frame UI
-   - Update theme variables in `theme.css`
-   - Adjust MiniKit configuration in `providers.tsx`
-
-3. Add your frame to your account:
-   - Cast your frame to see it in action
-   - Share your frame with others to start building your community
+**Key Points:**
+- `useComposeCast` works universally across desktop, mobile, and Farcaster Frame environments
+- Opens the Farcaster compose interface with pre-filled content
+- Can include text and optional embeds (URLs)
+- Recommended approach over custom sharing implementations
+- Official SDK function ensures best user experience across all supported clients
 
 ## Mobile Compatibility
 
 ### Touch Gesture Conflicts
-Mini Apps can experience touch gesture conflicts on mobile devices where native gestures (swipes, taps) automatically close the app, preventing button interactions.
+Mobile devices can experience touch gesture conflicts where native gestures (swipes, taps) interfere with app interactions. This is resolved using:
 
-### Solution: disableNativeGestures
-Use `disableNativeGestures: true` when calling `setFrameReady()` to resolve mobile touch conflicts:
-
-```javascript
-import { useMiniKit } from '@coinbase/onchainkit/minikit';
-
-const { setFrameReady, isFrameReady } = useMiniKit();
-
-useEffect(() => {
-  if (!isFrameReady) {
-    console.log('🖼️ Setting frame ready with disableNativeGestures for mobile compatibility...');
-    setFrameReady({ disableNativeGestures: true });
-  }
-}, [setFrameReady, isFrameReady]);
+```tsx
+setFrameReady({ disableNativeGestures: true });
 ```
 
-### Implementation Locations
-This fix is implemented in:
+**Implementation Locations:**
 - `app/gallery-hero/page.tsx`
-- `app/text-page/page.tsx`
+- `app/text-page/page.tsx` 
 - `app/gallery-hero-2/page.tsx`
 
-### Why This Works
-- **Disables native gesture conflicts** that prevent touch events
-- **Allows app touch gestures** to work properly on mobile
-- **Maintains MiniKit compatibility** while fixing mobile issues
-- **Resolves SHARE button responsiveness** on mobile devices
+**Why This Works:**
+Mini Apps run in modal containers where native gestures can automatically close the app. When your app uses similar touch gestures, they conflict with these native dismissal behaviors. `disableNativeGestures: true` prevents these conflicts.
 
-## Learn More
+## Project Structure
 
-- [MiniKit Documentation](https://docs.base.org/builderkits/minikit/overview)
-- [OnchainKit Documentation](https://docs.base.org/builderkits/onchainkit/getting-started)
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-# Updated Sun Jul 20 14:47:05 EDT 2025
-# Force redeploy Mon Jul 21 20:00:13 EDT 2025
+```
+app/
+├── gallery-hero/          # Main landing page
+├── text-page/            # Information page
+├── gallery-hero-2/       # Additional gallery page
+├── share/                # Share functionality
+└── components/           # Reusable components
+```
+
+## Development
+
+```bash
+npm run dev
+```
+
+Visit `http://localhost:3000/gallery-hero` to see the app.
+
+## Deployment
+
+The app is deployed on Vercel and configured for Farcaster Mini App compatibility.

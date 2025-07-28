@@ -240,18 +240,16 @@ const result = await sendBroadcastNotification(
 
 ### **Navigation Flow:**
 ```
-Gallery Hero → Text Page → Manifold Gallery (redirect)
+Gallery Hero → Text Page → Gallery Hero 2 → Manifold Gallery (redirect)
      ↓
 Social Identity (wallet connection)
 ```
 
 ### **Swipe Navigation:**
-- **Swipe Up:** Navigate to next page in sequence
-- **Swipe Down:** Navigate to previous page
-- **Tap Buttons:** Direct navigation 
------from gallery-hero-2 to Manifold Mint (Dynamic API on Cloudflare to most recent mint)
------UNLOCK THE RIDE button refers to Manifold Mint (Dynamic API on Cloudflare to most recent mint)
------SHARE BUTTON on gallery-hero allows sharing app with another user using minikit hooks
+- **Gallery Hero:** Swipe Up → Text Page, Swipe Down → No action (first page)
+- **Text Page:** Swipe Up → Manifold Gallery, Swipe Down → Gallery Hero 2
+- **Gallery Hero 2:** Swipe Up → Next page, Swipe Down → Text Page
+- **Tap Buttons:** Direct navigation to specific pages
 
 ## 🔧 **TECHNICAL ARCHITECTURE**
 
@@ -486,5 +484,58 @@ CCulture-Apps-New/
 
 ---
 
-**Last Updated:** 2025-01-27  
-**Status:** ✅ Comprehensive monorepo deployment configured - Ready for commit and push
+\\\\\\\\\\\\
+/////////
+
+Based on the search results, I can provide you with the best approach to fix your Farcaster Mini App's mobile layout issue. The documentation shows that mobile optimization is a key consideration for Mini Apps.
+
+## Recommended Solution: Use `maxHeight: '100vh'` with responsive design
+
+For optimal mobile UX in Farcaster Mini Apps, use **responsive height with `maxHeight: '100vh'`** combined with proper button positioning. Here's why this is the best approach:
+
+```css
+.gallery-container {
+  max-height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.gallery-image {
+  width: 100%;
+  height: auto;
+  max-height: 70vh; /* Constrain image height */
+  object-fit: cover;
+}
+
+.button-container {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  padding: 1rem;
+  border-top: 1px solid #eee;
+}
+```
+
+## Why This Approach Works Best
+
+1. **Maintains Visual Design**: Preserves your 1260×2400 aspect ratio while preventing excessive scrolling
+2. **Mobile-First**: Ensures buttons are always accessible without scrolling
+3. **Farcaster Compatibility**: Works within Mini App constraints and safe areas
+4. **User Experience**: Follows mobile UX best practices for social apps
+
+## Additional Considerations for Farcaster Mini Apps
+
+From the documentation, Mini Apps have specific mobile requirements:
+
+- **Safe Area Handling**: MiniKit automatically applies `safeAreaInsets` to prevent overlap with parent app elements
+- **Mobile Optimization**: The framework handles responsive design automatically
+- **Screenshot Requirements**: Use portrait orientation (1284 x 2778) for app store screenshots
+
+## Alternative Approaches (Less Recommended)
+
+- **`height: '100vh'` with `objectFit: 'cover'`**: May crop important image content
+- **Mobile-specific aspect ratio**: Could break visual consistency across devices
+- **Different layout approach**: Unnecessary complexity for this use case
+
+The `maxHeight: '100vh'` approach gives you the best balance of maintaining your visual design while ensuring optimal mobile usability in Farcaster Mini Apps.

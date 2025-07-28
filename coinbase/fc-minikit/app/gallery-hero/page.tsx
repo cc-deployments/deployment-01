@@ -3,16 +3,57 @@
 import { useEffect, useCallback, useState } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
-import { useOpenUrl, useMiniKit } from '@coinbase/onchainkit/minikit';
+import { useOpenUrl, useComposeCast } from '@coinbase/onchainkit/minikit';
 import { useSafeArea } from '../hooks/useSafeArea'; // Import the safe area hook
 import { sdk } from '@farcaster/miniapp-sdk';
+import { useMiniKit } from '@coinbase/onchainkit/minikit'; // Import useMiniKit
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea(); // Use the safe area hook
-  const openUrl = useOpenUrl(); // Use BASE AI's recommended hook for URL opening
-  const { setFrameReady, isFrameReady } = useMiniKit(); // Add MiniKit context
+  const openUrl = useOpenUrl(); // Use MiniKit's openUrl hook
+  const { composeCast } = useComposeCast(); // Use MiniKit's compose cast for sharing
+  const { context } = useMiniKit(); // Check if we're in Farcaster frame context
+  
+  console.log('🎨 GalleryHero component rendering...');
+  console.log('🔍 SHARE button should be created with onClick handler');
+  console.log('🔍 Frame context available:', !!context);
+  console.log('🔍 composeCast available:', !!composeCast);
+  
+  // State management for splash screen timing
   const [imageLoaded, setImageLoaded] = useState(false);
   const [sdkReady, setSdkReady] = useState(false);
+
+  // Simple sharing using MiniKit's useComposeCast (works universally)
+  const handleShare = () => {
+    console.log('🎯 Share button clicked - using MiniKit composeCast...');
+    console.log('🔍 Frame context available:', !!context);
+    console.log('🔍 composeCast available:', !!composeCast);
+    
+    try {
+      if (!context) {
+        console.log('⚠️ Not in Farcaster frame context - using fallback');
+        alert(`Share this link: ${window.location.href}\n\nNote: Full sharing requires Farcaster frame context`);
+        return;
+      }
+      
+      if (!composeCast) {
+        console.log('❌ composeCast not available - using fallback');
+        alert(`Share this link: ${window.location.href}\n\nNote: composeCast not available in current context`);
+        return;
+      }
+      
+      console.log('📝 Calling composeCast in Farcaster frame...');
+      composeCast({
+        text: 'Check out this awesome CarMania app! 🚗',
+        embeds: [window.location.href]
+      });
+      console.log('✅ composeCast called successfully');
+    } catch (error) {
+      console.error('❌ Share error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      alert(`Share this link: ${window.location.href}\n\nError: ${errorMessage}`);
+    }
+  };
 
   // Call sdk.actions.ready() only after image is loaded and safe area is determined
   useEffect(() => {
@@ -35,13 +76,7 @@ export default function GalleryHero() {
     initializeSDK();
   }, [imageLoaded, isLoading, sdkReady]);
 
-  // Add frame readiness logic as recommended by BASE AI
-  useEffect(() => {
-    if (!isFrameReady) {
-      console.log('🖼️ Setting frame ready with disableNativeGestures for mobile compatibility...');
-      setFrameReady({ disableNativeGestures: true });
-    }
-  }, [setFrameReady, isFrameReady]);
+  // REMOVED: Frame readiness logic - we're using custom buttons instead
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     console.log('🎹 Key pressed:', event.key);
@@ -126,117 +161,123 @@ export default function GalleryHero() {
   }
 
   return (
-    <>
-      <div 
-        {...handlers} 
-        className="gallery-hero-container"
-        style={{
-          position: 'relative',
-          backgroundColor: '#000',
-          border: '2px solid blue', // Debug container border
-          width: '100%',
-          height: 'auto',
-          minHeight: '100vh',
-        }}
-      >
-        {/* Image area - Responsive container with 1260×2400 ratio */}
-        <div className="gallery-hero-image-container">
-          <Image
-            src="/carmania-gallery-hero.png"
-            alt="Gallery Hero"
-            width={1260}
-            height={2400}
-            style={{ 
-              width: '100%', 
-              height: 'auto', 
-              aspectRatio: '1260 / 2400', 
-              objectFit: 'cover', 
-              display: 'block',
-            }}
-            priority
-            unoptimized={true} // Force unoptimized for Vercel production
-            onError={(e) => {
-              console.error('❌ Image failed to load:', e);
-              // Try fallback image
-              const img = e.currentTarget as HTMLImageElement;
-              if (img.src !== '/hero-v2.png') {
-                console.log('🔄 Trying fallback image...');
-                img.src = '/hero-v2.png';
-              } else {
-                // If fallback also fails, hide image and show background
-                img.style.display = 'none';
-                console.log('❌ All images failed, showing background only');
-              }
-            }}
-            onLoad={() => {
-              console.log('✅ Image loaded successfully');
-              setImageLoaded(true);
-            }}
-          />
-          
-          {/* "Unlock the Ride" Button - MINIKIT HOOKS ONLY */}
-          <div
-            style={{
-              position: 'absolute',
-              left: '50%', // Center horizontally within container
-              top: '75%', // Position in lower portion of 2400px height
-              transform: 'translateX(-50%)', // Center horizontally
-              width: '60%', // 60% of 1260px = ~756px
-              height: '35px',
-              backgroundColor: 'rgba(255, 0, 0, 0.3)',
-              border: '2px solid red',
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '14px',
-              fontWeight: 'bold',
-              color: 'white',
-              cursor: 'pointer',
-              zIndex: 1000,
-              userSelect: 'none',
-              WebkitUserSelect: 'none',
-              MozUserSelect: 'none',
-              msUserSelect: 'none',
-              pointerEvents: 'auto',
-            }}
-            onClick={() => {
-              console.log('🚗 Unlock the Ride clicked - using MiniKit openUrl');
-              openUrl('https://app.manifold.xyz/c/light-bulb-moment');
-            }}
-          >
-            Unlock the Ride
-          </div>
+    <div 
+      {...handlers} 
+      className="gallery-hero-container"
+      style={{
+        position: 'relative',
+        backgroundColor: '#000',
+        border: '2px solid blue',
+        width: '100%',
+        height: '100vh', // Fixed viewport height instead of auto
+        overflow: 'hidden', // Prevent scrolling
+      }}
+    >
+      <div className="gallery-hero-image-container">
+        <Image
+          src="/carmania-gallery-hero.png"
+          alt="Gallery Hero"
+          width={1260}
+          height={2400}
+          style={{ 
+            width: '100%', 
+            height: '100%', // Fill container height
+            objectFit: 'cover', 
+            display: 'block',
+          }}
+          priority
+          unoptimized={true}
+          onError={(e) => {
+            console.error('❌ Image failed to load:', e);
+            const img = e.currentTarget as HTMLImageElement;
+            if (img.src !== '/hero-v2.png') {
+              console.log('🔄 Trying fallback image...');
+              img.src = '/hero-v2.png';
+            } else {
+              img.style.display = 'none';
+              console.log('❌ All images failed, showing background only');
+            }
+          }}
+          onLoad={() => {
+            console.log('✅ Image loaded successfully');
+            setImageLoaded(true);
+          }}
+        />
+        
+        {/* "Unlock the Ride" Button - MINIKIT HOOKS ONLY */}
+        <div
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '75%',
+            transform: 'translateX(-50%)',
+            width: '50%',
+            height: '35px',
+            backgroundColor: 'rgba(255, 0, 0, 0.3)',
+            border: '2px solid red',
+            borderRadius: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            color: 'white',
+            cursor: 'pointer',
+            zIndex: 1000,
+            userSelect: 'none',
+            WebkitUserSelect: 'none',
+            MozUserSelect: 'none',
+            msUserSelect: 'none',
+            pointerEvents: 'auto',
+          }}
+          onClick={() => {
+            console.log('🚗 Unlock the Ride clicked - using MiniKit openUrl');
+            openUrl('https://app.manifold.xyz/c/light-bulb-moment');
+          }}
+        >
+          Unlock the Ride
+        </div>
 
-          {/* Share Button - MINIKIT HOOKS ONLY */}
-          <div
-            style={{
-              position: 'absolute',
-              right: '20px', // 20px from right edge
-              top: '75.8%', // 1820px / 2400px = 75.8%
-              width: '80px', // Fixed width
-              height: '40px', // Fixed height
-              backgroundColor: 'rgba(0, 255, 0, 0.8)', // More visible green overlay
-              border: '3px solid green', // Thicker green border for visibility
-              borderRadius: '4px',
-              cursor: 'pointer',
-              zIndex: 1001, // Higher z-index to ensure visibility
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '12px',
-              color: 'white',
-              fontWeight: 'bold',
-            }}
-            onClick={() => {
-              console.log('🎯 Share button clicked - using MiniKit openUrl');
-              openUrl('/share');
-            }}
-          >
-            SHARE
-          </div>
+        {/* Share Button - MINIKIT HOOKS ONLY */}
+        <div
+          style={{
+            position: 'absolute',
+            right: '10px',
+            top: '75.3%',
+            width: '80px',
+            height: '50px',
+            backgroundColor: 'rgba(0, 255, 0, 0.8)',
+            border: '3px solid green',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            zIndex: 1001,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '12px',
+            color: 'white',
+            fontWeight: 'bold',
+            // Add visual indicator to make it obvious this is the SHARE button
+            boxShadow: '0 0 10px rgba(0, 255, 0, 0.5)',
+          }}
+          onClick={() => {
+            console.log('🔴 SHARE BUTTON CLICKED - TEST');
+            // Add visual feedback
+            const button = event?.currentTarget as HTMLElement;
+            if (button) {
+              button.style.backgroundColor = 'rgba(255, 255, 0, 0.8)';
+              button.style.border = '3px solid yellow';
+              setTimeout(() => {
+                button.style.backgroundColor = 'rgba(0, 255, 0, 0.8)';
+                button.style.border = '3px solid green';
+              }, 200);
+            }
+            handleShare();
+          }}
+        >
+          SHARE
         </div>
       </div>
-    </>
+    </div>
   );
 } 
