@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { useOpenUrl, useComposeCast } from '@coinbase/onchainkit/minikit';
 import { useSafeArea } from '../hooks/useSafeArea'; // Import the safe area hook
-import { sdk } from '@farcaster/miniapp-sdk';
+// import { sdk } from '@farcaster/miniapp-sdk'; // Temporarily removed to fix black screen
 import { useMiniKit } from '@coinbase/onchainkit/minikit'; // Import useMiniKit
 
 export default function GalleryHero() {
@@ -21,7 +21,7 @@ export default function GalleryHero() {
   
   // State management for splash screen timing
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [sdkReady, setSdkReady] = useState(false);
+  // const [sdkReady, setSdkReady] = useState(false); // Temporarily removed
 
   // Simple sharing using MiniKit's useComposeCast (works universally)
   const handleShare = () => {
@@ -55,26 +55,22 @@ export default function GalleryHero() {
     }
   };
 
-  // Call sdk.actions.ready() only after image is loaded and safe area is determined
-  useEffect(() => {
-    const initializeSDK = async () => {
-      // Wait for both image to load AND safe area to be determined
-      if (imageLoaded && !isLoading && !sdkReady) {
-        try {
-          console.log('📞 Calling sdk.actions.ready() - interface is ready...');
-          // CRITICAL: Call sdk.actions.ready() to dismiss the splash screen
-          await sdk.actions.ready();
-          console.log('✅ sdk.actions.ready() called successfully');
-          setSdkReady(true);
-          
-        } catch (error) {
-          console.error('❌ Error initializing interface:', error);
-        }
-      }
-    };
-
-    initializeSDK();
-  }, [imageLoaded, isLoading, sdkReady]);
+  // Temporarily removed SDK initialization to fix black screen
+  // useEffect(() => {
+  //   const initializeSDK = async () => {
+  //     if (imageLoaded && !isLoading && !sdkReady) {
+  //       try {
+  //         console.log('📞 Calling sdk.actions.ready() - interface is ready...');
+  //         await sdk.actions.ready();
+  //         console.log('✅ sdk.actions.ready() called successfully');
+  //         setSdkReady(true);
+  //       } catch (error) {
+  //         console.error('❌ Error initializing interface:', error);
+  //       }
+  //     }
+  //   };
+  //   initializeSDK();
+  // }, [imageLoaded, isLoading, sdkReady]);
 
   // REMOVED: Frame readiness logic - we're using custom buttons instead
 

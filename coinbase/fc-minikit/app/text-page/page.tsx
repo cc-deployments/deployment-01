@@ -177,16 +177,18 @@ export default function TextPage() {
   }
 
   return (
-    <>
-      <div 
-        {...handlers} 
-        className="gallery-hero-container"
-        style={{
-          position: 'relative',
-          backgroundColor: '#000',
-        }}
-        onMouseDown={() => console.log('🖱️ Mouse down detected')}
-      >
+    <div 
+      {...handlers} 
+      className="text-page-container"
+      style={{
+        position: 'relative',
+        backgroundColor: '#000',
+        border: '2px solid red',
+        width: '100%',
+        height: '100vh', // Fixed viewport height instead of auto
+        overflow: 'hidden', // Prevent scrolling
+      }}
+    >
         {/* Image area - Responsive container with safe area consideration */}
         <div className="gallery-hero-image-container">
           <Image
@@ -255,6 +257,5 @@ export default function TextPage() {
           />
         </div>
       </div>
-    </>
   );
 } 
