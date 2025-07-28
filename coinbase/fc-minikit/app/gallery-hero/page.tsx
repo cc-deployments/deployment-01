@@ -207,6 +207,7 @@ export default function GalleryHero() {
               display: 'block',
             }}
             priority
+            unoptimized={true} // Force unoptimized for Vercel production
             onError={(e) => {
               console.error('❌ Image failed to load:', e);
               // Try fallback image
