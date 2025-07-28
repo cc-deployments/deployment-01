@@ -329,7 +329,7 @@ export default function TextPage() {
             }}
             style={{
               position: 'absolute',
-              bottom: '30%', // Move down from 40%
+              bottom: '50%', // Moved up by ~40px from 30%
               left: '50%',
               transform: 'translateX(-50%)',
               width: '60%', // Wider - increased from 40%

@@ -357,7 +357,7 @@ export default function GalleryHero() {
             onClick={handleUnlockRide}
             style={{
               position: 'absolute',
-              bottom: '20%', // Move down from 30%
+              bottom: '22%', // Moved up by ~10px from 20%
               left: '50%',
               transform: 'translateX(-50%)',
               width: '60%', // Wider - increased from 40%
