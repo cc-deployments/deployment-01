@@ -19,8 +19,7 @@ export default function GalleryHero() {
   console.log('🔍 Frame context available:', !!context);
   console.log('🔍 composeCast available:', !!composeCast);
   
-  // State management for splash screen timing
-  const [imageLoaded, setImageLoaded] = useState(false);
+  // State management for SDK initialization
   const [sdkReady, setSdkReady] = useState(false);
 
   // Simple sharing using MiniKit's useComposeCast (works universally)
@@ -55,13 +54,12 @@ export default function GalleryHero() {
     }
   };
 
-  // Call sdk.actions.ready() when interface is ready (with fallback)
+  // Call sdk.actions.ready() immediately when component mounts
   useEffect(() => {
     const initializeSDK = async () => {
-      // Call sdk.actions.ready() when safe area is determined, regardless of image loading
-      if (!isLoading && !sdkReady) {
+      if (!sdkReady) {
         try {
-          console.log('📞 Calling sdk.actions.ready() - interface is ready...');
+          console.log('📞 Calling sdk.actions.ready() immediately...');
           // CRITICAL: Call sdk.actions.ready() to dismiss the splash screen
           await sdk.actions.ready();
           console.log('✅ sdk.actions.ready() called successfully');
@@ -73,8 +71,9 @@ export default function GalleryHero() {
       }
     };
 
+    // Call immediately without waiting for safe area
     initializeSDK();
-  }, [isLoading, sdkReady]);
+  }, [sdkReady]);
 
   // Fallback: Call sdk.actions.ready() after a timeout if it hasn't been called yet
   useEffect(() => {
@@ -217,7 +216,6 @@ export default function GalleryHero() {
           }}
           onLoad={() => {
             console.log('✅ Image loaded successfully');
-            setImageLoaded(true);
           }}
         />
         
