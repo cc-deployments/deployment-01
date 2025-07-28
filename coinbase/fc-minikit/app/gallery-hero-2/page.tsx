@@ -54,8 +54,8 @@ export default function GalleryHero2() {
   // Add frame readiness logic as recommended by BASE AI
   useEffect(() => {
     if (!isFrameReady) {
-      console.log('🖼️ Setting frame ready...');
-      setFrameReady();
+      console.log('🖼️ Setting frame ready with disableNativeGestures for mobile compatibility...');
+      setFrameReady({ disableNativeGestures: true });
     }
   }, [setFrameReady, isFrameReady]);
 
