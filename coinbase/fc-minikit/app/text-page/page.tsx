@@ -277,9 +277,6 @@ export default function TextPage() {
         className="gallery-hero-container"
         style={{
           position: 'relative',
-          width: '100vw',
-          height: '100vh',
-          overflow: 'hidden',
           backgroundColor: '#000',
           border: '2px solid green', // Debug container border
         }}
