@@ -244,56 +244,6 @@ export default function TextPage() {
             }}
             title="Unlock the Ride"
           />
-
-          {/* Navigation Buttons for Mobile UX */}
-          <>
-            <button
-              onClick={() => openUrl('/gallery-hero')}
-              style={{
-                position: 'absolute',
-                top: '20px',
-                left: '20px',
-                width: '40px',
-                height: '40px',
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                border: 'none',
-                borderRadius: '50%',
-                color: 'white',
-                fontSize: '12px',
-                cursor: 'pointer',
-                zIndex: 1001,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              title="Go to Gallery Hero"
-            >
-              GH
-            </button>
-            <button
-              onClick={() => openUrl('/gallery-hero-2')}
-              style={{
-                position: 'absolute',
-                top: '20px',
-                right: '20px',
-                width: '40px',
-                height: '40px',
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                border: 'none',
-                borderRadius: '50%',
-                color: 'white',
-                fontSize: '12px',
-                cursor: 'pointer',
-                zIndex: 1001,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              title="Go to Gallery Hero 2"
-            >
-              G2
-            </button>
-          </>
         </div>
       </div>
     </>
