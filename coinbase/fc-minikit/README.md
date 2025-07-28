@@ -104,6 +104,39 @@ To get started building your own frame, follow these steps:
    - Cast your frame to see it in action
    - Share your frame with others to start building your community
 
+## Mobile Compatibility
+
+### Touch Gesture Conflicts
+Mini Apps can experience touch gesture conflicts on mobile devices where native gestures (swipes, taps) automatically close the app, preventing button interactions.
+
+### Solution: disableNativeGestures
+Use `disableNativeGestures: true` when calling `setFrameReady()` to resolve mobile touch conflicts:
+
+```javascript
+import { useMiniKit } from '@coinbase/onchainkit/minikit';
+
+const { setFrameReady, isFrameReady } = useMiniKit();
+
+useEffect(() => {
+  if (!isFrameReady) {
+    console.log('🖼️ Setting frame ready with disableNativeGestures for mobile compatibility...');
+    setFrameReady({ disableNativeGestures: true });
+  }
+}, [setFrameReady, isFrameReady]);
+```
+
+### Implementation Locations
+This fix is implemented in:
+- `app/gallery-hero/page.tsx`
+- `app/text-page/page.tsx`
+- `app/gallery-hero-2/page.tsx`
+
+### Why This Works
+- **Disables native gesture conflicts** that prevent touch events
+- **Allows app touch gestures** to work properly on mobile
+- **Maintains MiniKit compatibility** while fixing mobile issues
+- **Resolves SHARE button responsiveness** on mobile devices
+
 ## Learn More
 
 - [MiniKit Documentation](https://docs.base.org/builderkits/minikit/overview)
