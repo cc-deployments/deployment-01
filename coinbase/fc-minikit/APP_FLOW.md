@@ -234,22 +234,28 @@ const result = await sendBroadcastNotification(
 
 ### **Main Pages:**
 1. **Gallery Hero (`/gallery-hero`)**: Main landing page with car showcase
-2. **Text Page (`/text-page`)**: Information page with swipe navigation
-3. **Manifold Gallery (`/manifold-gallery`)**: Redirect to Manifold.xyz
-4. **Social Identity (`/socialidentity`)**: Wallet connection and identity display
+2. **Gallery Hero 2 (`/gallery-hero-2`)**: Secondary car showcase page
+3. **Text Page (`/text-page`)**: Information page with swipe navigation
+4. **Manifold Gallery (`/manifold-gallery`)**: Redirect to Manifold.xyz
+5. **Social Identity (`/socialidentity`)**: Wallet connection and identity display
 
-### **Navigation Flow:**
+### **Navigation Flow (REVISED - 2025-07-28):**
 ```
-Gallery Hero → Text Page → Gallery Hero 2 → Manifold Gallery (redirect)
+Gallery Hero → Gallery Hero 2 → Text Page → Manifold Gallery (redirect)
      ↓
 Social Identity (wallet connection)
 ```
 
-### **Swipe Navigation:**
-- **Gallery Hero:** Swipe Up → Text Page, Swipe Down → No action (first page)
+### **Swipe Navigation (REVISED - 2025-07-28):**
+- **Gallery Hero:** Swipe Up → Gallery Hero 2, Swipe Down → No action (first page)
+- **Gallery Hero 2:** Swipe Up → Text Page, Swipe Down → Gallery Hero
 - **Text Page:** Swipe Up → Manifold Gallery, Swipe Down → Gallery Hero 2
-- **Gallery Hero 2:** Swipe Up → Next page, Swipe Down → Text Page
 - **Tap Buttons:** Direct navigation to specific pages
+
+### **Previous Navigation Flow (ARCHIVED):**
+```
+Gallery Hero → Text Page → Gallery Hero 2 → Manifold Gallery (redirect)
+```
 
 ## 🔧 **TECHNICAL ARCHITECTURE**
 

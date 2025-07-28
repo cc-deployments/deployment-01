@@ -103,13 +103,13 @@ export default function GalleryHero() {
     }
     
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
-      console.log('⬆️ Keyboard navigation: Swipe up - navigating to text-page');
+      console.log('⬆️ Keyboard navigation: Swipe up - navigating to gallery-hero-2');
       try {
         console.log('🌐 Using openUrl for navigation');
-        openUrl('/text-page');
+        openUrl('/gallery-hero-2');
       } catch (error) {
         console.error('Navigation error:', error);
-        window.location.href = '/text-page';
+        window.location.href = '/gallery-hero-2';
       }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down');
@@ -128,13 +128,13 @@ export default function GalleryHero() {
 
   const handlers = useSwipeable({
     onSwipedUp: async () => {
-      console.log('⬆️ Swipe up detected - navigating to text-page (next page)');
+      console.log('⬆️ Swipe up detected - navigating to gallery-hero-2 (next page)');
       try {
         console.log('🌐 Using openUrl for navigation');
-        openUrl('/text-page');
+        openUrl('/gallery-hero-2');
       } catch (error) {
         console.error('Navigation error:', error);
-        openUrl('/text-page');
+        openUrl('/gallery-hero-2');
       }
     },
     onSwipedDown: async () => {

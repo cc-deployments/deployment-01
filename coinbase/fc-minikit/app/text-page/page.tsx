@@ -184,10 +184,6 @@ export default function TextPage() {
         style={{
           position: 'relative',
           backgroundColor: '#000',
-          border: '2px solid blue',
-          width: '100%',
-          height: '100vh', // Fixed viewport height instead of auto
-          overflow: 'hidden', // Prevent scrolling
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
       >
@@ -200,7 +196,8 @@ export default function TextPage() {
             height={2400}
             style={{ 
               width: '100%', 
-              height: '100%', // Fill container height
+              height: 'auto', 
+              aspectRatio: '1260 / 2400', 
               objectFit: 'cover', 
               display: 'block',
             }}
@@ -232,7 +229,7 @@ export default function TextPage() {
             }}
             style={{
               position: 'absolute',
-              top: '63%', // Responsive positioning - adjusted from 62%
+              top: '65%', // Responsive positioning - center of lower portion
               left: '50%', // Center horizontally
               transform: 'translateX(-50%)', // Centers the button horizontally
               width: '60%', // Responsive width
