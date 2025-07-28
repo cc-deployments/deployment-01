@@ -146,7 +146,7 @@ export default function GalleryHero() {
   // Show loading state while safe area is being determined
   if (isLoading) {
     return (
-      <div style={{
+      <div       style={{
         width: '100vw',
         height: '100vh',
         display: 'flex',
@@ -154,7 +154,8 @@ export default function GalleryHero() {
         alignItems: 'center',
         backgroundColor: '#000',
         color: '#fff'
-      }}>
+      }}
+    >
         Loading...
       </div>
     );
