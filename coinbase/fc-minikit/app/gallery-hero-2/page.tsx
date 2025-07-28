@@ -181,8 +181,9 @@ export default function GalleryHero2() {
             height={2400}
             style={{ 
               width: '100%', 
-              height: '100%', // Fill container height to match gallery-hero
-              objectFit: 'cover', 
+              height: 'auto', // FIXED aspect ratio - no distortion
+              aspectRatio: '1260 / 2400', // Fixed proportions
+              objectFit: 'contain', // No cropping/distortion
               display: 'block',
             }}
             priority
