@@ -144,21 +144,10 @@ export default function GalleryHero2() {
         {...handlers} 
         className="gallery-hero-container"
         style={{
-          width: '100vw',
-          height: '100vh',
           position: 'relative',
-          overflow: 'hidden',
           cursor: 'grab', // Add cursor to show it's interactive
-          // Apply safe area padding to the main container
-          paddingTop: `${safeArea.top}px`,
-          paddingBottom: `${safeArea.bottom}px`,
-          paddingLeft: `${safeArea.left}px`,
-          paddingRight: `${safeArea.right}px`,
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
-        onTouchStart={() => console.log('👆 Touch start detected')}
-        onMouseMove={() => console.log('🖱️ Mouse move detected')}
-        onTouchMove={() => console.log('👆 Touch move detected')}
       >
         {/* Image area - Responsive container */}
         <div className="gallery-hero-image-container">
@@ -179,34 +168,12 @@ export default function GalleryHero2() {
             priority
           />
           
-          {/* Invisible "Unlock the Ride" Button Overlay - SAFE AREA AWARE */}
+          {/* Clean MiniKit Button - No Direct Event Handlers */}
           <button
-            onClick={async () => {
+            onClick={() => {
               console.log('🚗 Unlock Ride clicked!');
-              
-              try {
-                // Step 1: Fetch dynamic URL from Cloudflare API (Base-compliant)
-                console.log('📡 Fetching current mint URL from Cloudflare API...');
-                const response = await fetch('https://ccult.carculture-com.workers.dev/api/cars/active');
-                const activeCar = await response.json();
-                
-                if (activeCar && activeCar.mint_url) {
-                  console.log('✅ Got dynamic URL:', activeCar.mint_url);
-                  
-                  // Step 2: Use the recommended useOpenUrl hook (Base-compliant)
-                  openUrl(activeCar.mint_url);
-                } else {
-                  console.log('⚠️ No active car found, using fallback URL');
-                  // Fallback to current hardcoded URL
-                  const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
-                  openUrl(fallbackUrl);
-                }
-              } catch (error) {
-                console.error('❌ Error fetching dynamic URL:', error);
-                // Fallback to current hardcoded URL
-                const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
-                openUrl(fallbackUrl);
-              }
+              // Use MiniKit hook for URL opening
+              openUrl('https://app.manifold.xyz/c/light-bulb-moment');
             }}
             style={{
               position: 'absolute',

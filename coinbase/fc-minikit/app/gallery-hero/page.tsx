@@ -144,39 +144,10 @@ export default function GalleryHero() {
     rotationAngle: 0, // No rotation angle restriction
   });
 
-  const handleUnlockRide = async () => {
-    console.log('🚗 Unlock the Ride clicked - FUNCTION CALLED');
-    console.log('📍 Current URL:', window.location.href);
-    console.log('📱 User Agent:', navigator.userAgent);
-    
-    try {
-      // Step 1: Fetch dynamic URL from Cloudflare API
-      console.log('📡 Fetching current mint URL from Cloudflare API...');
-      const response = await fetch('https://ccult.carculture-com.workers.dev/api/cars/active');
-      const activeCar = await response.json();
-      
-      if (activeCar && activeCar.mint_url) {
-        console.log('✅ Got dynamic URL:', activeCar.mint_url);
-        // Use BASE AI's recommended useOpenUrl hook (handles fallbacks automatically)
-        console.log('🔗 Calling openUrl with:', activeCar.mint_url);
-        openUrl(activeCar.mint_url);
-        console.log('✅ openUrl called successfully');
-      } else {
-        console.log('⚠️ No active car found, using fallback URL');
-        // Fallback to current hardcoded URL
-        const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
-        console.log('🔗 Calling openUrl with fallback:', fallbackUrl);
-        openUrl(fallbackUrl);
-        console.log('✅ openUrl fallback called successfully');
-      }
-    } catch (error) {
-      console.error('❌ Error fetching dynamic URL:', error);
-      // Fallback to current hardcoded URL
-      const fallbackUrl = 'https://app.manifold.xyz/c/light-bulb-moment';
-      console.log('🔗 Calling openUrl with error fallback:', fallbackUrl);
-      openUrl(fallbackUrl);
-      console.log('✅ openUrl error fallback called successfully');
-    }
+  const handleUnlockRide = () => {
+    console.log('🚗 Unlock the Ride clicked');
+    // Use MiniKit hook for URL opening
+    openUrl('https://app.manifold.xyz/c/light-bulb-moment');
   };
 
   const handleShare = async () => {
@@ -313,19 +284,13 @@ export default function GalleryHero() {
         className="gallery-hero-container"
         style={{
           position: 'relative',
-          width: '100vw',
-          height: '100vh',
-          overflow: 'hidden',
           backgroundColor: '#000',
           border: '2px solid blue', // Debug container border
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
-        onTouchStart={() => console.log('👆 Touch start detected')}
-        onMouseMove={() => console.log('🖱️ Mouse move detected')}
-        onTouchMove={() => console.log('👆 Touch move detected')}
       >
-        {/* Image area - Responsive container */}
-        <div className="gallery-hero-image-container" style={{ position: 'relative', width: '100%', height: '100%' }}>
+        {/* Image area - Responsive container with 1260×2400 ratio */}
+        <div className="gallery-hero-image-container">
           <Image
             src="/carmania-gallery-hero.png"
             alt="Gallery Hero"
@@ -333,12 +298,10 @@ export default function GalleryHero() {
             height={2400}
             style={{ 
               width: '100%', 
-              height: '100%', 
+              height: 'auto', 
+              aspectRatio: '1260 / 2400', 
               objectFit: 'cover', 
               display: 'block',
-              position: 'absolute',
-              top: 0,
-              left: 0,
             }}
             priority
             unoptimized={true} // Force unoptimized for Vercel production

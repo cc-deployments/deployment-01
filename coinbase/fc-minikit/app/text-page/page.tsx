@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
@@ -92,113 +92,11 @@ export default function TextPage() {
   }, []);
 
   // Manual touch detection as fallback
-  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
-  const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(null);
 
-  const minSwipeDistance = 50;
 
-  const onTouchStart = (e: React.TouchEvent) => {
-    console.log('👆 Manual touch start detected', e.targetTouches[0]);
-    setTouchEnd(null);
-    setTouchStart({
-      x: e.targetTouches[0].clientX,
-      y: e.targetTouches[0].clientY,
-    });
-  };
 
-  const onTouchMove = (e: React.TouchEvent) => {
-    console.log('👆 Manual touch move detected', e.targetTouches[0]);
-    setTouchEnd({
-      x: e.targetTouches[0].clientX,
-      y: e.targetTouches[0].clientY,
-    });
-  };
 
-  const onTouchEnd = async () => {
-    console.log('👆 Manual touch end detected');
-    console.log('Touch start:', touchStart);
-    console.log('Touch end:', touchEnd);
-    
-    if (!touchStart || !touchEnd) {
-      console.log('❌ Missing touch start or end data');
-      return;
-    }
-    
-    const distanceX = touchStart.x - touchEnd.x;
-    const distanceY = touchStart.y - touchEnd.y;
-    console.log('Distance X:', distanceX, 'Distance Y:', distanceY);
-    
-    const isVerticalSwipe = Math.abs(distanceY) > Math.abs(distanceX);
-    console.log('Is vertical swipe:', isVerticalSwipe);
 
-    if (isVerticalSwipe && Math.abs(distanceY) > minSwipeDistance) {
-      try {
-        const context = await sdk.context;
-        if (distanceY > 0) {
-          console.log('⬆️ Manual swipe up detected - navigating to manifold-gallery');
-          if (context?.client?.clientFid === 309857) {
-            sdk.actions.openUrl('/manifold-gallery');
-          } else {
-            window.location.href = '/manifold-gallery';
-          }
-        } else {
-          console.log('⬇️ Manual swipe down detected - navigating to gallery-hero-2');
-          if (context?.client?.clientFid === 309857) {
-            sdk.actions.openUrl('/gallery-hero-2');
-          } else {
-            window.location.href = '/gallery-hero-2';
-          }
-        }
-      } catch (error) {
-        console.error('Navigation error:', error);
-        if (distanceY > 0) {
-          window.location.href = '/manifold-gallery';
-        } else {
-          window.location.href = '/gallery-hero-2';
-        }
-      }
-    } else {
-      console.log('❌ Swipe not detected - distance too small or not vertical');
-    }
-  };
-
-  // Simple click-based navigation as fallback
-  const handleClick = async (e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clickY = e.clientY - rect.top;
-    const clickX = e.clientX - rect.left;
-    
-    console.log('🖱️ Click detected at:', { x: clickX, y: clickY });
-    
-    try {
-      const context = await sdk.context;
-      // Top 30% of screen = swipe down
-      if (clickY < rect.height * 0.3) {
-        console.log('⬇️ Top area clicked - navigating to gallery-hero-2');
-        if (context?.client?.clientFid === 309857) {
-          sdk.actions.openUrl('/gallery-hero-2');
-        } else {
-          window.location.href = '/gallery-hero-2';
-        }
-      }
-      // Bottom 30% of screen = swipe up
-      else if (clickY > rect.height * 0.7) {
-        console.log('⬆️ Bottom area clicked - navigating to manifold-gallery');
-        if (context?.client?.clientFid === 309857) {
-          sdk.actions.openUrl('/manifold-gallery');
-        } else {
-          window.location.href = '/manifold-gallery';
-        }
-      }
-    } catch (error) {
-      console.error('Navigation error:', error);
-      if (clickY < rect.height * 0.3) {
-        window.location.href = '/gallery-hero-2';
-      } else if (clickY > rect.height * 0.7) {
-        window.location.href = '/manifold-gallery';
-      }
-    }
-  };
 
   const handlers = useSwipeable({
     onSwipedUp: async () => {
@@ -278,13 +176,10 @@ export default function TextPage() {
         style={{
           position: 'relative',
           backgroundColor: '#000',
-          border: '4px solid blue', // Blue border around container edge
+          border: '8px solid blue !important', // Force blue border around container edge
+          outline: '4px solid red', // Additional red outline for debugging
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
-        onClick={handleClick}
       >
         {/* Image area - Responsive container with safe area consideration */}
         <div className="gallery-hero-image-container">
@@ -305,24 +200,12 @@ export default function TextPage() {
             priority
           />
           
-          {/* Invisible "Unlock the Ride" Button Overlay - SAFE AREA AWARE */}
+          {/* Clean MiniKit Button - No Direct Event Handlers */}
           <button
-            onClick={async () => {
-              try {
-                console.log('🚀 UNLOCK THE RIDE button clicked');
-                
-                // Get dynamic mint URL from API
-                const response = await fetch('https://ccult.carculture-com.workers.dev/api/cars/active');
-                const data = await response.json();
-                const mintUrl = data.mintUrl || 'https://manifold.xyz/@carculture';
-                
-                console.log('🔗 Opening mint URL:', mintUrl);
-                openUrl(mintUrl);
-              } catch (error) {
-                console.error('❌ Error opening mint URL:', error);
-                // Fallback to default URL
-                openUrl('https://manifold.xyz/@carculture');
-              }
+            onClick={() => {
+              console.log('🚀 UNLOCK THE RIDE button clicked');
+              // Use MiniKit hook for URL opening
+              openUrl('https://manifold.xyz/@carculture');
             }}
             style={{
               position: 'absolute',
