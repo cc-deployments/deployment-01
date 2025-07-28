@@ -229,7 +229,7 @@ export default function TextPage() {
             }}
             style={{
               position: 'absolute',
-              top: '65%', // Responsive positioning - center of lower portion
+              top: '63%', // Responsive positioning - adjusted from 62%
               left: '50%', // Center horizontally
               transform: 'translateX(-50%)', // Centers the button horizontally
               width: '60%', // Responsive width
