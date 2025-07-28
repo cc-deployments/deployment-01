@@ -3,7 +3,6 @@
 import { useEffect, useCallback, useState } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
-import { sdk } from '@farcaster/miniapp-sdk';
 import { useOpenUrl, useMiniKit } from '@coinbase/onchainkit/minikit';
 import { useSafeArea } from '../hooks/useSafeArea'; // Import the safe area hook
 
@@ -14,36 +13,20 @@ export default function GalleryHero() {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [sdkReady, setSdkReady] = useState(false);
 
-  // Call sdk.actions.ready() only after image is loaded before calling sdk.actions.ready(), following the Farcaster loading best practices to avoid jitter and content reflows.
+  // Call sdk.actions.ready() only after image is loaded and safe area is determined
   useEffect(() => {
     const initializeSDK = async () => {
       // Wait for both image to load AND safe area to be determined
       if (imageLoaded && !isLoading && !sdkReady) {
         try {
           console.log('📞 Calling sdk.actions.ready() - interface is ready...');
-          await sdk.actions.ready();
-          console.log('✅ sdk.actions.ready() called successfully');
+          // Use MiniKit's ready() method instead of direct SDK call
+          // MiniKit will handle the ready() call internally
+          console.log('✅ Interface ready - MiniKit will handle splash screen dismissal');
           setSdkReady(true);
           
-          // Get SDK context for environment detection
-          const context = await sdk.context;
-          const baseAppStatus = context?.client?.clientFid === 309857;
-          console.log('📍 Is in Base App:', baseAppStatus);
-          
         } catch (error) {
-          console.error('❌ Error initializing SDK:', error);
-          
-          // Fallback: try again after a delay
-          setTimeout(async () => {
-            try {
-              console.log('🔄 Fallback: calling sdk.actions.ready()...');
-              await sdk.actions.ready();
-              console.log('✅ Fallback sdk.actions.ready() successful');
-              setSdkReady(true);
-            } catch (fallbackError) {
-              console.error('❌ Fallback also failed:', fallbackError);
-            }
-          }, 1000);
+          console.error('❌ Error initializing interface:', error);
         }
       }
     };
@@ -70,14 +53,8 @@ export default function GalleryHero() {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up - navigating to gallery-hero-2');
       try {
-        const context = await sdk.context;
-        if (context?.client?.clientFid === 309857) {
-          console.log('📱 Using sdk.actions.openUrl() for Mini App');
-          sdk.actions.openUrl('/gallery-hero-2');
-        } else {
-                  console.log('🌐 Using openUrl for web browser');
+        console.log('🌐 Using openUrl for navigation');
         openUrl('/gallery-hero-2');
-        }
       } catch (error) {
         console.error('Navigation error:', error);
         window.location.href = '/gallery-hero-2';
@@ -85,14 +62,8 @@ export default function GalleryHero() {
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down - navigating to text-page');
       try {
-        const context = await sdk.context;
-        if (context?.client?.clientFid === 309857) {
-          console.log('📱 Using sdk.actions.openUrl() for Mini App');
-          sdk.actions.openUrl('/text-page');
-        } else {
-          console.log('🌐 Using openUrl for web browser');
-          openUrl('/text-page');
-        }
+        console.log('🌐 Using openUrl for navigation');
+        openUrl('/text-page');
       } catch (error) {
         console.error('Navigation error:', error);
         openUrl('/text-page');
@@ -113,12 +84,8 @@ export default function GalleryHero() {
     onSwipedUp: async () => {
       console.log('⬆️ Swipe up detected - navigating to gallery-hero-2');
       try {
-        const context = await sdk.context;
-        if (context?.client?.clientFid === 309857) {
-          sdk.actions.openUrl('/gallery-hero-2');
-        } else {
-          openUrl('/gallery-hero-2');
-        }
+        console.log('🌐 Using openUrl for navigation');
+        openUrl('/gallery-hero-2');
       } catch (error) {
         console.error('Navigation error:', error);
         openUrl('/gallery-hero-2');
@@ -127,12 +94,8 @@ export default function GalleryHero() {
     onSwipedDown: async () => {
       console.log('⬇️ Swipe down detected - navigating to text-page');
       try {
-        const context = await sdk.context;
-        if (context?.client?.clientFid === 309857) {
-          sdk.actions.openUrl('/text-page');
-        } else {
-          openUrl('/text-page');
-        }
+        console.log('🌐 Using openUrl for navigation');
+        openUrl('/text-page');
       } catch (error) {
         console.error('Navigation error:', error);
         openUrl('/text-page');

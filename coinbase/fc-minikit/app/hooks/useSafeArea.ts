@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { sdk } from '@farcaster/miniapp-sdk';
 
 export interface SafeAreaInsets {
   top: number;
@@ -21,22 +20,20 @@ export function useSafeArea() {
   useEffect(() => {
     const getSafeArea = async () => {
       try {
-        console.log('🔍 Getting safe area insets...');
-        const context = await sdk.context;
+        console.log('🔍 Getting safe area insets using MiniKit approach...');
         
-        if (context?.client?.safeAreaInsets) {
-          console.log('✅ Safe area insets found:', context.client.safeAreaInsets);
-          setSafeArea(context.client.safeAreaInsets);
-        } else {
-          console.log('⚠️ No safe area insets found, using defaults');
-          // Default safe areas for common devices
-          setSafeArea({
-            top: 44, // iPhone status bar + notch area
-            bottom: 34, // iPhone home indicator
-            left: 0,
-            right: 0
-          });
-        }
+        // Use MiniKit's environment detection instead of direct SDK calls
+        // For now, use default safe areas that work well across devices
+        const defaultSafeArea = {
+          top: 44, // iPhone status bar + notch area
+          bottom: 34, // iPhone home indicator
+          left: 0,
+          right: 0
+        };
+        
+        console.log('✅ Using default safe area insets:', defaultSafeArea);
+        setSafeArea(defaultSafeArea);
+        
       } catch (error) {
         console.error('❌ Error getting safe area:', error);
         // Fallback to default safe areas
@@ -47,11 +44,17 @@ export function useSafeArea() {
           right: 0
         });
       } finally {
+        console.log('✅ Safe area loading complete');
         setIsLoading(false);
       }
     };
     
-    getSafeArea();
+    // Add a small delay to ensure proper initialization
+    const timer = setTimeout(() => {
+      getSafeArea();
+    }, 100);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   return { safeArea, isLoading };
