@@ -51,23 +51,17 @@ export default function GalleryHero() {
     }
     
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
-      console.log('⬆️ Keyboard navigation: Swipe up - navigating to gallery-hero-2');
+      console.log('⬆️ Keyboard navigation: Swipe up - navigating to text-page');
       try {
         console.log('🌐 Using openUrl for navigation');
-        openUrl('/gallery-hero-2');
+        openUrl('/text-page');
       } catch (error) {
         console.error('Navigation error:', error);
-        window.location.href = '/gallery-hero-2';
+        window.location.href = '/text-page';
       }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
-      console.log('⬇️ Keyboard navigation: Swipe down - navigating to text-page');
-      try {
-        console.log('🌐 Using openUrl for navigation');
-        openUrl('/text-page');
-      } catch (error) {
-        console.error('Navigation error:', error);
-        openUrl('/text-page');
-      }
+      console.log('⬇️ Keyboard navigation: Swipe down');
+      // This is the first page, no previous page to navigate to
     }
   }, [openUrl]);
 
@@ -82,24 +76,19 @@ export default function GalleryHero() {
 
   const handlers = useSwipeable({
     onSwipedUp: async () => {
-      console.log('⬆️ Swipe up detected - navigating to gallery-hero-2');
+      console.log('⬆️ Swipe up detected - navigating to text-page (next page)');
       try {
         console.log('🌐 Using openUrl for navigation');
-        openUrl('/gallery-hero-2');
+        openUrl('/text-page');
       } catch (error) {
         console.error('Navigation error:', error);
-        openUrl('/gallery-hero-2');
+        openUrl('/text-page');
       }
     },
     onSwipedDown: async () => {
-      console.log('⬇️ Swipe down detected - navigating to text-page');
-      try {
-        console.log('🌐 Using openUrl for navigation');
-        openUrl('/text-page');
-      } catch (error) {
-        console.error('Navigation error:', error);
-        openUrl('/text-page');
-      }
+      console.log('⬇️ Swipe down detected - this is the first page, no previous page');
+      // This is the first page in the sequence, so no previous page to navigate to
+      // Could add haptic feedback or visual indication that this is the first page
     },
     onSwipedLeft: () => {
       console.log('⬅️ Swipe left detected');
@@ -114,20 +103,6 @@ export default function GalleryHero() {
     trackTouch: true, // Ensure touch events are tracked
     rotationAngle: 0, // No rotation angle restriction
   });
-
-  const handleUnlockRide = () => {
-    console.log('🚗 Unlock the Ride clicked');
-    // Use MiniKit hook for URL opening
-    openUrl('https://app.manifold.xyz/c/light-bulb-moment');
-  };
-
-  const handleShare = () => {
-    console.log('🎯 Share button clicked!');
-    // Use MiniKit hook for sharing - let MiniKit handle the sharing logic
-    // MiniKit will automatically handle sharing in the appropriate environment
-  };
-
-
 
   // Debug: Log safe area values
   console.log('📱 Safe area insets:', safeArea);
@@ -198,16 +173,15 @@ export default function GalleryHero() {
             }}
           />
           
-          {/* Invisible "Unlock the Ride" Button Overlay - SAFE AREA AWARE */}
-          <button
-            onClick={handleUnlockRide}
+          {/* "Unlock the Ride" Button - MINIKIT HOOKS ONLY */}
+          <div
             style={{
               position: 'absolute',
-              bottom: '35%', // Moved up significantly to avoid overflow
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '60%', // Wider - increased from 40%
-              height: '35px', // Slightly taller - increased from 25px
+              left: '50%', // Center horizontally within container
+              top: '75%', // Position in lower portion of 2400px height
+              transform: 'translateX(-50%)', // Center horizontally
+              width: '60%', // 60% of 1260px = ~756px
+              height: '35px',
               backgroundColor: 'rgba(255, 0, 0, 0.3)',
               border: '2px solid red',
               borderRadius: '8px',
@@ -225,24 +199,41 @@ export default function GalleryHero() {
               msUserSelect: 'none',
               pointerEvents: 'auto',
             }}
-          />
+            onClick={() => {
+              console.log('🚗 Unlock the Ride clicked - using MiniKit openUrl');
+              openUrl('https://app.manifold.xyz/c/light-bulb-moment');
+            }}
+          >
+            Unlock the Ride
+          </div>
 
-          {/* Clean MiniKit Share Button - No Direct Event Handlers */}
-          <button
-            onClick={handleShare}
+          {/* Share Button - MINIKIT HOOKS ONLY */}
+          <div
             style={{
               position: 'absolute',
-              left: `calc(89.4% - ${safeArea.right}px)`, // Adjust for right safe area
-              top: `calc(75.3% - ${safeArea.bottom}px)`, // Adjust for bottom safe area
-              transform: 'translateX(-50%)', // Centers the button horizontally
-              width: '7.2%', // Decreased by 10px (8% - 0.79% = 7.2%)
-              height: '3.1%', // Increased to 75px (75px / 2400px = 3.1%)
-              background: 'transparent',
-              border: 'none',
+              right: '20px', // 20px from right edge
+              top: '75.8%', // 1820px / 2400px = 75.8%
+              width: '80px', // Fixed width
+              height: '40px', // Fixed height
+              backgroundColor: 'rgba(0, 255, 0, 0.8)', // More visible green overlay
+              border: '3px solid green', // Thicker green border for visibility
+              borderRadius: '4px',
               cursor: 'pointer',
-              zIndex: 1000,
+              zIndex: 1001, // Higher z-index to ensure visibility
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '12px',
+              color: 'white',
+              fontWeight: 'bold',
             }}
-          />
+            onClick={() => {
+              console.log('🎯 Share button clicked - using MiniKit sharing');
+              // MiniKit will automatically handle sharing in the appropriate environment
+            }}
+          >
+            SHARE
+          </div>
         </div>
       </div>
     </>

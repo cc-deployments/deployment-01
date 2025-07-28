@@ -240,14 +240,15 @@ const result = await sendBroadcastNotification(
 
 ### **Navigation Flow:**
 ```
-Gallery Hero → Text Page → Manifold Gallery (redirect)
+Gallery Hero → Text Page → Gallery Hero 2 → Manifold Gallery (redirect)
      ↓
 Social Identity (wallet connection)
 ```
 
 ### **Swipe Navigation:**
-- **Swipe Up:** Navigate to next page in sequence
-- **Swipe Down:** Navigate to previous page
+- **Gallery Hero:** Swipe Up → Text Page, Swipe Down → No action (first page)
+- **Text Page:** Swipe Up → Manifold Gallery, Swipe Down → Gallery Hero 2
+- **Gallery Hero 2:** Swipe Up → Next page, Swipe Down → Text Page
 - **Tap Buttons:** Direct navigation to specific pages
 
 ## 🔧 **TECHNICAL ARCHITECTURE**
