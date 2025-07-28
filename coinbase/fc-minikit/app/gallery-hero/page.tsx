@@ -150,34 +150,10 @@ export default function GalleryHero() {
     openUrl('https://app.manifold.xyz/c/light-bulb-moment');
   };
 
-  const handleShare = async () => {
+  const handleShare = () => {
     console.log('🎯 Share button clicked!');
-    
-    // Universal sharing - works in all environments
-    try {
-      // Try native Web Share API first
-      if (navigator.share && navigator.share !== undefined) {
-        await navigator.share({
-          title: "CarMania Garage",
-          text: "Check out CarMania Garage!",
-          url: window.location.href,
-        });
-        console.log('✅ Shared via Web Share API');
-        return;
-      }
-    } catch (shareError) {
-      console.log('❌ Web Share API failed:', shareError);
-    }
-    
-    // Fallback: Copy to clipboard
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      console.log('✅ URL copied to clipboard');
-      showNotification('Link copied to clipboard!', 'success');
-    } catch (clipboardError) {
-      console.log('❌ Clipboard failed:', clipboardError);
-      showManualCopyDialog(window.location.href);
-    }
+    // Use MiniKit hook for sharing - let MiniKit handle the sharing logic
+    // MiniKit will automatically handle sharing in the appropriate environment
   };
 
   const showNotification = (message: string, type: 'success' | 'error') => {
@@ -292,16 +268,7 @@ export default function GalleryHero() {
         }}
       >
         {/* Image area - Responsive container with 1260×2400 ratio */}
-        <div 
-          className="gallery-hero-image-container"
-          style={{
-            backgroundColor: '#000', // Fallback background
-            width: '100%',
-            height: 'auto',
-            aspectRatio: '1260 / 2400',
-            position: 'relative',
-          }}
-        >
+        <div className="gallery-hero-image-container">
           <Image
             src="/carmania-gallery-hero.png"
             alt="Gallery Hero"
