@@ -59,11 +59,11 @@ export default function TextPage() {
         if (context?.client?.clientFid === 309857) {
           sdk.actions.openUrl('/manifold-gallery');
         } else {
-          window.location.href = '/manifold-gallery';
+          openUrl('/manifold-gallery');
         }
       } catch (error) {
         console.error('Navigation error:', error);
-        window.location.href = '/manifold-gallery';
+        openUrl('/manifold-gallery');
       }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down');
@@ -106,11 +106,11 @@ export default function TextPage() {
         if (context?.client?.clientFid === 309857) {
           sdk.actions.openUrl('/manifold-gallery');
         } else {
-          window.location.href = '/manifold-gallery';
+          openUrl('/manifold-gallery');
         }
       } catch (error) {
         console.error('Navigation error:', error);
-        window.location.href = '/manifold-gallery';
+        openUrl('/manifold-gallery');
       }
     },
     onSwipedDown: async () => {
@@ -120,11 +120,11 @@ export default function TextPage() {
         if (context?.client?.clientFid === 309857) {
           sdk.actions.openUrl('/gallery-hero-2');
         } else {
-          window.location.href = '/gallery-hero-2';
+          openUrl('/gallery-hero-2');
         }
       } catch (error) {
         console.error('Navigation error:', error);
-        window.location.href = '/gallery-hero-2';
+        openUrl('/gallery-hero-2');
       }
     },
     onSwipedLeft: () => {

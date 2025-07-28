@@ -48,11 +48,11 @@ export default function GalleryHero2() {
         if (context?.client?.clientFid === 309857) {
           sdk.actions.openUrl('/text-page');
         } else {
-          window.location.href = '/text-page';
+          openUrl('/text-page');
         }
       } catch (error) {
         console.error('Navigation error:', error);
-        window.location.href = '/text-page';
+        openUrl('/text-page');
       }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down');
@@ -83,11 +83,11 @@ export default function GalleryHero2() {
         if (context?.client?.clientFid === 309857) {
           sdk.actions.openUrl('/text-page');
         } else {
-          window.location.href = '/text-page';
+          openUrl('/text-page');
         }
       } catch (error) {
         console.error('Navigation error:', error);
-        window.location.href = '/text-page';
+        openUrl('/text-page');
       }
     },
     onSwipedDown: async () => {
@@ -97,11 +97,11 @@ export default function GalleryHero2() {
         if (context?.client?.clientFid === 309857) {
           sdk.actions.openUrl('/gallery-hero');
         } else {
-          window.location.href = '/gallery-hero';
+          openUrl('/gallery-hero');
         }
       } catch (error) {
         console.error('Navigation error:', error);
-        window.location.href = '/gallery-hero';
+        openUrl('/gallery-hero');
       }
     },
     onSwipedLeft: () => {

@@ -67,8 +67,8 @@ export default function GalleryHero() {
           console.log('📱 Using sdk.actions.openUrl() for Mini App');
           sdk.actions.openUrl('/gallery-hero-2');
         } else {
-          console.log('🌐 Using window.location.href for web browser');
-          window.location.href = '/gallery-hero-2';
+                  console.log('🌐 Using openUrl for web browser');
+        openUrl('/gallery-hero-2');
         }
       } catch (error) {
         console.error('Navigation error:', error);
@@ -82,12 +82,12 @@ export default function GalleryHero() {
           console.log('📱 Using sdk.actions.openUrl() for Mini App');
           sdk.actions.openUrl('/text-page');
         } else {
-          console.log('🌐 Using window.location.href for web browser');
-          window.location.href = '/text-page';
+          console.log('🌐 Using openUrl for web browser');
+          openUrl('/text-page');
         }
       } catch (error) {
         console.error('Navigation error:', error);
-        window.location.href = '/text-page';
+        openUrl('/text-page');
       }
     }
   }, []);
@@ -109,11 +109,11 @@ export default function GalleryHero() {
         if (context?.client?.clientFid === 309857) {
           sdk.actions.openUrl('/gallery-hero-2');
         } else {
-          window.location.href = '/gallery-hero-2';
+          openUrl('/gallery-hero-2');
         }
       } catch (error) {
         console.error('Navigation error:', error);
-        window.location.href = '/gallery-hero-2';
+        openUrl('/gallery-hero-2');
       }
     },
     onSwipedDown: async () => {
@@ -123,11 +123,11 @@ export default function GalleryHero() {
         if (context?.client?.clientFid === 309857) {
           sdk.actions.openUrl('/text-page');
         } else {
-          window.location.href = '/text-page';
+          openUrl('/text-page');
         }
       } catch (error) {
         console.error('Navigation error:', error);
-        window.location.href = '/text-page';
+        openUrl('/text-page');
       }
     },
     onSwipedLeft: () => {
@@ -347,7 +347,7 @@ export default function GalleryHero() {
           {/* Navigation Buttons */}
           <>
             <button
-              onClick={() => window.location.href = '/text-page'}
+              onClick={() => openUrl('/text-page')}
               style={{
                 position: 'absolute',
                 top: '20px',
@@ -370,7 +370,7 @@ export default function GalleryHero() {
               T
             </button>
             <button
-              onClick={() => window.location.href = '/gallery-hero-2'}
+              onClick={() => openUrl('/gallery-hero-2')}
               style={{
                 position: 'absolute',
                 top: '20px',
@@ -394,17 +394,9 @@ export default function GalleryHero() {
             </button>
           </>
 
-          {/* Invisible "Share" Button Overlay - SAFE AREA AWARE */}
+          {/* Clean MiniKit Share Button - No Direct Event Handlers */}
           <button
             onClick={handleShare}
-            onTouchStart={(e) => {
-              e.stopPropagation(); // Prevent container touch handlers from interfering
-              console.log('👆 Touch start on SHARE button');
-            }}
-            onTouchEnd={(e) => {
-              e.stopPropagation(); // Prevent container touch handlers from interfering
-              console.log('👆 Touch end on SHARE button');
-            }}
             style={{
               position: 'absolute',
               left: `calc(89.4% - ${safeArea.right}px)`, // Adjust for right safe area
