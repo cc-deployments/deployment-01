@@ -176,8 +176,6 @@ export default function TextPage() {
         style={{
           position: 'relative',
           backgroundColor: '#000',
-          border: '8px solid blue !important', // Force blue border around container edge
-          outline: '4px solid red', // Additional red outline for debugging
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
       >
@@ -198,16 +196,31 @@ export default function TextPage() {
             priority
           />
           
-          {/* Clean MiniKit Button - No Direct Event Handlers */}
+          {/* Dynamic MiniKit Button - Uses Cloudflare API */}
           <button
-            onClick={() => {
+            onClick={async () => {
               console.log('🚀 UNLOCK THE RIDE button clicked');
-              // Use MiniKit hook for URL opening
-              openUrl('https://manifold.xyz/@carculture');
+              try {
+                // Fetch dynamic URL from Cloudflare API
+                const response = await fetch('https://ccult.carculture-com.workers.dev/api/cars/active');
+                const activeCar = await response.json();
+                
+                if (activeCar && activeCar.mint_url) {
+                  console.log('✅ Got dynamic URL:', activeCar.mint_url);
+                  openUrl(activeCar.mint_url);
+                } else {
+                  console.log('⚠️ No active car found, using fallback URL');
+                  openUrl('https://app.manifold.xyz/c/light-bulb-moment');
+                }
+              } catch (error) {
+                console.error('❌ Error fetching dynamic URL:', error);
+                // Fallback to default URL
+                openUrl('https://app.manifold.xyz/c/light-bulb-moment');
+              }
             }}
             style={{
               position: 'absolute',
-              top: '850px', // Y=1550 from top (2400-1550=850px from top)
+              top: '1550px', // Exact pixel height 1550 from top
               left: '50%',
               transform: 'translateX(-50%)',
               width: '60%', // Wider - increased from 40%
