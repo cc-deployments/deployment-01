@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { useOpenUrl, useComposeCast } from '@coinbase/onchainkit/minikit';
@@ -20,7 +20,7 @@ export default function GalleryHero() {
   console.log('🔍 composeCast available:', !!composeCast);
   
   // State management for splash screen timing
-  const [imageLoaded, setImageLoaded] = useState(false);
+  // const [imageLoaded, setImageLoaded] = useState(false); // Removed unused state
   // const [sdkReady, setSdkReady] = useState(false); // Temporarily removed
 
   // Simple sharing using MiniKit's useComposeCast (works universally)
@@ -142,16 +142,17 @@ export default function GalleryHero() {
   // Show loading state while safe area is being determined
   if (isLoading) {
     return (
-      <div       style={{
-        width: '100vw',
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#000',
-        color: '#fff'
-      }}
-    >
+      <div
+        style={{
+          width: '100vw',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#000',
+          color: '#fff'
+        }}
+      >
         Loading...
       </div>
     );
@@ -197,7 +198,6 @@ export default function GalleryHero() {
           }}
           onLoad={() => {
             console.log('✅ Image loaded successfully');
-            setImageLoaded(true);
           }}
         />
         
