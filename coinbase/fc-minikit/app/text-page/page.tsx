@@ -184,6 +184,10 @@ export default function TextPage() {
         style={{
           position: 'relative',
           backgroundColor: '#000',
+          border: '2px solid blue',
+          width: '100%',
+          height: '100vh', // Fixed viewport height instead of auto
+          overflow: 'hidden', // Prevent scrolling
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
       >
@@ -196,8 +200,7 @@ export default function TextPage() {
             height={2400}
             style={{ 
               width: '100%', 
-              height: 'auto', 
-              aspectRatio: '1260 / 2400', 
+              height: '100%', // Fill container height
               objectFit: 'cover', 
               display: 'block',
             }}
