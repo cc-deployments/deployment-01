@@ -240,16 +240,18 @@ const result = await sendBroadcastNotification(
 
 ### **Navigation Flow:**
 ```
-Gallery Hero → Text Page → Gallery Hero 2 → Manifold Gallery (redirect)
+Gallery Hero → Text Page → Manifold Gallery (redirect)
      ↓
 Social Identity (wallet connection)
 ```
 
 ### **Swipe Navigation:**
-- **Gallery Hero:** Swipe Up → Text Page, Swipe Down → No action (first page)
-- **Text Page:** Swipe Up → Manifold Gallery, Swipe Down → Gallery Hero 2
-- **Gallery Hero 2:** Swipe Up → Next page, Swipe Down → Text Page
-- **Tap Buttons:** Direct navigation to specific pages
+- **Swipe Up:** Navigate to next page in sequence
+- **Swipe Down:** Navigate to previous page
+- **Tap Buttons:** Direct navigation 
+-----from gallery-hero-2 to Manifold Mint (Dynamic API on Cloudflare to most recent mint)
+-----UNLOCK THE RIDE button refers to Manifold Mint (Dynamic API on Cloudflare to most recent mint)
+-----SHARE BUTTON on gallery-hero allows sharing app with another user using minikit hooks
 
 ## 🔧 **TECHNICAL ARCHITECTURE**
 
