@@ -229,8 +229,8 @@ export default function GalleryHero() {
               fontWeight: 'bold',
             }}
             onClick={() => {
-              console.log('🎯 Share button clicked - using MiniKit sharing');
-              // MiniKit will automatically handle sharing in the appropriate environment
+              console.log('🎯 Share button clicked - using MiniKit openUrl');
+              openUrl('/share');
             }}
           >
             SHARE

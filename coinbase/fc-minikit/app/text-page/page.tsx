@@ -229,11 +229,11 @@ export default function TextPage() {
             }}
             style={{
               position: 'absolute',
-              top: '1532.5px', // Center at y=1550px (1550 - 35/2 = 1532.5)
-              left: '630px', // Center at x=630px
+              top: '65%', // Responsive positioning - center of lower portion
+              left: '50%', // Center horizontally
               transform: 'translateX(-50%)', // Centers the button horizontally
-              width: '60%', // Wider - increased from 40%
-              height: '35px', // Slightly taller - increased from 25px
+              width: '60%', // Responsive width
+              height: '35px', // Fixed height
               backgroundColor: 'rgba(255, 0, 0, 0.3)',
               border: '2px solid red',
               borderRadius: '8px',
