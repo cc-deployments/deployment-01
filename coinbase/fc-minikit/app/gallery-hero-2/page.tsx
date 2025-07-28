@@ -164,11 +164,15 @@ export default function GalleryHero2() {
         className="gallery-hero-container"
         style={{
           position: 'relative',
-          cursor: 'grab', // Add cursor to show it's interactive
+          backgroundColor: '#000',
+          border: '2px solid blue',
+          width: '100%',
+          height: '100vh', // Fixed viewport height to match gallery-hero
+          overflow: 'hidden', // Prevent scrolling
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
       >
-        {/* Image area - Responsive container */}
+        {/* Image area - Full container height */}
         <div className="gallery-hero-image-container">
           <Image
             src="/carmania-gallery-hero-2.png"
@@ -177,8 +181,7 @@ export default function GalleryHero2() {
             height={2400}
             style={{ 
               width: '100%', 
-              height: 'auto', 
-              aspectRatio: '1260 / 2400', 
+              height: '100%', // Fill container height to match gallery-hero
               objectFit: 'cover', 
               display: 'block',
             }}
@@ -186,27 +189,78 @@ export default function GalleryHero2() {
             onLoad={() => setImageLoaded(true)}
           />
           
-          {/* Clean MiniKit Button - No Direct Event Handlers */}
-          <button
-            onClick={() => {
-              console.log('🚗 Unlock Ride clicked!');
-              // Use MiniKit hook for URL opening
-              openUrl('https://app.manifold.xyz/c/light-bulb-moment');
-            }}
+          {/* "Unlock the Ride" Button - VISIBLE like gallery-hero */}
+          <div
             style={{
               position: 'absolute',
               left: '50%',
-              top: `calc(63.6% - ${safeArea.bottom}px)`, // Adjust for bottom safe area
-              transform: 'translateX(-50%)', // Centers the button horizontally
-              width: '24%', // Approximately 300px / 1260px = 24%
-              height: '2%', // Approximately 50px / 2400px = 2%
-              background: 'transparent', // Invisible background
-              border: 'none', // No border
+              top: '75%',
+              transform: 'translateX(-50%)',
+              width: '50%',
+              height: '35px',
+              backgroundColor: 'rgba(255, 0, 0, 0.3)',
+              border: '2px solid red',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '14px',
+              fontWeight: 'bold',
+              color: 'white',
               cursor: 'pointer',
-              zIndex: 20,
+              zIndex: 1000,
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
+              MozUserSelect: 'none',
+              msUserSelect: 'none',
+              pointerEvents: 'auto',
             }}
-            title="Unlock the Ride"
-          />
+            onClick={() => {
+              console.log('🚗 Unlock the Ride clicked - using MiniKit openUrl');
+              openUrl('https://app.manifold.xyz/c/light-bulb-moment');
+            }}
+          >
+            Unlock the Ride
+          </div>
+
+          {/* Share Button - ADDED to match gallery-hero */}
+          <div
+            style={{
+              position: 'absolute',
+              right: '10px',
+              top: '75.3%',
+              width: '80px',
+              height: '50px',
+              backgroundColor: 'rgba(0, 255, 0, 0.8)',
+              border: '3px solid green',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              zIndex: 1001,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '12px',
+              color: 'white',
+              fontWeight: 'bold',
+              boxShadow: '0 0 10px rgba(0, 255, 0, 0.5)',
+            }}
+            onClick={() => {
+              console.log('🔴 SHARE BUTTON CLICKED - TEST');
+              // Add visual feedback
+              const button = event?.currentTarget as HTMLElement;
+              if (button) {
+                button.style.backgroundColor = 'rgba(255, 255, 0, 0.8)';
+                button.style.border = '3px solid yellow';
+                setTimeout(() => {
+                  button.style.backgroundColor = 'rgba(0, 255, 0, 0.8)';
+                  button.style.border = '3px solid green';
+                }, 200);
+              }
+              openUrl('/share');
+            }}
+          >
+            SHARE
+          </div>
         </div>
       </div>
     </>

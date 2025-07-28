@@ -257,6 +257,44 @@ Social Identity (wallet connection)
 Gallery Hero → Text Page → Gallery Hero 2 → Manifold Gallery (redirect)
 ```
 
+## 🎨 **CONTAINER SCALING STRATEGY (2025-07-28)**
+
+### **Recommended Approach: FIXED Aspect Ratio Images**
+
+**Decision:** Use FIXED aspect ratio images instead of STRETCHED images for better desktop compatibility and artwork preservation.
+
+#### **Why FIXED is Better:**
+- **✅ Artwork Preservation**: No distortion of car images
+- **✅ Desktop Compatibility**: BASE app on desktop will show proper proportions
+- **✅ Professional Quality**: Maintains design integrity across all devices
+- **✅ Consistent Experience**: Same visual quality on mobile and desktop
+
+#### **Current vs Recommended:**
+
+**Current (STRETCHED - BAD for Desktop):**
+```css
+height: '100%'  /* Stretches image to fill container */
+objectFit: 'cover'  /* Crops/distorts to fit */
+```
+
+**Recommended (FIXED - GOOD for Desktop):**
+```css
+height: 'auto'  /* Maintains aspect ratio */
+aspectRatio: '1260 / 2400'  /* Fixed proportions */
+objectFit: 'contain'  /* No distortion */
+```
+
+#### **Button Positioning Impact:**
+- **✅ Buttons stay in same relative positions** (75%, 75.3%, 63%)
+- **✅ No button repositioning needed**
+- **✅ Consistent touch targets across devices**
+
+#### **Implementation Plan:**
+1. **Update all three pages** to use FIXED aspect ratio
+2. **Maintain button positions** as they are
+3. **Test on both mobile and desktop** BASE app
+4. **Ensure consistent container sizing** across all pages
+
 ## 🔧 **TECHNICAL ARCHITECTURE**
 
 ### **Frontend Stack:**
