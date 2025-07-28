@@ -137,9 +137,9 @@ export default function GalleryHero() {
       console.log('➡️ Swipe right detected');
     },
     trackMouse: true,
-    delta: 10, // Even more sensitive detection
-    swipeDuration: 200, // Faster response
-    preventScrollOnSwipe: true, // Prevent scroll interference
+    delta: 50, // Standard sensitivity
+    swipeDuration: 500, // Standard duration
+    preventScrollOnSwipe: false, // Allow normal scrolling
     trackTouch: true, // Ensure touch events are tracked
     rotationAngle: 0, // No rotation angle restriction
   });
@@ -289,16 +289,19 @@ export default function GalleryHero() {
           width: '100%',
           height: 'auto',
           minHeight: '100vh',
-          touchAction: 'none', // Disable default touch actions to allow swipe detection
-          overflow: 'visible', // Ensure content is not clipped
         }}
-        onMouseDown={() => console.log('🖱️ Mouse down detected')}
-        onTouchStart={() => console.log('👆 Touch start detected')}
-        onTouchMove={() => console.log('👆 Touch move detected')}
-        onTouchEnd={() => console.log('👆 Touch end detected')}
       >
         {/* Image area - Responsive container with 1260×2400 ratio */}
-        <div className="gallery-hero-image-container">
+        <div 
+          className="gallery-hero-image-container"
+          style={{
+            backgroundColor: '#000', // Fallback background
+            width: '100%',
+            height: 'auto',
+            aspectRatio: '1260 / 2400',
+            position: 'relative',
+          }}
+        >
           <Image
             src="/carmania-gallery-hero.png"
             alt="Gallery Hero"
@@ -312,11 +315,18 @@ export default function GalleryHero() {
               display: 'block',
             }}
             priority
-            unoptimized={true} // Force unoptimized for Vercel production
             onError={(e) => {
               console.error('❌ Image failed to load:', e);
-              // Fallback to a different image or background color
-              e.currentTarget.style.display = 'none';
+              // Try fallback image
+              const img = e.currentTarget as HTMLImageElement;
+              if (img.src !== '/hero-v2.png') {
+                console.log('🔄 Trying fallback image...');
+                img.src = '/hero-v2.png';
+              } else {
+                // If fallback also fails, hide image and show background
+                img.style.display = 'none';
+                console.log('❌ All images failed, showing background only');
+              }
             }}
             onLoad={() => {
               console.log('✅ Image loaded successfully');
