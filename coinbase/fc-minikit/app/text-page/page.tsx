@@ -329,7 +329,7 @@ export default function TextPage() {
             }}
             style={{
               position: 'absolute',
-              bottom: '40.5%', // Moved down by button height (35px = ~1.5%) from 42%
+              top: '850px', // Y=1550 from top (2400-1550=850px from top)
               left: '50%',
               transform: 'translateX(-50%)',
               width: '60%', // Wider - increased from 40%
