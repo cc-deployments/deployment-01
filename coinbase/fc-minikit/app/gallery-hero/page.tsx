@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { useOpenUrl, useComposeCast } from '@coinbase/onchainkit/minikit';
 import { useSafeArea } from '../hooks/useSafeArea'; // Import the safe area hook
-import { sdk } from '@farcaster/miniapp-sdk';
 import { useMiniKit } from '@coinbase/onchainkit/minikit'; // Import useMiniKit
 
 export default function GalleryHero() {
@@ -19,8 +18,7 @@ export default function GalleryHero() {
   console.log('🔍 Frame context available:', !!context);
   console.log('🔍 composeCast available:', !!composeCast);
   
-  // State management for SDK initialization
-  const [sdkReady, setSdkReady] = useState(false);
+
 
   // Simple sharing using MiniKit's useComposeCast (works universally)
   const handleShare = () => {
@@ -54,43 +52,16 @@ export default function GalleryHero() {
     }
   };
 
-  // Call sdk.actions.ready() immediately when component mounts
+  // Use MiniKit's setFrameReady with disableNativeGestures for mobile touch support
+  const { setFrameReady, isFrameReady } = useMiniKit();
+
   useEffect(() => {
-    const initializeSDK = async () => {
-      if (!sdkReady) {
-        try {
-          console.log('📞 Calling sdk.actions.ready() immediately...');
-          // CRITICAL: Call sdk.actions.ready() to dismiss the splash screen
-          await sdk.actions.ready();
-          console.log('✅ sdk.actions.ready() called successfully');
-          setSdkReady(true);
-          
-        } catch (error) {
-          console.error('❌ Error initializing interface:', error);
-        }
-      }
-    };
-
-    // Call immediately without waiting for safe area
-    initializeSDK();
-  }, [sdkReady]);
-
-  // Fallback: Call sdk.actions.ready() after a timeout if it hasn't been called yet
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (!sdkReady) {
-        console.log('⏰ Timeout reached - calling sdk.actions.ready() as fallback...');
-        sdk.actions.ready().then(() => {
-          console.log('✅ sdk.actions.ready() called successfully via fallback');
-          setSdkReady(true);
-        }).catch((error) => {
-          console.error('❌ Fallback sdk.actions.ready() failed:', error);
-        });
-      }
-    }, 3000); // 3 second timeout
-
-    return () => clearTimeout(timeout);
-  }, [sdkReady]);
+    if (!isFrameReady) {
+      console.log('📱 Setting frame ready with disableNativeGestures for mobile touch support...');
+      setFrameReady({ disableNativeGestures: true });
+      console.log('✅ Frame ready set with disableNativeGestures');
+    }
+  }, [setFrameReady, isFrameReady]);
 
   // REMOVED: Frame readiness logic - we're using custom buttons instead
 
