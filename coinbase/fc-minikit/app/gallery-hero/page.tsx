@@ -287,9 +287,10 @@ export default function GalleryHero() {
           backgroundColor: '#000',
           border: '2px solid blue', // Debug container border
           width: '100%',
-          height: '100%',
+          height: 'auto',
           minHeight: '100vh',
           touchAction: 'none', // Disable default touch actions to allow swipe detection
+          overflow: 'visible', // Ensure content is not clipped
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
         onTouchStart={() => console.log('👆 Touch start detected')}
@@ -327,7 +328,7 @@ export default function GalleryHero() {
             onClick={handleUnlockRide}
             style={{
               position: 'absolute',
-              bottom: '22%', // Moved up by ~10px from 20%
+              bottom: '35%', // Moved up significantly to avoid overflow
               left: '50%',
               transform: 'translateX(-50%)',
               width: '60%', // Wider - increased from 40%
