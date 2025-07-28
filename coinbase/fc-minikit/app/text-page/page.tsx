@@ -194,8 +194,6 @@ export default function TextPage() {
               aspectRatio: '1260 / 2400', 
               objectFit: 'cover', 
               display: 'block',
-              // Ensure image respects safe areas
-              maxHeight: `calc(100vh - ${safeArea.top + safeArea.bottom}px)`
             }}
             priority
           />
