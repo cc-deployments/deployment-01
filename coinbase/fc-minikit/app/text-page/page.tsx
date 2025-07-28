@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { sdk } from '@farcaster/miniapp-sdk';
@@ -11,37 +11,45 @@ export default function TextPage() {
   const { safeArea, isLoading } = useSafeArea();
   const openUrl = useOpenUrl(); // Use BASE AI's recommended hook for URL opening
   const { setFrameReady, isFrameReady } = useMiniKit(); // Add MiniKit context
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [sdkReady, setSdkReady] = useState(false);
 
+  // Call sdk.actions.ready() only after image is loaded and safe area is determined
   useEffect(() => {
     const initializeSDK = async () => {
-      try {
-        console.log('📞 Calling sdk.actions.ready() immediately...');
-        await sdk.actions.ready();
-        console.log('✅ sdk.actions.ready() called successfully');
-        
-        // Get SDK context for environment detection
-        const context = await sdk.context;
-        const baseAppStatus = context?.client?.clientFid === 309857;
-        console.log('📍 Is in Base App:', baseAppStatus);
-        
-      } catch (error) {
-        console.error('❌ Error initializing SDK:', error);
-        
-        // Fallback: try again after a delay
-        setTimeout(async () => {
-          try {
-            console.log('🔄 Fallback: calling sdk.actions.ready()...');
-            await sdk.actions.ready();
-            console.log('✅ Fallback sdk.actions.ready() successful');
-          } catch (fallbackError) {
-            console.error('❌ Fallback also failed:', fallbackError);
-          }
-        }, 1000);
+      // Wait for both image to load AND safe area to be determined
+      if (imageLoaded && !isLoading && !sdkReady) {
+        try {
+          console.log('📞 Calling sdk.actions.ready() - interface is ready...');
+          await sdk.actions.ready();
+          console.log('✅ sdk.actions.ready() called successfully');
+          setSdkReady(true);
+          
+          // Get SDK context for environment detection
+          const context = await sdk.context;
+          const baseAppStatus = context?.client?.clientFid === 309857;
+          console.log('📍 Is in Base App:', baseAppStatus);
+          
+        } catch (error) {
+          console.error('❌ Error initializing SDK:', error);
+          
+          // Fallback: try again after a delay
+          setTimeout(async () => {
+            try {
+              console.log('🔄 Fallback: calling sdk.actions.ready()...');
+              await sdk.actions.ready();
+              console.log('✅ Fallback sdk.actions.ready() successful');
+              setSdkReady(true);
+            } catch (fallbackError) {
+              console.error('❌ Fallback also failed:', fallbackError);
+            }
+          }, 1000);
+        }
       }
     };
 
     initializeSDK();
-  }, []);
+  }, [imageLoaded, isLoading, sdkReady]);
 
   // Add frame readiness logic as recommended by BASE AI
   useEffect(() => {
@@ -194,6 +202,7 @@ export default function TextPage() {
               display: 'block',
             }}
             priority
+            onLoad={() => setImageLoaded(true)}
           />
           
           {/* Dynamic MiniKit Button - Uses Cloudflare API */}

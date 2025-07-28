@@ -11,10 +11,6 @@ function FarcasterContextProvider({ children }: { children: ReactNode }) {
       try {
         console.log('🔧 Initializing Farcaster SDK context...');
         
-        // Call ready() to dismiss splash screen
-        await sdk.actions.ready();
-        console.log('✅ SDK ready() called successfully');
-        
         // Get the context (it's async)
         const sdkContext = await sdk.context;
         console.log('📋 Farcaster SDK Context:', sdkContext);
