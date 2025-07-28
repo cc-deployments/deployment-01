@@ -137,8 +137,8 @@ export default function GalleryHero() {
       console.log('➡️ Swipe right detected');
     },
     trackMouse: true,
-    delta: 20, // Reduced delta for more sensitive detection
-    swipeDuration: 300, // Reduced duration for faster response
+    delta: 10, // Even more sensitive detection
+    swipeDuration: 200, // Faster response
     preventScrollOnSwipe: true, // Prevent scroll interference
     trackTouch: true, // Ensure touch events are tracked
     rotationAngle: 0, // No rotation angle restriction
@@ -286,8 +286,15 @@ export default function GalleryHero() {
           position: 'relative',
           backgroundColor: '#000',
           border: '2px solid blue', // Debug container border
+          width: '100%',
+          height: '100%',
+          minHeight: '100vh',
+          touchAction: 'none', // Disable default touch actions to allow swipe detection
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
+        onTouchStart={() => console.log('👆 Touch start detected')}
+        onTouchMove={() => console.log('👆 Touch move detected')}
+        onTouchEnd={() => console.log('👆 Touch end detected')}
       >
         {/* Image area - Responsive container with 1260×2400 ratio */}
         <div className="gallery-hero-image-container">

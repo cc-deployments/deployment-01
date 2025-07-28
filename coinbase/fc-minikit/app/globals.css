@@ -57,7 +57,7 @@ body {
   border-radius: 8px;
   /* Remove cursor and touch-action to allow button interactions */
   cursor: default;
-  touch-action: manipulation;
+  touch-action: none; /* Allow swipe detection */
   /* Remove height constraints to show full content */
   min-height: auto;
   max-height: none;
