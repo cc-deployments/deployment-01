@@ -90,7 +90,7 @@ export default function GalleryHero() {
         openUrl('/text-page');
       }
     }
-  }, []);
+  }, [openUrl]);
 
   useEffect(() => {
     console.log('🎧 Setting up keyboard event listener');

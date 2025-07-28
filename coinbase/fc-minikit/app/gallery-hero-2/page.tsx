@@ -68,7 +68,7 @@ export default function GalleryHero2() {
         window.location.href = '/gallery-hero';
       }
     }
-  }, []);
+  }, [openUrl]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);

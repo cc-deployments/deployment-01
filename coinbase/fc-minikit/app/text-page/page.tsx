@@ -79,7 +79,7 @@ export default function TextPage() {
         window.location.href = '/gallery-hero-2';
       }
     }
-  }, []);
+  }, [openUrl]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
