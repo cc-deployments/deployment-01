@@ -278,7 +278,7 @@ export default function TextPage() {
         style={{
           position: 'relative',
           backgroundColor: '#000',
-          border: '2px solid green', // Debug container border
+          border: '4px solid blue', // Blue border around container edge
         }}
         onMouseDown={() => console.log('🖱️ Mouse down detected')}
         onTouchStart={onTouchStart}

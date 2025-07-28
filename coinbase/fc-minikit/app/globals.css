@@ -50,7 +50,7 @@ body {
   aspect-ratio: 1260 / 2400;
   margin: 0 auto;
   background: transparent;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   border: 1px solid #ccc;
