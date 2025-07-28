@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { useOpenUrl, useMiniKit } from '@coinbase/onchainkit/minikit';
 import { useSafeArea } from '../hooks/useSafeArea'; // Import the safe area hook
+import { sdk } from '@farcaster/miniapp-sdk';
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea(); // Use the safe area hook
@@ -20,9 +21,9 @@ export default function GalleryHero() {
       if (imageLoaded && !isLoading && !sdkReady) {
         try {
           console.log('📞 Calling sdk.actions.ready() - interface is ready...');
-          // Use MiniKit's ready() method instead of direct SDK call
-          // MiniKit will handle the ready() call internally
-          console.log('✅ Interface ready - MiniKit will handle splash screen dismissal');
+          // CRITICAL: Call sdk.actions.ready() to dismiss the splash screen
+          await sdk.actions.ready();
+          console.log('✅ sdk.actions.ready() called successfully');
           setSdkReady(true);
           
         } catch (error) {
