@@ -220,9 +220,9 @@ export default function TextPage() {
             }}
             style={{
               position: 'absolute',
-              top: '1550px', // Exact pixel height 1550 from top
-              left: '50%',
-              transform: 'translateX(-50%)',
+              top: '1532.5px', // Center at y=1550px (1550 - 35/2 = 1532.5)
+              left: '630px', // Center at x=630px
+              transform: 'translateX(-50%)', // Centers the button horizontally
               width: '60%', // Wider - increased from 40%
               height: '35px', // Slightly taller - increased from 25px
               backgroundColor: 'rgba(255, 0, 0, 0.3)',
@@ -244,6 +244,56 @@ export default function TextPage() {
             }}
             title="Unlock the Ride"
           />
+
+          {/* Navigation Buttons for Mobile UX */}
+          <>
+            <button
+              onClick={() => openUrl('/gallery-hero')}
+              style={{
+                position: 'absolute',
+                top: '20px',
+                left: '20px',
+                width: '40px',
+                height: '40px',
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                border: 'none',
+                borderRadius: '50%',
+                color: 'white',
+                fontSize: '12px',
+                cursor: 'pointer',
+                zIndex: 1001,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              title="Go to Gallery Hero"
+            >
+              GH
+            </button>
+            <button
+              onClick={() => openUrl('/gallery-hero-2')}
+              style={{
+                position: 'absolute',
+                top: '20px',
+                right: '20px',
+                width: '40px',
+                height: '40px',
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                border: 'none',
+                borderRadius: '50%',
+                color: 'white',
+                fontSize: '12px',
+                cursor: 'pointer',
+                zIndex: 1001,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              title="Go to Gallery Hero 2"
+            >
+              G2
+            </button>
+          </>
         </div>
       </div>
     </>
