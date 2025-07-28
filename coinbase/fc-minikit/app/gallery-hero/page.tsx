@@ -355,20 +355,9 @@ export default function GalleryHero() {
           {/* Invisible "Unlock the Ride" Button Overlay - SAFE AREA AWARE */}
           <button
             onClick={handleUnlockRide}
-            onTouchStart={(e) => {
-              e.stopPropagation();
-              console.log('👆 Touch start on UNLOCK button - FUNCTION CALLED');
-              console.log('📍 Touch coordinates:', e.touches[0].clientX, e.touches[0].clientY);
-              console.log('🎯 Button element:', e.currentTarget);
-            }}
-            onTouchEnd={(e) => {
-              e.stopPropagation();
-              console.log('👆 Touch end on UNLOCK button - FUNCTION CALLED');
-              console.log('📍 Touch coordinates:', e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-            }}
             style={{
               position: 'absolute',
-              bottom: '30%', // Move up from 20%
+              bottom: '20%', // Move down from 30%
               left: '50%',
               transform: 'translateX(-50%)',
               width: '60%', // Wider - increased from 40%

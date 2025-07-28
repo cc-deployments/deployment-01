@@ -208,14 +208,6 @@ export default function GalleryHero2() {
                 openUrl(fallbackUrl);
               }
             }}
-            onTouchStart={(e) => {
-              e.stopPropagation(); // Prevent container touch handlers from interfering
-              console.log('👆 Touch start on UNLOCK button');
-            }}
-            onTouchEnd={(e) => {
-              e.stopPropagation(); // Prevent container touch handlers from interfering
-              console.log('👆 Touch end on UNLOCK button');
-            }}
             style={{
               position: 'absolute',
               left: '50%',

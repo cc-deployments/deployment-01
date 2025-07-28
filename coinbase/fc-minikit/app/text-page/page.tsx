@@ -327,20 +327,9 @@ export default function TextPage() {
                 openUrl('https://manifold.xyz/@carculture');
               }
             }}
-            onTouchStart={(e) => {
-              e.stopPropagation();
-              console.log('👆 Touch start on UNLOCK button - FUNCTION CALLED');
-              console.log('📍 Touch coordinates:', e.touches[0].clientX, e.touches[0].clientY);
-              console.log('🎯 Button element:', e.currentTarget);
-            }}
-            onTouchEnd={(e) => {
-              e.stopPropagation();
-              console.log('👆 Touch end on UNLOCK button - FUNCTION CALLED');
-              console.log('📍 Touch coordinates:', e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-            }}
             style={{
               position: 'absolute',
-              bottom: '40%', // Move up from 35%
+              bottom: '30%', // Move down from 40%
               left: '50%',
               transform: 'translateX(-50%)',
               width: '60%', // Wider - increased from 40%
