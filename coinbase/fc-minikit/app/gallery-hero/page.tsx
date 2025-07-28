@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { useOpenUrl, useComposeCast } from '@coinbase/onchainkit/minikit';
 import { useSafeArea } from '../hooks/useSafeArea'; // Import the safe area hook
-// import { sdk } from '@farcaster/miniapp-sdk'; // Temporarily removed to fix black screen
+import { sdk } from '@farcaster/miniapp-sdk';
 import { useMiniKit } from '@coinbase/onchainkit/minikit'; // Import useMiniKit
 
 export default function GalleryHero() {
@@ -20,8 +20,8 @@ export default function GalleryHero() {
   console.log('🔍 composeCast available:', !!composeCast);
   
   // State management for splash screen timing
-  // const [imageLoaded, setImageLoaded] = useState(false); // Removed unused state
-  // const [sdkReady, setSdkReady] = useState(false); // Temporarily removed
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [sdkReady, setSdkReady] = useState(false);
 
   // Simple sharing using MiniKit's useComposeCast (works universally)
   const handleShare = () => {
@@ -55,22 +55,43 @@ export default function GalleryHero() {
     }
   };
 
-  // Temporarily removed SDK initialization to fix black screen
-  // useEffect(() => {
-  //   const initializeSDK = async () => {
-  //     if (imageLoaded && !isLoading && !sdkReady) {
-  //       try {
-  //         console.log('📞 Calling sdk.actions.ready() - interface is ready...');
-  //         await sdk.actions.ready();
-  //         console.log('✅ sdk.actions.ready() called successfully');
-  //         setSdkReady(true);
-  //       } catch (error) {
-  //         console.error('❌ Error initializing interface:', error);
-  //       }
-  //     }
-  //   };
-  //   initializeSDK();
-  // }, [imageLoaded, isLoading, sdkReady]);
+  // Call sdk.actions.ready() when interface is ready (with fallback)
+  useEffect(() => {
+    const initializeSDK = async () => {
+      // Call sdk.actions.ready() when safe area is determined, regardless of image loading
+      if (!isLoading && !sdkReady) {
+        try {
+          console.log('📞 Calling sdk.actions.ready() - interface is ready...');
+          // CRITICAL: Call sdk.actions.ready() to dismiss the splash screen
+          await sdk.actions.ready();
+          console.log('✅ sdk.actions.ready() called successfully');
+          setSdkReady(true);
+          
+        } catch (error) {
+          console.error('❌ Error initializing interface:', error);
+        }
+      }
+    };
+
+    initializeSDK();
+  }, [isLoading, sdkReady]);
+
+  // Fallback: Call sdk.actions.ready() after a timeout if it hasn't been called yet
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!sdkReady) {
+        console.log('⏰ Timeout reached - calling sdk.actions.ready() as fallback...');
+        sdk.actions.ready().then(() => {
+          console.log('✅ sdk.actions.ready() called successfully via fallback');
+          setSdkReady(true);
+        }).catch((error) => {
+          console.error('❌ Fallback sdk.actions.ready() failed:', error);
+        });
+      }
+    }, 3000); // 3 second timeout
+
+    return () => clearTimeout(timeout);
+  }, [sdkReady]);
 
   // REMOVED: Frame readiness logic - we're using custom buttons instead
 
@@ -142,17 +163,15 @@ export default function GalleryHero() {
   // Show loading state while safe area is being determined
   if (isLoading) {
     return (
-      <div
-        style={{
-          width: '100vw',
-          height: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#000',
-          color: '#fff'
-        }}
-      >
+      <div style={{
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#000',
+        color: '#fff'
+      }}>
         Loading...
       </div>
     );
@@ -198,6 +217,7 @@ export default function GalleryHero() {
           }}
           onLoad={() => {
             console.log('✅ Image loaded successfully');
+            setImageLoaded(true);
           }}
         />
         
