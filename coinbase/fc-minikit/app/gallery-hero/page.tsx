@@ -179,7 +179,7 @@ export default function GalleryHero() {
             style={{
               position: 'absolute',
               left: '50%', // Center horizontally within container
-              top: '75%', // Position in lower portion of 2400px height
+              top: '70%', // Moved up to create separation from SHARE button
               transform: 'translateX(-50%)', // Center horizontally
               width: '60%', // 60% of 1260px = ~756px
               height: '35px',
@@ -213,7 +213,7 @@ export default function GalleryHero() {
             style={{
               position: 'absolute',
               right: '20px', // 20px from right edge
-              top: '75.8%', // 1820px / 2400px = 75.8%
+              top: '80%', // Moved down to create separation from UNLOCK button
               width: '80px', // Fixed width
               height: '40px', // Fixed height
               backgroundColor: 'rgba(0, 255, 0, 0.8)', // More visible green overlay
