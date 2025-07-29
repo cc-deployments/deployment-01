@@ -164,10 +164,7 @@ export default function GalleryHero() {
       <div className="gallery-hero-image-container" style={{ 
         width: '100%', 
         height: '100%', 
-        backgroundColor: '#000',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
+        backgroundColor: '#000'
       }}>
         <Image
           src="/carmania-gallery-hero.png"
@@ -176,11 +173,9 @@ export default function GalleryHero() {
           height={2400}
           style={{ 
             width: '100%', 
-            height: 'auto', // FIXED aspect ratio - no distortion
-            aspectRatio: '1260 / 2400', // Fixed proportions
-            objectFit: 'contain', // No cropping/distortion
-            display: 'block',
-            maxHeight: '100%'
+            height: '100%', // Fill the entire container
+            objectFit: 'cover', // Fill the container, may crop edges
+            display: 'block'
           }}
           priority
           unoptimized={true}
