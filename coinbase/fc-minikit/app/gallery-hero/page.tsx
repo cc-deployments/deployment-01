@@ -64,7 +64,14 @@ export default function GalleryHero() {
         } catch (error) {
           console.error('❌ Error initializing SDK:', error);
           
-          // Fallback: try again after a delay
+          // Don't retry on 401 errors - just continue without SDK (BASE AI guidance)
+          if (error instanceof Error && error.message.includes('401')) {
+            console.log('⚠️ 401 Unauthorized error - continuing without SDK initialization (BASE AI Priority 2)');
+            console.log('📱 App will work with basic functionality despite authentication issues');
+            return;
+          }
+          
+          // Fallback: try again after a delay (BASE AI fallback behavior)
           setTimeout(async () => {
             try {
               console.log('🔄 Fallback: calling sdk.actions.ready({ disableNativeGestures: true })...');
@@ -72,6 +79,8 @@ export default function GalleryHero() {
               console.log('✅ Fallback SDK ready successful');
             } catch (fallbackError) {
               console.error('❌ Fallback also failed:', fallbackError);
+              console.log('⚠️ Continuing without SDK - app will still work with basic functionality');
+              console.log('📱 This is expected behavior when SDK has authentication issues');
             }
           }, 1000);
         }
