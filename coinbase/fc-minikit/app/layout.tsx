@@ -32,6 +32,11 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
+        {/* Farcaster Mini App Embed Meta Tags */}
+        <meta name="fc:miniapp" content='{"version":"1","imageUrl":"https://web3-social-starter-fc-minikit.vercel.app/og-carmania-hero.png","button":{"title":"🚗 Unlock the Ride","action":{"type":"launch_miniapp","url":"https://web3-social-starter-fc-minikit.vercel.app/gallery-hero","name":"CarCulture: CarMania Garage","splashImageUrl":"https://web3-social-starter-fc-minikit.vercel.app/splash.png","splashBackgroundColor":"#a32428"}}}' />
+        {/* For backward compatibility */}
+        <meta name="fc:frame" content='{"version":"1","imageUrl":"https://web3-social-starter-fc-minikit.vercel.app/og-carmania-hero.png","button":{"title":"🚗 Unlock the Ride","action":{"type":"launch_frame","url":"https://web3-social-starter-fc-minikit.vercel.app/gallery-hero","name":"CarCulture: CarMania Garage","splashImageUrl":"https://web3-social-starter-fc-minikit.vercel.app/splash.png","splashBackgroundColor":"#a32428"}}}' />
       </head>
       <body className={inter.className}>
         <Providers>
