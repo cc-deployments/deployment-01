@@ -2,7 +2,8 @@
 
 import { type ReactNode, useEffect } from "react";
 import { sdk } from '@farcaster/miniapp-sdk';
-import { MiniKitAuthProvider } from '../../../packages/shared-auth/providers/MiniKitAuthProvider';
+import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
+import { base } from 'wagmi/chains';
 
 // Context provider for Farcaster SDK
 function FarcasterContextProvider({ children }: { children: ReactNode }) {
@@ -37,10 +38,13 @@ function FarcasterContextProvider({ children }: { children: ReactNode }) {
 
 export function Providers(props: { children: ReactNode }) {
   return (
-    <MiniKitAuthProvider>
+    <MiniKitProvider
+      apiKey={process.env.NEXT_PUBLIC_CDP_CLIENT_API_KEY}
+      chain={base}
+    >
       <FarcasterContextProvider>
         {props.children}
       </FarcasterContextProvider>
-    </MiniKitAuthProvider>
+    </MiniKitProvider>
   );
 }
