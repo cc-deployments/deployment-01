@@ -132,6 +132,12 @@ This is the main directory containing your CarMania app. All files and folders m
 - **Webhook URL:** Currently set to Neynar webhook (updated in route.ts)
 - **Note:** The `vercel.json` redirect to hosted manifest is inactive/overridden
 
+### **Embed Image Configuration** ✅
+- **Share Image:** `carmania-share.png` (correct image for Farcaster embeds)
+- **Splash Image:** `splash.png` (app launch screen)
+- **Hero Image:** `carmania-gallery-hero.png` (main gallery image)
+- **Background Color:** `#a32428` (CarCulture brand color)
+
 ## ✅ EMBED VALIDATION - RESOLVED (2025-07-20)
 
 ### **Embed Status: VALID** ✅
