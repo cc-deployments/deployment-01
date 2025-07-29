@@ -161,19 +161,27 @@ export default function GalleryHero() {
       onTouchMove={(e) => console.log('👆 Touch move detected:', e.touches.length, 'touches')}
       onTouchEnd={(e) => console.log('👆 Touch end detected:', e.touches.length, 'touches')}
     >
-      <div className="gallery-hero-image-container">
+      <div className="gallery-hero-image-container" style={{ 
+        width: '100%', 
+        height: '100%', 
+        backgroundColor: '#000',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
         <Image
           src="/carmania-gallery-hero.png"
           alt="Gallery Hero"
           width={1260}
           height={2400}
-                      style={{ 
-              width: '100%', 
-              height: 'auto', // FIXED aspect ratio - no distortion
-              aspectRatio: '1260 / 2400', // Fixed proportions
-              objectFit: 'contain', // No cropping/distortion
-              display: 'block',
-            }}
+          style={{ 
+            width: '100%', 
+            height: 'auto', // FIXED aspect ratio - no distortion
+            aspectRatio: '1260 / 2400', // Fixed proportions
+            objectFit: 'contain', // No cropping/distortion
+            display: 'block',
+            maxHeight: '100%'
+          }}
           priority
           unoptimized={true}
           onError={(e) => {
@@ -185,6 +193,11 @@ export default function GalleryHero() {
             } else {
               img.style.display = 'none';
               console.log('❌ All images failed, showing background only');
+              // Add fallback text
+              const container = img.parentElement;
+              if (container) {
+                container.innerHTML = '<div style="color: white; text-align: center; font-size: 24px;">CarMania Gallery</div>';
+              }
             }
           }}
           onLoad={() => {
