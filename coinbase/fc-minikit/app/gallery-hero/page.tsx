@@ -10,14 +10,19 @@ import { useMiniKit } from '@coinbase/onchainkit/minikit'; // Import useMiniKit
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea(); // Use the safe area hook
   const openUrl = useOpenUrl(); // Use MiniKit's openUrl hook
-  const { context, isFrameReady } = useMiniKit(); // Check if we're in Farcaster frame context
+  const { context, isFrameReady, setFrameReady } = useMiniKit(); // Check if we're in Farcaster frame context
   
   console.log('🎨 GalleryHero component rendering...');
   console.log('🔍 Frame context available:', !!context);
   
 
-
-
+  // Fix gesture conflicts by disabling native gestures
+  useEffect(() => {
+    if (!isFrameReady) {
+      console.log('📱 Setting frame ready with disableNativeGestures to prevent conflicts');
+      setFrameReady({ disableNativeGestures: true });
+    }
+  }, [isFrameReady, setFrameReady]);
 
   // Temporarily disable setFrameReady to avoid 401 errors
   useEffect(() => {
