@@ -1,4 +1,5 @@
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { useEffect, useState } from 'react';
 
 export interface SharedAuthState {
   address?: string;
@@ -13,15 +14,23 @@ export function useSharedAuth(): SharedAuthState {
   const { address, isConnected, chainId, connector } = useAccount();
   const { connect } = useConnect();
   const { disconnect } = useDisconnect();
+  const [miniKitContext, setMiniKitContext] = useState<any>(null);
   
-  let miniKitContext;
-  try {
-    // Import useMiniKit only if available
-    const { useMiniKit } = require('@coinbase/onchainkit/minikit');
-    miniKitContext = useMiniKit();
-  } catch {
-    // MiniKit not available in this environment
-  }
+  useEffect(() => {
+    // Use dynamic import instead of require for better webpack compatibility
+    const loadMiniKit = async () => {
+      try {
+        const { useMiniKit } = await import('@coinbase/onchainkit/minikit');
+        const context = useMiniKit();
+        setMiniKitContext(context);
+      } catch (error) {
+        console.log('MiniKit not available in this environment');
+        setMiniKitContext(null);
+      }
+    };
+
+    loadMiniKit();
+  }, []);
   
   return {
     address,
