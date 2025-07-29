@@ -88,3 +88,4 @@ Visit `http://localhost:3000/gallery-hero` to see the app.
 
 The app is deployed on Vercel and configured for Farcaster Mini App compatibility.
 # Force Vercel deployment
+# Force Vercel rebuild - Tue Jul 29 11:56:21 EDT 2025
