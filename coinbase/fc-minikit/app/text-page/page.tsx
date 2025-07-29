@@ -204,55 +204,6 @@ export default function TextPage() {
             priority
             onLoad={() => setImageLoaded(true)}
           />
-          
-          {/* Dynamic MiniKit Button - Uses Cloudflare API */}
-          <button
-            onClick={async () => {
-              console.log('🚀 UNLOCK THE RIDE button clicked');
-              try {
-                // Fetch dynamic URL from Cloudflare API
-                const response = await fetch('https://ccult.carculture-com.workers.dev/api/cars/active');
-                const activeCar = await response.json();
-                
-                if (activeCar && activeCar.mint_url) {
-                  console.log('✅ Got dynamic URL:', activeCar.mint_url);
-                  openUrl(activeCar.mint_url);
-                } else {
-                  console.log('⚠️ No active car found, using fallback URL');
-                  openUrl('https://app.manifold.xyz/c/light-bulb-moment');
-                }
-              } catch (error) {
-                console.error('❌ Error fetching dynamic URL:', error);
-                // Fallback to default URL
-                openUrl('https://app.manifold.xyz/c/light-bulb-moment');
-              }
-            }}
-            style={{
-              position: 'absolute',
-              top: '65%', // Responsive positioning - center of lower portion
-              left: '50%', // Center horizontally
-              transform: 'translateX(-50%)', // Centers the button horizontally
-              width: '60%', // Responsive width
-              height: '35px', // Fixed height
-              backgroundColor: 'rgba(255, 0, 0, 0.3)',
-              border: '2px solid red',
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '14px',
-              fontWeight: 'bold',
-              color: 'white',
-              cursor: 'pointer',
-              zIndex: 1000,
-              userSelect: 'none',
-              WebkitUserSelect: 'none',
-              MozUserSelect: 'none',
-              msUserSelect: 'none',
-              pointerEvents: 'auto',
-            }}
-            title="Unlock the Ride"
-          />
         </div>
       </div>
     </>
