@@ -24,14 +24,6 @@ export default function GalleryHero() {
     }
   }, [isFrameReady, setFrameReady]);
 
-  // Temporarily disable setFrameReady to avoid 401 errors
-  useEffect(() => {
-    if (!isFrameReady) {
-      console.log('📱 Skipping setFrameReady to avoid 401 errors - app will work with basic functionality');
-      console.log('📱 Mobile swipe should still work with react-swipeable');
-    }
-  }, [isFrameReady]);
-
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     console.log('🎹 Key pressed:', event.key);
     

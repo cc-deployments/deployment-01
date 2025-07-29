@@ -3,7 +3,28 @@
 import { type ReactNode, useEffect } from "react";
 import { sdk } from '@farcaster/miniapp-sdk';
 import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
-import { base } from 'wagmi/chains';
+
+// Define Base chain without wagmi import
+const baseChain = {
+  id: 8453,
+  name: 'Base',
+  nativeCurrency: {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://mainnet.base.org'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'BaseScan',
+      url: 'https://basescan.org',
+    },
+  },
+};
 
 // Context provider for Farcaster SDK
 function FarcasterContextProvider({ children }: { children: ReactNode }) {
@@ -40,7 +61,7 @@ export function Providers(props: { children: ReactNode }) {
   return (
     <MiniKitProvider
       apiKey={process.env.NEXT_PUBLIC_CDP_CLIENT_API_KEY || "test-key"}
-      chain={base}
+      chain={baseChain}
     >
       <FarcasterContextProvider>
         {props.children}
