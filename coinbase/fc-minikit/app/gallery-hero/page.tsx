@@ -10,7 +10,7 @@ import { useMiniKit } from '@coinbase/onchainkit/minikit'; // Import useMiniKit
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea(); // Use the safe area hook
   const openUrl = useOpenUrl(); // Use MiniKit's openUrl hook
-  const { context, isFrameReady, setFrameReady } = useMiniKit(); // Check if we're in Farcaster frame context
+  const { context, isFrameReady } = useMiniKit(); // Check if we're in Farcaster frame context
   
   console.log('🎨 GalleryHero component rendering...');
   console.log('🔍 Frame context available:', !!context);
@@ -19,38 +19,13 @@ export default function GalleryHero() {
 
 
 
-  // Use MiniKit's setFrameReady with disableNativeGestures to fix mobile swipe conflicts
+  // Temporarily disable setFrameReady to avoid 401 errors
   useEffect(() => {
     if (!isFrameReady) {
-      try {
-        console.log('📱 Calling setFrameReady({ disableNativeGestures: true }) to fix mobile swipe conflicts...');
-        setFrameReady({ disableNativeGestures: true });
-        console.log('✅ Frame ready with native gestures disabled - mobile swipe should work now');
-      } catch (error) {
-        console.error('❌ Error initializing frame:', error);
-        
-        // Don't retry on 401 errors - just continue without frame initialization (BASE AI guidance)
-        if (error instanceof Error && error.message.includes('401')) {
-          console.log('⚠️ 401 Unauthorized error - continuing without frame initialization (BASE AI Priority 2)');
-          console.log('📱 App will work with basic functionality despite authentication issues');
-          return;
-        }
-        
-        // Fallback: try again after a delay (BASE AI fallback behavior)
-        setTimeout(() => {
-          try {
-            console.log('🔄 Fallback: calling setFrameReady({ disableNativeGestures: true })...');
-            setFrameReady({ disableNativeGestures: true });
-            console.log('✅ Fallback frame ready successful');
-          } catch (fallbackError) {
-            console.error('❌ Fallback also failed:', fallbackError);
-            console.log('⚠️ Continuing without frame - app will still work with basic functionality');
-            console.log('📱 This is expected behavior when frame has authentication issues');
-          }
-        }, 1000);
-      }
+      console.log('📱 Skipping setFrameReady to avoid 401 errors - app will work with basic functionality');
+      console.log('📱 Mobile swipe should still work with react-swipeable');
     }
-  }, [setFrameReady, isFrameReady]);
+  }, [isFrameReady]);
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     console.log('🎹 Key pressed:', event.key);

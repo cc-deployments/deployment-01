@@ -10,7 +10,7 @@ import { useSafeArea } from '../hooks/useSafeArea';
 export default function TextPage() {
   const { safeArea, isLoading } = useSafeArea();
   const openUrl = useOpenUrl(); // Use BASE AI's recommended hook for URL opening
-  const { setFrameReady, isFrameReady } = useMiniKit(); // Add MiniKit context
+  const { isFrameReady } = useMiniKit(); // Add MiniKit context
   const [imageLoaded, setImageLoaded] = useState(false);
   const [sdkReady, setSdkReady] = useState(false);
 
@@ -54,10 +54,9 @@ export default function TextPage() {
   // Add frame readiness logic as recommended by BASE AI
   useEffect(() => {
     if (!isFrameReady) {
-      console.log('🖼️ Setting frame ready for mobile compatibility...');
-      setFrameReady();
+      console.log('📱 Skipping setFrameReady to avoid 401 errors - app will work with basic functionality');
     }
-  }, [setFrameReady, isFrameReady]);
+  }, [isFrameReady]);
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
