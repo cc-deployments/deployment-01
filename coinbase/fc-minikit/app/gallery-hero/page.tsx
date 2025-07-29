@@ -88,17 +88,38 @@ export default function GalleryHero() {
     onSwipedUp: async () => {
       console.log('⬆️ Swipe up detected - navigating to gallery-hero-2 (next page)');
       try {
-        console.log('🌐 Using openUrl for navigation');
-        openUrl('/gallery-hero-2');
+        // Try MiniKit navigation first
+        if (openUrl) {
+          console.log('🌐 Using MiniKit openUrl for navigation');
+          openUrl('/gallery-hero-2');
+        } else {
+          // Fallback to window navigation
+          console.log('🌐 Using window.location for navigation');
+          window.location.href = '/gallery-hero-2';
+        }
       } catch (error) {
         console.error('Navigation error:', error);
-        openUrl('/gallery-hero-2');
+        // Final fallback
+        window.location.href = '/gallery-hero-2';
       }
     },
     onSwipedDown: async () => {
-      console.log('⬇️ Swipe down detected - this is the first page, no previous page');
-      // This is the first page in the sequence, so no previous page to navigate to
-      // Could add haptic feedback or visual indication that this is the first page
+      console.log('⬇️ Swipe down detected - navigating to text-page');
+      try {
+        // Try MiniKit navigation first
+        if (openUrl) {
+          console.log('🌐 Using MiniKit openUrl for navigation');
+          openUrl('/text-page');
+        } else {
+          // Fallback to window navigation
+          console.log('🌐 Using window.location for navigation');
+          window.location.href = '/text-page';
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
+        // Final fallback
+        window.location.href = '/text-page';
+      }
     },
     onSwipedLeft: () => {
       console.log('⬅️ Swipe left detected');

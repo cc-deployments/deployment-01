@@ -63,27 +63,35 @@ export default function TextPage() {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up');
       try {
-        const context = await sdk.context;
-        if (context?.client?.clientFid === 309857) {
-          sdk.actions.openUrl('/manifold-gallery');
+        // Try MiniKit navigation first
+        if (openUrl) {
+          console.log('🌐 Using MiniKit openUrl for navigation');
+          openUrl('/gallery-hero');
         } else {
-          openUrl('/manifold-gallery');
+          // Fallback to window navigation
+          console.log('🌐 Using window.location for navigation');
+          window.location.href = '/gallery-hero';
         }
       } catch (error) {
         console.error('Navigation error:', error);
-        openUrl('/manifold-gallery');
+        // Final fallback
+        window.location.href = '/gallery-hero';
       }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down');
       try {
-        const context = await sdk.context;
-        if (context?.client?.clientFid === 309857) {
-          sdk.actions.openUrl('/gallery-hero-2');
+        // Try MiniKit navigation first
+        if (openUrl) {
+          console.log('🌐 Using MiniKit openUrl for navigation');
+          openUrl('/gallery-hero-2');
         } else {
+          // Fallback to window navigation
+          console.log('🌐 Using window.location for navigation');
           window.location.href = '/gallery-hero-2';
         }
       } catch (error) {
         console.error('Navigation error:', error);
+        // Final fallback
         window.location.href = '/gallery-hero-2';
       }
     }
@@ -108,31 +116,39 @@ export default function TextPage() {
 
   const handlers = useSwipeable({
     onSwipedUp: async () => {
-      console.log('⬆️ Swipe up detected - navigating to manifold-gallery');
+      console.log('⬆️ Swipe up detected - navigating to gallery-hero');
       try {
-        const context = await sdk.context;
-        if (context?.client?.clientFid === 309857) {
-          sdk.actions.openUrl('/manifold-gallery');
+        // Try MiniKit navigation first
+        if (openUrl) {
+          console.log('🌐 Using MiniKit openUrl for navigation');
+          openUrl('/gallery-hero');
         } else {
-          openUrl('/manifold-gallery');
+          // Fallback to window navigation
+          console.log('🌐 Using window.location for navigation');
+          window.location.href = '/gallery-hero';
         }
       } catch (error) {
         console.error('Navigation error:', error);
-        openUrl('/manifold-gallery');
+        // Final fallback
+        window.location.href = '/gallery-hero';
       }
     },
     onSwipedDown: async () => {
       console.log('⬇️ Swipe down detected - navigating to gallery-hero-2');
       try {
-        const context = await sdk.context;
-        if (context?.client?.clientFid === 309857) {
-          sdk.actions.openUrl('/gallery-hero-2');
-        } else {
+        // Try MiniKit navigation first
+        if (openUrl) {
+          console.log('🌐 Using MiniKit openUrl for navigation');
           openUrl('/gallery-hero-2');
+        } else {
+          // Fallback to window navigation
+          console.log('🌐 Using window.location for navigation');
+          window.location.href = '/gallery-hero-2';
         }
       } catch (error) {
         console.error('Navigation error:', error);
-        openUrl('/gallery-hero-2');
+        // Final fallback
+        window.location.href = '/gallery-hero-2';
       }
     },
     onSwipedLeft: () => {
