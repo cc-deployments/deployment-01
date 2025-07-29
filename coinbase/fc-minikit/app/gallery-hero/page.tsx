@@ -4,19 +4,18 @@ import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
 import { useOpenUrl } from '@coinbase/onchainkit/minikit';
-import { useSafeArea } from '../hooks/useSafeArea'; // Import the safe area hook
-import { useMiniKit } from '@coinbase/onchainkit/minikit'; // Import useMiniKit
+import { useSafeArea } from '../hooks/useSafeArea';
+import { useMiniKit } from '@coinbase/onchainkit/minikit';
 
 export default function GalleryHero() {
-  const { safeArea, isLoading } = useSafeArea(); // Use the safe area hook
-  const openUrl = useOpenUrl(); // Use MiniKit's openUrl hook
-  const { context, isFrameReady, setFrameReady } = useMiniKit(); // Check if we're in Farcaster frame context
+  const { safeArea, isLoading } = useSafeArea();
+  const openUrl = useOpenUrl();
+  const { context, isFrameReady, setFrameReady } = useMiniKit();
   
   console.log('🎨 GalleryHero component rendering...');
   console.log('🔍 Frame context available:', !!context);
-  
 
-  // Fix gesture conflicts by disabling native gestures
+  // Set frame ready with disableNativeGestures to prevent conflicts
   useEffect(() => {
     if (!isFrameReady) {
       console.log('📱 Setting frame ready with disableNativeGestures to prevent conflicts');
@@ -26,11 +25,6 @@ export default function GalleryHero() {
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     console.log('🎹 Key pressed:', event.key);
-    
-    // Test: Log any key press to see if event listener is working
-    if (event.key === 'Enter') {
-      console.log('🔍 Enter key detected - event listener is working!');
-    }
     
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up - navigating to gallery-hero-2');
@@ -58,38 +52,32 @@ export default function GalleryHero() {
 
   const handlers = useSwipeable({
     onSwipedUp: async () => {
-      console.log('⬆️ Swipe up detected - navigating to gallery-hero-2 (next page)');
+      console.log('⬆️ Swipe up detected - navigating to gallery-hero-2');
       try {
-        // Try MiniKit navigation first
         if (openUrl) {
           console.log('🌐 Using MiniKit openUrl for navigation');
           openUrl('/gallery-hero-2');
         } else {
-          // Fallback to window navigation
           console.log('🌐 Using window.location for navigation');
           window.location.href = '/gallery-hero-2';
         }
       } catch (error) {
         console.error('Navigation error:', error);
-        // Final fallback
         window.location.href = '/gallery-hero-2';
       }
     },
     onSwipedDown: async () => {
       console.log('⬇️ Swipe down detected - navigating to text-page');
       try {
-        // Try MiniKit navigation first
         if (openUrl) {
           console.log('🌐 Using MiniKit openUrl for navigation');
           openUrl('/text-page');
         } else {
-          // Fallback to window navigation
           console.log('🌐 Using window.location for navigation');
           window.location.href = '/text-page';
         }
       } catch (error) {
         console.error('Navigation error:', error);
-        // Final fallback
         window.location.href = '/text-page';
       }
     },
@@ -106,18 +94,16 @@ export default function GalleryHero() {
       console.log('🔄 Swiping in progress:', eventData);
     },
     trackMouse: true,
-    delta: 30, // More sensitive for mobile
-    swipeDuration: 300, // Faster response
-    preventScrollOnSwipe: true, // Prevent scroll during swipe
-    trackTouch: true, // Ensure touch events are tracked
-    rotationAngle: 0, // No rotation angle restriction
-    touchEventOptions: { passive: false }, // Ensure touch events are captured
+    delta: 50, // Less sensitive for better control
+    swipeDuration: 500, // Slower response for better detection
+    preventScrollOnSwipe: true,
+    trackTouch: true,
+    rotationAngle: 0,
+    touchEventOptions: { passive: false },
   });
 
-  // Debug: Log safe area values
   console.log('📱 Safe area insets:', safeArea);
 
-  // Show loading state while safe area is being determined
   if (isLoading) {
     return (
       <div style={{
@@ -141,23 +127,32 @@ export default function GalleryHero() {
       style={{
         position: 'relative',
         backgroundColor: '#000',
-        border: '2px solid blue',
         width: '100%',
-        height: '100vh', // Fixed viewport height instead of auto
-        overflow: 'hidden', // Prevent scrolling
-        touchAction: 'none', // Disable default touch actions
-        userSelect: 'none', // Prevent text selection during swipe
-        WebkitUserSelect: 'none', // Safari support
-        WebkitTouchCallout: 'none', // Disable callout on long press
+        height: '100vh',
+        overflow: 'hidden',
+        touchAction: 'pan-y', // Allow vertical scrolling for swipe detection
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        WebkitTouchCallout: 'none',
       }}
-      onTouchStart={(e) => console.log('👆 Touch start detected:', e.touches.length, 'touches')}
-      onTouchMove={(e) => console.log('👆 Touch move detected:', e.touches.length, 'touches')}
-      onTouchEnd={(e) => console.log('👆 Touch end detected:', e.touches.length, 'touches')}
+      onTouchStart={(e) => {
+        console.log('👆 Touch start detected:', e.touches.length, 'touches');
+        e.preventDefault(); // Prevent default touch behavior
+      }}
+      onTouchMove={(e) => {
+        console.log('👆 Touch move detected:', e.touches.length, 'touches');
+        e.preventDefault(); // Prevent default touch behavior
+      }}
+      onTouchEnd={(e) => {
+        console.log('👆 Touch end detected:', e.touches.length, 'touches');
+        e.preventDefault(); // Prevent default touch behavior
+      }}
     >
       <div className="gallery-hero-image-container" style={{ 
         width: '100%', 
         height: '100%', 
-        backgroundColor: '#000'
+        backgroundColor: '#000',
+        position: 'relative'
       }}>
         <Image
           src="/carmania-gallery-hero.png"
@@ -166,9 +161,10 @@ export default function GalleryHero() {
           height={2400}
           style={{ 
             width: '100%', 
-            height: '100%', // Fill the entire container
-            objectFit: 'cover', // Fill the container, may crop edges
-            display: 'block'
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+            pointerEvents: 'none', // Prevent image from interfering with touch events
           }}
           priority
           unoptimized={true}
@@ -181,7 +177,6 @@ export default function GalleryHero() {
             } else {
               img.style.display = 'none';
               console.log('❌ All images failed, showing background only');
-              // Add fallback text
               const container = img.parentElement;
               if (container) {
                 container.innerHTML = '<div style="color: white; text-align: center; font-size: 24px;">CarMania Gallery</div>';
@@ -192,6 +187,47 @@ export default function GalleryHero() {
             console.log('✅ Image loaded successfully');
           }}
         />
+        
+        {/* Test button for debugging */}
+        <button
+          onClick={() => {
+            console.log('🔘 Test button clicked!');
+            alert('App is working! Try swiping up or down.');
+          }}
+          style={{
+            position: 'absolute',
+            top: '20px',
+            right: '20px',
+            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+            color: '#000',
+            border: 'none',
+            borderRadius: '8px',
+            padding: '8px 16px',
+            fontSize: '14px',
+            cursor: 'pointer',
+            zIndex: 10,
+            pointerEvents: 'auto'
+          }}
+        >
+          Test Button
+        </button>
+        
+        {/* Swipe instructions */}
+        <div style={{
+          position: 'absolute',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          color: 'white',
+          textAlign: 'center',
+          fontSize: '16px',
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          padding: '8px 16px',
+          borderRadius: '8px',
+          pointerEvents: 'none'
+        }}>
+          Swipe up or down to navigate
+        </div>
       </div>
     </div>
   );
