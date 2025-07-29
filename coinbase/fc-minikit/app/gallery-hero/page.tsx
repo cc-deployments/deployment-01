@@ -52,14 +52,14 @@ export default function GalleryHero() {
     }
   };
 
-  // Use MiniKit's setFrameReady with disableNativeGestures for mobile touch support
+  // Use MiniKit's setFrameReady for mobile touch support
   const { setFrameReady, isFrameReady } = useMiniKit();
 
   useEffect(() => {
     if (!isFrameReady) {
-      console.log('📱 Setting frame ready with disableNativeGestures for mobile touch support...');
-      setFrameReady({ disableNativeGestures: true });
-      console.log('✅ Frame ready set with disableNativeGestures');
+      console.log('📱 Setting frame ready for mobile touch support...');
+      setFrameReady();
+      console.log('✅ Frame ready set successfully');
     }
   }, [setFrameReady, isFrameReady]);
 
@@ -119,12 +119,19 @@ export default function GalleryHero() {
     onSwipedRight: () => {
       console.log('➡️ Swipe right detected');
     },
+    onSwiped: (eventData) => {
+      console.log('🔄 Swipe event detected:', eventData);
+    },
+    onSwiping: (eventData) => {
+      console.log('🔄 Swiping in progress:', eventData);
+    },
     trackMouse: true,
-    delta: 50, // Standard sensitivity
-    swipeDuration: 500, // Standard duration
-    preventScrollOnSwipe: false, // Allow normal scrolling
+    delta: 30, // More sensitive for mobile
+    swipeDuration: 300, // Faster response
+    preventScrollOnSwipe: true, // Prevent scroll during swipe
     trackTouch: true, // Ensure touch events are tracked
     rotationAngle: 0, // No rotation angle restriction
+    touchEventOptions: { passive: false }, // Ensure touch events are captured
   });
 
   // Debug: Log safe area values
@@ -158,7 +165,14 @@ export default function GalleryHero() {
         width: '100%',
         height: '100vh', // Fixed viewport height instead of auto
         overflow: 'hidden', // Prevent scrolling
+        touchAction: 'none', // Disable default touch actions
+        userSelect: 'none', // Prevent text selection during swipe
+        WebkitUserSelect: 'none', // Safari support
+        WebkitTouchCallout: 'none', // Disable callout on long press
       }}
+      onTouchStart={(e) => console.log('👆 Touch start detected:', e.touches.length, 'touches')}
+      onTouchMove={(e) => console.log('👆 Touch move detected:', e.touches.length, 'touches')}
+      onTouchEnd={(e) => console.log('👆 Touch end detected:', e.touches.length, 'touches')}
     >
       <div className="gallery-hero-image-container">
         <Image
