@@ -11,7 +11,7 @@ const nextConfig = {
     externalDir: true,
   },
   
-  // Configure webpack to resolve TypeScript paths
+  // Configure webpack to resolve TypeScript paths and improve module resolution
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -19,6 +19,15 @@ const nextConfig = {
       '@shared/ui': path.resolve(__dirname, '../../../packages/shared-ui'),
       '@shared/privy': path.resolve(__dirname, '../../../packages/privy'),
     };
+    
+    // Improve module resolution for dynamic imports
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      net: false,
+      tls: false,
+    };
+    
     return config;
   },
   
