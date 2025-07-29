@@ -3,6 +3,7 @@
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
+import { sdk } from '@farcaster/miniapp-sdk';
 import { useOpenUrl, useComposeCast } from '@coinbase/onchainkit/minikit';
 import { useSafeArea } from '../hooks/useSafeArea'; // Import the safe area hook
 import { useMiniKit } from '@coinbase/onchainkit/minikit'; // Import useMiniKit
@@ -52,18 +53,33 @@ export default function GalleryHero() {
     }
   };
 
-  // Use MiniKit's setFrameReady for mobile touch support
-  const { setFrameReady, isFrameReady } = useMiniKit();
-
+  // Use SDK actions.ready with disableNativeGestures to fix mobile swipe conflicts
   useEffect(() => {
-    if (!isFrameReady) {
-      console.log('📱 Setting frame ready for mobile touch support...');
-      setFrameReady();
-      console.log('✅ Frame ready set successfully');
-    }
-  }, [setFrameReady, isFrameReady]);
+    const initializeSDK = async () => {
+      if (!isLoading) {
+        try {
+          console.log('📱 Calling sdk.actions.ready({ disableNativeGestures: true }) to fix mobile swipe conflicts...');
+          await sdk.actions.ready({ disableNativeGestures: true });
+          console.log('✅ SDK ready with native gestures disabled - mobile swipe should work now');
+        } catch (error) {
+          console.error('❌ Error initializing SDK:', error);
+          
+          // Fallback: try again after a delay
+          setTimeout(async () => {
+            try {
+              console.log('🔄 Fallback: calling sdk.actions.ready({ disableNativeGestures: true })...');
+              await sdk.actions.ready({ disableNativeGestures: true });
+              console.log('✅ Fallback SDK ready successful');
+            } catch (fallbackError) {
+              console.error('❌ Fallback also failed:', fallbackError);
+            }
+          }, 1000);
+        }
+      }
+    };
 
-  // REMOVED: Frame readiness logic - we're using custom buttons instead
+    initializeSDK();
+  }, [isLoading]);
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     console.log('🎹 Key pressed:', event.key);
