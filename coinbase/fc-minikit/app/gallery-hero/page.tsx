@@ -3,54 +3,21 @@
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
-import { useOpenUrl, useComposeCast } from '@coinbase/onchainkit/minikit';
+import { useOpenUrl } from '@coinbase/onchainkit/minikit';
 import { useSafeArea } from '../hooks/useSafeArea'; // Import the safe area hook
 import { useMiniKit } from '@coinbase/onchainkit/minikit'; // Import useMiniKit
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea(); // Use the safe area hook
   const openUrl = useOpenUrl(); // Use MiniKit's openUrl hook
-  const { composeCast } = useComposeCast(); // Use MiniKit's compose cast for sharing
   const { context, isFrameReady, setFrameReady } = useMiniKit(); // Check if we're in Farcaster frame context
   
   console.log('🎨 GalleryHero component rendering...');
-  console.log('🔍 SHARE button should be created with onClick handler');
   console.log('🔍 Frame context available:', !!context);
-  console.log('🔍 composeCast available:', !!composeCast);
   
 
 
-  // Simple sharing using MiniKit's useComposeCast (works universally)
-  const handleShare = () => {
-    console.log('🎯 Share button clicked - using MiniKit composeCast...');
-    console.log('🔍 Frame context available:', !!context);
-    console.log('🔍 composeCast available:', !!composeCast);
-    
-    try {
-      if (!context) {
-        console.log('⚠️ Not in Farcaster frame context - using fallback');
-        alert(`Share this link: ${window.location.href}\n\nNote: Full sharing requires Farcaster frame context`);
-        return;
-      }
-      
-      if (!composeCast) {
-        console.log('❌ composeCast not available - using fallback');
-        alert(`Share this link: ${window.location.href}\n\nNote: composeCast not available in current context`);
-        return;
-      }
-      
-      console.log('📝 Calling composeCast in Farcaster frame...');
-      composeCast({
-        text: 'Check out this awesome CarMania app! 🚗',
-        embeds: [window.location.href]
-      });
-      console.log('✅ composeCast called successfully');
-    } catch (error) {
-      console.error('❌ Share error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      alert(`Share this link: ${window.location.href}\n\nError: ${errorMessage}`);
-    }
-  };
+
 
   // Use MiniKit's setFrameReady with disableNativeGestures to fix mobile swipe conflicts
   useEffect(() => {
