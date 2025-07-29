@@ -3,7 +3,6 @@
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
-import { sdk } from '@farcaster/miniapp-sdk';
 import { useOpenUrl, useComposeCast } from '@coinbase/onchainkit/minikit';
 import { useSafeArea } from '../hooks/useSafeArea'; // Import the safe area hook
 import { useMiniKit } from '@coinbase/onchainkit/minikit'; // Import useMiniKit
@@ -12,7 +11,7 @@ export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea(); // Use the safe area hook
   const openUrl = useOpenUrl(); // Use MiniKit's openUrl hook
   const { composeCast } = useComposeCast(); // Use MiniKit's compose cast for sharing
-  const { context } = useMiniKit(); // Check if we're in Farcaster frame context
+  const { context, isFrameReady, setFrameReady } = useMiniKit(); // Check if we're in Farcaster frame context
   
   console.log('🎨 GalleryHero component rendering...');
   console.log('🔍 SHARE button should be created with onClick handler');
@@ -53,42 +52,38 @@ export default function GalleryHero() {
     }
   };
 
-  // Use SDK actions.ready with disableNativeGestures to fix mobile swipe conflicts
+  // Use MiniKit's setFrameReady with disableNativeGestures to fix mobile swipe conflicts
   useEffect(() => {
-    const initializeSDK = async () => {
-      if (!isLoading) {
-        try {
-          console.log('📱 Calling sdk.actions.ready({ disableNativeGestures: true }) to fix mobile swipe conflicts...');
-          await sdk.actions.ready({ disableNativeGestures: true });
-          console.log('✅ SDK ready with native gestures disabled - mobile swipe should work now');
-        } catch (error) {
-          console.error('❌ Error initializing SDK:', error);
-          
-          // Don't retry on 401 errors - just continue without SDK (BASE AI guidance)
-          if (error instanceof Error && error.message.includes('401')) {
-            console.log('⚠️ 401 Unauthorized error - continuing without SDK initialization (BASE AI Priority 2)');
-            console.log('📱 App will work with basic functionality despite authentication issues');
-            return;
-          }
-          
-          // Fallback: try again after a delay (BASE AI fallback behavior)
-          setTimeout(async () => {
-            try {
-              console.log('🔄 Fallback: calling sdk.actions.ready({ disableNativeGestures: true })...');
-              await sdk.actions.ready({ disableNativeGestures: true });
-              console.log('✅ Fallback SDK ready successful');
-            } catch (fallbackError) {
-              console.error('❌ Fallback also failed:', fallbackError);
-              console.log('⚠️ Continuing without SDK - app will still work with basic functionality');
-              console.log('📱 This is expected behavior when SDK has authentication issues');
-            }
-          }, 1000);
+    if (!isFrameReady) {
+      try {
+        console.log('📱 Calling setFrameReady({ disableNativeGestures: true }) to fix mobile swipe conflicts...');
+        setFrameReady({ disableNativeGestures: true });
+        console.log('✅ Frame ready with native gestures disabled - mobile swipe should work now');
+      } catch (error) {
+        console.error('❌ Error initializing frame:', error);
+        
+        // Don't retry on 401 errors - just continue without frame initialization (BASE AI guidance)
+        if (error instanceof Error && error.message.includes('401')) {
+          console.log('⚠️ 401 Unauthorized error - continuing without frame initialization (BASE AI Priority 2)');
+          console.log('📱 App will work with basic functionality despite authentication issues');
+          return;
         }
+        
+        // Fallback: try again after a delay (BASE AI fallback behavior)
+        setTimeout(() => {
+          try {
+            console.log('🔄 Fallback: calling setFrameReady({ disableNativeGestures: true })...');
+            setFrameReady({ disableNativeGestures: true });
+            console.log('✅ Fallback frame ready successful');
+          } catch (fallbackError) {
+            console.error('❌ Fallback also failed:', fallbackError);
+            console.log('⚠️ Continuing without frame - app will still work with basic functionality');
+            console.log('📱 This is expected behavior when frame has authentication issues');
+          }
+        }, 1000);
       }
-    };
-
-    initializeSDK();
-  }, [isLoading]);
+    }
+  }, [setFrameReady, isFrameReady]);
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     console.log('🎹 Key pressed:', event.key);
