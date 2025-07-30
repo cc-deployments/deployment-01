@@ -106,6 +106,7 @@ export default function GalleryHero() {
   });
 
   console.log('📱 Safe area insets:', safeArea);
+  console.log('🎯 Swipe handlers attached:', !!handlers);
 
   if (isLoading) {
     return (
@@ -137,6 +138,11 @@ export default function GalleryHero() {
         userSelect: 'none',
         WebkitUserSelect: 'none',
         WebkitTouchCallout: 'none',
+        margin: '0 auto', // Center horizontally
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
 
     >

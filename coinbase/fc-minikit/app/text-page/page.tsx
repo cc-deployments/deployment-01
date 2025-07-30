@@ -103,6 +103,11 @@ export default function TextPage() {
         userSelect: 'none',
         WebkitUserSelect: 'none',
         WebkitTouchCallout: 'none',
+        margin: '0 auto', // Center horizontally
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
       <div className="text-page-image-container" style={{ 
