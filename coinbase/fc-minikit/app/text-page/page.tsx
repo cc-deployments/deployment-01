@@ -1,147 +1,76 @@
 "use client";
 
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
-import { sdk } from '@farcaster/miniapp-sdk';
 import { useOpenUrl, useMiniKit } from '@coinbase/onchainkit/minikit';
-import { useSafeArea } from '../hooks/useSafeArea';
 
 export default function TextPage() {
-  const { safeArea, isLoading } = useSafeArea();
-  const openUrl = useOpenUrl(); // Use BASE AI's recommended hook for URL opening
-  const { isFrameReady } = useMiniKit(); // Add MiniKit context
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [sdkReady, setSdkReady] = useState(false);
+  const openUrl = useOpenUrl();
+  const { context, isFrameReady, setFrameReady } = useMiniKit();
+  
+  console.log('🎨 TextPage component rendering...');
+  console.log('🔍 Frame context available:', !!context);
 
-  // Call sdk.actions.ready() only after image is loaded and safe area is determined
+  // Set frame ready with disableNativeGestures to prevent conflicts
   useEffect(() => {
-    const initializeSDK = async () => {
-      // Wait for both image to load AND safe area to be determined
-      if (imageLoaded && !isLoading && !sdkReady) {
-        try {
-          console.log('📞 Calling sdk.actions.ready() - interface is ready...');
-          await sdk.actions.ready();
-          console.log('✅ sdk.actions.ready() called successfully');
-          setSdkReady(true);
-          
-          // Get SDK context for environment detection
-          const context = await sdk.context;
-          const baseAppStatus = context?.client?.clientFid === 309857;
-          console.log('📍 Is in Base App:', baseAppStatus);
-          
-        } catch (error) {
-          console.error('❌ Error initializing SDK:', error);
-          
-          // Fallback: try again after a delay
-          setTimeout(async () => {
-            try {
-              console.log('🔄 Fallback: calling sdk.actions.ready()...');
-              await sdk.actions.ready();
-              console.log('✅ Fallback sdk.actions.ready() successful');
-              setSdkReady(true);
-            } catch (fallbackError) {
-              console.error('❌ Fallback also failed:', fallbackError);
-            }
-          }, 1000);
-        }
-      }
-    };
-
-    initializeSDK();
-  }, [imageLoaded, isLoading, sdkReady]);
-
-  // Add frame readiness logic as recommended by BASE AI
-  useEffect(() => {
-    if (!isFrameReady) {
-      console.log('📱 Skipping setFrameReady to avoid 401 errors - app will work with basic functionality');
+    if (!isFrameReady && context) {
+      console.log('📱 Setting frame ready with disableNativeGestures to prevent conflicts');
+      setFrameReady({ disableNativeGestures: true });
     }
-  }, [isFrameReady]);
+  }, [isFrameReady, setFrameReady, context]);
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
+    console.log('🎹 Key pressed:', event.key);
+    
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up - navigating to manifold-gallery');
       try {
-        // Try MiniKit navigation first
-        if (openUrl) {
-          console.log('🌐 Using MiniKit openUrl for navigation');
-          openUrl('/manifold-gallery');
-        } else {
-          // Fallback to window navigation
-          console.log('🌐 Using window.location for navigation');
-          window.location.href = '/manifold-gallery';
-        }
+        console.log('🌐 Using openUrl for navigation');
+        openUrl('/manifold-gallery');
       } catch (error) {
         console.error('Navigation error:', error);
-        // Final fallback
         window.location.href = '/manifold-gallery';
       }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down - navigating to gallery-hero-2');
       try {
-        // Try MiniKit navigation first
-        if (openUrl) {
-          console.log('🌐 Using MiniKit openUrl for navigation');
-          openUrl('/gallery-hero-2');
-        } else {
-          // Fallback to window navigation
-          console.log('🌐 Using window.location for navigation');
-          window.location.href = '/gallery-hero-2';
-        }
+        console.log('🌐 Using openUrl for navigation');
+        openUrl('/gallery-hero-2');
       } catch (error) {
         console.error('Navigation error:', error);
-        // Final fallback
         window.location.href = '/gallery-hero-2';
       }
     }
   }, [openUrl]);
 
   useEffect(() => {
+    console.log('🎧 Setting up keyboard event listener');
     window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
+    return () => {
+      console.log('🎧 Removing keyboard event listener');
+      window.removeEventListener('keydown', handleKeyPress);
+    };
   }, [handleKeyPress]);
-
-  // Debug: Log when component mounts
-  useEffect(() => {
-    console.log('📄 Text-page component mounted - swipe handlers should be active');
-  }, []);
-
-  // Manual touch detection as fallback
 
   const handlers = useSwipeable({
     onSwipedUp: async () => {
       console.log('⬆️ Swipe up detected - navigating to manifold-gallery');
       try {
-        // Try MiniKit navigation first
-        if (openUrl) {
-          console.log('🌐 Using MiniKit openUrl for navigation');
-          openUrl('/manifold-gallery');
-        } else {
-          // Fallback to window navigation
-          console.log('🌐 Using window.location for navigation');
-          window.location.href = '/manifold-gallery';
-        }
+        console.log('🌐 Using openUrl for navigation');
+        openUrl('/manifold-gallery');
       } catch (error) {
         console.error('Navigation error:', error);
-        // Final fallback
         window.location.href = '/manifold-gallery';
       }
     },
     onSwipedDown: async () => {
       console.log('⬇️ Swipe down detected - navigating to gallery-hero-2');
       try {
-        // Try MiniKit navigation first
-        if (openUrl) {
-          console.log('🌐 Using MiniKit openUrl for navigation');
-          openUrl('/gallery-hero-2');
-        } else {
-          // Fallback to window navigation
-          console.log('🌐 Using window.location for navigation');
-          window.location.href = '/gallery-hero-2';
-        }
+        console.log('🌐 Using openUrl for navigation');
+        openUrl('/gallery-hero-2');
       } catch (error) {
         console.error('Navigation error:', error);
-        // Final fallback
         window.location.href = '/gallery-hero-2';
       }
     },
@@ -151,71 +80,88 @@ export default function TextPage() {
     onSwipedRight: () => {
       console.log('➡️ Swipe right detected');
     },
-    onSwipeStart: () => {
-      console.log('🎯 Swipe started');
-    },
-    onSwiped: () => {
-      console.log('🏁 Swipe ended');
-    },
     trackMouse: true,
-    delta: 15, // Lowered delta for easier mobile detection
-    swipeDuration: 300, // Faster duration for mobile
-    preventScrollOnSwipe: true, // Prevent scroll interference
-    trackTouch: true, // Ensure touch events are tracked
-    rotationAngle: 0, // No rotation angle restriction
+    delta: 30,
+    swipeDuration: 400,
+    preventScrollOnSwipe: true,
+    trackTouch: true,
+    rotationAngle: 0,
+    touchEventOptions: { passive: false },
   });
 
-  // Debug: Log safe area values
-  console.log('📱 Safe area insets:', safeArea);
-
-  // Show loading state while safe area is being determined
-  if (isLoading) {
-    return (
-      <div style={{
-        width: '100vw',
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#000',
-        color: '#fff',
-        fontSize: '16px'
-      }}>
-        Loading...
-      </div>
-    );
-  }
-
   return (
-    <>
-      <div 
-        {...handlers} 
-        className="gallery-hero-container"
-        style={{
-          position: 'relative',
-          backgroundColor: '#000',
-        }}
-        onMouseDown={() => console.log('🖱️ Mouse down detected')}
-      >
-        {/* Image area - Responsive container with safe area consideration */}
-        <div className="gallery-hero-image-container">
-          <Image
-            src="/text-page.png"
-            alt="Text Page"
-            width={1260}
-            height={2400}
-            style={{ 
-              width: '100%', 
-              height: 'auto', 
-              aspectRatio: '1260 / 2400', 
-              objectFit: 'cover', 
-              display: 'block',
-            }}
-            priority
-            onLoad={() => setImageLoaded(true)}
-          />
+    <div 
+      {...handlers} 
+      className="text-page-container"
+      style={{
+        position: 'relative',
+        backgroundColor: '#000',
+        width: '100%',
+        height: '100vh',
+        overflow: 'hidden',
+        touchAction: 'pan-y',
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        WebkitTouchCallout: 'none',
+      }}
+    >
+      <div className="text-page-image-container" style={{ 
+        width: '100%', 
+        height: '100%', 
+        backgroundColor: '#000',
+        position: 'relative'
+      }}>
+        <Image
+          src="/text-page.png"
+          alt="Text Page"
+          width={1260}
+          height={2400}
+          style={{ 
+            width: '100%', 
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+            pointerEvents: 'none',
+          }}
+          priority
+          unoptimized={true}
+          onError={(e) => {
+            console.error('❌ Image failed to load:', e);
+            const img = e.currentTarget as HTMLImageElement;
+            if (img.src !== '/hero-v2.png') {
+              console.log('🔄 Trying fallback image...');
+              img.src = '/hero-v2.png';
+            } else {
+              img.style.display = 'none';
+              console.log('❌ All images failed, showing background only');
+              const container = img.parentElement;
+              if (container) {
+                container.innerHTML = '<div style="color: white; text-align: center; font-size: 24px;">Text Page</div>';
+              }
+            }
+          }}
+          onLoad={() => {
+            console.log('✅ Image loaded successfully');
+          }}
+        />
+        
+        {/* Swipe instructions */}
+        <div style={{
+          position: 'absolute',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          color: 'white',
+          textAlign: 'center',
+          fontSize: '16px',
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          padding: '8px 16px',
+          borderRadius: '8px',
+          pointerEvents: 'none'
+        }}>
+          Swipe up or down to navigate
         </div>
       </div>
-    </>
+    </div>
   );
 } 

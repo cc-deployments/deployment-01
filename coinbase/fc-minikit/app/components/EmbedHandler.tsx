@@ -1,21 +1,21 @@
 "use client";
 
 import { useEffect } from 'react';
-import { sdk } from '@farcaster/miniapp-sdk';
+import { useMiniKit } from '@coinbase/onchainkit/minikit';
 
 export default function EmbedHandler() {
+  const { context } = useMiniKit();
 
   useEffect(() => {
     const checkEmbedContext = async () => {
       try {
-        const context = await sdk.context;
         console.log('🔍 Checking embed context:', context);
         
         if (context?.location?.type === 'cast_embed') {
           console.log('🎯 Cast embed detected!');
           
           // Log embed details
-          console.log('📝 Cast text:', context.location.cast?.text);
+          console.log('📝 Cast content:', context.location.cast);
           console.log('👤 Cast author:', context.location.cast?.author);
           console.log('🔗 Embed URL:', context.location.embed);
         } else {
@@ -26,8 +26,10 @@ export default function EmbedHandler() {
       }
     };
 
-    checkEmbedContext();
-  }, []);
+    if (context) {
+      checkEmbedContext();
+    }
+  }, [context]);
 
   // This component doesn't render anything visible
   // It just handles embed context detection

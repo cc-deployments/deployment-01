@@ -1,86 +1,42 @@
 "use client";
 
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
-import { sdk } from '@farcaster/miniapp-sdk';
 import { useOpenUrl, useMiniKit } from '@coinbase/onchainkit/minikit';
-import { useSafeArea } from '../hooks/useSafeArea';
 
 export default function GalleryHero2() {
-  const { safeArea, isLoading } = useSafeArea();
-  const openUrl = useOpenUrl(); // Use BASE AI's recommended hook for URL opening
-  const { isFrameReady } = useMiniKit(); // Add MiniKit context
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [sdkReady, setSdkReady] = useState(false);
+  const openUrl = useOpenUrl();
+  const { context, isFrameReady, setFrameReady } = useMiniKit();
+  
+  console.log('🎨 GalleryHero2 component rendering...');
+  console.log('🔍 Frame context available:', !!context);
 
-  // Call sdk.actions.ready() only after image is loaded and safe area is determined
+  // Set frame ready with disableNativeGestures to prevent conflicts
   useEffect(() => {
-    const initializeSDK = async () => {
-      // Wait for both image to load AND safe area to be determined
-      if (imageLoaded && !isLoading && !sdkReady) {
-        try {
-          console.log('📞 Calling sdk.actions.ready() - interface is ready...');
-          await sdk.actions.ready();
-          console.log('✅ sdk.actions.ready() called successfully');
-          setSdkReady(true);
-          
-          // Get SDK context for environment detection
-          const context = await sdk.context;
-          const baseAppStatus = context?.client?.clientFid === 309857;
-          console.log('📍 Is in Base App:', baseAppStatus);
-          
-        } catch (error) {
-          console.error('❌ Error initializing SDK:', error);
-          
-          // Fallback: try again after a delay
-          setTimeout(async () => {
-            try {
-              console.log('🔄 Fallback: calling sdk.actions.ready()...');
-              await sdk.actions.ready();
-              console.log('✅ Fallback sdk.actions.ready() successful');
-              setSdkReady(true);
-            } catch (fallbackError) {
-              console.error('❌ Fallback also failed:', fallbackError);
-            }
-          }, 1000);
-        }
-      }
-    };
-
-    initializeSDK();
-  }, [imageLoaded, isLoading, sdkReady]);
-
-  // Add frame readiness logic as recommended by BASE AI
-  useEffect(() => {
-    if (!isFrameReady) {
-      console.log('📱 Skipping setFrameReady to avoid 401 errors - app will work with basic functionality');
+    if (!isFrameReady && context) {
+      console.log('📱 Setting frame ready with disableNativeGestures to prevent conflicts');
+      setFrameReady({ disableNativeGestures: true });
     }
-  }, [isFrameReady]);
+  }, [isFrameReady, setFrameReady, context]);
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
+    console.log('🎹 Key pressed:', event.key);
+    
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
-      console.log('⬆️ Keyboard navigation: Swipe up');
+      console.log('⬆️ Keyboard navigation: Swipe up - navigating to text-page');
       try {
-        const context = await sdk.context;
-        if (context?.client?.clientFid === 309857) {
-          sdk.actions.openUrl('/text-page');
-        } else {
-          openUrl('/text-page');
-        }
+        console.log('🌐 Using openUrl for navigation');
+        openUrl('/text-page');
       } catch (error) {
         console.error('Navigation error:', error);
-        openUrl('/text-page');
+        window.location.href = '/text-page';
       }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
-      console.log('⬇️ Keyboard navigation: Swipe down');
+      console.log('⬇️ Keyboard navigation: Swipe down - navigating to gallery-hero');
       try {
-        const context = await sdk.context;
-        if (context?.client?.clientFid === 309857) {
-          sdk.actions.openUrl('/gallery-hero');
-        } else {
-          window.location.href = '/gallery-hero';
-        }
+        console.log('🌐 Using openUrl for navigation');
+        openUrl('/gallery-hero');
       } catch (error) {
         console.error('Navigation error:', error);
         window.location.href = '/gallery-hero';
@@ -89,37 +45,33 @@ export default function GalleryHero2() {
   }, [openUrl]);
 
   useEffect(() => {
+    console.log('🎧 Setting up keyboard event listener');
     window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
+    return () => {
+      console.log('🎧 Removing keyboard event listener');
+      window.removeEventListener('keydown', handleKeyPress);
+    };
   }, [handleKeyPress]);
 
   const handlers = useSwipeable({
     onSwipedUp: async () => {
       console.log('⬆️ Swipe up detected - navigating to text-page');
       try {
-        const context = await sdk.context;
-        if (context?.client?.clientFid === 309857) {
-          sdk.actions.openUrl('/text-page');
-        } else {
-          openUrl('/text-page');
-        }
+        console.log('🌐 Using openUrl for navigation');
+        openUrl('/text-page');
       } catch (error) {
         console.error('Navigation error:', error);
-        openUrl('/text-page');
+        window.location.href = '/text-page';
       }
     },
     onSwipedDown: async () => {
       console.log('⬇️ Swipe down detected - navigating to gallery-hero');
       try {
-        const context = await sdk.context;
-        if (context?.client?.clientFid === 309857) {
-          sdk.actions.openUrl('/gallery-hero');
-        } else {
-          openUrl('/gallery-hero');
-        }
+        console.log('🌐 Using openUrl for navigation');
+        openUrl('/gallery-hero');
       } catch (error) {
         console.error('Navigation error:', error);
-        openUrl('/gallery-hero');
+        window.location.href = '/gallery-hero';
       }
     },
     onSwipedLeft: () => {
@@ -129,69 +81,87 @@ export default function GalleryHero2() {
       console.log('➡️ Swipe right detected');
     },
     trackMouse: true,
-    delta: 20, // Reduced delta for more sensitive detection
-    swipeDuration: 300, // Reduced duration for faster response
-    preventScrollOnSwipe: true, // Prevent scroll interference
-    trackTouch: true, // Ensure touch events are tracked
-    rotationAngle: 0, // No rotation angle restriction
+    delta: 30,
+    swipeDuration: 400,
+    preventScrollOnSwipe: true,
+    trackTouch: true,
+    rotationAngle: 0,
+    touchEventOptions: { passive: false },
   });
 
-  // Debug: Log safe area values
-  console.log('📱 Safe area insets:', safeArea);
-
-  // Show loading state while safe area is being determined
-  if (isLoading) {
-    return (
-      <div style={{
-        width: '100vw',
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#000',
-        color: '#fff'
-      }}>
-        Loading...
-      </div>
-    );
-  }
-
   return (
-    <>
-      <div 
-        {...handlers} 
-        className="gallery-hero-container"
-        style={{
-          position: 'relative',
-          backgroundColor: '#000',
-          border: '2px solid blue',
-          width: '100%',
-          height: '100vh', // Fixed viewport height to match gallery-hero
-          overflow: 'hidden', // Prevent scrolling
-        }}
-        onMouseDown={() => console.log('🖱️ Mouse down detected')}
-      >
-        {/* Image area - Full container height */}
-        <div className="gallery-hero-image-container">
-          <Image
-            src="/carmania-gallery-hero-2.png"
-            alt="Gallery Hero 2"
-            width={1260}
-            height={2400}
-            style={{ 
-              width: '100%', 
-              height: 'auto', // FIXED aspect ratio - no distortion
-              aspectRatio: '1260 / 2400', // Fixed proportions
-              objectFit: 'contain', // No cropping/distortion
-              display: 'block',
-            }}
-            priority
-            onLoad={() => setImageLoaded(true)}
-          />
-          
-
+    <div 
+      {...handlers} 
+      className="gallery-hero-2-container"
+      style={{
+        position: 'relative',
+        backgroundColor: '#000',
+        width: '100%',
+        height: '100vh',
+        overflow: 'hidden',
+        touchAction: 'pan-y',
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        WebkitTouchCallout: 'none',
+      }}
+    >
+      <div className="gallery-hero-2-image-container" style={{ 
+        width: '100%', 
+        height: '100%', 
+        backgroundColor: '#000',
+        position: 'relative'
+      }}>
+        <Image
+          src="/carmania-gallery-hero-2.png"
+          alt="Gallery Hero 2"
+          width={1260}
+          height={2400}
+          style={{ 
+            width: '100%', 
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+            pointerEvents: 'none',
+          }}
+          priority
+          unoptimized={true}
+          onError={(e) => {
+            console.error('❌ Image failed to load:', e);
+            const img = e.currentTarget as HTMLImageElement;
+            if (img.src !== '/hero-v2.png') {
+              console.log('🔄 Trying fallback image...');
+              img.src = '/hero-v2.png';
+            } else {
+              img.style.display = 'none';
+              console.log('❌ All images failed, showing background only');
+              const container = img.parentElement;
+              if (container) {
+                container.innerHTML = '<div style="color: white; text-align: center; font-size: 24px;">CarMania Gallery 2</div>';
+              }
+            }
+          }}
+          onLoad={() => {
+            console.log('✅ Image loaded successfully');
+          }}
+        />
+        
+        {/* Swipe instructions */}
+        <div style={{
+          position: 'absolute',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          color: 'white',
+          textAlign: 'center',
+          fontSize: '16px',
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          padding: '8px 16px',
+          borderRadius: '8px',
+          pointerEvents: 'none'
+        }}>
+          Swipe up or down to navigate
         </div>
       </div>
-    </>
+    </div>
   );
 } 

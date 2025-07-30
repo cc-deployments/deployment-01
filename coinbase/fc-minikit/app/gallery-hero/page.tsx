@@ -138,17 +138,11 @@ export default function GalleryHero() {
         WebkitUserSelect: 'none',
         WebkitTouchCallout: 'none',
       }}
-      onTouchStart={(e) => {
-        console.log('👆 Touch start detected:', e.touches.length, 'touches');
-        e.preventDefault(); // Prevent default touch behavior
+      onClick={(e) => {
+        console.log('🎯 Container clicked:', e.target);
       }}
-      onTouchMove={(e) => {
-        console.log('👆 Touch move detected:', e.touches.length, 'touches');
-        e.preventDefault(); // Prevent default touch behavior
-      }}
-      onTouchEnd={(e) => {
-        console.log('👆 Touch end detected:', e.touches.length, 'touches');
-        e.preventDefault(); // Prevent default touch behavior
+      onMouseDown={(e) => {
+        console.log('🖱️ Container mouse down:', e.target);
       }}
     >
       <div className="gallery-hero-image-container" style={{ 
@@ -193,9 +187,14 @@ export default function GalleryHero() {
         
         {/* Test button for debugging */}
         <button
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             console.log('🔘 Test button clicked!');
             alert('App is working! Try swiping up or down.');
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+            console.log('🖱️ Test button mouse down!');
           }}
           style={{
             position: 'absolute',
@@ -208,7 +207,7 @@ export default function GalleryHero() {
             padding: '8px 16px',
             fontSize: '14px',
             cursor: 'pointer',
-            zIndex: 10,
+            zIndex: 1000,
             pointerEvents: 'auto'
           }}
         >
