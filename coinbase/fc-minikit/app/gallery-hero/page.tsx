@@ -138,12 +138,7 @@ export default function GalleryHero() {
         WebkitUserSelect: 'none',
         WebkitTouchCallout: 'none',
       }}
-      onClick={(e) => {
-        console.log('🎯 Container clicked:', e.target);
-      }}
-      onMouseDown={(e) => {
-        console.log('🖱️ Container mouse down:', e.target);
-      }}
+
     >
       <div className="gallery-hero-image-container" style={{ 
         width: '100%', 
@@ -185,34 +180,7 @@ export default function GalleryHero() {
           }}
         />
         
-        {/* Test button for debugging */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            console.log('🔘 Test button clicked!');
-            alert('App is working! Try swiping up or down.');
-          }}
-          onMouseDown={(e) => {
-            e.stopPropagation();
-            console.log('🖱️ Test button mouse down!');
-          }}
-          style={{
-            position: 'absolute',
-            top: '20px',
-            right: '20px',
-            backgroundColor: 'rgba(255, 255, 255, 0.8)',
-            color: '#000',
-            border: 'none',
-            borderRadius: '8px',
-            padding: '8px 16px',
-            fontSize: '14px',
-            cursor: 'pointer',
-            zIndex: 1000,
-            pointerEvents: 'auto'
-          }}
-        >
-          Test Button
-        </button>
+
         
         {/* Swipe instructions */}
         <div style={{
