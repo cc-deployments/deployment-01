@@ -107,14 +107,13 @@ export default function TextPage() {
       style={{
         position: 'relative',
         backgroundColor: '#000',
-        width: '1260px',
-        height: '2400px',
+        width: '100vw',
+        height: '100vh',
         overflow: 'hidden',
         touchAction: 'pan-y',
         userSelect: 'none',
         WebkitUserSelect: 'none',
         WebkitTouchCallout: 'none',
-        margin: '0 auto', // Center horizontally
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -139,7 +138,6 @@ export default function TextPage() {
             objectFit: 'contain',
             display: 'block',
             pointerEvents: 'none',
-            margin: '0 auto',
           }}
           priority
           unoptimized={true}
