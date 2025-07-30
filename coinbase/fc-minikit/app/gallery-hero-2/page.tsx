@@ -96,8 +96,8 @@ export default function GalleryHero2() {
       style={{
         position: 'relative',
         backgroundColor: '#000',
-        width: '100%',
-        height: '100vh',
+        width: '1260px',
+        height: '2400px',
         overflow: 'hidden',
         touchAction: 'pan-y',
         userSelect: 'none',

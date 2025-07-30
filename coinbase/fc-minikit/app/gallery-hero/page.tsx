@@ -97,8 +97,8 @@ export default function GalleryHero() {
       console.log('🔄 Swiping in progress:', eventData);
     },
     trackMouse: true,
-    delta: 30, // More sensitive for easier detection
-    swipeDuration: 400, // Faster response
+    delta: 20, // Even more sensitive
+    swipeDuration: 300, // Faster response
     preventScrollOnSwipe: true,
     trackTouch: true,
     rotationAngle: 0,
@@ -130,8 +130,8 @@ export default function GalleryHero() {
       style={{
         position: 'relative',
         backgroundColor: '#000',
-        width: '100%',
-        height: '100vh',
+        width: '1260px',
+        height: '2400px',
         overflow: 'hidden',
         touchAction: 'pan-y', // Allow vertical scrolling for swipe detection
         userSelect: 'none',

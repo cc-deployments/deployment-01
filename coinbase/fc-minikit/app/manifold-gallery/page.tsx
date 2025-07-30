@@ -10,8 +10,8 @@ export default function ManifoldGallery() {
 
   return (
     <div style={{
-      width: '100vw',
-      height: '100vh',
+      width: '1260px',
+      height: '2400px',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
