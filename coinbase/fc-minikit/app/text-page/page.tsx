@@ -91,9 +91,9 @@ export default function TextPage() {
     onSwipedRight: () => {
       console.log('➡️ Swipe right detected');
     },
-    trackMouse: true,
-    delta: 30,
-    swipeDuration: 400,
+    trackMouse: false, // Disable mouse tracking to avoid conflicts
+    delta: 50, // Less sensitive to avoid accidental triggers
+    swipeDuration: 500, // Slower response for more intentional swipes
     preventScrollOnSwipe: true,
     trackTouch: true,
     rotationAngle: 0,
@@ -136,9 +136,10 @@ export default function TextPage() {
           style={{ 
             width: '100%', 
             height: '100%',
-            objectFit: 'cover',
+            objectFit: 'contain',
             display: 'block',
             pointerEvents: 'none',
+            margin: '0 auto',
           }}
           priority
           unoptimized={true}
