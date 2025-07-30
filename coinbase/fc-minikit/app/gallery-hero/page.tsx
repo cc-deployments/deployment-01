@@ -199,22 +199,7 @@ export default function GalleryHero() {
         
 
         
-        {/* Swipe instructions */}
-        <div style={{
-          position: 'absolute',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          color: 'white',
-          textAlign: 'center',
-          fontSize: '16px',
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          padding: '8px 16px',
-          borderRadius: '8px',
-          pointerEvents: 'none'
-        }}>
-          Swipe up or down to navigate
-        </div>
+
       </div>
     </div>
   );
