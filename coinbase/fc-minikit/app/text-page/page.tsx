@@ -125,7 +125,8 @@ export default function TextPage() {
         width: '100%', 
         height: '100%', 
         backgroundColor: '#000',
-        position: 'relative'
+        position: 'relative',
+        pointerEvents: 'none' // Prevent this div from blocking swipe events
       }}>
         <Image
           src="/text-page.png"
