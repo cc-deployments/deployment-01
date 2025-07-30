@@ -87,15 +87,18 @@ export default function GalleryHero() {
     onSwipedRight: () => {
       console.log('➡️ Swipe right detected');
     },
+    onSwipeStart: (eventData) => {
+      console.log('🎯 Swipe started:', eventData);
+    },
     onSwiped: (eventData) => {
-      console.log('🔄 Swipe event detected:', eventData);
+      console.log('🏁 Swipe ended:', eventData);
     },
     onSwiping: (eventData) => {
       console.log('🔄 Swiping in progress:', eventData);
     },
     trackMouse: true,
-    delta: 50, // Less sensitive for better control
-    swipeDuration: 500, // Slower response for better detection
+    delta: 30, // More sensitive for easier detection
+    swipeDuration: 400, // Faster response
     preventScrollOnSwipe: true,
     trackTouch: true,
     rotationAngle: 0,
