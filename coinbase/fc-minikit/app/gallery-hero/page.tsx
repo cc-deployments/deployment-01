@@ -17,11 +17,11 @@ export default function GalleryHero() {
 
   // Set frame ready with disableNativeGestures to prevent conflicts
   useEffect(() => {
-    if (!isFrameReady) {
+    if (!isFrameReady && context) {
       console.log('📱 Setting frame ready with disableNativeGestures to prevent conflicts');
       setFrameReady({ disableNativeGestures: true });
     }
-  }, [isFrameReady, setFrameReady]);
+  }, [isFrameReady, setFrameReady, context]);
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     console.log('🎹 Key pressed:', event.key);
