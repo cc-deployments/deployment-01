@@ -18,6 +18,7 @@ const nextConfig = {
       '@shared/auth': path.resolve(__dirname, '../../../packages/shared-auth'),
       '@shared/ui': path.resolve(__dirname, '../../../packages/shared-ui'),
       '@shared/privy': path.resolve(__dirname, '../../../packages/privy'),
+      '@farcaster/frame-sdk': false, // Resolve Farcaster SDK dependency issue
     };
     
     // Improve module resolution for dynamic imports
