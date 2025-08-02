@@ -28,7 +28,7 @@ const baseChain = {
 export function Providers(props: { children: ReactNode }) {
   return (
     <MiniKitProvider
-      apiKey={process.env.NEXT_PUBLIC_CDP_CLIENT_API_KEY || "test-key"}
+      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
       chain={baseChain}
     >
       {props.children}
