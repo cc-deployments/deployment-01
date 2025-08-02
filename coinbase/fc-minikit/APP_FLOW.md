@@ -245,18 +245,18 @@ const result = await sendBroadcastNotification(
 4. **Manifold Gallery (`/manifold-gallery`)**: Redirect to Manifold.xyz
 5. **Social Identity (`/socialidentity`)**: Wallet connection and identity display
 
-### **Navigation Flow (REVISED - 2025-07-28):**
+### **Navigation Flow (UPDATED - 2025-01-27):**
 ```
 Gallery Hero → Gallery Hero 2 → Text Page → Manifold Gallery (redirect)
      ↓
 Social Identity (wallet connection)
 ```
 
-### **Swipe Navigation (REVISED - 2025-07-28):**
-- **Gallery Hero:** Swipe Up → Gallery Hero 2, Swipe Down → No action (first page)
-- **Gallery Hero 2:** Swipe Up → Text Page, Swipe Down → Gallery Hero
-- **Text Page:** Swipe Up → Manifold Gallery, Swipe Down → Gallery Hero 2
-- **Tap Buttons:** Direct navigation to specific pages
+### **Button Navigation (UPDATED - 2025-01-27):**
+- **Gallery Hero:** "Unlock the Ride" button → Gallery Hero 2, Share button → Social sharing
+- **Gallery Hero 2:** Image display only (no buttons)
+- **Text Page:** "Unlock the Ride" button → Manifold Gallery
+- **Keyboard Navigation:** Arrow keys for accessibility
 
 ### **Previous Navigation Flow (ARCHIVED):**
 ```
@@ -316,7 +316,7 @@ objectFit: 'contain'  /* No distortion */
 - **Framework:** Next.js 14 with App Router
 - **Styling:** Tailwind CSS with custom theme
 - **State Management:** React hooks and context
-- **Navigation:** React Swipeable for touch gestures
+- **Navigation:** MiniKit's `useOpenUrl()` for button-based navigation
 
 ### **Backend Services:**
 - **Hosting:** Vercel (automatic deployments)
@@ -376,12 +376,12 @@ git push origin main
 4. **✅ Neynar Integration**: COMPLETED - Webhook configured, no Redis needed
 5. **✅ Dynamic Manifest**: CONFIRMED WORKING - API route serving data correctly
 
-### **🔄 Next Priority:**
-**Neynar API Key Setup** - Complete environment variable configuration:
-1. Add Neynar API key to `.env.local` for local development
-2. Add Neynar API key to Vercel environment variables for production
-3. Test notification functionality locally
-4. Test notification functionality in production
+### **✅ COMPLETED:**
+**Neynar Integration** - Complete with webhook and API key setup:
+1. ✅ Neynar API key configured in `.env.local` for local development
+2. ✅ Neynar API key configured in Vercel environment variables for production
+3. ✅ Notification functionality tested and working
+4. ✅ Webhook URL updated to Neynar managed system
 
 ### **Phase 2: Production Deployment**
 1. **✅ Embed Validation**: COMPLETED - Farcaster dev tools working
@@ -415,11 +415,11 @@ git push origin main
 - **Localhost Testing**: ✅ All simulations passing
 - **Ready for Production**: ✅ All patterns CBW-compatible
 
-### **🔄 Next Priority:**
-**Neynar API Key Setup** - Complete environment variable configuration:
-- Add Neynar API key to `.env.local` for local development
-- Add Neynar API key to Vercel environment variables for production
-- Test notification functionality
+### **✅ COMPLETED:**
+**Neynar Integration** - Complete with webhook and API key setup:
+- ✅ Neynar API key configured in `.env.local` for local development
+- ✅ Neynar API key configured in Vercel environment variables for production
+- ✅ Notification functionality tested and working
 
 ## 🔍 **IMPORTANT NOTES**
 
@@ -451,7 +451,7 @@ coinbase/fc-minikit/
 ---
 
 **Last Updated:** 2025-01-27  
-**Status:** ✅ Neynar integration complete - Environment variable setup needed
+**Status:** ✅ Neynar integration complete - Ready for production
 
 ## 🏗️ **MONOREPO DEPLOYMENT CONFIGURATION** (2025-01-27)
 

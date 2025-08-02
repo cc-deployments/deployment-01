@@ -2,7 +2,6 @@
 
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { useSwipeable } from 'react-swipeable';
 import { useOpenUrl } from '@coinbase/onchainkit/minikit';
 import { useSafeArea } from '../hooks/useSafeArea';
 import { useMiniKit } from '@coinbase/onchainkit/minikit';
@@ -61,63 +60,7 @@ export default function GalleryHero() {
     };
   }, [handleKeyPress]);
 
-  const handlers = useSwipeable({
-    onSwipedUp: async () => {
-      console.log('⬆️ Swipe up detected - navigating to gallery-hero-2');
-      try {
-        if (openUrl) {
-          console.log('🌐 Using MiniKit openUrl for navigation');
-          openUrl('/gallery-hero-2');
-        } else {
-          console.log('🌐 Using window.location for navigation');
-          window.location.href = '/gallery-hero-2';
-        }
-      } catch (error) {
-        console.error('Navigation error:', error);
-        window.location.href = '/gallery-hero-2';
-      }
-    },
-    onSwipedDown: async () => {
-      console.log('⬇️ Swipe down detected - navigating to text-page');
-      try {
-        if (openUrl) {
-          console.log('🌐 Using MiniKit openUrl for navigation');
-          openUrl('/text-page');
-        } else {
-          console.log('🌐 Using window.location for navigation');
-          window.location.href = '/text-page';
-        }
-      } catch (error) {
-        console.error('Navigation error:', error);
-        window.location.href = '/text-page';
-      }
-    },
-    onSwipedLeft: () => {
-      console.log('⬅️ Swipe left detected');
-    },
-    onSwipedRight: () => {
-      console.log('➡️ Swipe right detected');
-    },
-    onSwipeStart: (eventData) => {
-      console.log('🎯 Swipe started:', eventData);
-    },
-    onSwiped: (eventData) => {
-      console.log('🏁 Swipe ended:', eventData);
-    },
-    onSwiping: (eventData) => {
-      console.log('🔄 Swiping in progress:', eventData);
-    },
-    trackMouse: false, // Disable mouse tracking to avoid conflicts
-    delta: 50, // Less sensitive to avoid accidental triggers
-    swipeDuration: 500, // Slower response for more intentional swipes
-    preventScrollOnSwipe: true,
-    trackTouch: true,
-    rotationAngle: 0,
-    touchEventOptions: { passive: false },
-  });
-
   console.log('📱 Safe area insets:', safeArea);
-  console.log('🎯 Swipe handlers attached:', !!handlers);
 
   if (isLoading) {
     return (
@@ -137,7 +80,6 @@ export default function GalleryHero() {
 
   return (
     <div 
-      {...handlers} 
       className="gallery-hero-container"
       style={{
         position: 'relative',
@@ -145,7 +87,6 @@ export default function GalleryHero() {
         width: '100vw',
         height: '100vh',
         overflow: 'hidden',
-        touchAction: 'pan-y', // Allow vertical scrolling for swipe detection
         userSelect: 'none',
         WebkitUserSelect: 'none',
         WebkitTouchCallout: 'none',
@@ -154,14 +95,13 @@ export default function GalleryHero() {
         justifyContent: 'center',
         alignItems: 'center',
       }}
-
     >
       <div className="gallery-hero-image-container" style={{ 
         width: '100%', 
         height: '100%', 
         backgroundColor: '#000',
         position: 'relative',
-        pointerEvents: 'none' // Prevent this div from blocking swipe events
+        pointerEvents: 'none' // Prevent this div from blocking events
       }}>
         <Image
           src="/carmania-gallery-hero.png"
@@ -196,10 +136,6 @@ export default function GalleryHero() {
             console.log('✅ Image loaded successfully');
           }}
         />
-        
-
-        
-
       </div>
     </div>
   );

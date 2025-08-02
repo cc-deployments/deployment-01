@@ -2,7 +2,6 @@
 
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { useSwipeable } from 'react-swipeable';
 import { useOpenUrl, useMiniKit } from '@coinbase/onchainkit/minikit';
 
 export default function GalleryHero2() {
@@ -64,45 +63,8 @@ export default function GalleryHero2() {
     };
   }, [handleKeyPress]);
 
-  const handlers = useSwipeable({
-    onSwipedUp: async () => {
-      console.log('⬆️ Swipe up detected - navigating to text-page');
-      try {
-        console.log('🌐 Using openUrl for navigation');
-        openUrl('/text-page');
-      } catch (error) {
-        console.error('Navigation error:', error);
-        window.location.href = '/text-page';
-      }
-    },
-    onSwipedDown: async () => {
-      console.log('⬇️ Swipe down detected - navigating to gallery-hero');
-      try {
-        console.log('🌐 Using openUrl for navigation');
-        openUrl('/gallery-hero');
-      } catch (error) {
-        console.error('Navigation error:', error);
-        window.location.href = '/gallery-hero';
-      }
-    },
-    onSwipedLeft: () => {
-      console.log('⬅️ Swipe left detected');
-    },
-    onSwipedRight: () => {
-      console.log('➡️ Swipe right detected');
-    },
-    trackMouse: false, // Disable mouse tracking to avoid conflicts
-    delta: 50, // Less sensitive to avoid accidental triggers
-    swipeDuration: 500, // Slower response for more intentional swipes
-    preventScrollOnSwipe: true,
-    trackTouch: true,
-    rotationAngle: 0,
-    touchEventOptions: { passive: false },
-  });
-
   return (
     <div 
-      {...handlers} 
       className="gallery-hero-2-container"
       style={{
         position: 'relative',
@@ -110,7 +72,6 @@ export default function GalleryHero2() {
         width: '100vw',
         height: '100vh',
         overflow: 'hidden',
-        touchAction: 'pan-y',
         userSelect: 'none',
         WebkitUserSelect: 'none',
         WebkitTouchCallout: 'none',
@@ -125,7 +86,7 @@ export default function GalleryHero2() {
         height: '100%', 
         backgroundColor: '#000',
         position: 'relative',
-        pointerEvents: 'none' // Prevent this div from blocking swipe events
+        pointerEvents: 'none' // Prevent this div from blocking events
       }}>
         <Image
           src="/carmania-gallery-hero-2.png"
@@ -152,7 +113,7 @@ export default function GalleryHero2() {
               console.log('❌ All images failed, showing background only');
               const container = img.parentElement;
               if (container) {
-                container.innerHTML = '<div style="color: white; text-align: center; font-size: 24px;">CarMania Gallery 2</div>';
+                container.innerHTML = '<div style="color: white; text-align: center; font-size: 24px;">Gallery Hero 2</div>';
               }
             }
           }}
@@ -160,8 +121,6 @@ export default function GalleryHero2() {
             console.log('✅ Image loaded successfully');
           }}
         />
-        
-
       </div>
     </div>
   );
