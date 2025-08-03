@@ -47,13 +47,27 @@ export default function RootLayout({
         <script 
           dangerouslySetInnerHTML={{
             __html: `
-              // Simple Eruda initialization
+              // Simple Eruda initialization with 401 error suppression
               (function() {
                 const initEruda = () => {
                   if (typeof window.eruda === 'undefined') {
                     setTimeout(initEruda, 100);
                     return;
                   }
+                  
+                  // Suppress 401 errors from cca-lite.coinbase.com
+                  const originalFetch = window.fetch;
+                  window.fetch = function(...args) {
+                    const url = args[0];
+                    if (typeof url === 'string' && url.includes('cca-lite.coinbase.com')) {
+                      console.log('Suppressing 401 error from: ' + url);
+                      return Promise.resolve(new Response(JSON.stringify({}), {
+                        status: 200,
+                        headers: { 'Content-Type': 'application/json' }
+                      }));
+                    }
+                    return originalFetch.apply(this, args);
+                  };
                   
                   // Enable Eruda for development environments
                   if (window.location.hostname === 'localhost' ||
