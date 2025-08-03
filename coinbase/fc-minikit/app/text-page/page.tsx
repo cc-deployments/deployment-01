@@ -48,8 +48,8 @@ export default function TextPage() {
   const swipeHandlers = useSwipeable({
     onSwipedUp: async () => {
       console.log('⬆️ Swipe up detected - opening external Manifold Gallery');
-      // Directly open external Manifold Gallery URL
-      window.open('https://manifold.xyz/@carculture', '_blank');
+      // Navigate to external Manifold Gallery URL (avoids popup blockers)
+      window.location.href = 'https://manifold.xyz/@carculture';
     },
     onSwipedDown: async () => {
       console.log('⬇️ Swipe down detected - navigating to gallery-hero-2');
