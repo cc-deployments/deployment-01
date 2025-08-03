@@ -261,17 +261,17 @@ Social Identity (wallet connection)
 
 ### **Complete Swipe Navigation Flow (UPDATED - 2025-08-03):**
 ```
-Gallery Hero (swipe up) → Gallery Hero 2 (swipe up) → Text Page (swipe up) → Manifold Gallery (swipe down) → Text Page
+Gallery Hero (swipe up) → Gallery Hero 2 (swipe up) → Text Page (swipe up) → External URL (https://manifold.xyz/@carculture)
      ↓                                                                                                    ↑
-Gallery Hero 2 (swipe down) ← Gallery Hero (swipe down) ← Text Page (swipe down) ← Manifold Gallery
+Gallery Hero 2 (swipe down) ← Gallery Hero (swipe down) ← Text Page (swipe down) ← (no return from external)
 ```
 
-### **Manifold Gallery Integration (COMPLETED - 2025-08-03):**
-- **✅ Swipe Navigation:** Text Page → Manifold Gallery (swipe up)
-- **✅ Return Navigation:** Manifold Gallery → Text Page (swipe down)
-- **✅ External Redirect:** Manifold Gallery shows briefly then redirects to https://manifold.xyz/@carculture
-- **✅ MiniKit Integration:** Proper frame ready configuration and gesture handling
-- **✅ User Experience:** 2-second delay allows users to see the page and swipe back if needed
+### **Manifold Gallery Integration (UPDATED - 2025-08-03):**
+- **✅ Direct External Navigation:** Text Page → External URL (https://manifold.xyz/@carculture)
+- **✅ Swipe Up Handler:** Directly opens external URL in new tab
+- **✅ Keyboard Navigation:** Arrow up also opens external URL
+- **✅ Simplified Flow:** No internal manifold-gallery page needed
+- **✅ User Experience:** Immediate access to Manifold Gallery
 
 ### **Previous Navigation Flow (ARCHIVED):**
 ```

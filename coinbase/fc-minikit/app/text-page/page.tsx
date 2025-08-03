@@ -47,8 +47,9 @@ export default function TextPage() {
   // Custom swipe handlers for navigation
   const swipeHandlers = useSwipeable({
     onSwipedUp: async () => {
-      console.log('⬆️ Swipe up detected - navigating to manifold-gallery');
-      navigateTo('/manifold-gallery');
+      console.log('⬆️ Swipe up detected - opening external Manifold Gallery');
+      // Directly open external Manifold Gallery URL
+      window.open('https://manifold.xyz/@carculture', '_blank');
     },
     onSwipedDown: async () => {
       console.log('⬇️ Swipe down detected - navigating to gallery-hero-2');
@@ -76,8 +77,9 @@ export default function TextPage() {
     console.log('🎹 Key pressed:', event.key);
     
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
-      console.log('⬆️ Keyboard navigation: Swipe up - navigating to manifold-gallery');
-      navigateTo('/manifold-gallery');
+      console.log('⬆️ Keyboard navigation: Swipe up - opening external Manifold Gallery');
+      // Directly open external Manifold Gallery URL
+      window.open('https://manifold.xyz/@carculture', '_blank');
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down - navigating to gallery-hero-2');
       navigateTo('/gallery-hero-2');
