@@ -247,7 +247,7 @@ const result = await sendBroadcastNotification(
 
 ### **Navigation Flow (UPDATED - 2025-01-27):**
 ```
-Gallery Hero → Gallery Hero 2 → Text Page → Manifold Gallery (redirect)
+Gallery Hero ↔ Gallery Hero 2 ↔ Text Page ↔ Manifold Gallery (redirects to https://manifold.xyz/@carculture)
      ↓
 Social Identity (wallet connection)
 ```
@@ -256,8 +256,22 @@ Social Identity (wallet connection)
 - **Gallery Hero:** "Unlock the Ride" button → Manifold MINT page (Cloudflare API + SQL database), Share button → Social sharing
 - **Gallery Hero 2:** Image display only (no buttons)
 - **Text Page:** "Unlock the Ride" button → Manifold MINT page (Cloudflare API + SQL database)
-- **Manifold Gallery:** Follows text-page in navigation flow (static URL: https://manifold.xyz/@carculture)
+- **Manifold Gallery:** Follows text-page in navigation flow (static URL: https://manifold.xyz/@carculture), shows brief page then redirects
 - **Keyboard Navigation:** Arrow keys for accessibility
+
+### **Complete Swipe Navigation Flow (UPDATED - 2025-08-03):**
+```
+Gallery Hero (swipe up) → Gallery Hero 2 (swipe up) → Text Page (swipe up) → Manifold Gallery (swipe down) → Text Page
+     ↓                                                                                                    ↑
+Gallery Hero 2 (swipe down) ← Gallery Hero (swipe down) ← Text Page (swipe down) ← Manifold Gallery
+```
+
+### **Manifold Gallery Integration (COMPLETED - 2025-08-03):**
+- **✅ Swipe Navigation:** Text Page → Manifold Gallery (swipe up)
+- **✅ Return Navigation:** Manifold Gallery → Text Page (swipe down)
+- **✅ External Redirect:** Manifold Gallery shows briefly then redirects to https://manifold.xyz/@carculture
+- **✅ MiniKit Integration:** Proper frame ready configuration and gesture handling
+- **✅ User Experience:** 2-second delay allows users to see the page and swipe back if needed
 
 ### **Previous Navigation Flow (ARCHIVED):**
 ```

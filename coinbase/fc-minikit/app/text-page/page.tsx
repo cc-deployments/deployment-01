@@ -168,15 +168,23 @@ export default function TextPage() {
         top: '62%', // Moved up 1% from 63%
         left: '50%',
         transform: 'translateX(-50%)',
-        zIndex: 10,
+        zIndex: 1000, // Higher z-index to ensure it's on top
         pointerEvents: 'auto',
       }}>
         <button
           className="unlock-button"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
             console.log('🔓 UNLOCK button clicked - navigating to most recent NFT mint');
             // Navigate to most recent NFT mint URL from SQL database
             window.open('https://app.manifold.xyz/c/light-bulb-moment', '_blank');
+          }}
+          onTouchStart={() => {
+            console.log('👆 Touch start on UNLOCK button');
+          }}
+          onTouchEnd={() => {
+            console.log('👆 Touch end on UNLOCK button');
           }}
           style={{
             backgroundColor: 'rgba(255, 0, 0, 0.8)', // More visible red background
@@ -194,6 +202,9 @@ export default function TextPage() {
             // Mobile responsive sizing
             minWidth: '120px',
             maxWidth: '300px',
+            // Ensure button is clickable
+            position: 'relative',
+            zIndex: 1001,
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = 'rgba(255, 0, 0, 0.9)';

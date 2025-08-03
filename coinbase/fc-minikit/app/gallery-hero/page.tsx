@@ -183,15 +183,23 @@ export default function GalleryHero() {
         top: '74%', // Moved up 1% from 75%
         left: '50%',
         transform: 'translateX(-50%)',
-        zIndex: 10,
+        zIndex: 1000, // Higher z-index to ensure it's on top
         pointerEvents: 'auto',
       }}>
         <button
           className="unlock-button"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
             console.log('🔓 UNLOCK button clicked - navigating to most recent NFT mint');
             // Navigate to most recent NFT mint URL from SQL database
             window.open('https://app.manifold.xyz/c/light-bulb-moment', '_blank');
+          }}
+          onTouchStart={() => {
+            console.log('👆 Touch start on UNLOCK button');
+          }}
+          onTouchEnd={() => {
+            console.log('👆 Touch end on UNLOCK button');
           }}
           style={{
             backgroundColor: 'rgba(255, 0, 0, 0.8)', // More visible red background
@@ -209,6 +217,9 @@ export default function GalleryHero() {
             // Mobile responsive sizing
             minWidth: '120px',
             maxWidth: '300px',
+            // Ensure button is clickable
+            position: 'relative',
+            zIndex: 1001,
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = 'rgba(255, 0, 0, 0.9)';
@@ -218,6 +229,68 @@ export default function GalleryHero() {
           }}
         >
           🔓 UNLOCK the Ride
+        </button>
+      </div>
+
+      {/* Share Button */}
+      <div style={{
+        position: 'absolute',
+        top: '85%',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 1000,
+        pointerEvents: 'auto',
+      }}>
+        <button
+          className="share-button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('📤 Share button clicked!');
+            // Use native share API if available
+            if (navigator.share) {
+              navigator.share({
+                title: 'CarMania Gallery',
+                text: 'Check out this amazing car collection!',
+                url: window.location.href,
+              }).catch(console.error);
+            } else {
+              // Fallback: copy URL to clipboard
+              navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('Link copied to clipboard!');
+              }).catch(console.error);
+            }
+          }}
+          onTouchStart={() => {
+            console.log('👆 Touch start on SHARE button');
+          }}
+          onTouchEnd={() => {
+            console.log('👆 Touch end on SHARE button');
+          }}
+          style={{
+            backgroundColor: 'rgba(0, 123, 255, 0.8)', // Blue background
+            color: 'white',
+            border: '2px solid white',
+            borderRadius: '20px',
+            padding: '10px 20px',
+            fontSize: '16px',
+            cursor: 'pointer',
+            backdropFilter: 'blur(10px)',
+            transition: 'all 0.3s ease',
+            touchAction: 'manipulation',
+            fontWeight: 'bold',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
+            position: 'relative',
+            zIndex: 1001,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(0, 123, 255, 0.9)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(0, 123, 255, 0.8)';
+          }}
+        >
+          📤 Share
         </button>
       </div>
     </div>
