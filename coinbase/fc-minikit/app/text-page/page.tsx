@@ -173,8 +173,9 @@ export default function TextPage() {
       }}>
         <button
           onClick={() => {
-            console.log('🔓 UNLOCK button clicked - navigating to external Manifold Gallery');
-            navigateTo('/manifold-gallery');
+            console.log('🔓 UNLOCK button clicked - navigating to most recent NFT mint');
+            // Navigate to most recent NFT mint URL from SQL database
+            window.open('https://app.manifold.xyz/c/light-bulb-moment', '_blank');
           }}
           style={{
             backgroundColor: 'rgba(255, 0, 0, 0.8)', // More visible red background

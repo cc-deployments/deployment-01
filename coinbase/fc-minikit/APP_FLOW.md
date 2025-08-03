@@ -253,9 +253,10 @@ Social Identity (wallet connection)
 ```
 
 ### **Button Navigation (UPDATED - 2025-01-27):**
-- **Gallery Hero:** "Unlock the Ride" button → Gallery Hero 2, Share button → Social sharing
+- **Gallery Hero:** "Unlock the Ride" button → Manifold MINT page (Cloudflare API + SQL database), Share button → Social sharing
 - **Gallery Hero 2:** Image display only (no buttons)
-- **Text Page:** "Unlock the Ride" button → Manifold Gallery
+- **Text Page:** "Unlock the Ride" button → Manifold MINT page (Cloudflare API + SQL database)
+- **Manifold Gallery:** Follows text-page in navigation flow (static URL: https://manifold.xyz/@carculture)
 - **Keyboard Navigation:** Arrow keys for accessibility
 
 ### **Previous Navigation Flow (ARCHIVED):**

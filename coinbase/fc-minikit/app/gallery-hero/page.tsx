@@ -188,9 +188,9 @@ export default function GalleryHero() {
       }}>
         <button
           onClick={() => {
-            console.log('🔓 UNLOCK button clicked - navigating to Manifold Mint');
-            // Navigate to external Manifold Mint page
-            window.open('https://manifold.xyz/@carculture', '_blank');
+            console.log('🔓 UNLOCK button clicked - navigating to most recent NFT mint');
+            // Navigate to most recent NFT mint URL from SQL database
+            window.open('https://app.manifold.xyz/c/light-bulb-moment', '_blank');
           }}
           style={{
             backgroundColor: 'rgba(255, 0, 0, 0.8)', // More visible red background
