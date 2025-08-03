@@ -11,6 +11,8 @@ export default function ManifoldGallery() {
 
   // Set frame ready for MiniKit
   useEffect(() => {
+    // Always call setFrameReady() immediately when component mounts
+    console.log('📱 Setting frame ready with DISABLED native gestures to prevent conflicts');
     setFrameReady({ disableNativeGestures: true });
   }, [setFrameReady]);
 
