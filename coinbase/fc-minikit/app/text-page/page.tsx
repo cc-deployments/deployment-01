@@ -172,6 +172,7 @@ export default function TextPage() {
         pointerEvents: 'auto',
       }}>
         <button
+          className="unlock-button"
           onClick={() => {
             console.log('🔓 UNLOCK button clicked - navigating to most recent NFT mint');
             // Navigate to most recent NFT mint URL from SQL database
