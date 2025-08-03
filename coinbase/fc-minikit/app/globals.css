@@ -169,3 +169,61 @@ button[class*="prev"] {
   opacity: 0 !important;
   pointer-events: none !important;
 }
+
+/* Hide any text-based navigation elements */
+*:contains("Next"),
+*:contains("Next →"),
+*:contains("NEXT"),
+*:contains("NEXT →"),
+*:contains("→"),
+*:contains(">") {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide any elements with navigation-related text content */
+[data-text*="Next"],
+[data-text*="NEXT"],
+[data-text*="→"],
+[data-text*=">"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide any elements that might contain navigation text */
+div:has(span:contains("Next")),
+div:has(span:contains("NEXT")),
+div:has(span:contains("→")),
+div:has(span:contains(">")),
+span:contains("Next"),
+span:contains("NEXT"),
+span:contains("→"),
+span:contains(">") {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Additional comprehensive rules for any navigation elements */
+[class*="nav"],
+[class*="navigation"],
+[class*="overlay"],
+[class*="button"],
+[class*="next"],
+[class*="prev"],
+[class*="arrow"],
+[class*="arrow-right"],
+[class*="arrow-left"],
+[class*="chevron"],
+[class*="chevron-right"],
+[class*="chevron-left"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
