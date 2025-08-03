@@ -14,23 +14,12 @@ export default function GalleryHero() {
   console.log('🎨 GalleryHero component rendering...');
   console.log('🔍 Frame context available:', !!context);
 
-  // Set frame ready with disableNativeGestures to prevent conflicts
+  // Enable MiniKit's built-in navigation gestures
   useEffect(() => {
-    // Always try to call SDK ready, regardless of context state
-    try {
-      const sdk = (window as unknown as { sdk?: { actions?: { ready?: (options: { disableNativeGestures?: boolean }) => void } } }).sdk;
-      if (sdk?.actions?.ready) {
-        console.log('🔧 Calling underlying SDK ready() with disableNativeGestures');
-        sdk.actions.ready({ disableNativeGestures: true });
-      }
-    } catch {
-      console.log('⚠️ SDK not available in this environment');
-    }
-    
-    // Still try MiniKit if context is available
+    // Enable native gestures for MiniKit navigation
     if (!isFrameReady && context) {
-      console.log('📱 Setting frame ready with disableNativeGestures to prevent conflicts');
-      setFrameReady({ disableNativeGestures: true });
+      console.log('📱 Setting frame ready with ENABLED native gestures for MiniKit navigation');
+      setFrameReady({ disableNativeGestures: false });
     }
   }, [isFrameReady, setFrameReady, context]);
 
@@ -137,6 +126,43 @@ export default function GalleryHero() {
             console.log('✅ Image loaded successfully');
           }}
         />
+      </div>
+      
+      {/* Navigation Buttons */}
+      <div style={{
+        position: 'absolute',
+        bottom: safeArea.bottom + 20,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        display: 'flex',
+        gap: 20,
+        zIndex: 10,
+      }}>
+        <button
+          onClick={() => {
+            console.log('⬆️ Button navigation: Swipe up - navigating to gallery-hero-2');
+            openUrl('/gallery-hero-2');
+          }}
+          style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            color: 'white',
+            border: '2px solid white',
+            borderRadius: '25px',
+            padding: '12px 24px',
+            fontSize: '16px',
+            cursor: 'pointer',
+            backdropFilter: 'blur(10px)',
+            transition: 'all 0.3s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+          }}
+        >
+          Next →
+        </button>
       </div>
     </div>
   );

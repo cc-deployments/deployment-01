@@ -11,22 +11,11 @@ export default function GalleryHero2() {
   console.log('🎨 GalleryHero2 component rendering...');
   console.log('🔍 Frame context available:', !!context);
 
-  // Set frame ready with disableNativeGestures to prevent conflicts
+  // Enable MiniKit's built-in navigation gestures
   useEffect(() => {
     if (!isFrameReady && context) {
-      console.log('📱 Setting frame ready with disableNativeGestures to prevent conflicts');
-      setFrameReady({ disableNativeGestures: true });
-      
-      // Try to access the underlying SDK for gesture conflicts
-      try {
-        const sdk = (window as unknown as { sdk?: { actions?: { ready?: (options: { disableNativeGestures?: boolean }) => void } } }).sdk;
-        if (sdk?.actions?.ready) {
-          console.log('🔧 Calling underlying SDK ready() with disableNativeGestures');
-          sdk.actions.ready({ disableNativeGestures: true });
-        }
-      } catch {
-        console.log('⚠️ SDK not available in this environment');
-      }
+      console.log('📱 Setting frame ready with ENABLED native gestures for MiniKit navigation');
+      setFrameReady({ disableNativeGestures: false });
     }
   }, [isFrameReady, setFrameReady, context]);
 

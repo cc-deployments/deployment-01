@@ -2,7 +2,6 @@
 
 import React, { useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { useSwipeable } from 'react-swipeable';
 import { useOpenUrl, useComposeCast } from '@coinbase/onchainkit/minikit';
 
 export default function GalleryHero() {
@@ -38,42 +37,6 @@ export default function GalleryHero() {
     };
   }, [handleKeyPress]);
 
-  const handlers = useSwipeable({
-    onSwipedUp: async () => {
-      console.log('⬆️ Swipe up detected - navigating to gallery-hero-2');
-      try {
-        console.log('🌐 Using openUrl for navigation');
-        openUrl('/gallery-hero-2');
-      } catch (error) {
-        console.error('Navigation error:', error);
-        window.location.href = '/gallery-hero-2';
-      }
-    },
-    onSwipedDown: async () => {
-      console.log('⬇️ Swipe down detected - navigating to text-page');
-      try {
-        console.log('🌐 Using openUrl for navigation');
-        openUrl('/text-page');
-      } catch (error) {
-        console.error('Navigation error:', error);
-        window.location.href = '/text-page';
-      }
-    },
-    onSwipedLeft: () => {
-      console.log('⬅️ Swipe left detected');
-    },
-    onSwipedRight: () => {
-      console.log('➡️ Swipe right detected');
-    },
-    trackMouse: true,
-    delta: 30,
-    swipeDuration: 400,
-    preventScrollOnSwipe: true,
-    trackTouch: true,
-    rotationAngle: 0,
-    touchEventOptions: { passive: false },
-  });
-
   const handleShare = () => {
     console.log('🔘 Share button clicked!');
     composeCast({
@@ -84,7 +47,6 @@ export default function GalleryHero() {
 
   return (
     <div 
-      {...handlers} 
       className="gallery-hero-container"
       style={{
         position: 'relative',
@@ -92,7 +54,6 @@ export default function GalleryHero() {
         width: '100%',
         height: '100vh',
         overflow: 'hidden',
-        touchAction: 'pan-y',
         userSelect: 'none',
         WebkitUserSelect: 'none',
         WebkitTouchCallout: 'none',
