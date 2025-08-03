@@ -116,7 +116,7 @@ export default function ManifoldGallery() {
       }}>
         <div>
           <h1 style={{ fontSize: '24px', marginBottom: '20px' }}>🚗 Manifold Gallery</h1>
-          <p style={{ marginBottom: '15px' }}>Redirecting to CarCulture's NFT collection...</p>
+          <p style={{ marginBottom: '15px' }}>Redirecting to CarCulture&apos;s NFT collection...</p>
           <p style={{ fontSize: '14px', opacity: 0.8 }}>Swipe down to go back</p>
         </div>
       </div>
