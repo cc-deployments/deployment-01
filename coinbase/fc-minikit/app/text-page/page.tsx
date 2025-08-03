@@ -177,23 +177,24 @@ export default function TextPage() {
             navigateTo('/manifold-gallery');
           }}
           style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            backgroundColor: 'rgba(255, 0, 0, 0.8)', // More visible red background
             color: 'white',
-            border: '2px solid white',
+            border: '3px solid white', // Thicker border
             borderRadius: '25px',
-            padding: '12px 24px',
-            fontSize: '16px',
+            padding: '15px 30px', // Larger padding
+            fontSize: '18px', // Larger font
             cursor: 'pointer',
             backdropFilter: 'blur(10px)',
             transition: 'all 0.3s ease',
             touchAction: 'manipulation',
             fontWeight: 'bold',
+            boxShadow: '0 4px 8px rgba(0,0,0,0.5)', // Add shadow
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+            e.currentTarget.style.backgroundColor = 'rgba(255, 0, 0, 0.9)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+            e.currentTarget.style.backgroundColor = 'rgba(255, 0, 0, 0.8)';
           }}
         >
           🔓 UNLOCK the Ride
