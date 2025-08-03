@@ -11,17 +11,21 @@ export default function GalleryHero() {
   const openUrl = useOpenUrl();
   const { context, isFrameReady, setFrameReady } = useMiniKit();
   
+  // Environment detection
+  const isInMiniApp = !!context;
+  
   console.log('🎨 GalleryHero component rendering...');
   console.log('🔍 Frame context available:', !!context);
+  console.log('📱 In Mini App environment:', isInMiniApp);
 
   // Enable MiniKit's built-in navigation gestures
   useEffect(() => {
-    // Enable native gestures for MiniKit navigation
-    if (!isFrameReady && context) {
+    // Always call setFrameReady() regardless of context availability
+    if (!isFrameReady) {
       console.log('📱 Setting frame ready with ENABLED native gestures for MiniKit navigation');
       setFrameReady({ disableNativeGestures: false });
     }
-  }, [isFrameReady, setFrameReady, context]);
+  }, [isFrameReady, setFrameReady]);
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     console.log('🎹 Key pressed:', event.key);
