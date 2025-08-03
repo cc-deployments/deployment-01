@@ -23,7 +23,7 @@ export default function GalleryHero2() {
   }, [isFrameReady, setFrameReady]);
 
   // Navigation helper function - Use Next.js router by default
-  const navigateTo = (path: string) => {
+  const navigateTo = useCallback((path: string) => {
     console.log(`🧭 Navigating to: ${path}`);
     try {
       // Use Next.js router by default (avoids 401 errors in desktop browsers)
@@ -34,7 +34,7 @@ export default function GalleryHero2() {
       console.log('🔄 Falling back to window.location.href');
       window.location.href = path;
     }
-  };
+  }, [router]);
 
   // Custom swipe handlers for navigation
   const swipeHandlers = useSwipeable({

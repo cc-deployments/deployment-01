@@ -23,7 +23,7 @@ export default function TextPage() {
   }, [isFrameReady, setFrameReady]);
 
   // Navigation helper function - Use external URL for Manifold Gallery
-  const navigateTo = (path: string) => {
+  const navigateTo = useCallback((path: string) => {
     console.log(`🧭 Navigating to: ${path}`);
     try {
       if (path === '/manifold-gallery') {
@@ -44,7 +44,7 @@ export default function TextPage() {
         window.location.href = path;
       }
     }
-  };
+  }, [router]);
 
   // Custom swipe handlers for navigation
   const swipeHandlers = useSwipeable({

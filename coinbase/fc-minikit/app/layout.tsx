@@ -40,85 +40,101 @@ export default function RootLayout({
         </Providers>
         
         {/* Eruda Mobile Debugging - Development Only */}
-        <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            // Enhanced Eruda initialization for mobile debugging
-            (function() {
-              // Enable Eruda for development environments
-              if (window.location.hostname === 'localhost' ||
-                  window.location.hostname.includes('ngrok') ||
-                  window.location.hostname.includes('vercel.app')) {
-
-                eruda.init();
-
-                eruda.get('console').log('🔍 Eruda Debug Console Active');
-                eruda.get('console').log('📱 Mobile Debug Mode Enabled');
-                eruda.get('console').log('🌐 URL: ' + window.location.href);
-                eruda.get('console').log('📱 User Agent: ' + navigator.userAgent);
-
-                const isInMiniApp = window.location.href.includes('farcaster') ||
-                                   window.location.href.includes('warpcast') ||
-                                   window.location.href.includes('base.app');
-                eruda.get('console').log('🎯 Mini App Environment: ' + (isInMiniApp ? 'YES' : 'NO'));
-
-                // Suppress 401 errors from cca-lite.coinbase.com
-                const originalFetch = window.fetch;
-                window.fetch = function(...args) {
-                  const url = args[0];
-                  if (typeof url === 'string' && url.includes('cca-lite.coinbase.com')) {
-                    eruda.get('console').log('🚫 Suppressing 401 error from: ' + url);
-                    return Promise.resolve(new Response(JSON.stringify({}), {
-                      status: 200,
-                      headers: { 'Content-Type': 'application/json' }
-                    }));
+        <script 
+          src="https://cdn.jsdelivr.net/npm/eruda"
+          async
+        />
+        <script 
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Enhanced Eruda initialization for mobile debugging
+              (function() {
+                // Wait for Eruda to load
+                const initEruda = () => {
+                  if (typeof window.eruda === 'undefined') {
+                    setTimeout(initEruda, 100);
+                    return;
                   }
-                  return originalFetch.apply(this, args);
-                };
+                  
+                  // Enable Eruda for development environments
+                  if (window.location.hostname === 'localhost' ||
+                      window.location.hostname.includes('ngrok') ||
+                      window.location.hostname.includes('vercel.app')) {
 
-                document.addEventListener('touchstart', function(e) {
-                  eruda.get('console').log('👆 Touch Start:', e.touches.length + ' touches');
-                });
+                    window.eruda.init();
 
-                document.addEventListener('touchend', function(e) {
-                  eruda.get('console').log('👆 Touch End:', e.changedTouches.length + ' touches');
-                });
+                    window.eruda.get('console').log('🔍 Eruda Debug Console Active');
+                    window.eruda.get('console').log('📱 Mobile Debug Mode Enabled');
+                    window.eruda.get('console').log('🌐 URL: ' + window.location.href);
+                    window.eruda.get('console').log('📱 User Agent: ' + navigator.userAgent);
 
-                let startX = 0;
-                let startY = 0;
+                    const isInMiniApp = window.location.href.includes('farcaster') ||
+                                       window.location.href.includes('warpcast') ||
+                                       window.location.href.includes('base.app');
+                    window.eruda.get('console').log('🎯 Mini App Environment: ' + (isInMiniApp ? 'YES' : 'NO'));
 
-                document.addEventListener('touchstart', function(e) {
-                  startX = e.touches[0].clientX;
-                  startY = e.touches[0].clientY;
-                });
+                    // Suppress 401 errors from cca-lite.coinbase.com
+                    const originalFetch = window.fetch;
+                    window.fetch = function(...args) {
+                      const url = args[0];
+                      if (typeof url === 'string' && url.includes('cca-lite.coinbase.com')) {
+                        window.eruda.get('console').log('🚫 Suppressing 401 error from: ' + url);
+                        return Promise.resolve(new Response(JSON.stringify({}), {
+                          status: 200,
+                          headers: { 'Content-Type': 'application/json' }
+                        }));
+                      }
+                      return originalFetch.apply(this, args);
+                    };
 
-                document.addEventListener('touchend', function(e) {
-                  const endX = e.changedTouches[0].clientX;
-                  const endY = e.changedTouches[0].clientY;
-                  const deltaX = endX - startX;
-                  const deltaY = endY - startY;
+                    document.addEventListener('touchstart', function(e) {
+                      window.eruda.get('console').log('👆 Touch Start:', e.touches.length + ' touches');
+                    });
 
-                  if (Math.abs(deltaX) > 50 || Math.abs(deltaY) > 50) {
-                    eruda.get('console').log('🔄 Swipe Detected:', {
-                      deltaX: deltaX,
-                      deltaY: deltaY,
-                      direction: Math.abs(deltaX) > Math.abs(deltaY) ?
-                        (deltaX > 0 ? 'RIGHT' : 'LEFT') :
-                        (deltaY > 0 ? 'DOWN' : 'UP')
+                    document.addEventListener('touchend', function(e) {
+                      window.eruda.get('console').log('👆 Touch End:', e.changedTouches.length + ' touches');
+                    });
+
+                    let startX = 0;
+                    let startY = 0;
+
+                    document.addEventListener('touchstart', function(e) {
+                      startX = e.touches[0].clientX;
+                      startY = e.touches[0].clientY;
+                    });
+
+                    document.addEventListener('touchend', function(e) {
+                      const endX = e.changedTouches[0].clientX;
+                      const endY = e.changedTouches[0].clientY;
+                      const deltaX = endX - startX;
+                      const deltaY = endY - startY;
+
+                      if (Math.abs(deltaX) > 50 || Math.abs(deltaY) > 50) {
+                        window.eruda.get('console').log('🔄 Swipe Detected:', {
+                          deltaX: deltaX,
+                          deltaY: deltaY,
+                          direction: Math.abs(deltaX) > Math.abs(deltaY) ?
+                            (deltaX > 0 ? 'RIGHT' : 'LEFT') :
+                            (deltaY > 0 ? 'DOWN' : 'UP')
+                        });
+                      }
                     });
                   }
-                });
-              }
 
-              // Enable Eruda with URL parameter for production testing
-              if (window.location.search.includes('debug=true') ||
-                  window.location.search.includes('eruda=true')) {
-                eruda.init();
-                eruda.get('console').log('🔧 Eruda Enabled via URL Parameter');
-              }
-            })();
-          `
-        }} />
+                  // Enable Eruda with URL parameter for production testing
+                  if (window.location.search.includes('debug=true') ||
+                      window.location.search.includes('eruda=true')) {
+                    window.eruda.init();
+                    window.eruda.get('console').log('🔧 Eruda Enabled via URL Parameter');
+                  }
+                };
+                
+                // Start initialization
+                initEruda();
+              })();
+            `
+          }}
+        />
       </body>
     </html>
   );
