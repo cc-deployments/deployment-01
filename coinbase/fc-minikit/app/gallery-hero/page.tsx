@@ -180,7 +180,7 @@ export default function GalleryHero() {
       {/* UNLOCK Button Overlay for BASE Discord Debugging */}
       <div style={{
         position: 'absolute',
-        top: '75%',
+        top: '74%', // Moved up 1% from 75%
         left: '50%',
         transform: 'translateX(-50%)',
         zIndex: 10,
@@ -205,6 +205,9 @@ export default function GalleryHero() {
             touchAction: 'manipulation',
             fontWeight: 'bold',
             boxShadow: '0 4px 8px rgba(0,0,0,0.5)', // Add shadow
+            // Mobile responsive sizing
+            minWidth: '120px',
+            maxWidth: '300px',
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = 'rgba(255, 0, 0, 0.9)';
