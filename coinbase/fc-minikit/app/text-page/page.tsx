@@ -2,46 +2,89 @@
 
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { useOpenUrl, useMiniKit } from '@coinbase/onchainkit/minikit';
+import { useMiniKit } from '@coinbase/onchainkit/minikit';
+import { useSwipeable } from 'react-swipeable';
+import { useRouter } from 'next/navigation';
 
 export default function TextPage() {
-  const openUrl = useOpenUrl();
   const { context, isFrameReady, setFrameReady } = useMiniKit();
+  const router = useRouter();
   
   console.log('🎨 TextPage component rendering...');
   console.log('🔍 Frame context available:', !!context);
 
   // Enable MiniKit's built-in navigation gestures
   useEffect(() => {
-    if (!isFrameReady && context) {
-      console.log('📱 Setting frame ready with ENABLED native gestures for MiniKit navigation');
-      setFrameReady({ disableNativeGestures: false });
+    // Always call setFrameReady() regardless of context availability
+    if (!isFrameReady) {
+      console.log('📱 Setting frame ready with DISABLED native gestures to prevent conflicts');
+      setFrameReady({ disableNativeGestures: true });
     }
-  }, [isFrameReady, setFrameReady, context]);
+  }, [isFrameReady, setFrameReady]);
+
+  // Navigation helper function - Use external URL for Manifold Gallery
+  const navigateTo = (path: string) => {
+    console.log(`🧭 Navigating to: ${path}`);
+    try {
+      if (path === '/manifold-gallery') {
+        // Navigate to external Manifold Gallery
+        console.log('🌐 Opening external Manifold Gallery');
+        window.open('https://manifold.xyz/@carculture', '_blank');
+      } else {
+        // Use Next.js router for internal navigation
+        console.log('🔄 Using Next.js router (internal navigation)');
+        router.push(path);
+      }
+    } catch (error) {
+      console.error('Navigation error:', error);
+      console.log('🔄 Falling back to window.location.href');
+      if (path === '/manifold-gallery') {
+        window.location.href = 'https://manifold.xyz/@carculture';
+      } else {
+        window.location.href = path;
+      }
+    }
+  };
+
+  // Custom swipe handlers for navigation
+  const swipeHandlers = useSwipeable({
+    onSwipedUp: async () => {
+      console.log('⬆️ Swipe up detected - navigating to manifold-gallery');
+      navigateTo('/manifold-gallery');
+    },
+    onSwipedDown: async () => {
+      console.log('⬇️ Swipe down detected - navigating to gallery-hero-2');
+      navigateTo('/gallery-hero-2');
+    },
+    onSwipedLeft: () => {
+      console.log('⬅️ Swipe left detected');
+    },
+    onSwipedRight: () => {
+      console.log('➡️ Swipe right detected');
+    },
+    onSwipeStart: () => {
+      console.log('👆 Swipe start detected');
+    },
+    trackMouse: true,
+    delta: 30,
+    swipeDuration: 400,
+    preventScrollOnSwipe: true,
+    trackTouch: true,
+    rotationAngle: 0,
+    touchEventOptions: { passive: false },
+  });
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     console.log('🎹 Key pressed:', event.key);
     
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up - navigating to manifold-gallery');
-      try {
-        console.log('🌐 Using openUrl for navigation');
-        openUrl('/manifold-gallery');
-      } catch (error) {
-        console.error('Navigation error:', error);
-        window.location.href = '/manifold-gallery';
-      }
+      navigateTo('/manifold-gallery');
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down - navigating to gallery-hero-2');
-      try {
-        console.log('🌐 Using openUrl for navigation');
-        openUrl('/gallery-hero-2');
-      } catch (error) {
-        console.error('Navigation error:', error);
-        window.location.href = '/gallery-hero-2';
-      }
+      navigateTo('/gallery-hero-2');
     }
-  }, [openUrl]);
+  }, [navigateTo]);
 
   useEffect(() => {
     console.log('🎧 Setting up keyboard event listener');
@@ -54,6 +97,7 @@ export default function TextPage() {
 
   return (
     <div 
+      {...swipeHandlers}
       className="text-page-container"
       style={{
         position: 'relative',
@@ -68,6 +112,8 @@ export default function TextPage() {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        // Ensure MiniKit gestures work by not blocking touch events
+        touchAction: 'manipulation',
       }}
     >
       <div className="text-page-image-container" style={{ 
@@ -75,7 +121,9 @@ export default function TextPage() {
         height: '100%', 
         backgroundColor: '#000',
         position: 'relative',
-        pointerEvents: 'none' // Prevent this div from blocking events
+        // Allow touch events to pass through to MiniKit
+        pointerEvents: 'auto',
+        touchAction: 'manipulation',
       }}>
         <Image
           src="/text-page.png"
@@ -85,9 +133,11 @@ export default function TextPage() {
           style={{ 
             width: '100%', 
             height: '100%',
-            objectFit: 'contain',
+            objectFit: 'cover',
             display: 'block',
-            pointerEvents: 'none',
+            // Allow touch events to pass through
+            pointerEvents: 'auto',
+            touchAction: 'manipulation',
           }}
           priority
           unoptimized={true}
@@ -102,7 +152,7 @@ export default function TextPage() {
               console.log('❌ All images failed, showing background only');
               const container = img.parentElement;
               if (container) {
-                container.innerHTML = '<div style="color: white; text-align: center; font-size: 24px;">Text Page</div>';
+                container.innerHTML = '<div style="color: white; text-align: center; font-size: 24px;">CarMania Text Page</div>';
               }
             }
           }}

@@ -130,3 +130,42 @@ body {
   object-fit: cover;
   display: block;
 }
+
+/* Hide any global navigation overlays from MiniKit */
+[data-minikit-navigation],
+[class*="minikit-navigation"],
+[class*="minikit-overlay"],
+[class*="minikit-button"],
+[class*="minikit-nav"],
+[class*="minikit-next"],
+[class*="minikit-prev"],
+[class*="minikit-arrow"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide any button overlays that might be added by MiniKit */
+button[class*="minikit"],
+button[class*="navigation"],
+button[class*="overlay"],
+button[class*="next"],
+button[class*="prev"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide any global navigation elements */
+.navigation-overlay,
+.nav-overlay,
+.button-overlay,
+.next-button,
+.prev-button {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}

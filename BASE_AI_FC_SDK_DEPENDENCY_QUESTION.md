@@ -1,50 +1,58 @@
-# BASE AI Question: FC SDK Dependency Causing Authentication Issues
+# BASE AI Question: Deprecated @farcaster/frame-sdk Causing 401 Errors
 
-## Context
-We have a MiniKit-only Farcaster Mini App that was working fine until we installed Farcaster SDK dependencies. Now we're getting authentication errors:
+## Current Issue
+We're getting 401 Unauthorized errors from `cca-lite.coinbase.com` and deprecation warnings about `@farcaster/frame-sdk`. The SDK is still present in our dependency tree even though we're not using it directly.
 
-## Current Issues
-1. **403 Forbidden** - `/api/jwt` endpoint failing
-2. **Empty accounts list** - Provider not connecting properly  
-3. **Login blocked** - Can't authenticate in incognito mode
-4. **Runtime errors** - `tz.on is not a function` error
+## Error Details
+```
+POST https://cca-lite.coinbase.com/metrics 401 (Unauthorized)
+@farcaster/frame-sdk is deprecated. Please use @farcaster/miniapp-sdk instead.
+```
 
-## What Changed
-- **Before**: App worked fine with MiniKit-only architecture
-- **After**: Installed `@farcaster/frame-sdk` and related dependencies
-- **Result**: Authentication errors and runtime issues
+## Current Setup
+- Using `@coinbase/onchainkit` for MiniKit functionality
+- No direct imports of `@farcaster/frame-sdk` in our code
+- The deprecated SDK is coming through `@coinbase/onchainkit` dependencies
+- We've tried disabling it in `next.config.mjs` with `'@farcaster/frame-sdk': false`
 
 ## Questions for BASE AI
 
-1. **Why did installing FC SDK cause authentication issues?**
-   - We didn't have Privy authentication before
-   - Now getting 403 errors on `/api/jwt`
-   - Provider accounts list is empty
+1. **How to properly remove the deprecated SDK?** Should we:
+   - Use npm resolutions to override it?
+   - Update `@coinbase/onchainkit` to a newer version?
+   - Manually exclude it from webpack?
+   - Something else?
 
-2. **Should we remove FC SDK dependencies completely?**
-   - Our app is MiniKit-only and doesn't need FC SDK
-   - FC SDK seems to be pulling in authentication dependencies we don't need
-   - MiniKit should handle all Mini App functionality
+2. **Why are we getting 401 errors?** Are these related to:
+   - The deprecated SDK trying to make API calls?
+   - MiniKit provider initialization issues?
+   - Authentication problems with Coinbase APIs?
 
-3. **How to fix the `tz.on is not a function` error?**
-   - This error appeared after FC SDK installation
-   - Suggests a library initialization problem
-   - Could be related to authentication libraries
+3. **Best practices for MiniKit apps:** What's the recommended approach for:
+   - Handling deprecated dependencies in MiniKit projects?
+   - Avoiding 401 errors in development/production?
+   - Ensuring clean dependency trees?
 
-4. **What's the correct MiniKit-only architecture?**
-   - Should we use only `@coinbase/onchainkit/minikit`?
-   - Remove all FC SDK and authentication dependencies?
-   - Keep it simple with just MiniKit features?
+4. **Alternative solutions:** Should we:
+   - Switch to a different MiniKit version?
+   - Use a different approach for Mini App development?
+   - Implement custom solutions to avoid the deprecated SDK?
 
 ## Current Dependencies
 ```json
 {
-  "@coinbase/onchainkit": "^0.0.1",
-  "@coinbase/onchainkit/minikit": "^0.0.1",
-  "@shared/auth": "file:../../../packages/shared-auth",
-  "@shared/ui": "file:../../../packages/shared-ui"
+  "@coinbase/onchainkit": "^0.38.18",
+  "next": "15.3.4",
+  "react": "^18",
+  "react-dom": "^18",
+  "react-swipeable": "^7.0.2"
 }
 ```
 
-## Goal
-Return to a working MiniKit-only app without authentication issues or FC SDK dependencies. 
+## Environment
+- Next.js 14 with App Router
+- MiniKit for Farcaster Mini App development
+- Vercel deployment
+- Both mobile and desktop testing
+
+Please provide guidance on the recommended approach to resolve these issues. 

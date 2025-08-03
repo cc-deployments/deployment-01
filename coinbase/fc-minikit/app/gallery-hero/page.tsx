@@ -2,14 +2,15 @@
 
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { useOpenUrl } from '@coinbase/onchainkit/minikit';
 import { useSafeArea } from '../hooks/useSafeArea';
 import { useMiniKit } from '@coinbase/onchainkit/minikit';
+import { useSwipeable } from 'react-swipeable';
+import { useRouter } from 'next/navigation';
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea();
-  const openUrl = useOpenUrl();
   const { context, isFrameReady, setFrameReady } = useMiniKit();
+  const router = useRouter();
   
   // Environment detection
   const isInMiniApp = !!context;
@@ -22,28 +23,65 @@ export default function GalleryHero() {
   useEffect(() => {
     // Always call setFrameReady() regardless of context availability
     if (!isFrameReady) {
-      console.log('📱 Setting frame ready with ENABLED native gestures for MiniKit navigation');
-      setFrameReady({ disableNativeGestures: false });
+      console.log('📱 Setting frame ready with DISABLED native gestures to prevent conflicts');
+      // Disable native gestures to prevent conflicts with custom swipe handling
+      setFrameReady({ disableNativeGestures: true });
     }
   }, [isFrameReady, setFrameReady]);
+
+  // Navigation helper function - Use Next.js router by default
+  const navigateTo = (path: string) => {
+    console.log(`🧭 Navigating to: ${path}`);
+    try {
+      // Use Next.js router by default (avoids 401 errors in desktop browsers)
+      console.log('🔄 Using Next.js router (default)');
+      router.push(path);
+    } catch (error) {
+      console.error('Navigation error:', error);
+      console.log('🔄 Falling back to window.location.href');
+      window.location.href = path;
+    }
+  };
+
+  // Custom swipe handlers for navigation
+  const swipeHandlers = useSwipeable({
+    onSwipedUp: async () => {
+      console.log('⬆️ Swipe up detected - navigating to gallery-hero-2');
+      navigateTo('/gallery-hero-2');
+    },
+    onSwipedDown: async () => {
+      console.log('⬇️ Swipe down detected - this is the first page, no previous page');
+      // This is the first page, no previous page to navigate to
+    },
+    onSwipedLeft: () => {
+      console.log('⬅️ Swipe left detected');
+    },
+    onSwipedRight: () => {
+      console.log('➡️ Swipe right detected');
+    },
+    onSwipeStart: () => {
+      console.log('👆 Swipe start detected');
+    },
+    trackMouse: true,
+    delta: 30,
+    swipeDuration: 400,
+    preventScrollOnSwipe: true,
+    trackTouch: true,
+    rotationAngle: 0,
+    touchEventOptions: { passive: false },
+  });
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     console.log('🎹 Key pressed:', event.key);
     
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up - navigating to gallery-hero-2');
-      try {
-        console.log('🌐 Using openUrl for navigation');
-        openUrl('/gallery-hero-2');
-      } catch (error) {
-        console.error('Navigation error:', error);
-        window.location.href = '/gallery-hero-2';
-      }
+      navigateTo('/gallery-hero-2');
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down');
       // This is the first page, no previous page to navigate to
     }
-  }, [openUrl]);
+  }, [navigateTo]);
 
   useEffect(() => {
     console.log('🎧 Setting up keyboard event listener');
@@ -74,6 +112,7 @@ export default function GalleryHero() {
 
   return (
     <div 
+      {...swipeHandlers}
       className="gallery-hero-container"
       style={{
         position: 'relative',
@@ -88,6 +127,8 @@ export default function GalleryHero() {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        // Ensure MiniKit gestures work by not blocking touch events
+        touchAction: 'manipulation',
       }}
     >
       <div className="gallery-hero-image-container" style={{ 
@@ -95,7 +136,9 @@ export default function GalleryHero() {
         height: '100%', 
         backgroundColor: '#000',
         position: 'relative',
-        pointerEvents: 'none' // Prevent this div from blocking events
+        // Allow touch events to pass through to MiniKit
+        pointerEvents: 'auto',
+        touchAction: 'manipulation',
       }}>
         <Image
           src="/carmania-gallery-hero.png"
@@ -105,9 +148,11 @@ export default function GalleryHero() {
           style={{ 
             width: '100%', 
             height: '100%',
-            objectFit: 'contain',
+            objectFit: 'cover',
             display: 'block',
-            pointerEvents: 'none',
+            // Allow touch events to pass through
+            pointerEvents: 'auto',
+            touchAction: 'manipulation',
           }}
           priority
           unoptimized={true}
@@ -130,80 +175,6 @@ export default function GalleryHero() {
             console.log('✅ Image loaded successfully');
           }}
         />
-      </div>
-      
-      {/* Navigation Buttons */}
-      <div style={{
-        position: 'absolute',
-        bottom: safeArea.bottom + 20,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        display: 'flex',
-        gap: '20px',
-        zIndex: 10,
-      }}>
-        <button
-          onClick={() => {
-            console.log('⬆️ Button navigation: Swipe up - navigating to gallery-hero-2');
-            openUrl('/gallery-hero-2');
-          }}
-          style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.2)',
-            color: 'white',
-            border: '2px solid white',
-            borderRadius: '25px',
-            padding: '12px 24px',
-            fontSize: '16px',
-            cursor: 'pointer',
-            backdropFilter: 'blur(10px)',
-            transition: 'all 0.3s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
-          }}
-        >
-          ⬆️ Next Gallery
-        </button>
-      </div>
-      
-      {/* Navigation Buttons */}
-      <div style={{
-        position: 'absolute',
-        bottom: safeArea.bottom + 20,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        display: 'flex',
-        gap: 20,
-        zIndex: 10,
-      }}>
-        <button
-          onClick={() => {
-            console.log('⬆️ Button navigation: Swipe up - navigating to gallery-hero-2');
-            openUrl('/gallery-hero-2');
-          }}
-          style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.2)',
-            color: 'white',
-            border: '2px solid white',
-            borderRadius: '25px',
-            padding: '12px 24px',
-            fontSize: '16px',
-            cursor: 'pointer',
-            backdropFilter: 'blur(10px)',
-            transition: 'all 0.3s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
-          }}
-        >
-          Next →
-        </button>
       </div>
     </div>
   );
