@@ -38,6 +38,17 @@ export default function RootLayout({
           <EmbedHandler />
           <ShareHandler />
         </Providers>
+        
+        {/* Eruda Mobile Debugging - Development Only */}
+        <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            // Only enable in development
+            if (window.location.hostname === 'localhost' || window.location.hostname.includes('ngrok')) {
+              eruda.init();
+            }
+          `
+        }} />
       </body>
     </html>
   );
