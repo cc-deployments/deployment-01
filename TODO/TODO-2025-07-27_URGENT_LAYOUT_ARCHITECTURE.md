@@ -26,17 +26,17 @@ Gallery Hero ↔ Gallery Hero 2 ↔ Text Page → External URL (https://manifold
 - **Error:** "The final argument passed to useEffect changed size between renders"
 - **Location:** GalleryHero component, line 32
 - **Issue:** setFrameReady function reference changing between renders
-- **Status:** ✅ Submitted to BASE Discord for optimization
+- **Status:** ✅ **FIXED** - Following Discord pattern resolved the issue
 
 ### **2. 401 Unauthorized Errors from cca-lite.coinbase.com:**
 - **Multiple 401 errors visible in console**
 - **Previously suppressed, now visible for debugging**
-- **Status:** ✅ Submitted to BASE Discord for authentication fix
+- **Status:** ✅ **RESOLVED** - Expected behavior in desktop browsers, not actual errors
 
 ### **3. MiniKit Context Detection:**
 - **Console shows "Frame context available: false" on desktop**
 - **"In Mini App environment: false"**
-- **Status:** ✅ Submitted to BASE Discord for environment detection
+- **Status:** ✅ **RESOLVED** - This is by design, context is only available in Mini App environments
 
 ## 🔧 **TECHNICAL DETAILS:**
 
@@ -85,8 +85,9 @@ Gallery Hero ↔ Gallery Hero 2 ↔ Text Page → External URL (https://manifold
 - ✅ **Mobile responsive** - Works on all devices
 
 ## 🎯 **CURRENT STATUS:**
-**✅ READY FOR BASE DISCORD OPTIMIZATION**
-- **Functional app** with complete navigation
-- **Real error visibility** for debugging
-- **Mobile and desktop compatibility**
-- **Ticket submitted** - Waiting for BASE response 
+**✅ MAJOR ISSUES RESOLVED - APP FUNCTIONAL**
+- **✅ Runtime errors fixed** - MiniKit provider properly configured
+- **✅ 401 errors understood** - Expected behavior in desktop browsers
+- **✅ Context detection working** - Proper Mini App vs desktop detection
+- **✅ Navigation working** - Mobile swipe and desktop arrow navigation
+- **⏳ Button functionality** - Waiting for Discord team investigation 
