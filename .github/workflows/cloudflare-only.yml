@@ -44,6 +44,6 @@ jobs:
           cat wrangler.toml
           echo "=== END WRANGLER.TOML ==="
           echo "Deploying to Cloudflare Workers..."
-          WRANGLER_TELEMETRY_DISABLED=1 wrangler deploy
+          WRANGLER_TELEMETRY_DISABLED=1 wrangler deploy --config wrangler.toml
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }} 
