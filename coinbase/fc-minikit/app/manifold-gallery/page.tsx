@@ -7,14 +7,14 @@ import { useMiniKit } from '@coinbase/onchainkit/minikit';
 
 export default function ManifoldGallery() {
   const router = useRouter();
-  const { setFrameReady } = useMiniKit();
+  const { setFrameReady, isFrameReady } = useMiniKit(); // Added isFrameReady back
 
-  // Set frame ready for MiniKit
   useEffect(() => {
-    // Always call setFrameReady() immediately when component mounts
-    console.log('📱 Setting frame ready with DISABLED native gestures to prevent conflicts');
-    setFrameReady({ disableNativeGestures: true });
-  }, [setFrameReady]);
+    if (!isFrameReady) { // Added isFrameReady check back
+      console.log('📱 Setting frame ready with DISABLED native gestures to prevent conflicts');
+      setFrameReady({ disableNativeGestures: true });
+    }
+  }, [setFrameReady, isFrameReady]); // Added isFrameReady to dependency array
 
   // Navigation helper function
   const navigateTo = useCallback(async (path: string) => {
