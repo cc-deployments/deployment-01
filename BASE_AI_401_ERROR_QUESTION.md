@@ -1,65 +1,73 @@
-# Question for BASE AI: 401 Error from MiniKit API Calls in Desktop Browsers
+# BASE AI Question: MiniKit 401 Errors + Runtime Errors
 
-## Current Issue:
-- **Error**: `cca-lite.coinbase.co` 401 Unauthorized errors
-- **Trigger**: When navigating between pages in desktop browsers
-- **Environment**: Desktop browsers (Chrome, Safari) - not Mini App environment
-- **Impact**: Navigation fails, console errors appear
+## Issues:
+1. **401 Unauthorized**: `POST https://cca-lite.coinbase.com/metrics 401 (Unauthorized)`
+2. **Runtime Errors**: `useMiniKit must be used within a MiniKitProvider`
 
-## Error Details:
+## Error Log:
 ```
-❌ cca-lite.coinbase.co Failed to load resource: the server responded with a status of 401 ()
+⨯ Error: useMiniKit must be used within a MiniKitProvider
+    at GalleryHero (app/gallery-hero/page.tsx:12:61)
+    at EmbedHandler (app/components/EmbedHandler.tsx:7:32)
 ```
 
-## Current Implementation:
+## Current Setup:
 ```tsx
-// MiniKit setup
-const { context, isFrameReady, setFrameReady } = useMiniKit();
-const openUrl = useOpenUrl();
+// providers.tsx
+export function Providers(props: { children: ReactNode }) {
+  const isMiniApp = typeof window !== 'undefined' && 
+    (window.location.href.includes('farcaster.app') || 
+     window.location.href.includes('warpcast.com'));
 
-// Navigation logic
-const navigateTo = (path: string) => {
-  if (!context) {
-    // Desktop browser - use Next.js router
-    router.push(path);
-  } else {
-    // Mini App environment - use MiniKit
-    openUrl(path); // This causes 401 errors in desktop
+  if (isMiniApp) {
+    return <MiniKitProvider apiKey={process.env.NEXT_PUBLIC_CDP_CLIENT_API_KEY} chain={baseChain}>
+      {props.children}
+    </MiniKitProvider>;
   }
-};
+  return <>{props.children}</>; // This breaks useMiniKit() calls
+}
 ```
 
-## Questions for BASE AI:
+## Questions:
+1. **How to prevent 401 errors in desktop browsers while keeping MiniKit available?**
+2. **What's the correct pattern for conditional MiniKit usage without breaking components?**
+3. **Should we always provide MiniKitProvider but with different configurations?**
 
-### 1. **Why do 401 errors occur in desktop browsers?**
-- Are MiniKit API calls (`cca-lite.coinbase.co`) only meant for Mini App environments?
-- Should we completely avoid using `openUrl()` in desktop browsers?
-- Is there a proper way to detect if we're in a Mini App environment before making API calls?
+**Environment**: Next.js 15.3.4, MiniKit 0.38.18, valid CDP API key configured
 
-### 2. **What's the correct approach for desktop browser navigation?**
-- Should we use Next.js router exclusively in desktop browsers?
-- Are there any MiniKit methods that work safely in desktop browsers?
-- How to properly handle navigation in both environments without errors?
+**What's the recommended approach to fix both issues?**
 
-### 3. **Environment Detection Strategy**
-- Is checking `context` availability the right way to detect Mini App vs desktop?
-- Are there other MiniKit properties we should check?
-- Should we use different navigation methods based on environment?
+---
 
-### 4. **Error Prevention**
-- How to prevent MiniKit API calls in desktop browsers entirely?
-- Should we conditionally import or initialize MiniKit only in Mini App environments?
-- What's the best practice for handling MiniKit in mixed environments?
+## ✅ SOLUTION (BASE AI + Discord Answer):
 
-## Expected Behavior:
-- **Desktop Browsers**: Use Next.js router navigation, no API calls to `cca-lite.coinbase.co`
-- **Mini App Environment**: Use MiniKit navigation with proper API calls
-- **No 401 Errors**: Clean console without unauthorized API errors
+### **Root Cause:**
+- Conditional MiniKitProvider breaks `useMiniKit()` calls
+- 401 errors are **expected** in desktop browsers (not actual errors)
+- MiniKit context being `false` on desktop is by design
 
-## Current Environment:
-- **Framework**: Next.js 15.3.4 with App Router
-- **MiniKit Version**: `@coinbase/onchainkit` 0.38.18
-- **Testing**: Desktop browsers (context is false)
-- **Error**: 401 Unauthorized from `cca-lite.coinbase.co`
+### **Solution:**
+```tsx
+// providers.tsx - ALWAYS provide MiniKitProvider
+export function Providers(props: { children: ReactNode }) {
+  return (
+    <MiniKitProvider
+      apiKey={process.env.NEXT_PUBLIC_CDP_CLIENT_API_KEY || "test-key"}
+      chain={baseChain}
+    >
+      {props.children}
+    </MiniKitProvider>
+  );
+}
+```
 
-**What's the correct approach to prevent 401 errors from MiniKit API calls in desktop browsers while maintaining proper navigation functionality?** 
+### **Key Points:**
+1. **Always wrap with MiniKitProvider** - prevents "must be used within provider" errors
+2. **401 errors are expected** in desktop browsers - they won't break functionality
+3. **Check `context?.user?.fid`** to determine if in mini app environment
+4. **Use conditional rendering based on context**, not conditional provider wrapping
+
+### **Expected Behavior:**
+- **Desktop**: Context will be `false`, 401 errors in console (normal)
+- **Mini App**: Full MiniKit functionality with proper authentication
+- **No Runtime Errors**: Components work in both environments 
