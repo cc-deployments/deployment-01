@@ -1,9 +1,8 @@
 name: Deploy Cloudflare Workers
 
 on:
-  # Temporarily disabled for Farcaster Mini App testing
-  # push:
-  #   branches: [ main ]
+  push:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
