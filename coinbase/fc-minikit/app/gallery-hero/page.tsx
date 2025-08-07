@@ -22,9 +22,8 @@ export default function GalleryHero() {
   // Enable MiniKit's built-in navigation gestures
   useEffect(() => {
     if (!isFrameReady) {
-      console.log('📱 Setting frame ready with DISABLED native gestures to prevent conflicts');
-      // Disable native gestures to prevent conflicts with custom swipe handling
-      setFrameReady({ disableNativeGestures: true });
+      console.log('📱 Setting frame ready - testing without disableNativeGestures');
+      setFrameReady();
     }
   }, [setFrameReady, isFrameReady]);
 

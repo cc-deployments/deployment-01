@@ -11,8 +11,8 @@ export default function ManifoldGallery() {
 
   useEffect(() => {
     if (!isFrameReady) { // Added isFrameReady check back
-      console.log('📱 Setting frame ready with DISABLED native gestures to prevent conflicts');
-      setFrameReady({ disableNativeGestures: true });
+      console.log('📱 Setting frame ready - testing without disableNativeGestures');
+      setFrameReady();
     }
   }, [setFrameReady, isFrameReady]); // Added isFrameReady to dependency array
 
