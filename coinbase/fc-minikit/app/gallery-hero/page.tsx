@@ -110,7 +110,6 @@ export default function GalleryHero() {
   return (
     <div 
       {...swipeHandlers}
-      className="gallery-hero-container"
       style={{
         position: 'relative',
         backgroundColor: '#000',
@@ -128,7 +127,7 @@ export default function GalleryHero() {
         touchAction: 'manipulation',
       }}
     >
-      <div className="gallery-hero-image-container" style={{ 
+      <div style={{ 
         width: '100%', 
         height: '100%', 
         backgroundColor: '#000',
