@@ -7,7 +7,7 @@ import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 
 export default function GalleryHero2() {
-  const { context, setFrameReady, isFrameReady } = useMiniKit(); // Added isFrameReady back
+  const { setFrameReady, isFrameReady, context } = useMiniKit();
   const router = useRouter();
   
   console.log('🎨 GalleryHero2 component rendering...');
@@ -15,11 +15,10 @@ export default function GalleryHero2() {
 
   // Enable MiniKit's built-in navigation gestures
   useEffect(() => {
-    if (!isFrameReady) { // Added isFrameReady check back
-      console.log('📱 Setting frame ready - testing without disableNativeGestures');
+    if (!isFrameReady) {
       setFrameReady();
     }
-  }, [setFrameReady, isFrameReady]); // Added isFrameReady to dependency array
+  }, [setFrameReady, isFrameReady]);
 
   // Navigation helper function - Use Next.js router by default
   const navigateTo = useCallback((path: string) => {

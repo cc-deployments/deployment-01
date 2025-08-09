@@ -7,7 +7,7 @@ import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 
 export default function TextPage() {
-  const { context, setFrameReady, isFrameReady } = useMiniKit(); // Added isFrameReady back
+  const { setFrameReady, isFrameReady, context } = useMiniKit();
   const router = useRouter();
   
   console.log('🎨 TextPage component rendering...');
@@ -15,11 +15,10 @@ export default function TextPage() {
 
   // Enable MiniKit's built-in navigation gestures
   useEffect(() => {
-    if (!isFrameReady) { // Added isFrameReady check back
-      console.log('📱 Setting frame ready - testing without disableNativeGestures');
+    if (!isFrameReady) {
       setFrameReady();
     }
-  }, [setFrameReady, isFrameReady]); // Added isFrameReady to dependency array
+  }, [setFrameReady, isFrameReady]);
 
   // Navigation helper function - Use external URL for Manifold Gallery
   const navigateTo = useCallback((path: string) => {

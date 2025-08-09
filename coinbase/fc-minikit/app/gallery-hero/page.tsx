@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea();
-  const { context, setFrameReady, isFrameReady } = useMiniKit();
+  const { setFrameReady, isFrameReady, context } = useMiniKit();
   const router = useRouter();
   
   // Environment detection
@@ -22,7 +22,6 @@ export default function GalleryHero() {
   // Enable MiniKit's built-in navigation gestures
   useEffect(() => {
     if (!isFrameReady) {
-      console.log('📱 Setting frame ready - testing without disableNativeGestures');
       setFrameReady();
     }
   }, [setFrameReady, isFrameReady]);
