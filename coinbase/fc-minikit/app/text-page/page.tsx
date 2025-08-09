@@ -97,7 +97,6 @@ export default function TextPage() {
 
   return (
     <div 
-      {...swipeHandlers}
       style={{
         position: 'relative',
         backgroundColor: '#000',
@@ -107,20 +106,28 @@ export default function TextPage() {
         userSelect: 'none',
         WebkitUserSelect: 'none',
         WebkitTouchCallout: 'none',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        // Ensure MiniKit gestures work by not blocking touch events
-        touchAction: 'manipulation',
       }}
     >
+      {/* Swipe Area - EXCLUDES button area completely */}
+      <div 
+        {...swipeHandlers}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '60%', // Stop WELL BEFORE button area (button is at 63% from top)
+          pointerEvents: 'auto',
+          zIndex: 1,
+        }}
+      />
+      
+      {/* Image Container */}
       <div style={{ 
         width: '100%', 
         height: '100%', 
         backgroundColor: '#000',
         position: 'relative',
-        // Allow touch events to pass through to MiniKit
         pointerEvents: 'auto',
         touchAction: 'manipulation',
       }}>
@@ -134,7 +141,6 @@ export default function TextPage() {
             height: '100%',
             objectFit: 'cover',
             display: 'block',
-            // Allow touch events to pass through
             pointerEvents: 'auto',
             touchAction: 'manipulation',
           }}
@@ -161,21 +167,18 @@ export default function TextPage() {
         />
       </div>
       
-      {/* UNLOCK Button Overlay for BASE Discord Debugging */}
+      {/* Button Area - COMPLETELY SEPARATE from swipe detection */}
       <div 
         style={{
           position: 'absolute',
-          top: '62%', // Moved up 1% from 63%
+          top: '63%', // EXACTLY match the white button position
           left: '50%',
           transform: 'translateX(-50%)',
-          zIndex: 1000, // Higher z-index to ensure it's on top
+          zIndex: 1000,
           pointerEvents: 'auto',
         }}
       >
         <button
-          className="unlock-button"
-          onTouchStart={(e) => e.stopPropagation()}
-          onTouchEnd={(e) => e.stopPropagation()}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -184,33 +187,26 @@ export default function TextPage() {
             window.open('https://app.manifold.xyz/c/light-bulb-moment', '_blank');
           }}
           style={{
-            backgroundColor: 'rgba(255, 0, 0, 0.8)', // More visible red background
-            color: 'white',
-            border: '3px solid white', // Thicker border
+            backgroundColor: 'transparent', // Completely invisible
+            border: 'none',
             borderRadius: '25px',
-            padding: '15px 30px', // Larger padding
-            fontSize: '18px', // Larger font
+            padding: '15px 40px', // Match white button size
+            fontSize: '18px',
             cursor: 'pointer',
-            backdropFilter: 'blur(10px)',
-            transition: 'all 0.3s ease',
             touchAction: 'manipulation',
-            fontWeight: 'bold',
-            boxShadow: '0 4px 8px rgba(0,0,0,0.5)', // Add shadow
-            // Mobile responsive sizing
-            minWidth: '120px',
-            maxWidth: '300px',
-            // Ensure button is clickable
+            minWidth: '200px', // Match white button width
+            maxWidth: '350px', // Match white button max width
             position: 'relative',
             zIndex: 1001,
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 0, 0, 0.9)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 0, 0, 0.8)';
+            // Remove all visual styling - completely invisible
+            color: 'transparent',
+            boxShadow: 'none',
+            backdropFilter: 'none',
+            transition: 'none',
           }}
         >
-          🔓 UNLOCK the Ride
+          {/* Invisible text - just for accessibility */}
+          UNLOCK the Ride
         </button>
       </div>
     </div>
