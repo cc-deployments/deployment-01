@@ -60,9 +60,9 @@ export default function GalleryHero() {
       console.log('👆 Swipe start detected');
     },
     trackMouse: true,
-    delta: 30,
+    delta: 50, // Increased from 30 to reduce accidental swipes
     swipeDuration: 400,
-    preventScrollOnSwipe: true,
+    preventScrollOnSwipe: false, // Changed to false to allow button clicks
     trackTouch: true,
     rotationAngle: 0,
     touchEventOptions: { passive: false },
@@ -174,28 +174,26 @@ export default function GalleryHero() {
       </div>
       
       {/* UNLOCK Button Overlay for BASE Discord Debugging */}
-      <div style={{
-        position: 'absolute',
-        top: '74%', // Moved up 1% from 75%
-        left: '50%',
-        transform: 'translateX(-50%)',
-        zIndex: 1000, // Higher z-index to ensure it's on top
-        pointerEvents: 'auto',
-      }}>
+      <div 
+        style={{
+          position: 'absolute',
+          top: '74%', // Moved up 1% from 75%
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1000, // Higher z-index to ensure it's on top
+          pointerEvents: 'auto',
+        }}
+      >
         <button
           className="unlock-button"
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchEnd={(e) => e.stopPropagation()}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             console.log('🔓 UNLOCK button clicked - navigating to most recent NFT mint');
             // Navigate to most recent NFT mint URL from SQL database
             window.open('https://app.manifold.xyz/c/light-bulb-moment', '_blank');
-          }}
-          onTouchStart={() => {
-            console.log('👆 Touch start on UNLOCK button');
-          }}
-          onTouchEnd={() => {
-            console.log('👆 Touch end on UNLOCK button');
           }}
           style={{
             backgroundColor: 'rgba(255, 0, 0, 0.8)', // More visible red background
@@ -229,16 +227,20 @@ export default function GalleryHero() {
       </div>
 
       {/* Share Button */}
-      <div style={{
-        position: 'absolute',
-        top: '85%',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        zIndex: 1000,
-        pointerEvents: 'auto',
-      }}>
+      <div 
+        style={{
+          position: 'absolute',
+          top: '85%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1000,
+          pointerEvents: 'auto',
+        }}
+      >
         <button
           className="share-button"
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchEnd={(e) => e.stopPropagation()}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -256,12 +258,6 @@ export default function GalleryHero() {
                 alert('Link copied to clipboard!');
               }).catch(console.error);
             }
-          }}
-          onTouchStart={() => {
-            console.log('👆 Touch start on SHARE button');
-          }}
-          onTouchEnd={() => {
-            console.log('👆 Touch end on SHARE button');
           }}
           style={{
             backgroundColor: 'rgba(0, 123, 255, 0.8)', // Blue background

@@ -54,9 +54,9 @@ export default function GalleryHero2() {
       console.log('👆 Swipe start detected');
     },
     trackMouse: true,
-    delta: 30,
+    delta: 50, // Increased from 30 to reduce accidental swipes
     swipeDuration: 400,
-    preventScrollOnSwipe: true,
+    preventScrollOnSwipe: false, // Changed to false to allow button clicks
     trackTouch: true,
     rotationAngle: 0,
     touchEventOptions: { passive: false },
@@ -86,7 +86,6 @@ export default function GalleryHero2() {
   return (
     <div 
       {...swipeHandlers}
-      className="gallery-hero-2-container"
       style={{
         position: 'relative',
         backgroundColor: '#000',
@@ -104,7 +103,7 @@ export default function GalleryHero2() {
         touchAction: 'manipulation',
       }}
     >
-      <div className="gallery-hero-2-image-container" style={{ 
+      <div style={{ 
         width: '100%', 
         height: '100%', 
         backgroundColor: '#000',

@@ -65,9 +65,9 @@ export default function TextPage() {
       console.log('👆 Swipe start detected');
     },
     trackMouse: true,
-    delta: 30,
+    delta: 50, // Increased from 30 to reduce accidental swipes
     swipeDuration: 400,
-    preventScrollOnSwipe: true,
+    preventScrollOnSwipe: false, // Changed to false to allow button clicks
     trackTouch: true,
     rotationAngle: 0,
     touchEventOptions: { passive: false },
@@ -98,7 +98,6 @@ export default function TextPage() {
   return (
     <div 
       {...swipeHandlers}
-      className="text-page-container"
       style={{
         position: 'relative',
         backgroundColor: '#000',
@@ -116,7 +115,7 @@ export default function TextPage() {
         touchAction: 'manipulation',
       }}
     >
-      <div className="text-page-image-container" style={{ 
+      <div style={{ 
         width: '100%', 
         height: '100%', 
         backgroundColor: '#000',
@@ -163,28 +162,26 @@ export default function TextPage() {
       </div>
       
       {/* UNLOCK Button Overlay for BASE Discord Debugging */}
-      <div style={{
-        position: 'absolute',
-        top: '62%', // Moved up 1% from 63%
-        left: '50%',
-        transform: 'translateX(-50%)',
-        zIndex: 1000, // Higher z-index to ensure it's on top
-        pointerEvents: 'auto',
-      }}>
+      <div 
+        style={{
+          position: 'absolute',
+          top: '62%', // Moved up 1% from 63%
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1000, // Higher z-index to ensure it's on top
+          pointerEvents: 'auto',
+        }}
+      >
         <button
           className="unlock-button"
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchEnd={(e) => e.stopPropagation()}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             console.log('🔓 UNLOCK button clicked - navigating to most recent NFT mint');
             // Navigate to most recent NFT mint URL from SQL database
             window.open('https://app.manifold.xyz/c/light-bulb-moment', '_blank');
-          }}
-          onTouchStart={() => {
-            console.log('👆 Touch start on UNLOCK button');
-          }}
-          onTouchEnd={() => {
-            console.log('👆 Touch end on UNLOCK button');
           }}
           style={{
             backgroundColor: 'rgba(255, 0, 0, 0.8)', // More visible red background

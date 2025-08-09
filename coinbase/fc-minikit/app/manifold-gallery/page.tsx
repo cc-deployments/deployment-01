@@ -43,9 +43,9 @@ export default function ManifoldGallery() {
       console.log('👆 Swipe start detected');
     },
     trackMouse: true,
-    delta: 30,
+    delta: 50, // Increased from 30 to reduce accidental swipes
     swipeDuration: 400,
-    preventScrollOnSwipe: true,
+    preventScrollOnSwipe: false, // Changed to false to allow button clicks
     trackTouch: true,
     rotationAngle: 0,
     touchEventOptions: { passive: false },
