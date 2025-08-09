@@ -109,7 +109,6 @@ export default function GalleryHero() {
 
   return (
     <div 
-      {...swipeHandlers}
       style={{
         position: 'relative',
         backgroundColor: '#000',
@@ -127,6 +126,21 @@ export default function GalleryHero() {
         touchAction: 'manipulation',
       }}
     >
+      {/* Swipe Area - EXCLUDES button areas completely */}
+      <div 
+        {...swipeHandlers}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '70%', // Stop WELL BEFORE button areas (buttons are at 74% and 85%)
+          pointerEvents: 'auto',
+          zIndex: 1,
+        }}
+      />
+      
+      {/* Image Container */}
       <div style={{ 
         width: '100%', 
         height: '100%', 
@@ -173,21 +187,18 @@ export default function GalleryHero() {
         />
       </div>
       
-      {/* UNLOCK Button Overlay for BASE Discord Debugging */}
+      {/* UNLOCK Button Area - COMPLETELY SEPARATE from swipe detection */}
       <div 
         style={{
           position: 'absolute',
-          top: '74%', // Moved up 1% from 75%
+          top: '74%', // EXACTLY match the white button position
           left: '50%',
           transform: 'translateX(-50%)',
-          zIndex: 1000, // Higher z-index to ensure it's on top
+          zIndex: 1000,
           pointerEvents: 'auto',
         }}
       >
         <button
-          className="unlock-button"
-          onTouchStart={(e) => e.stopPropagation()}
-          onTouchEnd={(e) => e.stopPropagation()}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -196,51 +207,41 @@ export default function GalleryHero() {
             window.open('https://app.manifold.xyz/c/light-bulb-moment', '_blank');
           }}
           style={{
-            backgroundColor: 'rgba(255, 0, 0, 0.8)', // More visible red background
-            color: 'white',
-            border: '3px solid white', // Thicker border
+            backgroundColor: 'transparent', // Completely invisible
+            border: 'none',
             borderRadius: '25px',
-            padding: '15px 30px', // Larger padding
-            fontSize: '18px', // Larger font
+            padding: '15px 30px', // Match white button size
+            fontSize: '18px',
             cursor: 'pointer',
-            backdropFilter: 'blur(10px)',
-            transition: 'all 0.3s ease',
             touchAction: 'manipulation',
-            fontWeight: 'bold',
-            boxShadow: '0 4px 8px rgba(0,0,0,0.5)', // Add shadow
             // Mobile responsive sizing
             minWidth: '120px',
             maxWidth: '300px',
             // Ensure button is clickable
             position: 'relative',
             zIndex: 1001,
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 0, 0, 0.9)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 0, 0, 0.8)';
+            // Remove all visual styling - completely invisible
+            color: 'transparent',
+            boxShadow: 'none',
+            backdropFilter: 'none',
+            transition: 'none',
           }}
         >
-          🔓 UNLOCK the Ride
+          UNLOCK the Ride
         </button>
       </div>
 
-      {/* Share Button */}
+      {/* Share Button Area - COMPLETELY SEPARATE from swipe detection */}
       <div 
         style={{
           position: 'absolute',
-          top: '85%',
-          left: '50%',
-          transform: 'translateX(-50%)',
+          top: '76%', // EXACTLY match the white button position (as per your notes)
+          right: '10%', // Position on right edge as specified
           zIndex: 1000,
           pointerEvents: 'auto',
         }}
       >
         <button
-          className="share-button"
-          onTouchStart={(e) => e.stopPropagation()}
-          onTouchEnd={(e) => e.stopPropagation()}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -260,29 +261,24 @@ export default function GalleryHero() {
             }
           }}
           style={{
-            backgroundColor: 'rgba(0, 123, 255, 0.8)', // Blue background
-            color: 'white',
-            border: '2px solid white',
+            backgroundColor: 'transparent', // Completely invisible
+            border: 'none',
             borderRadius: '20px',
-            padding: '10px 20px',
+            padding: '10px 20px', // Match white button size
             fontSize: '16px',
             cursor: 'pointer',
-            backdropFilter: 'blur(10px)',
-            transition: 'all 0.3s ease',
             touchAction: 'manipulation',
             fontWeight: 'bold',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
             position: 'relative',
             zIndex: 1001,
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(0, 123, 255, 0.9)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(0, 123, 255, 0.8)';
+            // Remove all visual styling - completely invisible
+            color: 'transparent',
+            boxShadow: 'none',
+            backdropFilter: 'none',
+            transition: 'none',
           }}
         >
-          📤 Share
+          Share
         </button>
       </div>
     </div>
