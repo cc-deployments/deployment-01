@@ -201,13 +201,13 @@ export default function GalleryHero() {
                 e.stopPropagation();
                 console.log('🔓 UNLOCK button touch start detected');
               }}
-              onTouchEnd={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('🔓 UNLOCK button clicked - navigating to most recent NFT mint');
-                // Navigate to most recent NFT mint URL from SQL database
-                window.open('https://app.manifold.xyz/c/light-bulb-moment', '_blank');
-              }}
+                             onTouchEnd={(e) => {
+                 e.preventDefault();
+                 e.stopPropagation();
+                 console.log('🔓 UNLOCK button clicked - navigating to CarCulture Manifold Gallery');
+                 // Navigate to CarCulture Manifold Gallery
+                 window.open('https://manifold.xyz/@carculture', '_blank');
+               }}
               style={{
                 position: 'absolute',
                 top: '75%', // EXACTLY match the white button position (updated to 75%)
