@@ -12,17 +12,18 @@ export default function GalleryHero() {
   const { setFrameReady, isFrameReady, context } = useMiniKit();
   const router = useRouter();
   
-  // Environment detection
-  const isInMiniApp = !!context;
-  
-  console.log('🎨 GalleryHero component rendering...');
-  console.log('🔍 Frame context available:', !!context);
-  console.log('📱 In Mini App environment:', isInMiniApp);
+  // Proper environment detection for Coinbase Wallet
+  const isInMiniApp = context !== null;
 
-  // Enable MiniKit's built-in navigation gestures and disable native gestures to prevent conflicts
+  console.log('🎨 GalleryHero component rendering...');
+  console.log('🔑 MiniKit context available:', context !== null);
+  console.log('📱 In Mini App environment:', isInMiniApp);
+  console.log('✅ Frame ready status:', isFrameReady);
+
+  // Enable MiniKit's built-in navigation gestures
   useEffect(() => {
     if (!isFrameReady) {
-      setFrameReady({ disableNativeGestures: true });
+      setFrameReady();
     }
   }, [setFrameReady, isFrameReady]);
 
@@ -109,191 +110,195 @@ export default function GalleryHero() {
 
   return (
     <div 
+      className="min-h-screen bg-black text-white relative overflow-hidden"
       style={{
-        position: 'relative',
-        backgroundColor: '#000',
-        width: '100vw',
-        height: '100vh',
-        overflow: 'hidden',
-        userSelect: 'none',
-        WebkitUserSelect: 'none',
-        WebkitTouchCallout: 'none',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        // Ensure MiniKit gestures work by not blocking touch events
-        touchAction: 'manipulation',
+        paddingTop: safeArea.top,
+        paddingBottom: safeArea.bottom,
+        paddingLeft: safeArea.left,
+        paddingRight: safeArea.right,
       }}
     >
-      {/* Swipe Area - COVERS button areas for gesture detection */}
-      <div 
-        {...swipeHandlers}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '100%', // Cover entire screen including button areas
-          pointerEvents: 'auto',
-          zIndex: 1,
-        }}
-      />
-      
-      {/* Image Container */}
-      <div style={{ 
-        width: '100%', 
-        height: '100%', 
-        backgroundColor: '#000',
-        position: 'relative',
-        // Allow touch events to pass through to MiniKit
-        pointerEvents: 'auto',
-        touchAction: 'manipulation',
-      }}>
-        <Image
-          src="/carmania-gallery-hero.png"
-          alt="Gallery Hero"
-          width={1260}
-          height={2400}
-          style={{ 
-            width: '100%', 
-            height: '100%',
-            objectFit: 'cover',
-            display: 'block',
-            // Allow touch events to pass through
+      {/* Debug Panel - Always Visible */}
+      <div className="fixed top-0 left-0 right-0 bg-red-900 text-white text-xs p-2 z-50">
+        <div className="flex justify-between items-center">
+          <span>🔍 MiniKit Debug:</span>
+          <span>Context: {context !== null ? '✅ TRUE' : '❌ FALSE'}</span>
+          <span>Frame: {isFrameReady ? '✅ READY' : '⏳ LOADING'}</span>
+          <span>Env: {isInMiniApp ? '📱 MINI APP' : '🌐 BROWSER'}</span>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="relative z-10">
+        {/* Swipe Area - COVERS button areas for gesture detection */}
+        <div 
+          {...swipeHandlers}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '100%', // Cover entire screen including button areas
             pointerEvents: 'auto',
-            touchAction: 'manipulation',
-          }}
-          priority
-          unoptimized={true}
-          onError={(e) => {
-            console.error('❌ Image failed to load:', e);
-            const img = e.currentTarget as HTMLImageElement;
-            if (img.src !== '/hero-v2.png') {
-              console.log('🔄 Trying fallback image...');
-              img.src = '/hero-v2.png';
-            } else {
-              img.style.display = 'none';
-              console.log('❌ All images failed, showing background only');
-              const container = img.parentElement;
-              if (container) {
-                container.innerHTML = '<div style="color: white; text-align: center; font-size: 24px;">CarMania Gallery</div>';
-              }
-            }
-          }}
-          onLoad={() => {
-            console.log('✅ Image loaded successfully');
+            zIndex: 1,
           }}
         />
-      </div>
-      
-      {/* Buttons only render after MiniKit is ready */}
-      {isFrameReady && (
-        <>
-          {/* UNLOCK Button Area - Enhanced touch detection */}
-          <div 
-            onTouchStart={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              console.log('🔓 UNLOCK button touch start detected');
-            }}
-            onTouchEnd={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              console.log('🔓 UNLOCK button clicked - navigating to most recent NFT mint');
-              // Navigate to most recent NFT mint URL from SQL database
-              window.open('https://app.manifold.xyz/c/light-bulb-moment', '_blank');
-            }}
-            style={{
-              position: 'absolute',
-              top: '75%', // EXACTLY match the white button position (updated to 75%)
-              left: '50%',
-              transform: 'translateX(-50%)',
-              zIndex: 1000,
+        
+        {/* Image Container */}
+        <div style={{ 
+          width: '100%', 
+          height: '100%', 
+          backgroundColor: '#000',
+          position: 'relative',
+          // Allow touch events to pass through to MiniKit
+          pointerEvents: 'auto',
+          touchAction: 'manipulation',
+        }}>
+          <Image
+            src="/carmania-gallery-hero.png"
+            alt="Gallery Hero"
+            width={1260}
+            height={2400}
+            style={{ 
+              width: '100%', 
+              height: '100%',
+              objectFit: 'cover',
+              display: 'block',
+              // Allow touch events to pass through
               pointerEvents: 'auto',
-              // Make touch target larger for better mobile experience
-              minWidth: '150px',
-              minHeight: '60px',
+              touchAction: 'manipulation',
             }}
-          >
-            <button
-              style={{
-                backgroundColor: 'transparent', // Invisible - buttons are built into images
-                border: 'none',
-                borderRadius: '25px',
-                padding: '15px 30px', // Match white button size
-                fontSize: '18px',
-                cursor: 'pointer',
-                touchAction: 'manipulation',
-                // Mobile responsive sizing
-                minWidth: '120px',
-                maxWidth: '300px',
-                // Ensure button is clickable
-                position: 'relative',
-                zIndex: 1001,
-                // Invisible styling since buttons are built into images
-                color: 'transparent',
-                boxShadow: 'none',
-                backdropFilter: 'none',
-                transition: 'none',
-              }}
-            >
-              UNLOCK the Ride
-            </button>
-          </div>
-
-          {/* Share Button Area - COMPLETELY SEPARATE from swipe detection */}
-          <div 
-            style={{
-              position: 'absolute',
-              top: '76%', // EXACTLY match the white button position (as per your notes)
-              right: '10%', // Position on right edge as specified
-              zIndex: 1000,
-              pointerEvents: 'auto',
+            priority
+            unoptimized={true}
+            onError={(e) => {
+              console.error('❌ Image failed to load:', e);
+              const img = e.currentTarget as HTMLImageElement;
+              if (img.src !== '/hero-v2.png') {
+                console.log('🔄 Trying fallback image...');
+                img.src = '/hero-v2.png';
+              } else {
+                img.style.display = 'none';
+                console.log('❌ All images failed, showing background only');
+                const container = img.parentElement;
+                if (container) {
+                  container.innerHTML = '<div style="color: white; text-align: center; font-size: 24px;">CarMania Gallery</div>';
+                }
+              }
             }}
-          >
-            <button
-              onClick={(e) => {
+            onLoad={() => {
+              console.log('✅ Image loaded successfully');
+            }}
+          />
+        </div>
+        
+        {/* Buttons only render after MiniKit is ready */}
+        {isFrameReady && (
+          <>
+            {/* UNLOCK Button Area - Enhanced touch detection */}
+            <div 
+              onTouchStart={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('📤 Share button clicked!');
-                // Use native share API if available
-                if (navigator.share) {
-                  navigator.share({
-                    title: 'CarMania Gallery',
-                    text: 'Check out this amazing car collection!',
-                    url: window.location.href,
-                  }).catch(console.error);
-                } else {
-                  // Fallback: copy URL to clipboard
-                  navigator.clipboard.writeText(window.location.href).then(() => {
-                    alert('Link copied to clipboard!');
-                  }).catch(console.error);
-                }
+                console.log('🔓 UNLOCK button touch start detected');
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('🔓 UNLOCK button clicked - navigating to most recent NFT mint');
+                // Navigate to most recent NFT mint URL from SQL database
+                window.open('https://app.manifold.xyz/c/light-bulb-moment', '_blank');
               }}
               style={{
-                backgroundColor: 'transparent', // Invisible - buttons are built into images
-                border: 'none',
-                borderRadius: '20px',
-                padding: '10px 20px', // Match white button size
-                fontSize: '16px',
-                cursor: 'pointer',
-                touchAction: 'manipulation',
-                fontWeight: 'bold',
-                position: 'relative',
-                zIndex: 1001,
-                // Invisible styling since buttons are built into images
-                color: 'transparent',
-                boxShadow: 'none',
-                backdropFilter: 'none',
-                transition: 'none',
+                position: 'absolute',
+                top: '75%', // EXACTLY match the white button position (updated to 75%)
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 1000,
+                pointerEvents: 'auto',
+                // Make touch target larger for better mobile experience
+                minWidth: '150px',
+                minHeight: '60px',
               }}
             >
-              Share
-            </button>
-          </div>
-        </>
-      )}
+              <button
+                style={{
+                  backgroundColor: 'transparent', // Invisible - buttons are built into images
+                  border: 'none',
+                  borderRadius: '25px',
+                  padding: '15px 30px', // Match white button size
+                  fontSize: '18px',
+                  cursor: 'pointer',
+                  touchAction: 'manipulation',
+                  // Mobile responsive sizing
+                  minWidth: '120px',
+                  maxWidth: '300px',
+                  // Ensure button is clickable
+                  position: 'relative',
+                  zIndex: 1001,
+                  // Invisible styling since buttons are built into images
+                  color: 'transparent',
+                  boxShadow: 'none',
+                  backdropFilter: 'none',
+                  transition: 'none',
+                }}
+              >
+                UNLOCK the Ride
+              </button>
+            </div>
+
+            {/* Share Button Area - COMPLETELY SEPARATE from swipe detection */}
+            <div 
+              style={{
+                position: 'absolute',
+                top: '76%', // EXACTLY match the white button position (as per your notes)
+                right: '10%', // Position on right edge as specified
+                zIndex: 1000,
+                pointerEvents: 'auto',
+              }}
+            >
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log('📤 Share button clicked!');
+                  // Use native share API if available
+                  if (navigator.share) {
+                    navigator.share({
+                      title: 'CarMania Gallery',
+                      text: 'Check out this amazing car collection!',
+                      url: window.location.href,
+                    }).catch(console.error);
+                  } else {
+                    // Fallback: copy URL to clipboard
+                    navigator.clipboard.writeText(window.location.href).then(() => {
+                      alert('Link copied to clipboard!');
+                    }).catch(console.error);
+                  }
+                }}
+                style={{
+                  backgroundColor: 'transparent', // Invisible - buttons are built into images
+                  border: 'none',
+                  borderRadius: '20px',
+                  padding: '10px 20px', // Match white button size
+                  fontSize: '16px',
+                  cursor: 'pointer',
+                  touchAction: 'manipulation',
+                  fontWeight: 'bold',
+                  position: 'relative',
+                  zIndex: 1001,
+                  // Invisible styling since buttons are built into images
+                  color: 'transparent',
+                  boxShadow: 'none',
+                  backdropFilter: 'none',
+                  transition: 'none',
+                }}
+              >
+                Share
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 } 
