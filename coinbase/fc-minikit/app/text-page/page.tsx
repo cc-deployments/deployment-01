@@ -13,10 +13,10 @@ export default function TextPage() {
   console.log('🎨 TextPage component rendering...');
   console.log('🔍 Frame context available:', !!context);
 
-  // Enable MiniKit's built-in navigation gestures
+  // Enable MiniKit's built-in navigation gestures and disable native gestures to prevent conflicts
   useEffect(() => {
     if (!isFrameReady) {
-      setFrameReady();
+      setFrameReady({ disableNativeGestures: true });
     }
   }, [setFrameReady, isFrameReady]);
 
@@ -167,48 +167,50 @@ export default function TextPage() {
         />
       </div>
       
-      {/* Button Area - COMPLETELY SEPARATE from swipe detection */}
-      <div 
-        style={{
-          position: 'absolute',
-          top: '63%', // EXACTLY match the white button position
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 1000,
-          pointerEvents: 'auto',
-        }}
-      >
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('🔓 UNLOCK button clicked - navigating to most recent NFT mint');
-            // Navigate to most recent NFT mint URL from SQL database
-            window.open('https://app.manifold.xyz/c/light-bulb-moment', '_blank');
-          }}
+      {/* Button only renders after MiniKit is ready */}
+      {isFrameReady && (
+        <div 
           style={{
-            backgroundColor: 'transparent', // Completely invisible
-            border: 'none',
-            borderRadius: '25px',
-            padding: '15px 40px', // Match white button size
-            fontSize: '18px',
-            cursor: 'pointer',
-            touchAction: 'manipulation',
-            minWidth: '200px', // Match white button width
-            maxWidth: '350px', // Match white button max width
-            position: 'relative',
-            zIndex: 1001,
-            // Remove all visual styling - completely invisible
-            color: 'transparent',
-            boxShadow: 'none',
-            backdropFilter: 'none',
-            transition: 'none',
+            position: 'absolute',
+            top: '63%', // EXACTLY match the white button position
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 1000,
+            pointerEvents: 'auto',
           }}
         >
-          {/* Invisible text - just for accessibility */}
-          UNLOCK the Ride
-        </button>
-      </div>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('🔓 UNLOCK button clicked - navigating to most recent NFT mint');
+              // Navigate to most recent NFT mint URL from SQL database
+              window.open('https://app.manifold.xyz/c/light-bulb-moment', '_blank');
+            }}
+            style={{
+              backgroundColor: 'transparent', // Completely invisible
+              border: 'none',
+              borderRadius: '25px',
+              padding: '15px 40px', // Match white button size
+              fontSize: '18px',
+              cursor: 'pointer',
+              touchAction: 'manipulation',
+              minWidth: '200px', // Match white button width
+              maxWidth: '350px', // Match white button max width
+              position: 'relative',
+              zIndex: 1001,
+              // Remove all visual styling - completely invisible
+              color: 'transparent',
+              boxShadow: 'none',
+              backdropFilter: 'none',
+              transition: 'none',
+            }}
+          >
+            {/* Invisible text - just for accessibility */}
+            UNLOCK the Ride
+          </button>
+        </div>
+      )}
     </div>
   );
 } 

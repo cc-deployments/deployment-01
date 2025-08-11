@@ -10,6 +10,48 @@ A Farcaster Mini App built with Next.js 14/15 and MiniKit for Base App compatibi
 - **Swipe Navigation**: Intuitive gesture-based navigation between pages
 - **Universal Sharing**: Cross-platform sharing functionality
 
+## Environment Variables
+
+### Production URL:
+**Current Vercel Deployment:** `https://web3-social-starter-fc-minikit.vercel.app/`
+
+### Required for Production (Vercel):
+
+#### Core App Configuration:
+- `NEXT_PUBLIC_ONCHAINKIT_API_KEY` - OnchainKit API key for CBW integration
+- `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME` - Project name displayed in CBW
+- `NEXT_PUBLIC_URL` - Production URL for the app
+- `NEXT_PUBLIC_ICON_URL` - App icon URL for CBW display
+
+#### Authentication & Wallets:
+- `NEXT_PUBLIC_PRIVY_APP_ID` - Privy authentication service
+- `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` - WalletConnect integration
+- `NEXT_PUBLIC_WC_PROJECT_ID` - WalletConnect project ID (duplicate of above)
+
+#### External Services:
+- `NEYNAR_API_KEY` - Farcaster notifications and API access
+- `REDIS_URL` - Redis connection for caching
+- `REDIS_TOKEN` - Redis authentication token
+
+#### Farcaster Integration:
+- `FARCASTER_HEADER` - Farcaster authentication headers
+- `FARCASTER_PAYLOAD` - Farcaster request payloads
+- `FARCASTER_SIGNATURE` - Farcaster request signing
+
+#### Upcoming Integrations (BASE PAY/Rainbow):
+- `COINBASE_API_KEY` - BASE PAY integration (coming this week)
+- `COINBASE_CLIENT_ID` - OAuth flows for wallet connections
+- `COINBASE_CLIENT_SECRET` - OAuth flows for wallet connections
+- `COINBASE_REDIRECT_URI` - OAuth redirects for wallet auth
+
+### Local Development:
+Create a `.env.local` file in the `coinbase/fc-minikit/` directory with the same variables for local testing.
+
+### Shared Auth Package:
+Some API keys are centralized in `packages/shared-auth/config/index.ts`:
+- `NEYNAR_API_KEY` - Centralized Neynar API key
+- `PRIVY_APP_ID` - Centralized Privy App ID
+
 ## MiniKit Hooks Implementation
 
 ### Navigation & URL Opening

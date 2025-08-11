@@ -13,10 +13,10 @@ export default function GalleryHero2() {
   console.log('🎨 GalleryHero2 component rendering...');
   console.log('🔍 Frame context available:', !!context);
 
-  // Enable MiniKit's built-in navigation gestures
+  // Enable MiniKit's built-in navigation gestures and disable native gestures to prevent conflicts
   useEffect(() => {
     if (!isFrameReady) {
-      setFrameReady();
+      setFrameReady({ disableNativeGestures: true });
     }
   }, [setFrameReady, isFrameReady]);
 

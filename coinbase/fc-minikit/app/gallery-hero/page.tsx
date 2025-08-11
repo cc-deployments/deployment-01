@@ -19,10 +19,10 @@ export default function GalleryHero() {
   console.log('🔍 Frame context available:', !!context);
   console.log('📱 In Mini App environment:', isInMiniApp);
 
-  // Enable MiniKit's built-in navigation gestures
+  // Enable MiniKit's built-in navigation gestures and disable native gestures to prevent conflicts
   useEffect(() => {
     if (!isFrameReady) {
-      setFrameReady();
+      setFrameReady({ disableNativeGestures: true });
     }
   }, [setFrameReady, isFrameReady]);
 
@@ -126,7 +126,7 @@ export default function GalleryHero() {
         touchAction: 'manipulation',
       }}
     >
-      {/* Swipe Area - EXCLUDES button areas completely */}
+      {/* Swipe Area - COVERS button areas for gesture detection */}
       <div 
         {...swipeHandlers}
         style={{
@@ -134,7 +134,7 @@ export default function GalleryHero() {
           top: 0,
           left: 0,
           right: 0,
-          height: '70%', // Stop WELL BEFORE button areas (buttons are at 74% and 85%)
+          height: '100%', // Cover entire screen including button areas
           pointerEvents: 'auto',
           zIndex: 1,
         }}
@@ -187,100 +187,113 @@ export default function GalleryHero() {
         />
       </div>
       
-      {/* UNLOCK Button Area - COMPLETELY SEPARATE from swipe detection */}
-      <div 
-        style={{
-          position: 'absolute',
-          top: '74%', // EXACTLY match the white button position
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 1000,
-          pointerEvents: 'auto',
-        }}
-      >
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('🔓 UNLOCK button clicked - navigating to most recent NFT mint');
-            // Navigate to most recent NFT mint URL from SQL database
-            window.open('https://app.manifold.xyz/c/light-bulb-moment', '_blank');
-          }}
-          style={{
-            backgroundColor: 'transparent', // Completely invisible
-            border: 'none',
-            borderRadius: '25px',
-            padding: '15px 30px', // Match white button size
-            fontSize: '18px',
-            cursor: 'pointer',
-            touchAction: 'manipulation',
-            // Mobile responsive sizing
-            minWidth: '120px',
-            maxWidth: '300px',
-            // Ensure button is clickable
-            position: 'relative',
-            zIndex: 1001,
-            // Remove all visual styling - completely invisible
-            color: 'transparent',
-            boxShadow: 'none',
-            backdropFilter: 'none',
-            transition: 'none',
-          }}
-        >
-          UNLOCK the Ride
-        </button>
-      </div>
+      {/* Buttons only render after MiniKit is ready */}
+      {isFrameReady && (
+        <>
+          {/* UNLOCK Button Area - Enhanced touch detection */}
+          <div 
+            onTouchStart={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('🔓 UNLOCK button touch start detected');
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('🔓 UNLOCK button clicked - navigating to most recent NFT mint');
+              // Navigate to most recent NFT mint URL from SQL database
+              window.open('https://app.manifold.xyz/c/light-bulb-moment', '_blank');
+            }}
+            style={{
+              position: 'absolute',
+              top: '75%', // EXACTLY match the white button position (updated to 75%)
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: 1000,
+              pointerEvents: 'auto',
+              // Make touch target larger for better mobile experience
+              minWidth: '150px',
+              minHeight: '60px',
+            }}
+          >
+            <button
+              style={{
+                backgroundColor: 'transparent', // Invisible - buttons are built into images
+                border: 'none',
+                borderRadius: '25px',
+                padding: '15px 30px', // Match white button size
+                fontSize: '18px',
+                cursor: 'pointer',
+                touchAction: 'manipulation',
+                // Mobile responsive sizing
+                minWidth: '120px',
+                maxWidth: '300px',
+                // Ensure button is clickable
+                position: 'relative',
+                zIndex: 1001,
+                // Invisible styling since buttons are built into images
+                color: 'transparent',
+                boxShadow: 'none',
+                backdropFilter: 'none',
+                transition: 'none',
+              }}
+            >
+              UNLOCK the Ride
+            </button>
+          </div>
 
-      {/* Share Button Area - COMPLETELY SEPARATE from swipe detection */}
-      <div 
-        style={{
-          position: 'absolute',
-          top: '76%', // EXACTLY match the white button position (as per your notes)
-          right: '10%', // Position on right edge as specified
-          zIndex: 1000,
-          pointerEvents: 'auto',
-        }}
-      >
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('📤 Share button clicked!');
-            // Use native share API if available
-            if (navigator.share) {
-              navigator.share({
-                title: 'CarMania Gallery',
-                text: 'Check out this amazing car collection!',
-                url: window.location.href,
-              }).catch(console.error);
-            } else {
-              // Fallback: copy URL to clipboard
-              navigator.clipboard.writeText(window.location.href).then(() => {
-                alert('Link copied to clipboard!');
-              }).catch(console.error);
-            }
-          }}
-          style={{
-            backgroundColor: 'transparent', // Completely invisible
-            border: 'none',
-            borderRadius: '20px',
-            padding: '10px 20px', // Match white button size
-            fontSize: '16px',
-            cursor: 'pointer',
-            touchAction: 'manipulation',
-            fontWeight: 'bold',
-            position: 'relative',
-            zIndex: 1001,
-            // Remove all visual styling - completely invisible
-            color: 'transparent',
-            boxShadow: 'none',
-            backdropFilter: 'none',
-            transition: 'none',
-          }}
-        >
-          Share
-        </button>
-      </div>
+          {/* Share Button Area - COMPLETELY SEPARATE from swipe detection */}
+          <div 
+            style={{
+              position: 'absolute',
+              top: '76%', // EXACTLY match the white button position (as per your notes)
+              right: '10%', // Position on right edge as specified
+              zIndex: 1000,
+              pointerEvents: 'auto',
+            }}
+          >
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('📤 Share button clicked!');
+                // Use native share API if available
+                if (navigator.share) {
+                  navigator.share({
+                    title: 'CarMania Gallery',
+                    text: 'Check out this amazing car collection!',
+                    url: window.location.href,
+                  }).catch(console.error);
+                } else {
+                  // Fallback: copy URL to clipboard
+                  navigator.clipboard.writeText(window.location.href).then(() => {
+                    alert('Link copied to clipboard!');
+                  }).catch(console.error);
+                }
+              }}
+              style={{
+                backgroundColor: 'transparent', // Invisible - buttons are built into images
+                border: 'none',
+                borderRadius: '20px',
+                padding: '10px 20px', // Match white button size
+                fontSize: '16px',
+                cursor: 'pointer',
+                touchAction: 'manipulation',
+                fontWeight: 'bold',
+                position: 'relative',
+                zIndex: 1001,
+                // Invisible styling since buttons are built into images
+                color: 'transparent',
+                boxShadow: 'none',
+                backdropFilter: 'none',
+                transition: 'none',
+              }}
+            >
+              Share
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 } 
