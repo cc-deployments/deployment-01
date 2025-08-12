@@ -85,7 +85,6 @@ export default function GalleryHero2() {
 
   return (
     <div 
-      {...swipeHandlers}
       style={{
         position: 'relative',
         backgroundColor: '#000',
@@ -103,51 +102,71 @@ export default function GalleryHero2() {
         touchAction: 'manipulation',
       }}
     >
-      <div style={{ 
-        width: '100%', 
-        height: '100%', 
-        backgroundColor: '#000',
-        position: 'relative',
-        // Allow touch events to pass through to MiniKit
-        pointerEvents: 'auto',
-        touchAction: 'manipulation',
-      }}>
-        <Image
-          src="/carmania-gallery-hero-2.png"
-          alt="Gallery Hero 2"
-          width={1260}
-          height={2400}
-          style={{ 
+      {/* Main Content - Only render after frame is ready */}
+      {isFrameReady && (
+        <>
+          {/* Swipe Area - EXCLUDE button areas */}
+          <div 
+            {...swipeHandlers}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '70%', // Stop before any potential button areas
+              pointerEvents: 'auto',
+              zIndex: 1,
+            }}
+          />
+          
+          {/* Image Container */}
+          <div style={{ 
             width: '100%', 
-            height: '100%',
-            objectFit: 'cover',
-            display: 'block',
-            // Allow touch events to pass through
+            height: '100%', 
+            backgroundColor: '#000',
+            position: 'relative',
+            // Allow touch events to pass through to MiniKit
             pointerEvents: 'auto',
             touchAction: 'manipulation',
-          }}
-          priority
-          unoptimized={true}
-          onError={(e) => {
-            console.error('❌ Image failed to load:', e);
-            const img = e.currentTarget as HTMLImageElement;
-            if (img.src !== '/hero-v2.png') {
-              console.log('🔄 Trying fallback image...');
-              img.src = '/hero-v2.png';
-            } else {
-              img.style.display = 'none';
-              console.log('❌ All images failed, showing background only');
-              const container = img.parentElement;
-              if (container) {
-                container.innerHTML = '<div style="color: white; text-align: center; font-size: 24px;">CarMania Gallery 2</div>';
-              }
-            }
-          }}
-          onLoad={() => {
-            console.log('✅ Image loaded successfully');
-          }}
-        />
-      </div>
+          }}>
+            <Image
+              src="/carmania-gallery-hero-2.png"
+              alt="Gallery Hero 2"
+              width={1260}
+              height={2400}
+              style={{ 
+                width: '100%', 
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+                // Allow touch events to pass through
+                pointerEvents: 'auto',
+                touchAction: 'manipulation',
+              }}
+              priority
+              unoptimized={true}
+              onError={(e) => {
+                console.error('❌ Image failed to load:', e);
+                const img = e.currentTarget as HTMLImageElement;
+                if (img.src !== '/hero-v2.png') {
+                  console.log('🔄 Trying fallback image...');
+                  img.src = '/hero-v2.png';
+                } else {
+                  img.style.display = 'none';
+                  console.log('❌ All images failed, showing background only');
+                  const container = img.parentElement;
+                  if (container) {
+                    container.innerHTML = '<div style="color: white; text-align: center; font-size: 24px;">CarMania Gallery 2</div>';
+                  }
+                }
+              }}
+              onLoad={() => {
+                console.log('✅ Image loaded successfully');
+              }}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 } 
