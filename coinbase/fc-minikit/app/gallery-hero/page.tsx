@@ -23,7 +23,7 @@ export default function GalleryHero() {
   // Enable MiniKit's built-in navigation gestures
   useEffect(() => {
     if (!isFrameReady) {
-      setFrameReady();
+      setFrameReady({ disableNativeGestures: true });
     }
   }, [setFrameReady, isFrameReady]);
 
