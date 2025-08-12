@@ -3,11 +3,19 @@
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
   "installCommand": "npm install",
-  "redirects": [
+  "headers": [
     {
       "source": "/.well-known/farcaster.json",
-      "destination": "https://api.farcaster.xyz/miniapps/hosted-manifest/0197eff8-b3b9-5206-48c3-004415cfae5f",
-      "permanent": false
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
     }
   ]
 } 
