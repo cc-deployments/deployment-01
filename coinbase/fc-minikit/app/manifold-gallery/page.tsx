@@ -11,7 +11,7 @@ export default function ManifoldGallery() {
 
   useEffect(() => {
     if (!isFrameReady) {
-      setFrameReady({ disableNativeGestures: true });
+      setFrameReady();
     }
   }, [setFrameReady, isFrameReady]);
 

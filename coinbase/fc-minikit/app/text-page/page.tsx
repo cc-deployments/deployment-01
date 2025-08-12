@@ -13,31 +13,35 @@ export default function TextPage() {
   console.log('🎨 TextPage component rendering...');
   console.log('🔍 Frame context available:', !!context);
 
-  // Enable MiniKit's built-in navigation gestures and disable native gestures to prevent conflicts
+  // Enable MiniKit's built-in navigation gestures
   useEffect(() => {
     if (!isFrameReady) {
-      setFrameReady({ disableNativeGestures: true });
+      setFrameReady();
     }
   }, [setFrameReady, isFrameReady]);
 
-  // Navigation helper function - Use external URL for Manifold Gallery
-  const navigateTo = useCallback((path: string) => {
-    console.log(`🧭 Navigating to: ${path}`);
+  // Navigation helper function - Use API for latest mint
+  const navigateTo = useCallback(async (path: string) => {
     try {
       if (path === '/manifold-gallery') {
-        // Navigate to external Manifold Gallery
-        console.log('🌐 Opening external Manifold Gallery');
-        window.open('https://manifold.xyz/@carculture', '_blank');
+        try {
+          const response = await fetch('/api/latest-mint');
+          const result = await response.json();
+          
+          if (result.success && result.data.mint_url) {
+            window.open(result.data.mint_url, '_blank');
+          } else {
+            window.open('https://manifold.xyz/@carculture', '_blank');
+          }
+        } catch (error) {
+          window.open('https://manifold.xyz/@carculture', '_blank');
+        }
       } else {
-        // Use Next.js router for internal navigation
-        console.log('🔄 Using Next.js router (internal navigation)');
         router.push(path);
       }
     } catch (error) {
-      console.error('Navigation error:', error);
-      console.log('🔄 Falling back to window.location.href');
       if (path === '/manifold-gallery') {
-        window.location.href = 'https://manifold.xyz/@carculture';
+        // API call already handled above
       } else {
         window.location.href = path;
       }
@@ -47,41 +51,39 @@ export default function TextPage() {
   // Custom swipe handlers for navigation
   const swipeHandlers = useSwipeable({
     onSwipedUp: async () => {
-      console.log('⬆️ Swipe up detected - opening external Manifold Gallery');
-      // Navigate to external Manifold Gallery URL (avoids popup blockers)
-      window.location.href = 'https://manifold.xyz/@carculture';
+      navigateTo('/manifold-gallery');
     },
     onSwipedDown: async () => {
-      console.log('⬇️ Swipe down detected - navigating to gallery-hero-2');
       navigateTo('/gallery-hero-2');
     },
     onSwipedLeft: () => {
-      console.log('⬅️ Swipe left detected');
     },
     onSwipedRight: () => {
-      console.log('➡️ Swipe right detected');
     },
     onSwipeStart: () => {
-      console.log('👆 Swipe start detected');
     },
-    trackMouse: true,
-    delta: 50, // Increased from 30 to reduce accidental swipes
-    swipeDuration: 400,
-    preventScrollOnSwipe: false, // Changed to false to allow button clicks
+    trackMouse: false, // Disable mouse tracking to reduce conflicts
+    delta: 30, // Reduce delta for more responsive swipes
+    swipeDuration: 300, // Faster swipe detection
+    preventScrollOnSwipe: false,
     trackTouch: true,
     rotationAngle: 0,
-    touchEventOptions: { passive: false },
+    touchEventOptions: { passive: true }, // Use passive for better performance
   });
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
-    console.log('🎹 Key pressed:', event.key);
-    
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
-      console.log('⬆️ Keyboard navigation: Swipe up - opening external Manifold Gallery');
-      // Directly open external Manifold Gallery URL
-      window.open('https://manifold.xyz/@carculture', '_blank');
+      try {
+        const response = await fetch('/api/latest-mint');
+        const result = await response.json();
+        
+        if (result.success && result.data.mint_url) {
+          window.open(result.data.mint_url, '_blank');
+        }
+      } catch (error) {
+        // Silent fallback
+      }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
-      console.log('⬇️ Keyboard navigation: Swipe down - navigating to gallery-hero-2');
       navigateTo('/gallery-hero-2');
     }
   }, [navigateTo]);
@@ -180,12 +182,23 @@ export default function TextPage() {
           }}
         >
           <button
-            onClick={(e) => {
+            onClick={async (e) => {
               e.preventDefault();
               e.stopPropagation();
-              console.log('🔓 UNLOCK button clicked - navigating to most recent NFT mint');
-              // Navigate to most recent NFT mint URL from SQL database
-              window.open('https://app.manifold.xyz/c/light-bulb-moment', '_blank');
+              console.log('🔓 UNLOCK button clicked');
+              try {
+                const response = await fetch('/api/latest-mint');
+                const result = await response.json();
+                
+                if (result.success && result.data.mint_url) {
+                  window.open(result.data.mint_url, '_blank');
+                } else {
+                  window.open('https://manifold.xyz/@carculture', '_blank');
+                }
+              } catch (error) {
+                console.error('❌ API error, using fallback URL');
+                window.open('https://manifold.xyz/@carculture', '_blank');
+              }
             }}
             style={{
               backgroundColor: 'transparent', // Completely invisible
