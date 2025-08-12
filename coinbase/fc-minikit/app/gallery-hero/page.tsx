@@ -92,6 +92,7 @@ export default function GalleryHero() {
 
   console.log('📱 Safe area insets:', safeArea);
 
+  // Early return for loading state
   if (isLoading) {
     return (
       <div style={{
@@ -108,6 +109,7 @@ export default function GalleryHero() {
     );
   }
 
+  // Single return statement for main component
   return (
     <div 
       className="min-h-screen bg-black text-white relative overflow-hidden"
