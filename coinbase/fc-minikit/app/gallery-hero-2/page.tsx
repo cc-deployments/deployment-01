@@ -10,20 +10,44 @@ export default function GalleryHero2() {
   const { setFrameReady, isFrameReady, context } = useMiniKit();
   const router = useRouter();
   
+  console.log('🎨 GalleryHero2 component rendering...');
+  console.log('🔍 Frame context available:', !!context);
 
-
-  // Enable MiniKit's built-in navigation gestures
+  // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
   useEffect(() => {
-    if (!isFrameReady) {
-      setFrameReady();
-    }
-  }, [setFrameReady, isFrameReady]);
+    const initializeSDK = async () => {
+      try {
+        if (!isFrameReady) {
+          console.log('🚀 Initializing MiniKit SDK with disableNativeGestures: true');
+          await setFrameReady({ disableNativeGestures: true });
+          console.log('✅ SDK initialized successfully');
+        }
+      } catch (error) {
+        console.error('❌ SDK initialization failed:', error);
+        // Implement fallback UI or retry logic
+        console.log('🔄 Attempting fallback initialization...');
+        try {
+          await setFrameReady();
+          console.log('✅ Fallback SDK initialization successful');
+        } catch (fallbackError) {
+          console.error('❌ Fallback SDK initialization also failed:', fallbackError);
+        }
+      }
+    };
+    
+    initializeSDK();
+  }, [isFrameReady, setFrameReady]);
 
   // Navigation helper function - Use Next.js router by default
   const navigateTo = useCallback((path: string) => {
+    console.log(`🧭 Navigating to: ${path}`);
     try {
+      // Use Next.js router by default (avoids 401 errors in desktop browsers)
+      console.log('🔄 Using Next.js router (default)');
       router.push(path);
     } catch (error) {
+      console.error('Navigation error:', error);
+      console.log('🔄 Falling back to window.location.href');
       window.location.href = path;
     }
   }, [router]);
@@ -31,43 +55,55 @@ export default function GalleryHero2() {
   // Custom swipe handlers for navigation
   const swipeHandlers = useSwipeable({
     onSwipedUp: async () => {
+      console.log('⬆️ Swipe up detected - navigating to text-page');
       navigateTo('/text-page');
     },
     onSwipedDown: async () => {
+      console.log('⬇️ Swipe down detected - navigating to gallery-hero');
       navigateTo('/gallery-hero');
     },
     onSwipedLeft: () => {
+      console.log('⬅️ Swipe left detected');
     },
     onSwipedRight: () => {
+      console.log('➡️ Swipe right detected');
     },
     onSwipeStart: () => {
+      console.log('👆 Swipe start detected');
     },
-    trackMouse: false, // Disable mouse tracking to reduce conflicts
-    delta: 30, // Reduce delta for more responsive swipes
-    swipeDuration: 300, // Faster swipe detection
-    preventScrollOnSwipe: false,
+    trackMouse: true,
+    delta: 50, // Increased from 30 to reduce accidental swipes
+    swipeDuration: 400,
+    preventScrollOnSwipe: false, // Changed to false to allow button clicks
     trackTouch: true,
     rotationAngle: 0,
-    touchEventOptions: { passive: true }, // Use passive for better performance
+    touchEventOptions: { passive: false },
   });
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
+    console.log('🎹 Key pressed:', event.key);
+    
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
+      console.log('⬆️ Keyboard navigation: Swipe up - navigating to text-page');
       navigateTo('/text-page');
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
+      console.log('⬇️ Keyboard navigation: Swipe down - navigating to gallery-hero');
       navigateTo('/gallery-hero');
     }
   }, [navigateTo]);
 
   useEffect(() => {
+    console.log('🎧 Setting up keyboard event listener');
     window.addEventListener('keydown', handleKeyPress);
     return () => {
+      console.log('🎧 Removing keyboard event listener');
       window.removeEventListener('keydown', handleKeyPress);
     };
   }, [handleKeyPress]);
 
   return (
     <div 
+      {...swipeHandlers}
       style={{
         position: 'relative',
         backgroundColor: '#000',
@@ -85,21 +121,6 @@ export default function GalleryHero2() {
         touchAction: 'manipulation',
       }}
     >
-
-
-      {/* Swipe Area - Separate from main content */}
-      <div 
-        {...swipeHandlers}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '70%', // Exclude potential button areas
-          pointerEvents: 'auto',
-          zIndex: 1,
-        }}
-      />
       <div style={{ 
         width: '100%', 
         height: '100%', 

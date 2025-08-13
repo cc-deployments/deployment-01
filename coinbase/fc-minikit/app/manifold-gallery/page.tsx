@@ -9,11 +9,30 @@ export default function ManifoldGallery() {
   const router = useRouter();
   const { setFrameReady, isFrameReady } = useMiniKit();
 
+  // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
   useEffect(() => {
-    if (!isFrameReady) {
-      setFrameReady();
-    }
-  }, [setFrameReady, isFrameReady]);
+    const initializeSDK = async () => {
+      try {
+        if (!isFrameReady) {
+          console.log('🚀 Initializing MiniKit SDK with disableNativeGestures: true');
+          await setFrameReady({ disableNativeGestures: true });
+          console.log('✅ SDK initialized successfully');
+        }
+      } catch (error) {
+        console.error('❌ SDK initialization failed:', error);
+        // Implement fallback UI or retry logic
+        console.log('🔄 Attempting fallback initialization...');
+        try {
+          await setFrameReady();
+          console.log('✅ Fallback SDK initialization successful');
+        } catch (fallbackError) {
+          console.error('❌ Fallback SDK initialization also failed:', fallbackError);
+        }
+      }
+    };
+    
+    initializeSDK();
+  }, [isFrameReady, setFrameReady]);
 
   // Navigation helper function
   const navigateTo = useCallback(async (path: string) => {

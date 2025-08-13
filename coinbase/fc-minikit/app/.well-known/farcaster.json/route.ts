@@ -5,7 +5,7 @@ export async function GET() {
   const manifest = {
     accountAssociation: {
       header: "eyJmaWQiOjI3MDE3MCwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDE3NWRFMEZkMjU2NTFBNDhlMzliOUYyNTEyNjUwYmY0ZjU5MkJGNTkifQ",
-      payload: "eyJkb21haW4iOiJ3ZWIzLXNvY2lhbC1zdGFydGVyLWZjLW1pbmlraXQudmVyY2VsLmFwcCJ9",
+      payload: "eyJkb21haW4iOiJkZXBsb3ltZW50LTAxLXJqOTEtdmVyY2VsLmFwcCJ9",
       signature: "MHhjMTY3ODA5YThlMDYyZWQ0ZTg4Zjk0MDQyNGI2NTFiZjZlYTRhYzMzOWJmYTdlNDFmNTQ0NDVjYzQ4YmI0ZjdhNWI2MDIyZWE1NzM2NGU0YzY5M2E2ZDI0MGFiNTA5MzhlZjZjYTQyMmE2NDNhNzc0ZjVjZGEwOGRiN2NkZGRmNjFi"
     },
     miniapp: {
@@ -13,22 +13,22 @@ export async function GET() {
       name: "CarCulture: CarMania Garage",
       subtitle: "Drive the Past. Own the Moment",
       description: "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
-      iconUrl: "https://web3-social-starter-fc-minikit.vercel.app/favicon.png",
-      splashImageUrl: "https://web3-social-starter-fc-minikit.vercel.app/splash.png",
+      iconUrl: "https://deployment-01-rj91-vercel.app/favicon.png",
+      splashImageUrl: "https://deployment-01-rj91-vercel.app/splash.png",
       splashBackgroundColor: "#a32428",
-      homeUrl: "https://web3-social-starter-fc-minikit.vercel.app",
+      homeUrl: "https://deployment-01-rj91-vercel.app",
       webhookUrl: "https://api.neynar.com/f/app/70171be3-816f-416d-b846-4328fb0d210a/event",
       primaryCategory: "entertainment",
-      heroImageUrl: "https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png",
+      heroImageUrl: "https://deployment-01-rj91-vercel.app/hero-v2.png",
       tagline: "Daily Drops. Legendary Rides.",
       ogTitle: "CarCulture: CarMania Garage",
       ogDescription: "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' collectibles",
       ogImageUrl: "https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png",
-      castShareUrl: "https://web3-social-starter-fc-minikit.vercel.app/gallery-hero",
+      castShareUrl: "https://deployment-01-rj91-vercel.app/gallery-hero",
       screenshotUrls: [
-        "https://web3-social-starter-fc-minikit.vercel.app/screenshot1.png",
-        "https://web3-social-starter-fc-minikit.vercel.app/screenshot2.png",
-        "https://web3-social-starter-fc-minikit.vercel.app/screenshot3.png"
+        "https://deployment-01-rj91-vercel.app/screenshot1.png",
+        "https://deployment-01-rj91-vercel.app/screenshot2.png",
+        "https://deployment-01-rj91-vercel.app/screenshot3.png"
       ],
       tags: [
         "car",
@@ -37,7 +37,7 @@ export async function GET() {
         "social",
         "art"
       ],
-      previewImageUrl: "https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png",
+      previewImageUrl: "https://deployment-01-rj91-vercel.app/hero-v2.png",
       buttonTitle: "Unlock the Ride"
     }
   };
