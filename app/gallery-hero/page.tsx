@@ -12,20 +12,36 @@ export default function GalleryHero() {
   const { setFrameReady, isFrameReady, context } = useMiniKit();
   const router = useRouter();
   
-  // Proper environment detection for Coinbase Wallet
-  const isInMiniApp = context !== null;
+  // Removed environment detection pattern for CBW compatibility
 
   console.log('🎨 GalleryHero component rendering...');
   console.log('🔑 MiniKit context available:', context !== null);
-  console.log('📱 In Mini App environment:', isInMiniApp);
   console.log('✅ Frame ready status:', isFrameReady);
 
-  // Enable MiniKit's built-in navigation gestures
+  // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
   useEffect(() => {
-    if (!isFrameReady) {
-      setFrameReady();
-    }
-  }, [setFrameReady, isFrameReady]);
+    const initializeSDK = async () => {
+      try {
+        if (!isFrameReady) {
+          console.log('🚀 Initializing MiniKit SDK with disableNativeGestures: true');
+          await setFrameReady({ disableNativeGestures: true });
+          console.log('✅ SDK initialized successfully');
+        }
+      } catch (error) {
+        console.error('❌ SDK initialization failed:', error);
+        // Implement fallback UI or retry logic
+        console.log('🔄 Attempting fallback initialization...');
+        try {
+          await setFrameReady();
+          console.log('✅ Fallback SDK initialization successful');
+        } catch (fallbackError) {
+          console.error('❌ Fallback SDK initialization also failed:', fallbackError);
+        }
+      }
+    };
+    
+    initializeSDK();
+  }, [isFrameReady, setFrameReady]);
 
   // Navigation helper function - Use Next.js router by default
   const navigateTo = useCallback((path: string) => {
@@ -124,7 +140,7 @@ export default function GalleryHero() {
           <span>🔍 MiniKit Debug:</span>
           <span>Context: {context !== null ? '✅ TRUE' : '❌ FALSE'}</span>
           <span>Frame: {isFrameReady ? '✅ READY' : '⏳ LOADING'}</span>
-          <span>Env: {isInMiniApp ? '📱 MINI APP' : '🌐 BROWSER'}</span>
+          <span>Env: CBW Compatible</span>
         </div>
       </div>
 
