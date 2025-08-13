@@ -1,0 +1,25 @@
+
+ name                                       value               environments                        created    
+ NEXT_PUBLIC_APP_SPLASH_BACKGROUND_COLOR    Encrypted           Development, Preview, Production    2h ago     
+ NEXT_PUBLIC_ONCHAINKIT_API_KEY             Encrypted           Development, Preview, Production    8d ago     
+ FARCASTER_HEADER                           Encrypted           Development, Preview, Production    8d ago     
+ FARCASTER_PAYLOAD                          Encrypted           Development, Preview, Production    8d ago     
+ FARCASTER_SIGNATURE                        Encrypted           Development, Preview, Production    8d ago     
+ NEXT_PUBLIC_APP_ICON                       Encrypted           Development, Preview, Production    8d ago     
+ NEXT_PUBLIC_APP_SUBTITLE                   Encrypted           Production, Preview, Development    8d ago     
+ NEXT_PUBLIC_APP_DESCRIPTION                Encrypted           Production, Preview, Development    8d ago     
+ NEXT_PUBLIC_APP_SPLASH_IMAGE               Encrypted           Development, Preview, Production    8d ago     
+ NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR        Encrypted           Development, Preview, Production    8d ago     
+ NEXT_PUBLIC_APP_PRIMARY_CATEGORY           Encrypted           Development, Preview, Production    8d ago     
+ NEXT_PUBLIC_APP_HERO_IMAGE                 Encrypted           Development, Preview, Production    8d ago     
+ NEXT_PUBLIC_APP_TAGLINE                    Encrypted           Development, Preview, Production    8d ago     
+ NEXT_PUBLIC_APP_OG_TITLE                   Encrypted           Development, Preview, Production    8d ago     
+ NEXT_PUBLIC_APP_OG_DESCRIPTION             Encrypted           Development, Preview, Production    8d ago     
+ NEXT_PUBLIC_APP_OG_IMAGE                   Encrypted           Development, Preview, Production    8d ago     
+ NEXT_PUBLIC_PRIVY_APP_ID                   Encrypted           Development, Preview, Production    8d ago     
+ REDIS_URL                                  Encrypted           Development, Preview, Production    8d ago     
+ REDIS_TOKEN                                Encrypted           Development, Preview, Production    8d ago     
+ NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME        Encrypted           Development, Preview, Production    8d ago     
+ NEXT_PUBLIC_URL                            Encrypted           Development, Preview, Production    8d ago     
+ NEXT_PUBLIC_ICON_URL                       Encrypted           Development, Preview, Production    8d ago     
+

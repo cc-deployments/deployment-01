@@ -1,34 +1,56 @@
 {
-  "name": "fc-minikit",
-  "version": "0.1.0",
+  "name": "cculture-apps-new-monorepo",
   "private": true,
+  "workspaces": [
+    "coinbase/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "cd coinbase/fc-minikit && npm run dev",
+    "build": "cd coinbase/fc-minikit && npm run build",
+    "start": "cd coinbase/fc-minikit && npm run start"
   },
   "dependencies": {
-    "@coinbase/onchainkit": "^0.38.18",
-    "next": "15.3.4",
+    "@cculture/privy": "file:packages/privy",
+    "@cculture/shared-auth": "file:packages/shared-auth",
+    "@cculture/shared-ui": "file:packages/shared-ui",
+    "@coinbase/onchainkit": "^0.38.15",
+    "@upstash/redis": "^1.34.4",
+    "next": "^15.3.3",
     "react": "^18",
     "react-dom": "^18",
-    "react-swipeable": "^7.0.2"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "15.3.3",
-    "eslint-config-prettier": "^10.1.1",
-    "eslint-plugin-prettier": "^5.2.3",
-    "eslint-plugin-react": "^7.37.4",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "ignore-loader": "^0.1.2",
-    "postcss": "^8",
-    "prettier": "^3.5.3",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "@biomejs/biome": "1.9.3",
+    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/react": "^14.2.0",
+    "@types/node": "^20.11.8",
+    "@types/react": "18.3.10",
+    "@types/react-dom": "^18.2.7",
+    "@vitest/coverage-v8": "^2.0.2",
+    "@vitest/ui": "^2.0.1",
+    "@wagmi/cli": "latest",
+    "autoprefixer": "^10.4.19",
+    "bufferutil": "^4.0.7",
+    "encoding": "^0.1.13",
+    "jsdom": "^24.1.0",
+    "lokijs": "^1.5.12",
+    "pino-pretty": "^10.2.0",
+    "postcss": "^8.4.38",
+    "supports-color": "^9.4.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "5.6.2",
+    "utf-8-validate": "^6.0.3",
+    "vitest": "^2.0.1"
+  },
+  "packageManager": "npm@9.6.7",
+  "resolutions": {
+    "viem": "2.31.4",
+    "@privy-io/react-auth": "2.17.2",
+    "wagmi": "2.15.6",
+    "@coinbase/onchainkit": "0.38.15",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   }
 }

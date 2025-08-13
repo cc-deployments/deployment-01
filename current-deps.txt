@@ -1,0 +1,14 @@
+cculture-monorepo@ /Users/carculture/Projects/CCulture-Apps-New
+└─┬ @cculture/auth@0.1.0 -> ./CCulture-Apps-Core/packages/auth
+  ├── @coinbase/onchainkit@0.38.14
+  ├── @types/react-dom@18.3.7
+  ├── @types/react@18.3.23
+  ├── eslint@8.57.1
+  ├── next@14.2.30
+  ├── react-dom@18.3.1
+  ├── react@18.3.1
+  ├── tsup@8.5.0
+  ├── typescript@5.8.3
+  ├── viem@2.30.5
+  └── wagmi@2.15.6
+

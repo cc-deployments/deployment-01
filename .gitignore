@@ -1,0 +1,18 @@
+# Ignore environment variables
+.env.local
+
+# Ignore Next.js build output
+.next/
+ 
+# Ignore node modules
+node_modules/
+
+# Ignore turbo daemon logs
+.turbo/daemon/
+
+# Ignore backup directories
+fc-minikit-backup/
+
+# Ignore accidentally created cb-minikit directory
+cb-minikit/ 
+.env*.local

@@ -1,0 +1,9 @@
+{
+  "name": "@cculture/privy",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "@privy-io/react-auth": "^2.17.2"
+  }
+} 

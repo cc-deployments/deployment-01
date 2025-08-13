@@ -1,134 +1,100 @@
-# CarMania Farcaster Mini App
+# Force new deployment
+# Trigger Vercel deployment Mon Jun 30 02:14:01 EDT 2025
+# Trigger Vercel deployment Mon Jun 30 02:23:09 EDT 2025
+# Test Cloudflare deployment - Token updated 2025-07-26
+# Test Cloudflare deployment - Token permissions updated with Memberships 2025-07-26
 
-A Farcaster Mini App built with Next.js 14/15 and MiniKit for Base App compatibility.
+# Deployment & Troubleshooting Notes (2025-06-30)
 
-## Features
+## Vercel Deployment
+- The app is deployed at:
+  - https://web3-social-starter-carculture-mini.vercel.app/
+- If you see a 404 or blank preview, check that your `app` or `pages` directory exists and is correctly configured.
+- Make sure all required environment variables (like `NEXT_PUBLIC_PRIVY_APP_ID`) are set in the Vercel dashboard under **Settings → Environment Variables**.
 
-- **Farcaster Mini App**: Compatible with Base App and Farcaster ecosystem
-- **MiniKit Integration**: Uses `@coinbase/onchainkit/minikit` hooks for optimal compatibility
-- **Responsive Design**: Mobile-first design with proper safe area handling
-- **Swipe Navigation**: Intuitive gesture-based navigation between pages
-- **Universal Sharing**: Cross-platform sharing functionality
+## Dependencies
+- All dependencies must be listed in `package.json` for Vercel to install them.
+- If you add a new package locally, always run `npm install` and commit the updated `package.json` (and `package-lock.json` if present).
 
-## Environment Variables
+## Component Paths
+- Place all shared components in `cb-minikit/components/`.
+- Double-check import paths if you move files or refactor folders.
 
-### Production URL:
-**Current Vercel Deployment:** `https://web3-social-starter-fc-minikit.vercel.app/`
+## Common Errors
+- **404 on deploy:** Usually means missing or misconfigured `app` or `pages` directory.
+- **Module not found:** Check that the file exists and the import path is correct.
+- **Privy App ID error:** Set `NEXT_PUBLIC_PRIVY_APP_ID` in Vercel environment variables.
 
-### Required for Production (Vercel):
+## APP Dev
 
-#### Core App Configuration:
-- `NEXT_PUBLIC_ONCHAINKIT_API_KEY` - OnchainKit API key for CBW integration
-- `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME` - Project name displayed in CBW
-- `NEXT_PUBLIC_URL` - Production URL for the app
-- `NEXT_PUBLIC_ICON_URL` - App icon URL for CBW display
+### Local Setup
+1. `npm install`
+2. `npm run dev` (default port: 3000)
 
-#### Authentication & Wallets:
-- `NEXT_PUBLIC_PRIVY_APP_ID` - Privy authentication service
-- `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` - WalletConnect integration
-- `NEXT_PUBLIC_WC_PROJECT_ID` - WalletConnect project ID (duplicate of above)
+### Folder Structure
+- `app/components/` – Shared React components (e.g., ShareArrow, PrivyLogin)
+- `app/gallery-hero/` – Hero page and related UI
+- `app/gallery-hero-2/`, `app/text-page/` – Gallery navigation flow
+- `packages/sharedauth/` – Shared authentication logic
 
-#### External Services:
-- `NEYNAR_API_KEY` - Farcaster notifications and API access
-- `REDIS_URL` - Redis connection for caching
-- `REDIS_TOKEN` - Redis authentication token
+### Development Workflow
+- Use feature branches for new work.
+- Commit early and often; keep commit messages descriptive.
+- Run locally and test navigation, wallet connection, and gallery flows before pushing.
 
-#### Farcaster Integration:
-- `FARCASTER_HEADER` - Farcaster authentication headers
-- `FARCASTER_PAYLOAD` - Farcaster request payloads
-- `FARCASTER_SIGNATURE` - Farcaster request signing
+### Common Issues
+- **Wallet not connecting:** Check Privy and wagmi integration in `providers.tsx`.
+- **OnchainKit name resolution:** Requires API key with Identity/Profile permissions.
+- **Port conflicts:** If `npm run dev` fails, try another port (e.g., `PORT=3002 npm run dev`).
 
-#### Upcoming Integrations (BASE PAY/Rainbow):
-- `COINBASE_API_KEY` - BASE PAY integration (coming this week)
-- `COINBASE_CLIENT_ID` - OAuth flows for wallet connections
-- `COINBASE_CLIENT_SECRET` - OAuth flows for wallet connections
-- `COINBASE_REDIRECT_URI` - OAuth redirects for wallet auth
+### Deployment
+- Deploys via Vercel. See `vercel.json` for config.
+- Set all required environment variables in the Vercel dashboard.
 
-### Local Development:
-Create a `.env.local` file in the `coinbase/fc-minikit/` directory with the same variables for local testing.
+### TODOs & Roadmap
+- [ ] Add visual indicators for gestures
+- [ ] Clean up console warnings
+- [ ] Test all wallet types and navigation flows
 
-### Shared Auth Package:
-Some API keys are centralized in `packages/shared-auth/config/index.ts`:
-- `NEYNAR_API_KEY` - Centralized Neynar API key
-- `PRIVY_APP_ID` - Centralized Privy App ID
+### Issues: ENS Display & Privy in SharedAuth (2025-07-12)
 
-## MiniKit Hooks Implementation
+1. **ENS/Basename Not Displaying**
+   - OnchainKit `<Name />` always showed “(none found)” for ENS or Basename, even when the connected wallet owned a name.
+   - Tried multiple API keys (with “View” permission only); wallet address was correct.
+   - Suspected cause: OnchainKit API key likely needs “Identity” or “Profile” permissions, not just “View.” Awaiting CDP support.
 
-### Navigation & URL Opening
-- **`useOpenUrl()`**: Used for external links and page navigation
-- **Example**: `openUrl('https://app.manifold.xyz/c/light-bulb-moment')`
+2. **Privy & wagmi State Sync Issues**
+   - After Privy sign-in, `wagmi`’s `useAccount().isConnected` was `false`, even though the wallet address was present.
+   - Updated Providers to use Privy’s wagmi connector; address available but connection state not syncing.
+   - Impact: UI (including ENS display) was gated on `isConnected`, so profile/name never showed.
 
-### Universal Sharing
-- **`useComposeCast()`**: The correct MiniKit hook for universal sharing across all environments
-- **Works on**: Desktop, mobile, and Farcaster Frame environments
-- **Implementation**:
-  ```tsx
-  import { useComposeCast } from '@coinbase/onchainkit/minikit';
-  
-  export default function ShareButton() {
-    const { composeCast } = useComposeCast();
-  
-    const handleShare = () => {
-      composeCast({
-        text: 'Check out this awesome content!',
-        embeds: ['https://your-app-url.com'], // Optional
-      });
-    };
-  
-    return (
-      <button onClick={handleShare}>
-        Share
-      </button>
-    );
-  }
-  ```
+3. **SharedAuth Integration**
+   - Shared authentication logic in `packages/sharedauth/` was not consistently syncing Privy and wagmi state across the app.
+   - Ensured all auth libraries were imported only from the shared package; checked for duplicate/conflicting providers.
+   - Impact: Inconsistent wallet connection state and unreliable ENS/name resolution.
 
-**Key Points:**
-- `useComposeCast` works universally across desktop, mobile, and Farcaster Frame environments
-- Opens the Farcaster compose interface with pre-filled content
-- Can include text and optional embeds (URLs)
-- Recommended approach over custom sharing implementations
-- Official SDK function ensures best user experience across all supported clients
+4. **API Key Permissions Unclear**
+   - OnchainKit API keys from dashboard only had “View” permission.
+   - Opened support ticket with CDP to clarify required permissions for name resolution; “Identity” or “Profile” likely needed.
+   - Blocked on resolving name display until correct API key permissions are granted.
 
-## Mobile Compatibility
+## Auth Pattern: Shared Only
 
-### Touch Gesture Conflicts
-Mobile devices can experience touch gesture conflicts where native gestures (swipes, taps) interfere with app interactions. This is resolved using:
+- All authentication libraries (e.g., @privy-io/react-auth) must be imported only from the shared package (@cculture/privy).
+- Direct imports of auth libraries in app packages are forbidden and enforced by ESLint (see .eslintrc).
+- This ensures consistency and prevents dependency duplication across the monorepo.
 
-```tsx
-setFrameReady({ disableNativeGestures: true });
-```
+---
 
-**Implementation Locations:**
-- `app/gallery-hero/page.tsx`
-- `app/text-page/page.tsx` 
-- `app/gallery-hero-2/page.tsx`
+# TODO (2025-06-30)
 
-**Why This Works:**
-Mini Apps run in modal containers where native gestures can automatically close the app. When your app uses similar touch gestures, they conflict with these native dismissal behaviors. `disableNativeGestures: true` prevents these conflicts.
+- [ ] Build a Farcaster (FC) Mini App using Minikit:
+    - Use the [Minikit starter](https://v0-minikit.vercel.app/) as a template.
+    - Deploy to Vercel.
+    - Set all required environment variables (`NEXT_PUBLIC_URL`, etc.).
+    - Create a Farcaster manifest and verify with your custody wallet.
+    - Test in Warpcast dev tools and share!
 
-## Project Structure
+---
 
-```
-app/
-├── gallery-hero/          # Main landing page
-├── text-page/            # Information page
-├── gallery-hero-2/       # Additional gallery page
-├── share/                # Share functionality
-└── components/           # Reusable components
-```
-
-## Development
-
-```bash
-npm run dev
-```
-
-Visit `http://localhost:3000/gallery-hero` to see the app.
-
-## Deployment
-
-The app is deployed on Vercel and configured for Farcaster Mini App compatibility.
-# Force Vercel deployment
-# Force Vercel rebuild - Tue Jul 29 11:56:21 EDT 2025
-# Force Vercel rebuild - Tue Jul 29 12:31:47 EDT 2025
+Rest well! You made huge progress today.

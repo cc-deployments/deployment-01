@@ -1,0 +1,16 @@
+{
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "@privy-io/react-auth",
+            "message": "Import Privy only from @cculture/privy (the shared package)."
+          }
+        ]
+      }
+    ]
+  }
+}
