@@ -7,7 +7,6 @@
   ],
   "scripts": {
     "dev": "cd coinbase/fc-minikit && npm run dev",
-    "build": "cd coinbase/fc-minikit && npm run build",
     "start": "cd coinbase/fc-minikit && npm run start"
   },
   "dependencies": {
