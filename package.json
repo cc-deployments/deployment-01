@@ -2,8 +2,8 @@
   "name": "cculture-apps-new-monorepo",
   "private": true,
   "workspaces": [
-    "coinbase/*",
-    "packages/*"
+    "packages/*",
+    "coinbase/fc-minikit"
   ],
   "scripts": {
     "dev": "cd coinbase/fc-minikit && npm run dev",
