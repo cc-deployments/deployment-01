@@ -98,3 +98,4 @@
 ---
 
 Rest well! You made huge progress today.
+# Testing Vercel auto-detection without overrides
