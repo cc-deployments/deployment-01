@@ -6,7 +6,7 @@ Use this section to copy-paste values directly into the Farcaster Mini App submi
 
 1. **Domain**
    ```
-   web3-social-starter-fc-minikit.vercel.app
+   deployment-01-rj91-vercel.app
    ```
 2. **App Name**
    ```
@@ -14,7 +14,7 @@ Use this section to copy-paste values directly into the Farcaster Mini App submi
    ```
 3. **App Icon**
    ```
-   https://web3-social-starter-fc-minikit.vercel.app/favicon.png
+   https://deployment-01-rj91-vercel.app/favicon.png
    ```
 4. **Subtitle**
    ```
@@ -30,21 +30,21 @@ Use this section to copy-paste values directly into the Farcaster Mini App submi
    ```
 7. **Screenshots** (enter each URL in a separate field)
    ```
-   https://web3-social-starter-fc-minikit.vercel.app/screenshot1.png
-   https://web3-social-starter-fc-minikit.vercel.app/screenshot2.png
-   https://web3-social-starter-fc-minikit.vercel.app/screenshot3.png
+   https://deployment-01-rj91-vercel.app/screenshot1.png
+   https://deployment-01-rj91-vercel.app/screenshot2.png
+   https://deployment-01-rj91-vercel.app/screenshot3.png
    ```
 8. **Preview Image**
    ```
-   https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png
+   https://deployment-01-rj91-vercel.app/hero-v2.png
    ```
 9. **Hero Image**
    ```
-   https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png
+   https://deployment-01-rj91-vercel.app/hero-v2.png
    ```
 10. **Splash Screen Image**
     ```
-    https://web3-social-starter-fc-minikit.vercel.app/splash.png
+    https://deployment-01-rj91-vercel.app/splash.png
     ```
 11. **Splash Background Color**
     ```
@@ -76,7 +76,7 @@ Use this section to copy-paste values directly into the Farcaster Mini App submi
     ```
 18. **Home URL**
     ```
-    https://web3-social-starter-fc-minikit.vercel.app
+    https://deployment-01-rj91-vercel.app
     ```
 19. **Webhook URL**
     ```
@@ -89,11 +89,11 @@ Use this section to copy-paste values directly into the Farcaster Mini App submi
 
 - **Manifest Domain:**
   ```
-  web3-social-starter-fc-minikit.vercel.app
+  deployment-01-rj91-vercel.app
   ```
 - **Manifest URL:**
   ```
-  https://web3-social-starter-fc-minikit.vercel.app/.well-known/farcaster.json
+  https://deployment-01-rj91-vercel.app/.well-known/farcaster.json
   ```
 
 > **Note:** For Farcaster submission, enter only the domain (not the full URL) in the "Manifest Domain" field. The system will automatically look for the manifest at `https://<domain>/.well-known/farcaster.json`.
@@ -108,21 +108,21 @@ All manifest fields are now hardcoded in `coinbase/fc-minikit/app/.well-known/fa
 | name                   | CarCulture: CarMania Garage                                                                                        | App name (max 32 chars)                          |
 | subtitle               | Drive the Past. Own the Moment                                                                                       | Short, catchy subtitle (max 30 chars)            |
 | description            | Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history. | User-facing app description (max 170 chars)      |
-| iconUrl                | https://web3-social-starter-fc-minikit.vercel.app/favicon.png                                                      | App icon (1024x1024 PNG, no alpha)               |
-| splashImageUrl         | https://web3-social-starter-fc-minikit.vercel.app/splash.png                                                       | Splash/loading image (200x200 PNG)               |
+| iconUrl                | https://deployment-01-rj91-vercel.app/favicon.png                                                                 | App icon (1024x1024 PNG, no alpha)               |
+| splashImageUrl         | https://deployment-01-rj91-vercel.app/splash.png                                                                  | Splash/loading image (200x200 PNG)               |
 | splashBackgroundColor  | #a32428                                                                                                            | Splash screen background color (hex)             |
-| homeUrl                | https://web3-social-starter-fc-minikit.vercel.app                                                                  | App launch URL                                   |
+| homeUrl                | https://deployment-01-rj91-vercel.app                                                                              | App launch URL                                   |
 | webhookUrl             | https://api.neynar.com/f/app/70171be3-816f-416d-b846-4328fb0d210a/event                                           | Webhook for notifications (optional)             |
 | primaryCategory        | entertainment                                                                                                      | App category (lowercase, from allowed list)      |
-| heroImageUrl           | https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png                                                      | Hero image (1200x630 PNG)                        |
+| heroImageUrl           | https://deployment-01-rj91-vercel.app/hero-v2.png                                                                 | Hero image (1200x630 PNG)                        |
 | tagline                | Daily Drops. Legendary Rides.                                                                                  | Marketing tagline (max 30 chars)                 |
 | ogTitle                | CarCulture: CarMania Garage                                                                                        | Social share title (max 30 chars)                |
 | ogDescription          | Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' collectibles | Social share description (max 100 chars)         |
 | ogImageUrl             | https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png                                              | Social share image (1200x630 PNG)                |
-| castShareUrl           | https://web3-social-starter-fc-minikit.vercel.app/gallery-hero                                                      | URL shared when users cast about the Mini App    |
-| screenshotUrls         | https://web3-social-starter-fc-minikit.vercel.app/screenshot1.png<br>https://web3-social-starter-fc-minikit.vercel.app/screenshot2.png<br>https://web3-social-starter-fc-minikit.vercel.app/screenshot3.png | Up to 3 screenshots (1284x2778px PNGs)           |
+| castShareUrl           | https://deployment-01-rj91-vercel.app/gallery-hero                                                                | URL shared when users cast about the Mini App    |
+| screenshotUrls         | https://deployment-01-rj91-vercel.app/screenshot1.png<br>https://deployment-01-rj91-vercel.app/screenshot2.png<br>https://deployment-01-rj91-vercel.app/screenshot3.png | Up to 3 screenshots (1284x2778px PNGs)           |
 | tags                   | car, art, storytelling, social, collectibles                                                                         | Up to 5 tags, lowercase, no spaces/special chars |
-| previewImageUrl        | https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png                                                      | Preview image (optional)                         |
+| previewImageUrl        | https://deployment-01-rj91-vercel.app/hero-v2.png                                                                 | Preview image (optional)                         |
 | buttonTitle            | Unlock the Ride                                                                                                    | Button text for the app (optional)               |
 
 ## Character Limits Validation Chart (2025-07-27)
@@ -133,18 +133,18 @@ All manifest fields are now hardcoded in `coinbase/fc-minikit/app/.well-known/fa
 | **name** | CarCulture: CarMania Garage | 32 | 32 | ✅ **Valid** | Max 32 characters |
 | **subtitle** | Drive the Past. Own the Moment | 30 | 30 | ✅ **Valid** | **EXACTLY AT LIMIT** |
 | **description** | Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history. | 170 | 170 | ✅ **Valid** | Max 170 characters |
-| **iconUrl** | https://web3-social-starter-fc-minikit.vercel.app/favicon.png | 67 | 1024 | ✅ **Valid** | Max 1024 characters |
-| **splashImageUrl** | https://web3-social-starter-fc-minikit.vercel.app/splash.png | 67 | 1024 | ✅ **Valid** | Max 1024 characters |
+| **iconUrl** | https://deployment-01-rj91-vercel.app/favicon.png | 67 | 1024 | ✅ **Valid** | Max 1024 characters |
+| **splashImageUrl** | https://deployment-01-rj91-vercel.app/splash.png | 67 | 1024 | ✅ **Valid** | Max 1024 characters |
 | **splashBackgroundColor** | #a32428 | 7 | 7 | ✅ **Valid** | Hex color code |
-| **homeUrl** | https://web3-social-starter-fc-minikit.vercel.app | 52 | 1024 | ✅ **Valid** | Max 1024 characters |
+| **homeUrl** | https://deployment-01-rj91-vercel.app | 52 | 1024 | ✅ **Valid** | Max 1024 characters |
 | **webhookUrl** | https://api.neynar.com/f/app/70171be3-816f-416d-b846-4328fb0d210a/event | 89 | 1024 | ✅ **Valid** | Max 1024 characters |
 | **primaryCategory** | entertainment | 13 | 13 | ✅ **Valid** | Valid category |
-| **heroImageUrl** | https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png | 67 | 1024 | ✅ **Valid** | Max 1024 characters |
+| **heroImageUrl** | https://deployment-01-rj91-vercel.app/hero-v2.png | 67 | 1024 | ✅ **Valid** | Max 1024 characters |
 | **tagline** | Daily Drops. Legendary Rides. | 29 | 30 | ✅ **Valid** | **UNDER LIMIT** |
 | **ogTitle** | CarCulture: CarMania Garage | 27 | 30 | ✅ **Valid** | **UNDER LIMIT** |
 | **ogDescription** | Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' collectibles | 100 | 100 | ✅ **Valid** | Max 100 characters |
 | **ogImageUrl** | https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png | 89 | 1024 | ✅ **Valid** | Max 1024 characters |
-| **castShareUrl** | https://web3-social-starter-fc-minikit.vercel.app/gallery-hero | 67 | 1024 | ✅ **Valid** | Max 1024 characters |
+| **castShareUrl** | https://deployment-01-rj91-vercel.app/gallery-hero | 67 | 1024 | ✅ **Valid** | Max 1024 characters |
 | **buttonTitle** | Unlock the Ride | 15 | 32 | ✅ **Valid** | Max 32 characters |
 
 ## ✅ **VALIDATION SUMMARY:**
@@ -166,22 +166,22 @@ All manifest fields are now hardcoded in `coinbase/fc-minikit/app/.well-known/fa
     "name": "CarCulture: CarMania Garage",
     "subtitle": "Drive the Past. Own the Moment",
     "description": "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
-    "iconUrl": "https://web3-social-starter-fc-minikit.vercel.app/favicon.png",
-    "splashImageUrl": "https://web3-social-starter-fc-minikit.vercel.app/splash.png",
+    "iconUrl": "https://deployment-01-rj91-vercel.app/favicon.png",
+    "splashImageUrl": "https://deployment-01-rj91-vercel.app/splash.png",
     "splashBackgroundColor": "#a32428",
-    "homeUrl": "https://web3-social-starter-fc-minikit.vercel.app",
+    "homeUrl": "https://deployment-01-rj91-vercel.app",
     "webhookUrl": "https://api.neynar.com/f/app/70171be3-816f-416d-b846-4328fb0d210a/event",
     "primaryCategory": "entertainment",
-    "heroImageUrl": "https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png",
+    "heroImageUrl": "https://deployment-01-rj91-vercel.app/hero-v2.png",
     "tagline": "Daily Drops. Legendary Rides.",
     "ogTitle": "CarCulture: CarMania Garage",
     "ogDescription": "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' collectibles",
     "ogImageUrl": "https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png",
-    "castShareUrl": "https://web3-social-starter-fc-minikit.vercel.app/gallery-hero",
+    "castShareUrl": "https://deployment-01-rj91-vercel.app/gallery-hero",
     "screenshotUrls": [
-      "https://web3-social-starter-fc-minikit.vercel.app/screenshot1.png",
-      "https://web3-social-starter-fc-minikit.vercel.app/screenshot2.png",
-      "https://web3-social-starter-fc-minikit.vercel.app/screenshot3.png"
+      "https://deployment-01-rj91-vercel.app/screenshot1.png",
+      "https://deployment-01-rj91-vercel.app/screenshot2.png",
+      "https://deployment-01-rj91-vercel.app/screenshot3.png"
     ],
     "tags": [
       "car",
@@ -190,7 +190,7 @@ All manifest fields are now hardcoded in `coinbase/fc-minikit/app/.well-known/fa
       "social",
       "art"
     ],
-    "previewImageUrl": "https://web3-social-starter-fc-minikit.vercel.app/hero-v2.png",
+    "previewImageUrl": "https://deployment-01-rj91-vercel.app/hero-v2.png",
     "buttonTitle": "Unlock the Ride"
   }
 }
@@ -236,12 +236,25 @@ All manifest fields are now hardcoded in `coinbase/fc-minikit/app/.well-known/fa
 - ⚠️ **FC Embed Tool**: Still showing "This domain does not have a valid manifest setup" (likely caching issue)
 - 🎯 **Next Steps**: Test embed functionality once FC tool cache refreshes
 
+## 🆕 Security Migration Update (2025-01-27)
+
+### **New Secure Domain**
+- **Old Domain**: `web3-social-starter-fc-minikit.vercel.app` (exposed, flatout)
+- **New Domain**: `deployment-01-rj91-vercel.app` (secure, generic)
+- **Security**: Complete separation from flatout identity
+
+### **Manifest Updates Required**
+- ✅ **All URLs Updated**: Point to new secure domain
+- ✅ **Account Association**: Payload updated for new domain
+- ✅ **Farcaster Revalidation**: Required after domain change
+
 ## Notes
 - All URLs must be HTTPS and publicly accessible.
 - All values are current as of the latest deployment.
 - Update this file whenever you change the manifest fields or values.
 - Manifest, OpenGraph, and SEO fields are no longer set via environment variables. All public-facing metadata is now hardcoded in code.
 - The manifest is served as a dynamic API route at `/.well-known/farcaster.json` for proper Farcaster MiniKit compliance.
+- **IMPORTANT**: After domain change, Farcaster manifest must be revalidated for Mini App recognition.
 
 ---
 

@@ -48,7 +48,17 @@ export default function Page() {
                 Looking a bit bare? 
               </motion.h1>
               <div className='flex flex-col items-center'>
-                <p className='text-center'> Go to <a href="https://base.or/names" target="_blank" rel="noreferrer" className=' hover:text-[#0052ff] hover:text-bold'>Basename</a> to add some details to your profile. <br /> Then see it everywhere. </p>
+                <p className='text-center'> Go to <button 
+                  onClick={() => {
+                    // CBW-compatible navigation - use window.open for external URLs
+                    if (typeof window !== 'undefined') {
+                      window.open('https://base.or/names', '_blank');
+                    }
+                  }}
+                  className='text-[#0052ff] hover:text-bold cursor-pointer underline'
+                >
+                  Basename
+                </button> to add some details to your profile. <br /> Then see it everywhere. </p>
               </div>
             </div>
           </>
