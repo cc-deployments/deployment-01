@@ -47,11 +47,14 @@ export default function TextPage() {
           const result = await response.json();
           
           if (result.success && result.data.mint_url) {
+            console.log('🚀 Opening latest mint URL:', result.data.mint_url);
             window.open(result.data.mint_url, '_blank');
           } else {
+            console.log('🚀 Opening default Manifold URL: https://manifold.xyz/@carculture');
             window.open('https://manifold.xyz/@carculture', '_blank');
           }
         } catch (error) {
+          console.log('🚀 Error fetching mint URL, opening default Manifold URL');
           window.open('https://manifold.xyz/@carculture', '_blank');
         }
       } else {
@@ -91,15 +94,21 @@ export default function TextPage() {
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
+      console.log('⬆️ Keyboard navigation: Swipe up - opening Manifold gallery');
       try {
         const response = await fetch('/api/latest-mint');
         const result = await response.json();
         
         if (result.success && result.data.mint_url) {
+          console.log('🚀 Opening latest mint URL:', result.data.mint_url);
           window.open(result.data.mint_url, '_blank');
+        } else {
+          console.log('🚀 Opening default Manifold URL: https://manifold.xyz/@carculture');
+          window.open('https://manifold.xyz/@carculture', '_blank');
         }
       } catch (error) {
-        // Silent fallback
+        console.log('🚀 Error fetching mint URL, opening default Manifold URL');
+        window.open('https://manifold.xyz/@carculture', '_blank');
       }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       navigateTo('/gallery-hero-2');
