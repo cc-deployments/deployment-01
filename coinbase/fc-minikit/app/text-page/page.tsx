@@ -18,28 +18,10 @@ export default function TextPage() {
 
   // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
   useEffect(() => {
-    const initializeSDK = async () => {
-      try {
-        if (!isFrameReady) {
-          console.log('🚀 Initializing MiniKit SDK with disableNativeGestures: true');
-          await setFrameReady({ disableNativeGestures: true });
-          console.log('✅ SDK initialized successfully');
-        }
-      } catch (error) {
-        console.error('❌ SDK initialization failed:', error);
-        // Implement fallback UI or retry logic
-        console.log('🔄 Attempting fallback initialization...');
-        try {
-          await setFrameReady();
-          console.log('✅ Fallback SDK initialization successful');
-        } catch (fallbackError) {
-          console.error('❌ Fallback SDK initialization also failed:', fallbackError);
-        }
-      }
-    };
-    
-    initializeSDK();
-  }, [isFrameReady, setFrameReady]);
+    if (!isFrameReady) {
+      setFrameReady();
+    }
+  }, [setFrameReady, isFrameReady]);
 
   // Navigation helper function - 4th page goes directly to Manifold Gallery
   const navigateTo = useCallback(async (path: string) => {

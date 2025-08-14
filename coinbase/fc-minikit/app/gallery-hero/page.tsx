@@ -18,28 +18,10 @@ export default function GalleryHero() {
 
   // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
   useEffect(() => {
-    const initializeSDK = async () => {
-      try {
-        if (!isFrameReady) {
-          console.log('🚀 Initializing MiniKit SDK with disableNativeGestures: true');
-          await setFrameReady({ disableNativeGestures: true });
-          console.log('✅ SDK initialized successfully');
-        }
-      } catch (error) {
-        console.error('❌ SDK initialization failed:', error);
-        // Implement fallback UI or retry logic
-        console.log('🔄 Attempting fallback initialization...');
-        try {
-          await setFrameReady();
-          console.log('✅ Fallback SDK initialization successful');
-        } catch (fallbackError) {
-          console.error('❌ Fallback SDK initialization also failed:', fallbackError);
-        }
-      }
-    };
-    
-    initializeSDK();
-  }, [isFrameReady, setFrameReady]);
+    if (!isFrameReady) {
+      setFrameReady();
+    }
+  }, [setFrameReady, isFrameReady]);
 
   // Navigation helper function - Use Next.js router by default
   const navigateTo = useCallback((path: string) => {
@@ -50,27 +32,32 @@ export default function GalleryHero() {
     }
   }, [router]);
 
-  // Custom swipe handlers for navigation
+  // Custom swipe handlers for navigation - Mobile optimized
   const swipeHandlers = useSwipeable({
     onSwipedUp: async () => {
+      console.log('⬆️ Swipe up detected - navigating to gallery-hero-2');
       navigateTo('/gallery-hero-2');
     },
     onSwipedDown: async () => {
+      console.log('⬇️ Swipe down detected - no previous page');
       // This is the first page, no previous page to navigate to
     },
     onSwipedLeft: () => {
+      console.log('⬅️ Swipe left detected');
     },
     onSwipedRight: () => {
+      console.log('➡️ Swipe right detected');
     },
     onSwipeStart: () => {
+      console.log('👆 Swipe start detected');
     },
     trackMouse: false, // Disable mouse tracking to reduce conflicts
-    delta: 30, // Reduce delta for more responsive swipes
-    swipeDuration: 300, // Faster swipe detection
-    preventScrollOnSwipe: false,
+    delta: 50, // Increased delta for more reliable mobile detection
+    swipeDuration: 500, // Slower duration for mobile accuracy
+    preventScrollOnSwipe: true, // Prevent scroll conflicts on mobile
     trackTouch: true,
     rotationAngle: 0,
-    touchEventOptions: { passive: true }, // Use passive for better performance
+    touchEventOptions: { passive: false }, // Allow event handling
   });
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
