@@ -9,4 +9,4 @@ export { SHARED_CHAINS, DEFAULT_CHAIN, CHAIN_CONFIGS } from './config/chains';
 export { SHARED_CONNECTORS, CONNECTOR_CONFIGS } from './config/connectors';
 
 // Export types (excluding SharedAuthState which is already in hooks)
-export { WalletConnectionState, AuthProviderProps } from './types/auth'; 
+export type { WalletConnectionState, AuthProviderProps } from './types/auth'; 
