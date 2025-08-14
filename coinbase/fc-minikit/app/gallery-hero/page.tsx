@@ -263,10 +263,38 @@ export default function GalleryHero() {
                       url: window.location.href,
                     }).catch(() => {});
                   } else {
-                    // Fallback: copy URL to clipboard
-                    navigator.clipboard.writeText(window.location.href).then(() => {
-                      alert('Link copied to clipboard!');
-                    }).catch(() => {});
+                    // Fallback: copy URL to clipboard with mobile compatibility
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                      navigator.clipboard.writeText(window.location.href).then(() => {
+                        alert('Link copied to clipboard!');
+                      }).catch(() => {
+                        // Fallback for mobile devices
+                        try {
+                          const textArea = document.createElement('textarea');
+                          textArea.value = window.location.href;
+                          document.body.appendChild(textArea);
+                          textArea.select();
+                          document.execCommand('copy');
+                          document.body.removeChild(textArea);
+                          alert('Link copied to clipboard!');
+                        } catch (fallbackError) {
+                          alert('Copy failed. Please copy manually: ' + window.location.href);
+                        }
+                      });
+                    } else {
+                      // Fallback for older browsers
+                      try {
+                        const textArea = document.createElement('textarea');
+                        textArea.value = window.location.href;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        alert('Link copied to clipboard!');
+                      } catch (fallbackError) {
+                        alert('Copy failed. Please copy manually: ' + window.location.href);
+                      }
+                    }
                   }
                 }}
                 style={{

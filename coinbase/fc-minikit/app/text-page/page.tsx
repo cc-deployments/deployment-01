@@ -2,12 +2,15 @@
 
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { useMiniKit } from '@coinbase/onchainkit/minikit';
+import { useSafeArea } from '../hooks/useSafeArea';
+import { useMiniKit, useOpenUrl } from '@coinbase/onchainkit/minikit';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 
 export default function TextPage() {
+  const { safeArea, isLoading } = useSafeArea();
   const { setFrameReady, isFrameReady, context } = useMiniKit();
+  const { openUrl } = useOpenUrl();
   const router = useRouter();
   
   console.log('🎨 TextPage component rendering...');
@@ -38,36 +41,36 @@ export default function TextPage() {
     initializeSDK();
   }, [isFrameReady, setFrameReady]);
 
-  // Navigation helper function - Use API for latest mint
+  // Navigation helper function - 4th page goes directly to Manifold Gallery
   const navigateTo = useCallback(async (path: string) => {
     try {
       if (path === '/manifold-gallery') {
+        // 4th page: Always open Manifold Gallery (not mint page)
+        console.log('🚀 Opening Manifold Gallery: https://manifold.xyz/@carculture');
+        
+        // Use MiniKit's useOpenUrl hook for proper external URL handling
         try {
-          const response = await fetch('/api/latest-mint');
-          const result = await response.json();
-          
-          if (result.success && result.data.mint_url) {
-            console.log('🚀 Opening latest mint URL:', result.data.mint_url);
-            window.open(result.data.mint_url, '_blank');
-          } else {
-            console.log('🚀 Opening default Manifold URL: https://manifold.xyz/@carculture');
-            window.open('https://manifold.xyz/@carculture', '_blank');
-          }
-        } catch (error) {
-          console.log('🚀 Error fetching mint URL, opening default Manifold URL');
-          window.open('https://manifold.xyz/@carculture', '_blank');
+          await openUrl('https://manifold.xyz/@carculture');
+          console.log('✅ Manifold Gallery opened successfully via MiniKit');
+        } catch (openError) {
+          console.error('❌ MiniKit openUrl failed:', openError);
+          // Fallback: use location.href for mobile
+          console.log('🔄 Fallback to location.href for mobile');
+          window.location.href = 'https://manifold.xyz/@carculture';
         }
       } else {
         router.push(path);
       }
     } catch (error) {
       if (path === '/manifold-gallery') {
-        // API call already handled above
+        // Final fallback: use location.href
+        console.log('🔄 Final fallback to location.href');
+        window.location.href = 'https://manifold.xyz/@carculture';
       } else {
         window.location.href = path;
       }
     }
-  }, [router]);
+  }, [router, openUrl]);
 
   // Custom swipe handlers for navigation
   const swipeHandlers = useSwipeable({
@@ -94,26 +97,23 @@ export default function TextPage() {
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
-      console.log('⬆️ Keyboard navigation: Swipe up - opening Manifold gallery');
+      console.log('⬆️ Keyboard navigation: Swipe up - opening Manifold Gallery');
+      // 4th page: Always open Manifold Gallery (not mint page)
+      console.log('🚀 Opening Manifold Gallery: https://manifold.xyz/@carculture');
+      
+      // Use MiniKit's useOpenUrl hook for proper external URL handling
       try {
-        const response = await fetch('/api/latest-mint');
-        const result = await response.json();
-        
-        if (result.success && result.data.mint_url) {
-          console.log('🚀 Opening latest mint URL:', result.data.mint_url);
-          window.open(result.data.mint_url, '_blank');
-        } else {
-          console.log('🚀 Opening default Manifold URL: https://manifold.xyz/@carculture');
-          window.open('https://manifold.xyz/@carculture', '_blank');
-        }
-      } catch (error) {
-        console.log('🚀 Error fetching mint URL, opening default Manifold URL');
-        window.open('https://manifold.xyz/@carculture', '_blank');
+        await openUrl('https://manifold.xyz/@carculture');
+        console.log('✅ Manifold Gallery opened successfully via MiniKit');
+      } catch (openError) {
+        console.error('❌ MiniKit openUrl failed:', openError);
+        // Fallback: use location.href for mobile
+        window.location.href = 'https://manifold.xyz/@carculture';
       }
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       navigateTo('/gallery-hero-2');
     }
-  }, [navigateTo]);
+  }, [navigateTo, openUrl]);
 
   useEffect(() => {
     console.log('🎧 Setting up keyboard event listener');
@@ -124,20 +124,37 @@ export default function TextPage() {
     };
   }, [handleKeyPress]);
 
-  return (
-    <div 
-      style={{
-        position: 'relative',
-        backgroundColor: '#000',
+  // Loading state
+  if (isLoading) {
+    return (
+      <div style={{
         width: '100vw',
         height: '100vh',
-        overflow: 'hidden',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#000',
+        color: '#fff'
+      }}>
+        Loading...
+      </div>
+    );
+  }
+
+  return (
+    <div 
+      className="min-h-screen bg-black text-white relative overflow-hidden"
+      style={{
+        paddingTop: safeArea.top,
+        paddingBottom: safeArea.bottom,
+        paddingLeft: safeArea.left,
+        paddingRight: safeArea.right,
         userSelect: 'none',
         WebkitUserSelect: 'none',
         WebkitTouchCallout: 'none',
       }}
     >
-      {/* Swipe Area - EXCLUDES button area completely */}
+      {/* Swipe Area - EXCLUDES button areas for proper gesture detection */}
       <div 
         {...swipeHandlers}
         style={{
@@ -145,7 +162,7 @@ export default function TextPage() {
           top: 0,
           left: 0,
           right: 0,
-          height: '60%', // Stop WELL BEFORE button area (button is at 63% from top)
+          height: '70%', // Exclude button areas to prevent conflicts (match gallery-hero)
           pointerEvents: 'auto',
           zIndex: 1,
         }}
@@ -157,6 +174,7 @@ export default function TextPage() {
         height: '100%', 
         backgroundColor: '#000',
         position: 'relative',
+        // Allow touch events to pass through to MiniKit
         pointerEvents: 'auto',
         touchAction: 'manipulation',
       }}>
@@ -201,11 +219,13 @@ export default function TextPage() {
         <div 
           style={{
             position: 'absolute',
-            top: '63%', // EXACTLY match the white button position
+            top: '75%', // Match gallery-hero button positioning
             left: '50%',
             transform: 'translateX(-50%)',
             zIndex: 1000,
             pointerEvents: 'auto',
+            minWidth: '150px',
+            minHeight: '60px',
           }}
         >
           <button
@@ -213,18 +233,16 @@ export default function TextPage() {
               e.preventDefault();
               e.stopPropagation();
               console.log('🔓 UNLOCK button clicked');
+              
+              // Use MiniKit's useOpenUrl hook for proper external URL handling
               try {
-                const response = await fetch('/api/latest-mint');
-                const result = await response.json();
-                
-                if (result.success && result.data.mint_url) {
-                  window.open(result.data.mint_url, '_blank');
-                } else {
-                  window.open('https://manifold.xyz/@carculture', '_blank');
-                }
-              } catch (error) {
-                console.error('❌ API error, using fallback URL');
-                window.open('https://manifold.xyz/@carculture', '_blank');
+                await openUrl('https://manifold.xyz/@carculture');
+                console.log('✅ Manifold Gallery opened successfully via MiniKit button');
+              } catch (openError) {
+                console.error('❌ MiniKit openUrl failed:', openError);
+                // Fallback: use location.href for mobile
+                console.log('🔄 Fallback to location.href for mobile');
+                window.location.href = 'https://manifold.xyz/@carculture';
               }
             }}
             style={{
