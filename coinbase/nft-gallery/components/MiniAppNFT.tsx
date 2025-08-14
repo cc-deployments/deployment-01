@@ -5,7 +5,8 @@ import { useState } from 'react';
 import { useAccount, useChainId, useSwitchChain } from 'wagmi';
 import { ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { Checkout, CheckoutButton, type LifecycleStatus } from '@coinbase/onchainkit/checkout';
-import { NFTCheckoutMetadata, CheckoutPricing } from '../utils/commerce';
+// TODO: Import commerce utilities when they are created
+// import { NFTCheckoutMetadata, CheckoutPricing } from '../utils/commerce';
 
 interface MiniAppNFTProps {
   tokenId: string;
@@ -62,18 +63,19 @@ export function MiniAppNFT({
       return;
     }
 
-    const metadata: NFTCheckoutMetadata = {
-      tokenId,
-      contractAddress,
-      network,
-      contractType,
-      includesPrint: false
-    };
+    // TODO: Fix metadata and pricing when commerce utilities are created
+    // const metadata: NFTCheckoutMetadata = {
+    //   tokenId,
+    //   contractAddress,
+    //   network,
+    //   contractType,
+    //   includesPrint: false
+    // };
 
-    const pricing: CheckoutPricing = {
-      amount: price,
-      currency
-    };
+    // const pricing: CheckoutPricing = {
+    //   amount: price,
+    //   currency
+    // };
 
     const response = await fetch('/api/create-charge', {
       method: 'POST',

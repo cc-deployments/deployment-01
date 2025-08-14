@@ -9,19 +9,17 @@ import { useRouter } from 'next/navigation';
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea();
-  const { setFrameReady, isFrameReady, context } = useMiniKit();
+  const { ready, context } = useMiniKit();
   const router = useRouter();
   
   // Removed environment detection pattern for CBW compatibility
 
 
 
-  // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
+  // Call ready() when interface is ready to hide splash screen (per Farcaster docs)
   useEffect(() => {
-    if (!isFrameReady) {
-      setFrameReady();
-    }
-  }, [setFrameReady, isFrameReady]);
+    ready();
+  }, [ready]);
 
   // Navigation helper function - Use Next.js router by default
   const navigateTo = useCallback((path: string) => {
