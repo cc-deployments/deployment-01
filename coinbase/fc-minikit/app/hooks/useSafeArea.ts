@@ -9,8 +9,8 @@ export interface SafeAreaInsets {
 
 export function useSafeArea() {
   const safeArea: SafeAreaInsets = {
-    top: 44,    // iPhone status bar + notch
-    bottom: 34, // iPhone home indicator  
+    top: 0,     // Remove hardcoded top padding for local development
+    bottom: 0,  // Remove hardcoded bottom padding for local development
     left: 0,
     right: 0
   };
