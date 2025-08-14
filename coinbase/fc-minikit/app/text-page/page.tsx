@@ -3,14 +3,14 @@
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSafeArea } from '../hooks/useSafeArea';
-import { useMiniKit, useOpenUrl } from '@coinbase/onchainkit/minikit';
+import { useMiniKit } from '@coinbase/onchainkit/minikit';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 
 export default function TextPage() {
   const { safeArea, isLoading } = useSafeArea();
   const { setFrameReady, isFrameReady, context } = useMiniKit();
-  const { openUrl } = useOpenUrl();
+
   const router = useRouter();
   
   console.log('🎨 TextPage component rendering...');
@@ -30,16 +30,9 @@ export default function TextPage() {
         // 4th page: Always open Manifold Gallery (not mint page)
         console.log('🚀 Opening Manifold Gallery: https://manifold.xyz/@carculture');
         
-        // Use MiniKit's useOpenUrl hook for proper external URL handling
-        try {
-          await openUrl('https://manifold.xyz/@carculture');
-          console.log('✅ Manifold Gallery opened successfully via MiniKit');
-        } catch (openError) {
-          console.error('❌ MiniKit openUrl failed:', openError);
-          // Fallback: use location.href for mobile
-          console.log('🔄 Fallback to location.href for mobile');
-          window.location.href = 'https://manifold.xyz/@carculture';
-        }
+        // Use window.location.href for external URL navigation
+        console.log('🔄 Opening Manifold Gallery via window.location.href');
+        window.location.href = 'https://manifold.xyz/@carculture';
       } else {
         router.push(path);
       }
@@ -52,7 +45,7 @@ export default function TextPage() {
         window.location.href = path;
       }
     }
-  }, [router, openUrl]);
+  }, [router]);
 
   // Custom swipe handlers for navigation
   const swipeHandlers = useSwipeable({
@@ -83,19 +76,13 @@ export default function TextPage() {
       // 4th page: Always open Manifold Gallery (not mint page)
       console.log('🚀 Opening Manifold Gallery: https://manifold.xyz/@carculture');
       
-      // Use MiniKit's useOpenUrl hook for proper external URL handling
-      try {
-        await openUrl('https://manifold.xyz/@carculture');
-        console.log('✅ Manifold Gallery opened successfully via MiniKit');
-      } catch (openError) {
-        console.error('❌ MiniKit openUrl failed:', openError);
-        // Fallback: use location.href for mobile
-        window.location.href = 'https://manifold.xyz/@carculture';
-      }
+      // Use window.location.href for external URL navigation
+      console.log('🔄 Opening Manifold Gallery via window.location.href');
+      window.location.href = 'https://manifold.xyz/@carculture';
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       navigateTo('/gallery-hero-2');
     }
-  }, [navigateTo, openUrl]);
+  }, [navigateTo]);
 
   useEffect(() => {
     console.log('🎧 Setting up keyboard event listener');
