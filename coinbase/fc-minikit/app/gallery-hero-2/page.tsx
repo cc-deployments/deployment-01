@@ -16,7 +16,7 @@ export default function GalleryHero2() {
   // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
   useEffect(() => {
     if (!isFrameReady) {
-      setFrameReady();
+      setFrameReady({ disableNativeGestures: true });
     }
   }, [setFrameReady, isFrameReady]);
 
