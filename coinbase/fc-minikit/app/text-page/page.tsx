@@ -203,16 +203,9 @@ export default function TextPage() {
               e.stopPropagation();
               console.log('🔓 UNLOCK button clicked');
               
-              // Use MiniKit's useOpenUrl hook for proper external URL handling
-              try {
-                await openUrl('https://manifold.xyz/@carculture');
-                console.log('✅ Manifold Gallery opened successfully via MiniKit button');
-              } catch (openError) {
-                console.error('❌ MiniKit openUrl failed:', openError);
-                // Fallback: use location.href for mobile
-                console.log('🔄 Fallback to location.href for mobile');
-                window.location.href = 'https://manifold.xyz/@carculture';
-              }
+              // Use window.location.href for external URL navigation
+              console.log('🔄 Opening Manifold Gallery via button click');
+              window.location.href = 'https://manifold.xyz/@carculture';
             }}
             style={{
               backgroundColor: 'transparent', // Completely invisible
