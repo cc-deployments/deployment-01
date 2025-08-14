@@ -2,9 +2,9 @@
   "miniapp": {
     "version": "1",
     "name": "CarMania",
-    "iconUrl": "https://carculture.com/icon.png",
-    "homeUrl": "https://carculture.com",
-    "splashImageUrl": "https://carculture.com/carmania-splash.png",
+    "iconUrl": "https://carmania.carculture.com/icon.png",
+    "homeUrl": "https://carmania.carculture.com",
+    "splashImageUrl": "https://carmania.carculture.com/carmania-splash.png",
     "splashBackgroundColor": "#000000",
     "subtitle": "Collect the Classics, Cruise the Future",
     "description": "Discover the world's most amazing cars in the CarMania Gallery. Swipe through exclusive car collections and unlock premium content.",
