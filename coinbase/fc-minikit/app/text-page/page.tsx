@@ -16,14 +16,15 @@ export default function TextPage() {
   const router = useRouter();
   
   console.log('🎨 TextPage component rendering...');
-  console.log('🔍 Frame context available:', !!context);
+  // console.log('🔍 Frame context available:', !!context);
 
+  // TEMPORARILY DISABLED: OnchainKit dependency issue
   // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
   useEffect(() => {
-    if (!isFrameReady) {
-      setFrameReady({ disableNativeGestures: true });
-    }
-  }, [setFrameReady, isFrameReady]);
+    // if (!isFrameReady) {
+    //   setFrameReady({ disableNativeGestures: true });
+    // }
+  }, []); // Removed OnchainKit dependencies
 
   // Navigation helper function - 4th page goes directly to Manifold Gallery
   const navigateTo = useCallback(async (path: string) => {

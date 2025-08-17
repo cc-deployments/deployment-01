@@ -13,14 +13,15 @@ export default function GalleryHero2() {
   const router = useRouter();
   
   console.log('🎨 GalleryHero2 component rendering...');
-  console.log('🔍 Frame context available:', !!context);
+  // console.log('🔍 Frame context available:', !!context);
 
+  // TEMPORARILY DISABLED: OnchainKit dependency issue
   // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
   useEffect(() => {
-    if (!isFrameReady) {
-      setFrameReady({ disableNativeGestures: true });
-    }
-  }, [setFrameReady, isFrameReady]);
+    // if (!isFrameReady) {
+    //   setFrameReady({ disableNativeGestures: true });
+    // }
+  }, []); // Removed OnchainKit dependencies
 
   // Navigation helper function - Use Next.js router by default
   const navigateTo = useCallback((path: string) => {
