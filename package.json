@@ -50,6 +50,10 @@
     "wagmi": "2.15.6",
     "@coinbase/onchainkit": "0.38.15",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "@farcaster/frame-sdk": "npm:@coinbase/onchainkit@0.38.15"
+  },
+  "overrides": {
+    "@farcaster/frame-sdk": "npm:@coinbase/onchainkit@0.38.19"
   }
 }

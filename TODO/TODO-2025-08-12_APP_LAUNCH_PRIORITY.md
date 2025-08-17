@@ -74,6 +74,11 @@
 - [ ] **Community engagement** tools
 - [ ] **Social features** and sharing
 
+### **Phase 6: New BASE Features (August 15, 2025)**
+- [ ] **Embedded Wallets** - Research and integrate new BASE embedded wallet functionality
+- [ ] **Haptics** - Implement haptic feedback for better mobile user experience
+- [ ] **Back Swipe Navigation** - Add back swipe gesture support for improved navigation flow
+
 ## 📋 **TESTING CHECKLIST**
 
 ### **Pre-Launch Testing:**

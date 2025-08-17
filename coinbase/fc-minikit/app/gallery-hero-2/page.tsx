@@ -2,12 +2,14 @@
 
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { useMiniKit } from '@coinbase/onchainkit/minikit';
+// TEMPORARILY DISABLED: OnchainKit dependency issue
+// import { useMiniKit } from '@coinbase/onchainkit/minikit';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 
 export default function GalleryHero2() {
-  const { setFrameReady, isFrameReady, context } = useMiniKit();
+  // TEMPORARILY DISABLED: OnchainKit dependency issue
+  // const { setFrameReady, isFrameReady, context } = useMiniKit();
   const router = useRouter();
   
   console.log('🎨 GalleryHero2 component rendering...');

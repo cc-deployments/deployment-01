@@ -6,7 +6,7 @@ Use this section to copy-paste values directly into the Farcaster Mini App submi
 
 1. **Domain**
    ```
-   deployment-01-rj91-vercel.app
+   carmania.carculture.com
    ```
 2. **App Name**
    ```
@@ -14,7 +14,7 @@ Use this section to copy-paste values directly into the Farcaster Mini App submi
    ```
 3. **App Icon**
    ```
-   https://deployment-01-rj91-vercel.app/favicon.png
+   https://carmania.carculture.com/favicon.png
    ```
 4. **Subtitle**
    ```
@@ -30,21 +30,21 @@ Use this section to copy-paste values directly into the Farcaster Mini App submi
    ```
 7. **Screenshots** (enter each URL in a separate field)
    ```
-   https://deployment-01-rj91-vercel.app/screenshot1.png
-   https://deployment-01-rj91-vercel.app/screenshot2.png
-   https://deployment-01-rj91-vercel.app/screenshot3.png
+   https://carmania.carculture.com/screenshot1.png
+   https://carmania.carculture.com/screenshot2.png
+   https://carmania.carculture.com/screenshot3.png
    ```
 8. **Preview Image**
    ```
-   https://deployment-01-rj91-vercel.app/hero-v2.png
+   https://carmania.carculture.com/hero-v2.png
    ```
 9. **Hero Image**
    ```
-   https://deployment-01-rj91-vercel.app/hero-v2.png
+   https://carmania.carculture.com/hero-v2.png
    ```
 10. **Splash Screen Image**
     ```
-    https://deployment-01-rj91-vercel.app/splash.png
+    https://carmania.carculture.com/splash.png
     ```
 11. **Splash Background Color**
     ```
@@ -76,7 +76,7 @@ Use this section to copy-paste values directly into the Farcaster Mini App submi
     ```
 18. **Home URL**
     ```
-    https://deployment-01-rj91-vercel.app
+    https://carmania.carculture.com
     ```
 19. **Webhook URL**
     ```
@@ -89,11 +89,11 @@ Use this section to copy-paste values directly into the Farcaster Mini App submi
 
 - **Manifest Domain:**
   ```
-  deployment-01-rj91-vercel.app
+  carmania.carculture.com
   ```
 - **Manifest URL:**
   ```
-  https://deployment-01-rj91-vercel.app/.well-known/farcaster.json
+  https://carmania.carculture.com/.well-known/farcaster.json
   ```
 
 > **Note:** For Farcaster submission, enter only the domain (not the full URL) in the "Manifest Domain" field. The system will automatically look for the manifest at `https://<domain>/.well-known/farcaster.json`.

@@ -1,6 +1,7 @@
 import React from "react";
 import "./theme.css";
-import "@coinbase/onchainkit/styles.css";
+// TEMPORARILY DISABLED: OnchainKit dependency issue
+// import "@coinbase/onchainkit/styles.css";
 import type { Metadata, Viewport } from "next";
 import { Inter } from 'next/font/google';
 import "./globals.css";
@@ -39,44 +40,7 @@ export default function RootLayout({
           <ShareHandler />
         </Providers>
         
-        {/* Eruda Mobile Debugging - Development Only */}
-        <script 
-          src="https://cdn.jsdelivr.net/npm/eruda"
-          async
-        />
-        <script 
-          dangerouslySetInnerHTML={{
-            __html: `
-              // Simple Eruda initialization
-              (function() {
-                const initEruda = () => {
-                  if (typeof window.eruda === 'undefined') {
-                    setTimeout(initEruda, 100);
-                    return;
-                  }
-                  
-                  // Enable Eruda for development environments
-                  if (window.location.hostname === 'localhost' ||
-                      window.location.hostname.includes('ngrok') ||
-                      window.location.hostname.includes('vercel.app')) {
-
-                    window.eruda.init();
-                    console.log('Eruda Debug Console Active');
-                  }
-
-                  // Enable Eruda with URL parameter for production testing
-                  if (window.location.search.includes('debug=true') ||
-                      window.location.search.includes('eruda=true')) {
-                    window.eruda.init();
-                    console.log('Eruda Enabled via URL Parameter');
-                  }
-                };
-                
-                initEruda();
-              })();
-            `
-          }}
-        />
+        {/* Debugging removed - was causing container issues */}
       </body>
     </html>
   );

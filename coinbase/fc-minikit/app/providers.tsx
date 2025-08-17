@@ -1,7 +1,8 @@
 "use client";
 
 import { type ReactNode } from "react";
-import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
+// TEMPORARILY DISABLED: OnchainKit dependency issue
+// import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
 
 // Define Base chain without wagmi import
 const baseChain = {
@@ -36,11 +37,12 @@ export function Providers(props: { children: ReactNode }) {
   console.log('🔑 Providers: Project Name:', process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME);
 
   return (
-    <MiniKitProvider
-      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
-      chain={baseChain}
-    >
+    // TEMPORARILY DISABLED: OnchainKit dependency issue
+    // <MiniKitProvider
+    //   apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+    //   chain={baseChain}
+    // >
       {props.children}
-    </MiniKitProvider>
+    // </MiniKitProvider>
   );
 }

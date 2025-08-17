@@ -1,0 +1,218 @@
+# Working Container Patterns for Mini App
+
+## 🎯 **Current Working Status (Commit 0f3599d)**
+- ✅ **Container sizes**: All pages now have consistent sizing
+- ✅ **Arrow navigation**: Works on all 4 pages
+- ✅ **Structure**: All pages use the same proven container pattern
+
+## 📱 **Working Container Structure (Copy This Pattern)**
+
+### **Main Container Pattern (Used by gallery-hero-2 and text-page):**
+```tsx
+return (
+  <div 
+    {...swipeHandlers}
+    style={{
+      position: 'relative',
+      backgroundColor: '#000',
+      width: '100vw',
+      height: '100vh',
+      overflow: 'hidden',
+      userSelect: 'none',
+      WebkitUserSelect: 'none',
+      WebkitTouchCallout: 'none',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      // Ensure MiniKit gestures work by not blocking touch events
+      touchAction: 'manipulation',
+      paddingTop: safeArea.top,
+      paddingBottom: safeArea.bottom,
+      paddingLeft: safeArea.left,
+      paddingRight: safeArea.right,
+    }}
+  >
+    {/* Image Container */}
+    <div style={{ 
+      width: '100%', 
+      height: '100%', 
+      backgroundColor: '#000',
+      position: 'relative',
+      pointerEvents: 'auto',
+      touchAction: 'manipulation',
+    }}>
+      <Image
+        src="/page-image.png"
+        alt="Page Description"
+        width={1260}
+        height={2400}
+        style={{ 
+          width: '100%', 
+          height: '100%',
+          objectFit: 'cover',
+          display: 'block',
+          pointerEvents: 'auto',
+          touchAction: 'manipulation',
+        }}
+        priority
+        unoptimized={true}
+      />
+    </div>
+    
+    {/* Buttons go here */}
+  </div>
+);
+```
+
+## 🌐 **Base Mini App Hooks for External Navigation**
+
+### **CORRECT: Use useOpenUrl for External Links**
+According to [Base Mini App documentation](https://docs.base.org/base-app/miniapps/overview#minikit-overview), external navigation should use the `useOpenUrl` hook:
+
+```tsx
+import { useOpenUrl } from '@coinbase/onchainkit/minikit';
+
+export default function ManifoldGallery() {
+  const openUrl = useOpenUrl();
+  
+  // CORRECT: Use useOpenUrl hook for external navigation
+  const handleExternalNavigation = () => {
+    openUrl('https://manifold.xyz/collection/your-collection');
+  };
+  
+  return (
+    <button onClick={handleExternalNavigation}>
+      View on Manifold
+    </button>
+  );
+}
+```
+
+### **INCORRECT: Don't Use setFrameReady for External Navigation**
+The `manifold-gallery` page currently has this pattern which is wrong:
+
+```tsx
+// ❌ WRONG: This is for dismissing splash screen, not external navigation
+await setFrameReady({ disableNativeGestures: true });
+
+// ❌ WRONG: Direct window.location.href bypasses Mini App context
+window.location.href = 'https://manifold.xyz/...';
+```
+
+### **Why useOpenUrl is Correct:**
+1. **Mini App Context**: Maintains the Mini App environment
+2. **Fallback Support**: Falls back to `window.open` when outside frame context
+3. **Base Documentation**: Officially recommended in Base docs
+4. **User Experience**: Proper Mini App navigation flow
+
+## 🔧 **Key Changes Made:**
+
+### **1. Container Structure (What Works):**
+- `{...swipeHandlers}` on main container
+- `width: '100vw', height: '100vh'` for full viewport
+- `display: 'flex', flexDirection: 'column'` for centering
+- `justifyContent: 'center', alignItems: 'center'` for content centering
+
+### **2. What We Tried (Don't Use):**
+- ❌ Complex scaling with CSS transforms
+- ❌ Fixed pixel dimensions (1260px x 2400px)
+- ❌ Multiple wrapper divs
+- ❌ Complex conditional rendering patterns
+- ❌ `setFrameReady()` for external navigation
+- ❌ Direct `window.location.href` in Mini Apps
+
+### **3. What We Kept (Working):**
+- ✅ Simple image container structure
+- ✅ `objectFit: 'cover'` for image scaling
+- ✅ `touchAction: 'manipulation'` for MiniKit compatibility
+- ✅ Safe area padding for mobile devices
+- ✅ `setFrameReady({ disableNativeGestures: true })` for splash screen dismissal
+
+## 📋 **Testing Checklist:**
+
+### **Localhost Testing (Do First):**
+1. ✅ Container sizes consistent across all pages
+2. ✅ Arrow navigation works (up/down)
+3. ✅ Buttons render and are clickable
+4. ✅ Images load properly
+5. ✅ No console errors
+
+### **Mobile Testing (Do Second):**
+1. ✅ MiniKit initializes (`Frame context available: true`)
+2. ✅ Swipe navigation works
+3. ✅ Buttons respond to touch
+4. ✅ Container fits mobile viewport
+5. ✅ External navigation uses proper Mini App hooks
+
+## 🚫 **Common Mistakes to Avoid:**
+
+1. **Don't over-engineer** - simple patterns work better
+2. **Don't copy from broken pages** - always copy from working ones
+3. **Don't change multiple things at once** - one fix at a time
+4. **Don't ignore the working commit** - 862380f is our reference point
+5. **Don't use setFrameReady for external navigation** - use useOpenUrl hook
+6. **Don't use direct window.location.href** - breaks Mini App context
+
+## 📚 **Reference Commits:**
+
+- **Working Base**: `862380f` - Complete working version
+- **Container Fix**: `0f3599d` - Fixed container sizes and navigation
+- **Current Status**: All pages working with consistent structure
+
+## 🔄 **Future Updates:**
+
+When making changes:
+1. **Test on localhost first**
+2. **Make minimal changes**
+3. **Update this document**
+4. **Commit working changes**
+5. **Test on mobile**
+6. **Use Base documentation for Mini App patterns**
+
+## 🚗 **UNLOCK THE RIDE Button - Daily Car Rotation System**
+
+### **What It Unlocks:**
+The "UNLOCK THE RIDE" button automatically redirects users to the current day's CarMania NFT on Manifold, based on the publication date in your CSV schedule.
+
+### **How It Works:**
+1. **User clicks "UNLOCK THE RIDE"** on any page
+2. **MiniApp calls Cloudflare API**: `/api/latest-mint`
+3. **API returns today's car** based on `publication_date` in CSV
+4. **User redirects to Manifold** to mint the current car
+
+### **Current Implementation:**
+```typescript
+// Button click handler in gallery-hero and text-page
+const response = await fetch('https://ccult.carculture-com.workers.dev/api/latest-mint');
+const result = await response.json();
+if (result.success && result.data.mint_url) {
+  window.location.href = result.data.mint_url; // Redirect to Manifold
+}
+```
+
+### **Data Source:**
+- **CSV File**: `sql_carculture_public_local/carculture_content_schedule.csv`
+- **Key Fields**: `publication_date`, `mint_url`, `title`, `status`
+- **Current Active**: "Light Bulb Moment" (2025-07-04) as fallback
+
+### **Friday Evening Workflow:**
+1. **Create 7 cars on Manifold Studios** (2 hours)
+2. **Update CSV** with new publication dates (August 16-22)
+3. **Deploy changes** to repository
+4. **Automatic daily rotation** for the next 7 days
+
+### **Benefits:**
+- ✅ **Daily engagement** - Active collectors see new content every day
+- ✅ **Zero daily maintenance** - Set up once, works automatically
+- ✅ **CSV-driven** - Simple file updates, no database needed
+- ✅ **Version controlled** - Track changes in git
+
+### **Testing the Button:**
+1. **Visit any page** with "UNLOCK THE RIDE" button
+2. **Click the button** - should redirect to current car
+3. **Check console** for API call logs
+4. **Verify redirect** to Manifold Edition page
+
+---
+*Last Updated: Added UNLOCK THE RIDE button documentation - Daily car rotation system*

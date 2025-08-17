@@ -122,4 +122,26 @@
 
 **The Mini App is ready - we've fixed the architecture and build issues!**
 
+---
+
+## 🆕 **NEW BASE FEATURES TO RESEARCH (August 15, 2025)**
+
+### **1. Embedded Wallets**
+- **Status**: New BASE feature announced
+- **Research Needed**: How to integrate with existing Mini App
+- **Priority**: Medium - After app launch
+- **Impact**: Enhanced wallet functionality
+
+### **2. Haptics**
+- **Status**: New BASE feature announced
+- **Research Needed**: Implementation for mobile haptic feedback
+- **Priority**: Medium - After app launch
+- **Impact**: Better mobile user experience
+
+### **3. Back Swipe Navigation**
+- **Status**: New BASE feature announced
+- **Research Needed**: How to implement back swipe gestures
+- **Priority**: Medium - After app launch
+- **Impact**: Improved navigation flow
+
 

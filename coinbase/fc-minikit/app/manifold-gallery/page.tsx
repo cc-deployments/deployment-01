@@ -3,11 +3,13 @@
 import { useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSwipeable } from 'react-swipeable';
-import { useMiniKit } from '@coinbase/onchainkit/minikit';
+// TEMPORARILY DISABLED: OnchainKit dependency issue
+// import { useMiniKit } from '@coinbase/onchainkit/minikit';
 
 export default function ManifoldGallery() {
   const router = useRouter();
-  const { setFrameReady, isFrameReady } = useMiniKit();
+  // TEMPORARILY DISABLED: OnchainKit dependency issue
+  // const { setFrameReady, isFrameReady } = useMiniKit();
 
   // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
   useEffect(() => {

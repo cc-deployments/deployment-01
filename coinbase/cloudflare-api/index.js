@@ -25,6 +25,8 @@ export default {
         return handleCars(request, env, corsHeaders);
       } else if (path.startsWith('/api/mints')) {
         return handleMints(request, env, corsHeaders);
+      } else if (path === '/api/latest-mint') {
+        return handleLatestMint(request, env, corsHeaders);
       } else {
         // Health check
         return new Response(JSON.stringify({
@@ -62,16 +64,49 @@ async function handleCars(request, env, corsHeaders) {
     } else if (path === '/api/cars/active') {
       // Get active car
       const activeCar = await env.DB.prepare('SELECT * FROM cars WHERE is_active = 1 LIMIT 1').first();
-      return new Response(JSON.stringify(activeCar), {
+      
+      if (!activeCar) {
+        return new Response(JSON.stringify({
+          success: false,
+          message: 'No active car found'
+        }), {
+          status: 404,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
+
+      return new Response(JSON.stringify({
+        success: true,
+        data: {
+          id: activeCar.id,
+          title: activeCar.title,
+          description: activeCar.description,
+          make: activeCar.make,
+          model: activeCar.model,
+          year: activeCar.year,
+          vehicle_type: activeCar.vehicle_type,
+          image_url: activeCar.image_url,
+          mint_url: activeCar.mint_url,
+          contract_type: activeCar.contract_type,
+          contract_address: activeCar.contract_address,
+          edition_size: activeCar.edition_size
+        }
+      }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
     }
   } else if (request.method === 'POST') {
     // Create new car
     const data = await request.json();
+    
+    // If this car should be active, deactivate all others first
+    if (data.is_active) {
+      await env.DB.prepare('UPDATE cars SET is_active = 0').run();
+    }
+    
     const result = await env.DB.prepare(`
-      INSERT INTO cars (title, description, make, model, year, vehicle_type, image_url, is_active)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO cars (title, description, make, model, year, vehicle_type, image_url, mint_url, contract_type, contract_address, edition_size, metadata_url, status, is_active)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).bind(
       data.title,
       data.description,
@@ -80,13 +115,67 @@ async function handleCars(request, env, corsHeaders) {
       data.year,
       data.vehicle_type,
       data.image_url,
+      data.mint_url,
+      data.contract_type,
+      data.contract_address,
+      data.edition_size,
+      data.metadata_url,
+      data.status || 'draft',
       data.is_active || 0
     ).run();
 
-    return new Response(JSON.stringify({ id: result.lastRowId }), {
+    return new Response(JSON.stringify({ 
+      success: true,
+      id: result.lastRowId 
+    }), {
       status: 201,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
+  } else if (request.method === 'PUT') {
+    // Update car (for activating/deactivating)
+    const pathParts = path.split('/');
+    const carId = pathParts[pathParts.length - 1];
+    
+    if (path === `/api/cars/${carId}`) {
+      const data = await request.json();
+      
+      // If activating this car, deactivate all others first
+      if (data.is_active) {
+        await env.DB.prepare('UPDATE cars SET is_active = 0').run();
+      }
+      
+      const result = await env.DB.prepare(`
+        UPDATE cars 
+        SET title = ?, description = ?, make = ?, model = ?, year = ?, 
+            vehicle_type = ?, image_url = ?, mint_url = ?, contract_type = ?, 
+            contract_address = ?, edition_size = ?, metadata_url = ?, 
+            status = ?, is_active = ?, updated_at = CURRENT_TIMESTAMP
+        WHERE id = ?
+      `).bind(
+        data.title,
+        data.description,
+        data.make,
+        data.model,
+        data.year,
+        data.vehicle_type,
+        data.image_url,
+        data.mint_url,
+        data.contract_type,
+        data.contract_address,
+        data.edition_size,
+        data.metadata_url,
+        data.status,
+        data.is_active,
+        carId
+      ).run();
+
+      return new Response(JSON.stringify({ 
+        success: true,
+        message: 'Car updated successfully' 
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
   }
 
   return new Response('Not found', { status: 404 });
@@ -112,5 +201,47 @@ async function handleMints(request, env, corsHeaders) {
     });
   }
 
+  return new Response('Method not allowed', { status: 405 });
+}
+
+// Handle latest mint endpoint - returns current day's car based on CSV data
+async function handleLatestMint(request, env, corsHeaders) {
+  if (request.method === 'GET') {
+    try {
+      // Get today's date in YYYY-MM-DD format
+      const today = new Date().toISOString().split('T')[0];
+      
+      // For now, return the current active car (Light Bulb Moment)
+      // This will be replaced with CSV parsing logic
+      const currentCar = {
+        title: 'Light Bulb Moment',
+        publication_date: '2025-07-04',
+        mint_url: 'https://app.manifold.xyz/c/light-bulb-moment'
+      };
+      
+      return new Response(JSON.stringify({
+        success: true,
+        data: {
+          mint_url: currentCar.mint_url,
+          title: currentCar.title,
+          publication_date: currentCar.publication_date
+        }
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+      
+    } catch (error) {
+      console.error('Error in handleLatestMint:', error);
+      return new Response(JSON.stringify({
+        success: false,
+        message: 'Error fetching latest mint',
+        error: error.message
+      }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+  }
+  
   return new Response('Method not allowed', { status: 405 });
 } 

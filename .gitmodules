@@ -1,0 +1,6 @@
+[submodule "carmania-miniapp/lib/forge-std"]
+	path = carmania-miniapp/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "carmania-miniapp/lib/openzeppelin-contracts"]
+	path = carmania-miniapp/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts

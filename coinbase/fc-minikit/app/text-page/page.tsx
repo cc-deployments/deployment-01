@@ -3,13 +3,15 @@
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSafeArea } from '../hooks/useSafeArea';
-import { useMiniKit } from '@coinbase/onchainkit/minikit';
+// TEMPORARILY DISABLED: OnchainKit dependency issue
+// import { useMiniKit } from '@coinbase/onchainkit/minikit';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 
 export default function TextPage() {
   const { safeArea, isLoading } = useSafeArea();
-  const { setFrameReady, isFrameReady, context } = useMiniKit();
+  // TEMPORARILY DISABLED: OnchainKit dependency issue
+  // const { setFrameReady, isFrameReady, context } = useMiniKit();
 
   const router = useRouter();
   
@@ -112,26 +114,32 @@ export default function TextPage() {
 
   return (
     <div 
-      className="min-h-screen bg-black text-white relative overflow-hidden"
+      {...swipeHandlers}
       style={{
-        paddingTop: safeArea.top,
-        paddingBottom: safeArea.bottom,
-        paddingLeft: safeArea.left,
-        paddingRight: safeArea.right,
+        position: 'relative',
+        backgroundColor: '#000',
+        width: '100vw',
+        height: '100vh',
+        overflow: 'hidden',
         userSelect: 'none',
         WebkitUserSelect: 'none',
         WebkitTouchCallout: 'none',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        // Ensure MiniKit gestures work by not blocking touch events
+        touchAction: 'manipulation',
       }}
     >
       {/* Swipe Area - EXCLUDES button areas for proper gesture detection */}
       <div 
-        {...swipeHandlers}
         style={{
           position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
-          height: '70%', // Exclude button areas to prevent conflicts (match gallery-hero)
+          height: '60%', // Exclude button areas to prevent conflicts (button is at 75%)
           pointerEvents: 'auto',
           zIndex: 1,
         }}
@@ -157,20 +165,18 @@ export default function TextPage() {
             height: '100%',
             objectFit: 'cover',
             display: 'block',
+            // Allow touch events to pass through
             pointerEvents: 'auto',
             touchAction: 'manipulation',
           }}
           priority
           unoptimized={true}
           onError={(e) => {
-            console.error('❌ Image failed to load:', e);
             const img = e.currentTarget as HTMLImageElement;
             if (img.src !== '/hero-v2.png') {
-              console.log('🔄 Trying fallback image...');
               img.src = '/hero-v2.png';
             } else {
               img.style.display = 'none';
-              console.log('❌ All images failed, showing background only');
               const container = img.parentElement;
               if (container) {
                 container.innerHTML = '<div style="color: white; text-align: center; font-size: 24px;">CarMania Text Page</div>';
@@ -178,59 +184,82 @@ export default function TextPage() {
             }
           }}
           onLoad={() => {
-            console.log('✅ Image loaded successfully');
           }}
         />
       </div>
       
-      {/* Button only renders after MiniKit is ready */}
-      {isFrameReady && (
-        <div 
+      {/* UNLOCK Button - COMPLETELY SEPARATE from swipe detection */}
+      <div 
+        style={{
+          position: 'absolute',
+          top: '75%', // Match gallery-hero button positioning
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1000,
+          pointerEvents: 'auto',
+          minWidth: '150px',
+          minHeight: '60px',
+        }}
+      >
+        <button
+          onClick={async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('🔓 UNLOCK button clicked');
+            
+            try {
+              console.log('🔄 Calling /api/latest-mint API...');
+              const response = await fetch('/api/latest-mint');
+              
+              if (response.ok) {
+                const result = await response.json();
+                if (result.success && result.data.mint_url) {
+                  console.log('✅ API success, redirecting to:', result.data.mint_url);
+                  window.location.href = result.data.mint_url;
+                } else {
+                  console.log('⚠️ API success but no mint_url, using fallback');
+                  window.location.href = 'https://manifold.xyz/@carculture';
+                }
+              } else {
+                console.log('❌ API not ready yet (status:', response.status, '), using fallback');
+                window.location.href = 'https://manifold.xyz/@carculture';
+              }
+            } catch (error) {
+              console.log('❌ API error, using fallback:', error);
+              window.location.href = 'https://manifold.xyz/@carculture';
+            }
+          }}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
           style={{
-            position: 'absolute',
-            top: '75%', // Match gallery-hero button positioning
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: 1000,
-            pointerEvents: 'auto',
-            minWidth: '150px',
-            minHeight: '60px',
+            backgroundColor: 'transparent', // Completely invisible
+            border: 'none',
+            borderRadius: '25px',
+            padding: '15px 40px', // Match white button size
+            fontSize: '18px',
+            cursor: 'pointer',
+            touchAction: 'manipulation',
+            minWidth: '200px', // Match white button width
+            maxWidth: '350px', // Match white button max width
+            position: 'relative',
+            zIndex: 1001,
+            // Remove all visual styling - completely invisible
+            color: 'transparent',
+            boxShadow: 'none',
+            backdropFilter: 'none',
+            transition: 'none',
           }}
         >
-          <button
-            onClick={async (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              console.log('🔓 UNLOCK button clicked');
-              
-              // Use window.location.href for external URL navigation
-              console.log('🔄 Opening Manifold Gallery via button click');
-              window.location.href = 'https://manifold.xyz/@carculture';
-            }}
-            style={{
-              backgroundColor: 'transparent', // Completely invisible
-              border: 'none',
-              borderRadius: '25px',
-              padding: '15px 40px', // Match white button size
-              fontSize: '18px',
-              cursor: 'pointer',
-              touchAction: 'manipulation',
-              minWidth: '200px', // Match white button width
-              maxWidth: '350px', // Match white button max width
-              position: 'relative',
-              zIndex: 1001,
-              // Remove all visual styling - completely invisible
-              color: 'transparent',
-              boxShadow: 'none',
-              backdropFilter: 'none',
-              transition: 'none',
-            }}
-          >
-            {/* Invisible text - just for accessibility */}
-            UNLOCK the Ride
-          </button>
-        </div>
-      )}
+          {/* Invisible text - just for accessibility */}
+          UNLOCK the Ride
+        </button>
+      </div>
     </div>
   );
 } 

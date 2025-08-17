@@ -3,13 +3,15 @@
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSafeArea } from '../hooks/useSafeArea';
-import { useMiniKit } from '@coinbase/onchainkit/minikit';
+// TEMPORARILY DISABLED: OnchainKit dependency issue
+// import { useMiniKit } from '@coinbase/onchainkit/minikit';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea();
-  const { setFrameReady, isFrameReady, context } = useMiniKit();
+  // TEMPORARILY DISABLED: OnchainKit dependency issue
+  // const { setFrameReady, isFrameReady, context } = useMiniKit();
   const router = useRouter();
   
   // Removed environment detection pattern for CBW compatibility
@@ -95,12 +97,24 @@ export default function GalleryHero() {
 
   return (
     <div 
-      className="min-h-screen bg-black text-white relative overflow-hidden"
+      {...swipeHandlers}
       style={{
-        paddingTop: safeArea.top,
-        paddingBottom: safeArea.bottom,
-        paddingLeft: safeArea.left,
-        paddingRight: safeArea.right,
+        position: 'relative',
+        backgroundColor: '#000',
+        width: '100vw',
+        height: '100vh',
+        margin: 0,
+        padding: 0,
+        overflow: 'hidden',
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        WebkitTouchCallout: 'none',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        // Ensure MiniKit gestures work by not blocking touch events
+        touchAction: 'manipulation',
       }}
     >
 
@@ -109,7 +123,6 @@ export default function GalleryHero() {
       <div className="relative z-10">
         {/* Swipe Area - EXCLUDES button areas for proper gesture detection */}
         <div 
-          {...swipeHandlers}
           style={{
             position: 'absolute',
             top: 0,
@@ -168,28 +181,7 @@ export default function GalleryHero() {
         {(
           <>
             {/* UNLOCK Button Area - Enhanced touch detection */}
-            <div 
-                                           onTouchStart={(e) => {
-                               e.preventDefault();
-                               e.stopPropagation();
-                             }}
-                             onTouchEnd={async (e) => {
-                 e.preventDefault();
-                 e.stopPropagation();
-                 
-                 try {
-                   const response = await fetch('/api/latest-mint');
-                   const result = await response.json();
-                   
-                   if (result.success && result.data.mint_url) {
-                     window.open(result.data.mint_url, '_blank');
-                   } else {
-                     window.open('https://manifold.xyz/@carculture', '_blank');
-                   }
-                 } catch (error) {
-                   window.open('https://manifold.xyz/@carculture', '_blank');
-                 }
-               }}
+            <div
               style={{
                 position: 'absolute',
                 top: '75%', // EXACTLY match the white button position (updated to 75%)
@@ -203,6 +195,41 @@ export default function GalleryHero() {
               }}
             >
               <button
+                onClick={async (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log('🔓 UNLOCK button clicked');
+                  
+                  try {
+                    console.log('🔄 Calling /api/latest-mint API...');
+                    const response = await fetch('/api/latest-mint');
+                    
+                    if (response.ok) {
+                      const result = await response.json();
+                      if (result.success && result.data.mint_url) {
+                        console.log('✅ API success, redirecting to:', result.data.mint_url);
+                        window.location.href = result.data.mint_url;
+                      } else {
+                        console.log('⚠️ API success but no mint_url, using fallback');
+                        window.location.href = 'https://manifold.xyz/@carculture';
+                      }
+                    } else {
+                      console.log('❌ API not ready yet (status:', response.status, '), using fallback');
+                      window.location.href = 'https://manifold.xyz/@carculture';
+                    }
+                  } catch (error) {
+                    console.log('❌ API error, using fallback:', error);
+                    window.location.href = 'https://manifold.xyz/@carculture';
+                  }
+                }}
+                onTouchStart={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
                 style={{
                   backgroundColor: 'transparent', // Invisible - buttons are built into images
                   border: 'none',
@@ -283,6 +310,14 @@ export default function GalleryHero() {
                       }
                     }
                   }
+                }}
+                onTouchStart={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
                 }}
                 style={{
                   backgroundColor: 'transparent', // Invisible - buttons are built into images
