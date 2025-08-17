@@ -42,7 +42,7 @@ export function Providers(props: { children: ReactNode }) {
     //   apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
     //   chain={baseChain}
     // >
-      {props.children}
+    {props.children}
     // </MiniKitProvider>
   );
 }
