@@ -114,6 +114,18 @@ grep -r "// console.log.*context" .
 ### **Conclusion:**
 Node.js upgrade alone will not resolve the OnchainKit issue. We must wait for BASE to fix the frame-sdk dependency in OnchainKit.
 
+### **🎯 BREAKTHROUGH DISCOVERY (2025-08-18):**
+**Direct @farcaster/miniapp-sdk import works perfectly!** This reveals:
+- ✅ **Farcaster SDK itself is fine** - imports work correctly
+- ❌ **OnchainKit has the dependency issue** - wrong import path
+- 🎯 **Potential workaround available** - use direct SDK instead of OnchainKit
+
+### **Workaround Strategy:**
+1. **Use @farcaster/miniapp-sdk directly** for Mini App functionality
+2. **Implement core features** without OnchainKit dependency
+3. **Maintain OnchainKit disabled** until BASE fixes the issue
+4. **Test page created:** `/test-direct-sdk` to verify functionality
+
 ---
 
 ## 🚨 **COMMON ISSUES & SOLUTIONS**
