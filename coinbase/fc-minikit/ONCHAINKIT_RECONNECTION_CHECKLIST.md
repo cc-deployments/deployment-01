@@ -2,7 +2,8 @@
 
 **Date Created:** 2025-08-16  
 **Reason:** Temporary disable due to frame-sdk import error  
-**Status:** ⏳ WAITING FOR BASE TEAM FIX
+**Status:** ⏳ WAITING FOR BASE TEAM FIX  
+**Last Updated:** 2025-08-18 - Node.js version testing completed
 
 ---
 
@@ -94,6 +95,24 @@ grep -r "TEMPORARILY DISABLED: OnchainKit" .
 # Find all commented context references
 grep -r "// console.log.*context" .
 ```
+
+---
+
+## 🔬 **NODE.JS VERSION TESTING RESULTS (2025-08-18)**
+
+### **Compatibility Testing Completed:**
+- **Node.js 20.19.1:** ❌ Frame-sdk import error persists
+- **Node.js 21.7.3:** ❌ Frame-sdk import error persists (same issue)
+- **Node.js 22.18.0:** ❌ Frame-sdk import error persists (still persists)
+
+### **Key Discovery:**
+**The frame-sdk import issue is NOT Node.js version compatibility.** It's a fundamental OnchainKit dependency problem that:
+- Persists across all Node.js versions (20, 21, 22)
+- Is embedded in OnchainKit's compiled code
+- Requires a fix from the BASE team in OnchainKit itself
+
+### **Conclusion:**
+Node.js upgrade alone will not resolve the OnchainKit issue. We must wait for BASE to fix the frame-sdk dependency in OnchainKit.
 
 ---
 
