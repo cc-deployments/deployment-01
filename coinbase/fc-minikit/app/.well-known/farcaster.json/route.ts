@@ -43,4 +43,4 @@ export async function GET() {
   };
 
   return NextResponse.json(manifest);
-} 
+} // Cache bust: Sun Aug 24 10:37:48 EDT 2025
