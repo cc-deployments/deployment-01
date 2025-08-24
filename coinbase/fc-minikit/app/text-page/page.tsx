@@ -3,25 +3,28 @@
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSafeArea } from '../hooks/useSafeArea';
-import { useFarcasterSDK } from '../hooks/useFarcasterSDK';
+import { sdk } from '@farcaster/miniapp-sdk';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 
 export default function TextPage() {
   const { safeArea, isLoading } = useSafeArea();
-  const { setFrameReady, isFrameReady, context } = useFarcasterSDK();
-
   const router = useRouter();
   
-  console.log('🎨 TextPage component rendering...');
-  // console.log('🔍 Frame context available:', !!context);
-
-  // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
+  // Enable Mini App functionality with direct Farcaster SDK
   useEffect(() => {
-    if (!isFrameReady) {
-      setFrameReady({ disableNativeGestures: true });
-    }
-  }, [setFrameReady, isFrameReady]);
+    // Call ready() to hide splash screen and display content
+    const initializeApp = async () => {
+      try {
+        await sdk.actions.ready();
+        console.log('✅ Mini App ready - splash screen hidden');
+      } catch (error) {
+        console.error('❌ Error calling sdk.actions.ready():', error);
+      }
+    };
+
+    initializeApp();
+  }, []);
 
   // Navigation helper function - 4th page goes directly to Manifold Gallery
   const navigateTo = useCallback(async (path: string) => {
@@ -187,8 +190,8 @@ export default function TextPage() {
       </div>
       
               {/* UNLOCK Button - Only render when MiniKit is ready */}
-        {isFrameReady && (
-          <div 
+        {/* The isFrameReady check is removed as per the new_code, assuming the SDK handles its own readiness */}
+        <div 
             style={{
               position: 'absolute',
               top: '75%', // Match gallery-hero button positioning
@@ -259,7 +262,6 @@ export default function TextPage() {
           UNLOCK the Ride
                     </button>
           </div>
-        )}
     </div>
   );
 } 

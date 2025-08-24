@@ -3,18 +3,25 @@
 import { useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSwipeable } from 'react-swipeable';
-import { useFarcasterSDK } from '../hooks/useFarcasterSDK';
+import { sdk } from '@farcaster/miniapp-sdk';
 
 export default function ManifoldGallery() {
   const router = useRouter();
-  const { setFrameReady, isFrameReady } = useFarcasterSDK();
 
-  // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
+  // Enable Mini App functionality with direct Farcaster SDK
   useEffect(() => {
-    if (!isFrameReady) {
-      setFrameReady({ disableNativeGestures: true });
-    }
-  }, [setFrameReady, isFrameReady]);
+    // Call ready() to hide splash screen and display content
+    const initializeApp = async () => {
+      try {
+        await sdk.actions.ready();
+        console.log('✅ Mini App ready - splash screen hidden');
+      } catch (error) {
+        console.error('❌ Error calling sdk.actions.ready():', error);
+      }
+    };
+
+    initializeApp();
+  }, []);
 
   // Navigation helper function
   const navigateTo = useCallback(async (path: string) => {

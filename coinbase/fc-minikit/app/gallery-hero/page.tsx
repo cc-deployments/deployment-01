@@ -3,25 +3,28 @@
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSafeArea } from '../hooks/useSafeArea';
-import { useFarcasterSDK } from '../hooks/useFarcasterSDK';
+import { sdk } from '@farcaster/miniapp-sdk';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea();
-  const { setFrameReady, isFrameReady, context } = useFarcasterSDK();
   const router = useRouter();
   
-  // Removed environment detection pattern for CBW compatibility
-
-
-
-  // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
+  // Enable Mini App functionality with direct Farcaster SDK
   useEffect(() => {
-    if (!isFrameReady) {
-      setFrameReady({ disableNativeGestures: true });
-    }
-  }, [setFrameReady, isFrameReady]);
+    // Call ready() to hide splash screen and display content
+    const initializeApp = async () => {
+      try {
+        await sdk.actions.ready();
+        console.log('✅ Mini App ready - splash screen hidden');
+      } catch (error) {
+        console.error('❌ Error calling sdk.actions.ready():', error);
+      }
+    };
+
+    initializeApp();
+  }, []);
 
   // Navigation helper function - Use Next.js router by default
   const navigateTo = useCallback((path: string) => {
@@ -75,8 +78,6 @@ export default function GalleryHero() {
     };
   }, [handleKeyPress]);
 
-
-
   if (isLoading) {
     return (
       <div style={{
@@ -111,22 +112,19 @@ export default function GalleryHero() {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        // Ensure MiniKit gestures work by not blocking touch events
         touchAction: 'manipulation',
       }}
     >
-
-
       {/* Main Content */}
       <div className="relative z-10">
-        {/* Swipe Area - EXCLUDES button areas for proper gesture detection */}
+        {/* Swipe Area */}
         <div 
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
             right: 0,
-            height: '70%', // Exclude button areas to prevent conflicts
+            height: '70%',
             pointerEvents: 'auto',
             zIndex: 1,
           }}
@@ -138,7 +136,6 @@ export default function GalleryHero() {
           height: '100%', 
           backgroundColor: '#000',
           position: 'relative',
-          // Allow touch events to pass through to MiniKit
           pointerEvents: 'auto',
           touchAction: 'manipulation',
         }}>
@@ -152,7 +149,6 @@ export default function GalleryHero() {
               height: '100%',
               objectFit: 'cover',
               display: 'block',
-              // Allow touch events to pass through
               pointerEvents: 'auto',
               touchAction: 'manipulation',
             }}
@@ -170,131 +166,107 @@ export default function GalleryHero() {
                 }
               }
             }}
-            onLoad={() => {
-            }}
           />
         </div>
         
-        {/* Buttons - Only render when MiniKit is ready */}
-        {isFrameReady && (
-          <>
-            {/* UNLOCK Button Area - Enhanced touch detection */}
-            <div
-              style={{
-                position: 'absolute',
-                top: '75%', // EXACTLY match the white button position (updated to 75%)
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 1000,
-                pointerEvents: 'auto',
-                // Make touch target larger for better mobile experience
-                minWidth: '150px',
-                minHeight: '60px',
-              }}
-            >
-              <button
-                onClick={async (e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  console.log('🔓 UNLOCK button clicked');
+        {/* Buttons */}
+        <>
+          {/* UNLOCK Button Area */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '75%',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: 1000,
+              pointerEvents: 'auto',
+              minWidth: '150px',
+              minHeight: '60px',
+            }}
+          >
+            <button
+              onClick={async (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('🔓 UNLOCK button clicked');
+                
+                try {
+                  console.log('🔄 Calling /api/latest-mint API...');
+                  const response = await fetch('/api/latest-mint');
                   
-                  try {
-                    console.log('🔄 Calling /api/latest-mint API...');
-                    const response = await fetch('/api/latest-mint');
-                    
-                    if (response.ok) {
-                      const result = await response.json();
-                      if (result.success && result.data.mint_url) {
-                        console.log('✅ API success, redirecting to:', result.data.mint_url);
-                        window.location.href = result.data.mint_url;
-                      } else {
-                        console.log('⚠️ API success but no mint_url, using fallback');
-                        window.location.href = 'https://manifold.xyz/@carculture';
-                      }
+                  if (response.ok) {
+                    const result = await response.json();
+                    if (result.success && result.data.mint_url) {
+                      console.log('✅ API success, redirecting to:', result.data.mint_url);
+                      window.location.href = result.data.mint_url;
                     } else {
-                      console.log('❌ API not ready yet (status:', response.status, '), using fallback');
+                      console.log('⚠️ API success but no mint_url, using fallback');
                       window.location.href = 'https://manifold.xyz/@carculture';
                     }
-                  } catch (error) {
-                    console.log('❌ API error, using fallback:', error);
+                  } else {
+                    console.log('❌ API not ready yet (status:', response.status, '), using fallback');
                     window.location.href = 'https://manifold.xyz/@carculture';
                   }
-                }}
-                onTouchStart={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }}
-                onTouchEnd={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }}
-                style={{
-                  backgroundColor: 'transparent', // Invisible - buttons are built into images
-                  border: 'none',
-                  borderRadius: '25px',
-                  padding: '15px 30px', // Match white button size
-                  fontSize: '18px',
-                  cursor: 'pointer',
-                  touchAction: 'manipulation',
-                  // Mobile responsive sizing
-                  minWidth: '120px',
-                  maxWidth: '300px',
-                  // Ensure button is clickable
-                  position: 'relative',
-                  zIndex: 1001,
-                  // Invisible styling since buttons are built into images
-                  color: 'transparent',
-                  boxShadow: 'none',
-                  backdropFilter: 'none',
-                  transition: 'none',
-                }}
-              >
-                UNLOCK the Ride
-              </button>
-            </div>
-
-            {/* Share Button Area - COMPLETELY SEPARATE from swipe detection */}
-            <div 
+                } catch (error) {
+                  console.log('❌ API error, using fallback:', error);
+                  window.location.href = 'https://manifold.xyz/@carculture';
+                }
+              }}
+              onTouchStart={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
               style={{
-                position: 'absolute',
-                top: '76%', // EXACTLY match the white button position (as per your notes)
-                right: '10%', // Position on right edge as specified
-                zIndex: 1000,
-                pointerEvents: 'auto',
+                backgroundColor: 'transparent',
+                border: 'none',
+                borderRadius: '25px',
+                padding: '15px 30px',
+                fontSize: '18px',
+                cursor: 'pointer',
+                touchAction: 'manipulation',
+                minWidth: '120px',
+                maxWidth: '300px',
+                position: 'relative',
+                zIndex: 1001,
+                color: 'transparent',
+                boxShadow: 'none',
+                backdropFilter: 'none',
+                transition: 'none',
               }}
             >
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  // Use native share API if available
-                  if (navigator.share) {
-                    navigator.share({
-                      title: 'CarMania Gallery',
-                      text: 'Check out this amazing car collection!',
-                      url: window.location.href,
-                    }).catch(() => {});
-                  } else {
-                    // Fallback: copy URL to clipboard with mobile compatibility
-                    if (navigator.clipboard && navigator.clipboard.writeText) {
-                      navigator.clipboard.writeText(window.location.href).then(() => {
-                        alert('Link copied to clipboard!');
-                      }).catch(() => {
-                        // Fallback for mobile devices
-                        try {
-                          const textArea = document.createElement('textarea');
-                          textArea.value = window.location.href;
-                          document.body.appendChild(textArea);
-                          textArea.select();
-                          document.execCommand('copy');
-                          document.body.removeChild(textArea);
-                          alert('Link copied to clipboard!');
-                        } catch (fallbackError) {
-                          alert('Copy failed. Please copy manually: ' + window.location.href);
-                        }
-                      });
-                    } else {
-                      // Fallback for older browsers
+              UNLOCK the Ride
+            </button>
+          </div>
+
+          {/* Share Button Area */}
+          <div 
+            style={{
+              position: 'absolute',
+              top: '76%',
+              right: '10%',
+              zIndex: 1000,
+              pointerEvents: 'auto',
+            }}
+          >
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (navigator.share) {
+                  navigator.share({
+                    title: 'CarMania Gallery',
+                    text: 'Check out this amazing car collection!',
+                    url: window.location.href,
+                  }).catch(() => {});
+                } else {
+                  if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(window.location.href).then(() => {
+                      alert('Link copied to clipboard!');
+                    }).catch(() => {
                       try {
                         const textArea = document.createElement('textarea');
                         textArea.value = window.location.href;
@@ -306,40 +278,51 @@ export default function GalleryHero() {
                       } catch (fallbackError) {
                         alert('Copy failed. Please copy manually: ' + window.location.href);
                       }
+                    });
+                  } else {
+                    try {
+                      const textArea = document.createElement('textarea');
+                      textArea.value = window.location.href;
+                      document.body.appendChild(textArea);
+                      textArea.select();
+                      document.execCommand('copy');
+                      document.body.removeChild(textArea);
+                      alert('Link copied to clipboard!');
+                    } catch (fallbackError) {
+                      alert('Copy failed. Please copy manually: ' + window.location.href);
                     }
                   }
-                }}
-                onTouchStart={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }}
-                onTouchEnd={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }}
-                style={{
-                  backgroundColor: 'transparent', // Invisible - buttons are built into images
-                  border: 'none',
-                  borderRadius: '20px',
-                  padding: '10px 20px', // Match white button size
-                  fontSize: '16px',
-                  cursor: 'pointer',
-                  touchAction: 'manipulation',
-                  fontWeight: 'bold',
-                  position: 'relative',
-                  zIndex: 1001,
-                  // Invisible styling since buttons are built into images
-                  color: 'transparent',
-                  boxShadow: 'none',
-                  backdropFilter: 'none',
-                  transition: 'none',
-                }}
-              >
-                Share
-              </button>
-            </div>
-          </>
-        )}
+                }
+              }}
+              onTouchStart={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                borderRadius: '20px',
+                padding: '10px 20px',
+                fontSize: '16px',
+                cursor: 'pointer',
+                touchAction: 'manipulation',
+                fontWeight: 'bold',
+                position: 'relative',
+                zIndex: 1001,
+                color: 'transparent',
+                boxShadow: 'none',
+                backdropFilter: 'none',
+                transition: 'none',
+              }}
+            >
+              Share
+            </button>
+          </div>
+        </>
       </div>
     </div>
   );

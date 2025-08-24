@@ -2,23 +2,29 @@
 
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { useFarcasterSDK } from '../hooks/useFarcasterSDK';
+import { useSafeArea } from '../hooks/useSafeArea';
+import { sdk } from '@farcaster/miniapp-sdk';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 
 export default function GalleryHero2() {
-  const { setFrameReady, isFrameReady, context } = useFarcasterSDK();
+  const { safeArea, isLoading } = useSafeArea();
   const router = useRouter();
   
-  console.log('🎨 GalleryHero2 component rendering...');
-  // console.log('🔍 Frame context available:', !!context);
-
-  // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
+  // Enable Mini App functionality with direct Farcaster SDK
   useEffect(() => {
-    if (!isFrameReady) {
-      setFrameReady({ disableNativeGestures: true });
-    }
-  }, [setFrameReady, isFrameReady]);
+    // Call ready() to hide splash screen and display content
+    const initializeApp = async () => {
+      try {
+        await sdk.actions.ready();
+        console.log('✅ Mini App ready - splash screen hidden');
+      } catch (error) {
+        console.error('❌ Error calling sdk.actions.ready():', error);
+      }
+    };
+
+    initializeApp();
+  }, []);
 
   // Navigation helper function - Use Next.js router by default
   const navigateTo = useCallback((path: string) => {
