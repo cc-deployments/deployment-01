@@ -1,4 +1,5 @@
 // Dynamic API route for Farcaster manifest - Serve correct Mini App manifest
+// Vercel deployment fix: Ensure dynamic route is properly recognized
 import { NextResponse } from 'next/server';
 
 export async function GET() {
