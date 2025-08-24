@@ -42,5 +42,12 @@ export async function GET() {
     }
   };
 
-  return NextResponse.json(manifest);
-} // Cache bust: Sun Aug 24 10:37:48 EDT 2025
+  return NextResponse.json(manifest, {
+    headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
+      'Pragma': 'no-cache',
+      'Expires': '0',
+      'Surrogate-Control': 'no-store'
+    }
+  });
+}
