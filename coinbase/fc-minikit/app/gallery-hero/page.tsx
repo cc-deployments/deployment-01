@@ -3,28 +3,25 @@
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSafeArea } from '../hooks/useSafeArea';
-// TEMPORARILY DISABLED: OnchainKit dependency issue
-// import { useMiniKit } from '@coinbase/onchainkit/minikit';
+import { useMiniKit } from '@coinbase/onchainkit/minikit';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea();
-  // TEMPORARILY DISABLED: OnchainKit dependency issue
-  // const { setFrameReady, isFrameReady, context } = useMiniKit();
+  const { setFrameReady, isFrameReady, context } = useMiniKit();
   const router = useRouter();
   
   // Removed environment detection pattern for CBW compatibility
 
 
 
-  // TEMPORARILY DISABLED: OnchainKit dependency issue
   // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
   useEffect(() => {
-    // if (!isFrameReady) {
-    //   setFrameReady({ disableNativeGestures: true });
-    // }
-  }, []); // Removed OnchainKit dependencies
+    if (!isFrameReady) {
+      setFrameReady({ disableNativeGestures: true });
+    }
+  }, [setFrameReady, isFrameReady]);
 
   // Navigation helper function - Use Next.js router by default
   const navigateTo = useCallback((path: string) => {
@@ -178,8 +175,8 @@ export default function GalleryHero() {
           />
         </div>
         
-        {/* Buttons - Always render for testing */}
-        {(
+        {/* Buttons - Only render when MiniKit is ready */}
+        {isFrameReady && (
           <>
             {/* UNLOCK Button Area - Enhanced touch detection */}
             <div

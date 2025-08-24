@@ -3,28 +3,25 @@
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSafeArea } from '../hooks/useSafeArea';
-// TEMPORARILY DISABLED: OnchainKit dependency issue
-// import { useMiniKit } from '@coinbase/onchainkit/minikit';
+import { useMiniKit } from '@coinbase/onchainkit/minikit';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 
 export default function TextPage() {
   const { safeArea, isLoading } = useSafeArea();
-  // TEMPORARILY DISABLED: OnchainKit dependency issue
-  // const { setFrameReady, isFrameReady, context } = useMiniKit();
+  const { setFrameReady, isFrameReady, context } = useMiniKit();
 
   const router = useRouter();
   
   console.log('🎨 TextPage component rendering...');
   // console.log('🔍 Frame context available:', !!context);
 
-  // TEMPORARILY DISABLED: OnchainKit dependency issue
   // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
   useEffect(() => {
-    // if (!isFrameReady) {
-    //   setFrameReady({ disableNativeGestures: true });
-    // }
-  }, []); // Removed OnchainKit dependencies
+    if (!isFrameReady) {
+      setFrameReady({ disableNativeGestures: true });
+    }
+  }, [setFrameReady, isFrameReady]);
 
   // Navigation helper function - 4th page goes directly to Manifold Gallery
   const navigateTo = useCallback(async (path: string) => {
@@ -189,20 +186,21 @@ export default function TextPage() {
         />
       </div>
       
-      {/* UNLOCK Button - COMPLETELY SEPARATE from swipe detection */}
-      <div 
-        style={{
-          position: 'absolute',
-          top: '75%', // Match gallery-hero button positioning
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 1000,
-          pointerEvents: 'auto',
-          minWidth: '150px',
-          minHeight: '60px',
-        }}
-      >
-        <button
+              {/* UNLOCK Button - Only render when MiniKit is ready */}
+        {isFrameReady && (
+          <div 
+            style={{
+              position: 'absolute',
+              top: '75%', // Match gallery-hero button positioning
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: 1000,
+              pointerEvents: 'auto',
+              minWidth: '150px',
+              minHeight: '60px',
+            }}
+          >
+            <button
           onClick={async (e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -259,8 +257,9 @@ export default function TextPage() {
         >
           {/* Invisible text - just for accessibility */}
           UNLOCK the Ride
-        </button>
-      </div>
+                    </button>
+          </div>
+        )}
     </div>
   );
 } 

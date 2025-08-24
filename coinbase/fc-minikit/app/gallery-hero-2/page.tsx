@@ -2,26 +2,23 @@
 
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
-// TEMPORARILY DISABLED: OnchainKit dependency issue
-// import { useMiniKit } from '@coinbase/onchainkit/minikit';
+import { useMiniKit } from '@coinbase/onchainkit/minikit';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 
 export default function GalleryHero2() {
-  // TEMPORARILY DISABLED: OnchainKit dependency issue
-  // const { setFrameReady, isFrameReady, context } = useMiniKit();
+  const { setFrameReady, isFrameReady, context } = useMiniKit();
   const router = useRouter();
   
   console.log('🎨 GalleryHero2 component rendering...');
   // console.log('🔍 Frame context available:', !!context);
 
-  // TEMPORARILY DISABLED: OnchainKit dependency issue
   // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
   useEffect(() => {
-    // if (!isFrameReady) {
-    //   setFrameReady({ disableNativeGestures: true });
-    // }
-  }, []); // Removed OnchainKit dependencies
+    if (!isFrameReady) {
+      setFrameReady({ disableNativeGestures: true });
+    }
+  }, [setFrameReady, isFrameReady]);
 
   // Navigation helper function - Use Next.js router by default
   const navigateTo = useCallback((path: string) => {

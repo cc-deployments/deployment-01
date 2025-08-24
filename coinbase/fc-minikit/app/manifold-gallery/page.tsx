@@ -3,39 +3,18 @@
 import { useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSwipeable } from 'react-swipeable';
-// TEMPORARILY DISABLED: OnchainKit dependency issue
-// import { useMiniKit } from '@coinbase/onchainkit/minikit';
+import { useMiniKit } from '@coinbase/onchainkit/minikit';
 
 export default function ManifoldGallery() {
   const router = useRouter();
-  // TEMPORARILY DISABLED: OnchainKit dependency issue
-  // const { setFrameReady, isFrameReady } = useMiniKit();
+  const { setFrameReady, isFrameReady } = useMiniKit();
 
   // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
-  // TEMPORARILY DISABLED: OnchainKit dependency issue
   useEffect(() => {
-    // const initializeSDK = async () => {
-    //   try {
-    //     if (!isFrameReady) {
-    //       console.log('🚀 Initializing MiniKit SDK with disableNativeGestures: true');
-    //       await setFrameReady({ disableNativeGestures: true });
-    //       console.log('✅ SDK initialized successfully');
-    //     }
-    //   } catch (error) {
-    //     console.error('❌ SDK initialization failed:', error);
-    //     // Implement fallback UI or retry logic
-    //     console.log('🔄 Attempting fallback initialization...');
-    //     try {
-    //       await setFrameReady();
-    //       console.log('✅ Fallback SDK initialization successful');
-    //     } catch (fallbackError) {
-    //       console.error('❌ Fallback SDK initialization also failed:', fallbackError);
-    //     }
-    //   }
-    // };
-    
-    // initializeSDK();
-  }, []); // Removed OnchainKit dependencies
+    if (!isFrameReady) {
+      setFrameReady({ disableNativeGestures: true });
+    }
+  }, [setFrameReady, isFrameReady]);
 
   // Navigation helper function
   const navigateTo = useCallback(async (path: string) => {
