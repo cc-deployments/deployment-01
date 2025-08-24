@@ -3,13 +3,13 @@
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSafeArea } from '../hooks/useSafeArea';
-import { useMiniKit } from '@coinbase/onchainkit/minikit';
+import { useFarcasterSDK } from '../hooks/useFarcasterSDK';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea();
-  const { setFrameReady, isFrameReady, context } = useMiniKit();
+  const { setFrameReady, isFrameReady, context } = useFarcasterSDK();
   const router = useRouter();
   
   // Removed environment detection pattern for CBW compatibility

@@ -3,11 +3,11 @@
 import { useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSwipeable } from 'react-swipeable';
-import { useMiniKit } from '@coinbase/onchainkit/minikit';
+import { useFarcasterSDK } from '../hooks/useFarcasterSDK';
 
 export default function ManifoldGallery() {
   const router = useRouter();
-  const { setFrameReady, isFrameReady } = useMiniKit();
+  const { setFrameReady, isFrameReady } = useFarcasterSDK();
 
   // Enable MiniKit's built-in navigation gestures with proper configuration and error handling
   useEffect(() => {
