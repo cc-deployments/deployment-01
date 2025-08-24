@@ -1,5 +1,31 @@
 # Mini App Compatibility Issues for Coinbase Wallet
 
+## **CURRENT FARCASTER ISSUES - 2025-01-27 02:10 PM**
+
+### **Priority 1: Account Association Mismatch** 🔴
+- **Issue:** Farcaster shows "accountAssociation doesn't match" error
+- **Status:** ❌ **BLOCKED** - Waiting for Vercel cache to clear
+- **What we've done:** 
+  - ✅ Updated dynamic route with correct accountAssociation
+  - ✅ Removed conflicting static farcaster.json file
+  - ✅ Added aggressive cache-busting headers
+  - ✅ Cleared Vercel CDN and Data caches
+- **Next steps:** 
+  - Wait for cache clearing to take effect
+  - Verify live site serves correct accountAssociation
+  - Test Farcaster verification again
+
+### **Priority 2: Splash Page Not Loading in Farcaster** 🔴
+- **Issue:** Farcaster shows "Splash" with question mark icon
+- **Error:** "Ready not called. Your app hasn't called sdk.actions.ready() yet"
+- **Status:** ❌ **NEEDS INVESTIGATION**
+- **Next steps:**
+  - Check if splash image URLs are accessible
+  - Verify sdk.actions.ready() is being called
+  - Test splash screen implementation
+
+---
+
 ## **CRITICAL UPDATE - 2025-01-27 02:10 PM**
 
 ### **Deployment Status: PROGRESSING - TypeScript Error RESOLVED**
@@ -143,5 +169,46 @@
 - **Research Needed**: How to implement back swipe gestures
 - **Priority**: Medium - After app launch
 - **Impact**: Improved navigation flow
+
+---
+
+## 🚗 **SMART CONTRACT DEVELOPMENT (August 19, 2025)**
+
+### **1. CarMania Smart Contract - COMPLETED ✅**
+- **Status**: ✅ Fully configured and working
+- **Network**: BASE Sepolia Testnet
+- **Contract**: `CarManiaMiniApp.sol` - Privacy-first car engagement tracking
+- **Features**: 
+  - Public data: Title, VEHICLE_COLOR, VEHICLE_TYPE
+  - Private data: Make, Model, Parts, Serial Numbers
+  - User engagement tracking per platform
+  - Privacy-compliant data structure
+
+### **2. Technical Configuration - COMPLETED ✅**
+- **Foundry Setup**: ✅ Project initialized and configured
+- **Dependencies**: ✅ OpenZeppelin and Forge Standard Library installed
+- **VS Code Integration**: ✅ Solidity extension properly configured
+- **Import Resolution**: ✅ All contract imports working correctly
+- **Compilation**: ✅ `forge build` successful
+
+### **3. Database Integration - COMPLETED ✅**
+- **Schema Match**: ✅ Smart contract uses exact database field names
+- **Privacy Design**: ✅ Public vs private data clearly separated
+- **Engagement Tracking**: ✅ Per-user and global statistics
+- **Platform Support**: ✅ Multi-platform data collection
+
+### **4. Next Steps for Smart Contract**
+- **Deployment**: Ready to deploy to BASE Sepolia
+- **Testing**: Contract functions ready for testing
+- **Integration**: Will connect to Mini App after OnchainKit issue resolved
+- **Documentation**: Complete technical documentation created
+
+### **5. Files Created/Modified**
+- ✅ `src/CarManiaMiniApp.sol` - Main smart contract
+- ✅ `test/CarManiaMiniApp.t.sol` - Test file
+- ✅ `script/Deploy.s.sol` - Deployment script
+- ✅ `.vscode/settings.json` - VS Code Solidity config
+- ✅ `carmania-miniapp.code-workspace` - VS Code workspace
+- ✅ `SMART_CONTRACT_CONFIGURATION_2025-08-19.md` - Technical documentation
 
 
