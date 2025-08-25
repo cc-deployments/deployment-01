@@ -15,6 +15,7 @@ export async function GET() {
       subtitle: "Drive the Past. Own the Moment",
       description: "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
       iconUrl: "https://carmania.carculture.com/favicon.png",
+      imageUrl: "https://carmania.carculture.com/hero-v2.png",
       splashImageUrl: "https://carmania.carculture.com/splash.png",
       splashBackgroundColor: "#a32428",
       homeUrl: "https://carmania.carculture.com",
