@@ -1,0 +1,28 @@
+{
+  "solidity.defaultCompiler": "remote",
+  "solidity.compileUsingRemoteVersion": "0.8.24",
+  "solidity.remappings": [
+    "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+    "forge-std/=lib/forge-std/src/"
+  ],
+  "solidity.packageDefaultDependenciesDirectory": "lib",
+  "solidity.packageDefaultDependenciesContractsDirectory": "contracts",
+  "solidity.includePath": [
+    "src",
+    "lib"
+  ],
+  "solidity.ignoreCompileErrors": false,
+  "solidity.enabledAsYouTypeCompilationErrorCheck": true,
+  "solidity.validationDelay": 1500,
+  "solidity.linter": "solhint",
+  "solidity.formatter": "forge",
+  "files.associations": {
+    "*.sol": "solidity"
+  }
+}
+
+
+
+
+
+
