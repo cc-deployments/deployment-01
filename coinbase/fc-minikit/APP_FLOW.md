@@ -106,8 +106,8 @@ This is the main directory containing your CarMania app. All files and folders m
 ## 🚀 Deployment & URLs
 
 ### **Vercel Deployment**
-- **Production URL:** https://web3-social-starter-fc-minikit.vercel.app
-- **Manifest URL:** https://web3-social-starter-fc-minikit.vercel.app/.well-known/farcaster.json
+- **Production URL:** https://carmania.carculture.com
+- **Manifest URL:** https://carmania.carculture.com/.well-known/farcaster.json
 - **Build Status:** ✅ Auto-deploys on git push to main branch
 - **Environment:** Production environment with environment variables
 
@@ -127,7 +127,7 @@ This is the main directory containing your CarMania app. All files and folders m
 - **Key Fields:** `splashImageUrl`, `iconUrl`, `heroImageUrl`, `screenshotUrls` (not `splash`, `icon`, etc.)
 
 ### **Manifest Verification** ✅
-- **Live Test:** `curl https://web3-social-starter-fc-minikit.vercel.app/.well-known/farcaster.json` returns data
+- **Live Test:** `curl https://carmania.carculture.com/.well-known/farcaster.json` returns data
 - **Status:** HTTP 200 OK, serving dynamic content from `route.ts`
 - **Webhook URL:** Currently set to Neynar webhook (updated in route.ts)
 - **Note:** The `vercel.json` redirect to hosted manifest is inactive/overridden
@@ -142,7 +142,7 @@ This is the main directory containing your CarMania app. All files and folders m
 
 ### **Embed Status: VALID** ✅
 - **FC Embed Tool:** https://miniapps.farcaster.xyz/tools/embed
-- **Domain:** `web3-social-starter-fc-minikit.vercel.app`
+- **Domain:** `carmania.carculture.com`
 - **Status:** All checks passed (HTTP 200, Embed Present, Embed Valid)
 - **Preview:** Shows "CARMANIA" with car image and "Unlock the Ride" button
 
@@ -187,7 +187,7 @@ NEXT_PUBLIC_ONCHAINKIT_API_KEY=your_onchainkit_key_here
 
 #### **Step 2: Production (Vercel Environment Variables)**
 1. Go to your Vercel dashboard
-2. Select your project: `web3-social-starter-fc-minikit`
+2. Select your project: `carmania-carculture-mini`
 3. Go to **Settings** → **Environment Variables**
 4. Add new variable:
    - **Name:** `NEYNAR_API_KEY`
