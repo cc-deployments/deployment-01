@@ -16,3 +16,17 @@ fc-minikit-backup/
 # Ignore accidentally created cb-minikit directory
 cb-minikit/ 
 .env*.local
+
+# Ignore problematic README files with wrong URLs
+README/FC_MINIAPP_MANIFEST.md
+README/FC_DEBUGGING_GUIDE.md
+README/2025-07-02_manifest_location.md
+README/MINIKIT_SETUP.md
+README/BASE_AI_SAFE_AREA_HOOKS_QUESTION.md
+README/FC_MINIAPP_MANIFEST.md
+APP_FLOW.md
+coinbase/fc-minikit/APP_FLOW.md
+
+# Ignore debug log files
+build-debug.log
+*.log
