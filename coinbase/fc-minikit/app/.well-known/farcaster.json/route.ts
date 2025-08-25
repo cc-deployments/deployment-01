@@ -24,7 +24,7 @@ export async function GET() {
       tagline: "Daily Drops. Legendary Rides.",
       ogTitle: "CarCulture: CarMania Garage",
       ogDescription: "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' collectibles",
-      ogImageUrl: "https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png",
+      ogImageUrl: "https://carmania.carculture.com/hero-v2.png",
       castShareUrl: "https://carmania.carculture.com/gallery-hero",
       screenshotUrls: [
         "https://carmania.carculture.com/screenshot1.png",
