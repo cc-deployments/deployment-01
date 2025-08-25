@@ -28,16 +28,16 @@ export async function GET() {
       ogImageUrl: "https://carmania.carculture.com/hero-v2.png",
       castShareUrl: "https://carmania.carculture.com/gallery-hero",
       screenshotUrls: [
-        "https://carmania.carculture.com/screenshot1.png",
-        "https://carmania.carculture.com/screenshot2.png",
-        "https://carmania.carculture.com/screenshot3.png"
+        "https://carmania.carculture.com/carmania-gallery-hero.png",
+        "https://carmania.carculture.com/carmania-gallery-hero-2.png",
+        "https://carmania.carculture.com/text-page.png"
       ],
       tags: [
         "car",
         "art", 
         "storytelling",
         "social",
-        "art"
+        "entertainment"
       ],
       previewImageUrl: "https://carmania.carculture.com/hero-v2.png",
       buttonTitle: "Unlock the Ride"
