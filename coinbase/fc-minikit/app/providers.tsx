@@ -27,15 +27,6 @@ const baseChain = {
 };
 
 export function Providers(props: { children: ReactNode }) {
-  // Simple test log to see if this component runs
-  console.log('🚀 Providers component is running!');
-  
-  // Debug logging
-  console.log('🔑 Providers: API Key loaded:', process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY ? 'YES' : 'NO');
-  console.log('🔑 Providers: API Key length:', process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY?.length || 0);
-  console.log('🔑 Providers: API Key starts with:', process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY?.substring(0, 10) || 'NONE');
-  console.log('🔑 Providers: Project Name:', process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME);
-
   return (
     // TEMPORARILY DISABLED: OnchainKit dependency issue
     // <MiniKitProvider

@@ -10,12 +10,9 @@ export default function Home() {
     const initializeApp = async () => {
       try {
         // Immediately dismiss splash screen when app is ready
-        console.log('🚀 Initializing CarMania Mini App...');
         await sdk.actions.ready();
-        console.log('✅ Splash screen dismissed successfully');
         setIsReady(true);
       } catch (error) {
-        console.error('❌ Error during app initialization:', error);
         // Still show content even if ready() fails
         setIsReady(true);
       }
