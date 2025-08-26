@@ -3,6 +3,7 @@
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSafeArea } from '../hooks/useSafeArea';
+import { sdk } from '@farcaster/miniapp-sdk';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 
@@ -10,10 +11,20 @@ export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea();
   const router = useRouter();
   
-  // Note: Splash screen is dismissed by the main page (page.tsx)
-  // This page just needs to be ready to display content
+  // Dismiss splash screen when this page loads (FC app entry point)
   useEffect(() => {
-    console.log('🎨 Gallery Hero page loaded - splash already dismissed');
+    const initializeApp = async () => {
+      try {
+        // Immediately dismiss splash screen when app is ready
+        // Use disableNativeGestures: true to prevent conflicts with native Mini App dismissal gestures
+        await sdk.actions.ready({ disableNativeGestures: true });
+        console.log('✅ Splash screen dismissed successfully');
+      } catch (error) {
+        console.error('❌ Error dismissing splash screen:', error);
+      }
+    };
+
+    initializeApp();
   }, []);
 
   // Navigation helper function - Use Next.js router by default
