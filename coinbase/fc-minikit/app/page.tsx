@@ -22,21 +22,18 @@ export default function Home() {
     initializeApp();
   }, []);
 
-  // Show main app content immediately
+  // Show main app content immediately - Clean interface without page titles
   return (
     <div className="min-h-screen bg-gray-900">
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <a href="/gallery-hero" className="bg-gray-800 p-6 rounded-lg hover:bg-gray-700 transition-colors">
-            <h3 className="text-white text-xl font-semibold mb-2">Gallery Hero</h3>
           </a>
           
           <a href="/gallery-hero-2" className="bg-gray-800 p-6 rounded-lg hover:bg-gray-700 transition-colors">
-            <h3 className="text-white text-xl font-semibold mb-2">Gallery Hero 2</h3>
           </a>
           
           <a href="/text-page" className="bg-gray-800 p-6 rounded-lg hover:bg-gray-700 transition-colors">
-            <h3 className="text-white text-xl font-semibold mb-2">Text Page</h3>
           </a>
         </div>
       </div>
