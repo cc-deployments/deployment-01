@@ -3,24 +3,14 @@
 import { useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSwipeable } from 'react-swipeable';
-import { sdk } from '@farcaster/miniapp-sdk';
 
 export default function ManifoldGallery() {
   const router = useRouter();
 
-  // Enable Mini App functionality with direct Farcaster SDK
+  // Note: Splash screen is dismissed by the main page (page.tsx)
+  // This page just needs to be ready to display content
   useEffect(() => {
-    // Call ready() to hide splash screen and display content
-    const initializeApp = async () => {
-      try {
-        await sdk.actions.ready();
-        console.log('✅ Mini App ready - splash screen hidden');
-      } catch (error) {
-        console.error('❌ Error calling sdk.actions.ready():', error);
-      }
-    };
-
-    initializeApp();
+    console.log('🖼️ Manifold Gallery page loaded - splash already dismissed');
   }, []);
 
   // Navigation helper function

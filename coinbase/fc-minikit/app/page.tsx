@@ -5,24 +5,37 @@ import { sdk } from '@farcaster/miniapp-sdk';
 
 export default function Home() {
   const [isReady, setIsReady] = useState(false);
+  const [splashStatus, setSplashStatus] = useState('initializing');
 
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        // Give users a brief glimpse of the splash screen (important for mobile apps)
-        console.log('🚀 Showing splash screen briefly...');
+        // Step 1: Show splash screen (this will display splash.png from manifest)
+        console.log('🚀 Initializing CarMania Mini App...');
+        setSplashStatus('showing-splash');
         
-        // Wait 1.5 seconds to show splash.png before dismissing
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        // Step 2: Give users a brief glimpse of the splash screen (important for mobile apps)
+        console.log('📱 Showing splash.png from manifest...');
         
-        // After your app is fully loaded and ready to display
+        // Wait 2 seconds to show splash.png before dismissing
+        console.log('⏱️ Waiting 2 seconds to show splash screen...');
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Step 3: After your app is fully loaded and ready to display
         console.log('🔧 Calling sdk.actions.ready() to dismiss splash screen...');
+        setSplashStatus('dismissing-splash');
+        
         await sdk.actions.ready();
         console.log('✅ Splash screen dismissed successfully');
+        setSplashStatus('splash-dismissed');
         setIsReady(true);
+        
       } catch (error) {
+        console.error('❌ Error during app initialization:', error);
         console.error('Error calling sdk.actions.ready():', error);
+        
         // Still show content even if ready() fails
+        setSplashStatus('error-fallback');
         setIsReady(true);
       }
     };
@@ -37,7 +50,8 @@ export default function Home() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600 mx-auto mb-4"></div>
           <p className="text-white text-lg">Loading CarMania...</p>
-          <p className="text-gray-400 text-sm mt-2">Showing splash screen briefly...</p>
+          <p className="text-gray-400 text-sm mt-2">Splash Status: {splashStatus}</p>
+          <p className="text-gray-400 text-xs mt-1">Showing splash.png from manifest...</p>
         </div>
       </div>
     );
@@ -51,6 +65,7 @@ export default function Home() {
           <h1 className="text-white text-4xl font-bold mb-4">CarMania Garage</h1>
           <p className="text-white text-lg mb-6">Welcome to CarCulture</p>
           <p className="text-green-400 text-sm">✅ Splash screen dismissed - App ready!</p>
+          <p className="text-gray-400 text-xs mt-1">Final Status: {splashStatus}</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

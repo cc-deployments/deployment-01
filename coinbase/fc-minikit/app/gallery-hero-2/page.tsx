@@ -3,7 +3,6 @@
 import { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSafeArea } from '../hooks/useSafeArea';
-import { sdk } from '@farcaster/miniapp-sdk';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 
@@ -11,19 +10,10 @@ export default function GalleryHero2() {
   const { safeArea, isLoading } = useSafeArea();
   const router = useRouter();
   
-  // Enable Mini App functionality with direct Farcaster SDK
+  // Note: Splash screen is dismissed by the main page (page.tsx)
+  // This page just needs to be ready to display content
   useEffect(() => {
-    // Call ready() to hide splash screen and display content
-    const initializeApp = async () => {
-      try {
-        await sdk.actions.ready();
-        console.log('✅ Mini App ready - splash screen hidden');
-      } catch (error) {
-        console.error('❌ Error calling sdk.actions.ready():', error);
-      }
-    };
-
-    initializeApp();
+    console.log('🎨 Gallery Hero 2 page loaded - splash already dismissed');
   }, []);
 
   // Navigation helper function - Use Next.js router by default
