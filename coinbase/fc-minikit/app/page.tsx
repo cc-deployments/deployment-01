@@ -50,7 +50,7 @@ export default function Home() {
         <div className="text-center mb-8">
           <h1 className="text-white text-4xl font-bold mb-4">CarMania Garage</h1>
           <p className="text-white text-lg mb-6">Welcome to CarCulture</p>
-          <p className="text-green-400 text-sm">✅ App ready!</p>
+          <p className="text-green-400 text-sm">✅ App ready! - Testing auto-promotion</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
