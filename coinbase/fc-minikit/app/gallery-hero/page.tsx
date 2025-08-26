@@ -5,13 +5,30 @@ import Image from 'next/image';
 import { useSafeArea } from '../hooks/useSafeArea';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
+import { sdk } from '@farcaster/miniapp-sdk';
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea();
   const router = useRouter();
   
-  // Removed splash screen dismissal temporarily to test splash.png display
-  // This matches the working configuration from commit 0c68c0b
+  // REQUIRED: Call sdk.actions.ready() to dismiss splash screen
+  // According to Farcaster docs: "If you don't call ready(), users will see an infinite loading screen"
+  useEffect(() => {
+    const initializeApp = async () => {
+      try {
+        // Wait a moment for splash.png to display properly
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Call ready() to hide splash screen and display content
+        await sdk.actions.ready({ disableNativeGestures: true });
+        console.log('✅ Splash screen dismissed successfully');
+      } catch (error) {
+        console.error('❌ Error dismissing splash screen:', error);
+      }
+    };
+
+    initializeApp();
+  }, []);
 
   // Navigation helper function - Use Next.js router by default
   const navigateTo = useCallback((path: string) => {
