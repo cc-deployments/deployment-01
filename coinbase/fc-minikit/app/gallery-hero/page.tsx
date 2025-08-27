@@ -11,16 +11,14 @@ export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea();
   const router = useRouter();
   
-  // Dismiss splash screen after user sees it
+  // Dismiss splash screen IMMEDIATELY - Follow FC loading guide
   useEffect(() => {
     const dismissSplash = async () => {
       try {
-        // Wait for splash.png to display properly (1.5 seconds)
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        // Now dismiss the splash screen
+        // Call ready() as soon as possible to avoid white screen
+        // According to FC docs: "You should call ready as soon as possible while avoiding jitter and content reflows"
         await sdk.actions.ready({ disableNativeGestures: true });
-        console.log('✅ Splash screen dismissed successfully');
+        console.log('✅ Splash screen dismissed immediately - no white screen delay');
       } catch (error) {
         console.error('❌ Error dismissing splash screen:', error);
       }
