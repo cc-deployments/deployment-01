@@ -5,6 +5,31 @@
 - ✅ **Arrow navigation**: Works on all 4 pages
 - ✅ **Structure**: All pages use the same proven container pattern
 
+## 🚨 **FARCASTER SPLASH SCREEN APPROACHES**
+
+### **Two Different Methods for Splash Screen Display:**
+
+#### **Method 1: FC Built-in Splash (200x200px)**
+- **How it works**: Farcaster builds a full-screen splash on the fly
+- **Components**: 
+  - `splashBackgroundColor` (hex color fills entire screen)
+  - `splashImageUrl` (200x200px image centered on colored background)
+- **Result**: Full mobile vertical screen with your brand colors + small centered image
+- **Use case**: Quick branding with minimal setup
+
+#### **Method 2: Custom Full-Page Splash (1260x2400px)**
+- **How it works**: Your own `splash.png` displayed at full dimensions
+- **Components**: 
+  - `splashImageUrl` pointing to your custom `splash.png`
+  - No `splashBackgroundColor` (transparent background)
+- **Result**: Your custom splash image fills entire screen at intended dimensions
+- **Use case**: Full creative control over splash appearance
+
+### **Current Issue Identified:**
+- **FC is using Method 1** (200x200px image on colored background)
+- **We want Method 2** (full-page custom splash)
+- **Solution needed**: Force FC to use custom splash instead of built-in approach
+
 ## 📱 **Working Container Structure (Copy This Pattern)**
 
 ### **Main Container Pattern (Used by gallery-hero-2 and text-page):**
