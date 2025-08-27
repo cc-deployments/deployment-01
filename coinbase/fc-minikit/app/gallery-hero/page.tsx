@@ -5,13 +5,29 @@ import Image from 'next/image';
 import { useSafeArea } from '../hooks/useSafeArea';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
+import { sdk } from '@farcaster/miniapp-sdk';
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea();
   const router = useRouter();
-  
-  // Splash screen is already dismissed by main page before redirect
-  // This page just needs to display content
+
+  // Dismiss splash screen after user sees it
+  useEffect(() => {
+    const dismissSplash = async () => {
+      try {
+        // Wait for splash.png to display properly (2 seconds)
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Now dismiss the splash screen
+        await sdk.actions.ready({ disableNativeGestures: true });
+        console.log('✅ Splash screen dismissed successfully');
+      } catch (error) {
+        console.error('❌ Error dismissing splash screen:', error);
+      }
+    };
+
+    dismissSplash();
+  }, []);
 
   // Navigation helper function - Use Next.js router by default
   const navigateTo = useCallback((path: string) => {
