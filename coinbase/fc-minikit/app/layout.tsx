@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'CarCulture: CarMania Garage',
   description: 'Explore the ultimate car gallery experience',
   other: {
-    'fc:miniapp': '{"version":"1","imageUrl":"https://carmania.carculture.com/carmania-share.png","button":{"title":"🚗 Unlock the Ride","action":{"type":"launch_miniapp","url":"https://carmania.carculture.com/gallery-hero","name":"CarCulture: CarMania Garage","splashImageUrl":"https://carmania.carculture.com/splash.png","splashBackgroundColor":"transparent"}}}'
+    'fc:miniapp': '{"version":"1","imageUrl":"https://carmania.carculture.com/carmania-share.png","button":{"title":"🚗 Unlock the Ride","action":{"type":"launch_miniapp","url":"https://carmania.carculture.com/gallery-hero","name":"CarCulture: CarMania Garage","splashImageUrl":"https://carmania.carculture.com/splash.png"}}'
   }
 }
 
