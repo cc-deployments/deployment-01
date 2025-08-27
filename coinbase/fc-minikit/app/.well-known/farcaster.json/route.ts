@@ -17,7 +17,7 @@ export async function GET() {
       description: "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
       iconUrl: "https://carmania.carculture.com/favicon.png",
       imageUrl: "https://carmania.carculture.com/carmania-share.png",
-      splashImageUrl: "https://carmania.carculture.com/splash.png",
+      splashImageUrl: "https://carmania.carculture.com/splashImageUrl.png",
       splashBackgroundColor: "#a32428",
       homeUrl: "https://carmania.carculture.com/gallery-hero",
       webhookUrl: "https://api.neynar.com/f/app/70171be3-816f-416d-b846-4328fb0d210a/event",
