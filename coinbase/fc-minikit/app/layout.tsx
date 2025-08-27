@@ -6,8 +6,8 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from 'next/font/google';
 import "./globals.css";
 import { Providers } from "./providers";
-import { EmbedHandler } from "@/components/EmbedHandler";
-import { ShareHandler } from "@/components/ShareHandler";
+import EmbedHandler from "./components/EmbedHandler";
+import ShareHandler from "./components/ShareHandler";
 
 const inter = Inter({ subsets: ['latin'] });
 
