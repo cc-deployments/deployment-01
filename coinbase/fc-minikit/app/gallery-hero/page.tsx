@@ -10,13 +10,13 @@ import { sdk } from '@farcaster/miniapp-sdk';
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea();
   const router = useRouter();
-
+  
   // Dismiss splash screen after user sees it
   useEffect(() => {
     const dismissSplash = async () => {
       try {
-        // Wait for splash.png to display properly (2 seconds)
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        // Wait for splash.png to display properly (1.5 seconds)
+        await new Promise(resolve => setTimeout(resolve, 1500));
         
         // Now dismiss the splash screen
         await sdk.actions.ready({ disableNativeGestures: true });
