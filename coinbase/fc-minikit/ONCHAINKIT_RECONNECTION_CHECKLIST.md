@@ -2,8 +2,8 @@
 
 **Date Created:** 2025-08-16  
 **Reason:** Temporary disable due to frame-sdk import error  
-**Status:** ⏳ WAITING FOR BASE TEAM FIX  
-**Last Updated:** 2025-08-18 - Node.js version testing completed  
+**Status:** ⏳ WAITING FOR BASE TEAM NPM RELEASE  
+**Last Updated:** 2025-08-25 - NPM package status confirmed  
 **Git Hash:** d3c6a9c - Direct Farcaster SDK breakthrough confirmed
 
 ---
@@ -57,7 +57,7 @@
 ## 🔄 **RECONNECTION STEPS**
 
 ### **Phase 1: Verify Fix Available**
-- [ ] Check if BASE team has released OnchainKit fix
+- [ ] Check if BASE team has released OnchainKit npm package with frame-sdk fix
 - [ ] Verify frame-sdk import error is resolved
 - [ ] Test local build with `npm run build`
 
@@ -99,33 +99,26 @@ grep -r "// console.log.*context" .
 
 ---
 
-## 🔬 **NODE.JS VERSION TESTING RESULTS (2025-08-18)**
+## 🔬 **CURRENT STATUS UPDATE (2025-08-25)**
 
-### **Compatibility Testing Completed:**
-- **Node.js 20.19.1:** ❌ Frame-sdk import error persists
-- **Node.js 21.7.3:** ❌ Frame-sdk import error persists (same issue)
-- **Node.js 22.18.0:** ❌ Frame-sdk import error persists (still persists)
+### **Frame-sdk Fix Status:**
+- ✅ **Source code fixed**: BASE team committed frame-sdk fix on 2025-08-15
+- ❌ **NPM package not updated**: Still at version 0.38.19 (without fix)
+- ⏳ **Waiting for**: BASE to publish new npm package with the fix
+
+### **Version Information:**
+- **Current installed**: `@coinbase/onchainkit@0.38.19`
+- **Latest npm version**: `0.38.19` (same - no update yet)
+- **Fix committed**: 2025-08-15 in BASE source code
+- **NPM release needed**: Version 0.38.20 or higher
+
+### **Monitoring Results:**
+- **Daily check**: `node monitor-onchainkit.js` shows no new version
+- **GitHub commits**: Latest from 2025-08-13 (before frame-sdk fix)
+- **Status**: Still waiting for npm package release with August 15 fix
 
 ### **Key Discovery:**
-**The frame-sdk import issue is NOT Node.js version compatibility.** It's a fundamental OnchainKit dependency problem that:
-- Persists across all Node.js versions (20, 21, 22)
-- Is embedded in OnchainKit's compiled code
-- Requires a fix from the BASE team in OnchainKit itself
-
-### **Conclusion:**
-Node.js upgrade alone will not resolve the OnchainKit issue. We must wait for BASE to fix the frame-sdk dependency in OnchainKit.
-
-### **🎯 BREAKTHROUGH DISCOVERY (2025-08-18):**
-**Direct @farcaster/miniapp-sdk import works perfectly!** This reveals:
-- ✅ **Farcaster SDK itself is fine** - imports work correctly
-- ❌ **OnchainKit has the dependency issue** - wrong import path
-- 🎯 **Potential workaround available** - use direct SDK instead of OnchainKit
-
-### **Workaround Strategy:**
-1. **Use @farcaster/miniapp-sdk directly** for Mini App functionality
-2. **Implement core features** without OnchainKit dependency
-3. **Maintain OnchainKit disabled** until BASE fixes the issue
-4. **Test page created:** `/test-direct-sdk` to verify functionality
+**The frame-sdk fix exists in BASE's source code but has NOT been published to npm yet.** We must wait for BASE to release a new npm package version that includes the fix.
 
 ---
 
@@ -154,6 +147,7 @@ Node.js upgrade alone will not resolve the OnchainKit issue. We must wait for BA
 - **No code was deleted** - only commented
 - **Easy to reverse** by uncommenting lines
 - **Search for "TEMPORARILY DISABLED: OnchainKit"** to find all changes
+- **Frame-sdk fix exists in source code** but not yet in npm package
 
 ---
 
@@ -162,7 +156,8 @@ Node.js upgrade alone will not resolve the OnchainKit issue. We must wait for BA
 - ✅ **OnchainKit:** Temporarily disabled in all components
 - ✅ **Build:** Should now succeed without frame-sdk errors
 - ✅ **Manifest:** Ready to deploy with updated URLs
-- ⏳ **Next:** Wait for BASE team fix, then reconnect everything
+- ✅ **Frame-sdk fix**: Committed to BASE source code on 2025-08-15
+- ⏳ **Next:** Wait for BASE to publish npm package with the fix
 
 ---
 
@@ -187,4 +182,4 @@ Node.js upgrade alone will not resolve the OnchainKit issue. We must wait for BA
 
 ---
 
-**Last Updated:** 2025-08-16
+**Last Updated:** 2025-08-25 - NPM package status confirmed, frame-sdk fix exists in source code but not yet published to npm
