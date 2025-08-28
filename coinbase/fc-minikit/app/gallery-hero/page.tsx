@@ -170,117 +170,80 @@ export default function GalleryHero() {
           />
         </div>
         
-        {/* Buttons */}
+        {/* Invisible Transparent Clickable Areas - Positioned over visual elements */}
         <>
-          {/* UNLOCK Button Area */}
+          {/* UNLOCK Button Area - Positioned over gear shift icon at 74% */}
           <div
             style={{
               position: 'absolute',
-              top: '75%',
+              top: '74%',
               left: '50%',
               transform: 'translateX(-50%)',
               zIndex: 1000,
               pointerEvents: 'auto',
-              minWidth: '150px',
-              minHeight: '60px',
+              width: '150px',
+              height: '60px',
+              cursor: 'pointer',
+              backgroundColor: 'transparent',
+              border: 'none',
             }}
-          >
-            <button
-              onClick={async (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('🔓 UNLOCK button clicked');
+            onClick={async (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('🔓 UNLOCK button clicked');
+              
+              try {
+                console.log('🔄 Calling /api/latest-mint API...');
+                const response = await fetch('/api/latest-mint');
                 
-                try {
-                  console.log('🔄 Calling /api/latest-mint API...');
-                  const response = await fetch('/api/latest-mint');
-                  
-                  if (response.ok) {
-                    const result = await response.json();
-                    if (result.success && result.data.mint_url) {
-                      console.log('✅ API success, redirecting to:', result.data.mint_url);
-                      window.location.href = result.data.mint_url;
-                    } else {
-                      console.log('⚠️ API success but no mint_url, using fallback');
-                      window.location.href = 'https://manifold.xyz/@carculture';
-                    }
+                if (response.ok) {
+                  const result = await response.json();
+                  if (result.success && result.data.mint_url) {
+                    console.log('✅ API success, redirecting to:', result.data.mint_url);
+                    window.location.href = result.data.mint_url;
                   } else {
-                    console.log('❌ API not ready yet (status:', response.status, '), using fallback');
+                    console.log('⚠️ API success but no mint_url, using fallback');
                     window.location.href = 'https://manifold.xyz/@carculture';
                   }
-                } catch (error) {
-                  console.log('❌ API error, using fallback:', error);
+                } else {
+                  console.log('❌ API not ready yet (status:', response.status, '), using fallback');
                   window.location.href = 'https://manifold.xyz/@carculture';
                 }
-              }}
-              onTouchStart={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-              onTouchEnd={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                borderRadius: '25px',
-                padding: '15px 30px',
-                fontSize: '18px',
-                cursor: 'pointer',
-                touchAction: 'manipulation',
-                minWidth: '120px',
-                maxWidth: '300px',
-                position: 'relative',
-                zIndex: 1001,
-                color: 'transparent',
-                boxShadow: 'none',
-                backdropFilter: 'none',
-                transition: 'none',
-              }}
-            >
-              UNLOCK the Ride
-            </button>
-          </div>
+              } catch (error) {
+                console.log('❌ API error, using fallback:', error);
+                window.location.href = 'https://manifold.xyz/@carculture';
+              }
+            }}
+          />
 
-          {/* Share Button Area */}
+          {/* Share Button Area - Positioned at 75% */}
           <div 
             style={{
               position: 'absolute',
-              top: '76%',
+              top: '75%',
               right: '10%',
               zIndex: 1000,
               pointerEvents: 'auto',
+              width: '80px',
+              height: '40px',
+              cursor: 'pointer',
+              backgroundColor: 'transparent',
+              border: 'none',
             }}
-          >
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                if (navigator.share) {
-                  navigator.share({
-                    title: 'CarMania Gallery',
-                    text: 'Check out this amazing car collection!',
-                    url: window.location.href,
-                  }).catch(() => {});
-                } else {
-                  if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(window.location.href).then(() => {
-                      alert('Link copied to clipboard!');
-                    }).catch(() => {
-                      try {
-                        const textArea = document.createElement('textarea');
-                        textArea.value = window.location.href;
-                        document.body.appendChild(textArea);
-                        textArea.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(textArea);
-                        alert('Link copied to clipboard!');
-                      } catch (fallbackError) {
-                        alert('Copy failed. Please copy manually: ' + window.location.href);
-                      }
-                    });
-                  } else {
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (navigator.share) {
+                navigator.share({
+                  title: 'CarMania Gallery',
+                  text: 'Check out this amazing car collection!',
+                  url: window.location.href,
+                }).catch(() => {});
+              } else {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                  navigator.clipboard.writeText(window.location.href).then(() => {
+                    alert('Link copied to clipboard!');
+                  }).catch(() => {
                     try {
                       const textArea = document.createElement('textarea');
                       textArea.value = window.location.href;
@@ -292,37 +255,23 @@ export default function GalleryHero() {
                     } catch (fallbackError) {
                       alert('Copy failed. Please copy manually: ' + window.location.href);
                     }
+                  });
+                } else {
+                  try {
+                    const textArea = document.createElement('textarea');
+                    textArea.value = window.location.href;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    alert('Copy failed. Please copy manually: ' + window.location.href);
+                  } catch (fallbackError) {
+                    alert('Copy failed. Please copy manually: ' + window.location.href);
                   }
                 }
-              }}
-              onTouchStart={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-              onTouchEnd={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                borderRadius: '20px',
-                padding: '10px 20px',
-                fontSize: '16px',
-                cursor: 'pointer',
-                touchAction: 'manipulation',
-                fontWeight: 'bold',
-                position: 'relative',
-                zIndex: 1001,
-                color: 'transparent',
-                boxShadow: 'none',
-                backdropFilter: 'none',
-                transition: 'none',
-              }}
-            >
-              Share
-            </button>
-          </div>
+              }
+            }}
+          />
         </>
       </div>
     </div>

@@ -179,79 +179,49 @@ export default function TextPage() {
         />
       </div>
       
-              {/* UNLOCK Button - Only render when MiniKit is ready */}
-        {/* The isFrameReady check is removed as per the new_code, assuming the SDK handles its own readiness */}
-        <div 
-            style={{
-              position: 'absolute',
-              top: '75%', // Match gallery-hero button positioning
-              left: '50%',
-              transform: 'translateX(-50%)',
-              zIndex: 1000,
-              pointerEvents: 'auto',
-              minWidth: '150px',
-              minHeight: '60px',
-            }}
-          >
-            <button
-          onClick={async (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('🔓 UNLOCK button clicked');
+      {/* UNLOCK Button - Invisible transparent clickable area at 63% */}
+      <div 
+        style={{
+          position: 'absolute',
+          top: '63%', // Positioned at 63% from top as specified
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1000,
+          pointerEvents: 'auto',
+          width: '200px',
+          height: '60px',
+          cursor: 'pointer',
+          backgroundColor: 'transparent',
+          border: 'none',
+        }}
+        onClick={async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('🔓 UNLOCK button clicked');
+          
+          try {
+            console.log('🔄 Calling /api/latest-mint API...');
+            const response = await fetch('/api/latest-mint');
             
-            try {
-              console.log('🔄 Calling /api/latest-mint API...');
-              const response = await fetch('/api/latest-mint');
-              
-              if (response.ok) {
-                const result = await response.json();
-                if (result.success && result.data.mint_url) {
-                  console.log('✅ API success, redirecting to:', result.data.mint_url);
-                  window.location.href = result.data.mint_url;
-                } else {
-                  console.log('⚠️ API success but no mint_url, using fallback');
-                  window.location.href = 'https://manifold.xyz/@carculture';
-                }
+            if (response.ok) {
+              const result = await response.json();
+              if (result.success && result.data.mint_url) {
+                console.log('✅ API success, redirecting to:', result.data.mint_url);
+                window.location.href = result.data.mint_url;
               } else {
-                console.log('❌ API not ready yet (status:', response.status, '), using fallback');
+                console.log('⚠️ API success but no mint_url, using fallback');
                 window.location.href = 'https://manifold.xyz/@carculture';
               }
-            } catch (error) {
-              console.log('❌ API error, using fallback:', error);
+            } else {
+              console.log('❌ API not ready yet (status:', response.status, '), using fallback');
               window.location.href = 'https://manifold.xyz/@carculture';
             }
-          }}
-          onTouchStart={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-          onTouchEnd={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-          style={{
-            backgroundColor: 'transparent', // Completely invisible
-            border: 'none',
-            borderRadius: '25px',
-            padding: '15px 40px', // Match white button size
-            fontSize: '18px',
-            cursor: 'pointer',
-            touchAction: 'manipulation',
-            minWidth: '200px', // Match white button width
-            maxWidth: '350px', // Match white button max width
-            position: 'relative',
-            zIndex: 1001,
-            // Remove all visual styling - completely invisible
-            color: 'transparent',
-            boxShadow: 'none',
-            backdropFilter: 'none',
-            transition: 'none',
-          }}
-        >
-          {/* Invisible text - just for accessibility */}
-          UNLOCK the Ride
-                    </button>
-          </div>
+          } catch (error) {
+            console.log('❌ API error, using fallback:', error);
+            window.location.href = 'https://manifold.xyz/@carculture';
+          }
+        }}
+      />
     </div>
   );
 } 
