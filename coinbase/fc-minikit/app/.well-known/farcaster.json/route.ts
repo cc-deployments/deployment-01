@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   const manifest = {
     baseBuilder: {
-      allowedAddresses: ["0x48C127FE476dbbC7BDD2EA73C8CEA4c6781DE699"]
+      allowedAddresses: ["0x048a22DAB92f2c1e7Deb3847Ca151B888aAb0F1C"]
     },
     accountAssociation: {
       header: "eyJmaWQiOjI3MDE3MCwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDE3NWRFMEZkMjU2NTFBNDhlMzliOUYyNTEyNjUwYmY0ZjU5MkJGNTkifQ",
