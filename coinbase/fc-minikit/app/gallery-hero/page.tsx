@@ -236,13 +236,13 @@ export default function GalleryHero() {
               if (navigator.share) {
                 navigator.share({
                   title: 'CarMania Gallery',
-                  text: 'Check out this amazing car collection!',
+                  text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
                   url: window.location.href,
                 }).catch(() => {});
               } else {
                 if (navigator.clipboard && navigator.clipboard.writeText) {
-                  navigator.clipboard.writeText(window.location.href).then(() => {
-                    alert('Link copied to clipboard!');
+                  navigator.clipboard.writeText('Check out CarMania Gallery - an amazing car collection mini app! 🚗✨\n\n' + window.location.href).then(() => {
+                    alert('Link copied! Share this mini app in your Farcaster cast! 🚗✨');
                   }).catch(() => {
                     try {
                       const textArea = document.createElement('textarea');
