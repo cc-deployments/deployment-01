@@ -172,16 +172,16 @@ export default function GalleryHero() {
         
         {/* Invisible Transparent Clickable Areas - Positioned over visual elements */}
         <>
-          {/* UNLOCK Button Area - Positioned over gear shift icon at 74% */}
+          {/* UNLOCK Button Area - Positioned over the visible "UNLOCK the RIDE" button */}
           <div
             style={{
               position: 'absolute',
-              top: '74%',
+              top: '75%',
               left: '50%',
               transform: 'translateX(-50%)',
-              zIndex: 1000,
+              zIndex: 9999,
               pointerEvents: 'auto',
-              width: '150px',
+              width: '200px',
               height: '60px',
               cursor: 'pointer',
               backgroundColor: 'transparent',
@@ -216,13 +216,13 @@ export default function GalleryHero() {
             }}
           />
 
-          {/* Share Button Area - Positioned at 75% */}
+          {/* Share Button Area - Positioned at 75.8% */}
           <div 
             style={{
               position: 'absolute',
-              top: '75%',
-              right: '10%',
-              zIndex: 1000,
+              top: '75.8%',
+              right: '20px',
+              zIndex: 9999,
               pointerEvents: 'auto',
               width: '80px',
               height: '40px',
