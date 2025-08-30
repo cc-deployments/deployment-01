@@ -206,7 +206,7 @@ export class IntentHandlerService {
     
     // Create ActionsContent in Base App format
     const quickActions: ActionsContent = {
-      id: `drivr_${intent.type}_${Date.now()}`,
+      id: `DRIVR_${intent.type}_${Date.now()}`,
       description: this.generateDescriptionForIntent(intent, nftVerification),
       actions: actions,
       expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours

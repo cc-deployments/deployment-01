@@ -22,7 +22,7 @@ export { config, validateConfig, getConfigForEnvironment } from './config';
 export { testAgent } from './test-agent';
 
 // Main entry point
-import { DrivrAgent } from './carmania-agent';
+import { DRIVRAgent } from './carmania-agent';
 import { config, validateConfig } from './config';
 
 // Main function
@@ -36,7 +36,7 @@ async function main(): Promise<void> {
     console.log('✅ Configuration validated');
     
     // Create and start agent
-    const agent = new DrivrAgent(config);
+    const agent = new DRIVRAgent(config);
     
     // Handle graceful shutdown
     process.on('SIGINT', async () => {

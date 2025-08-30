@@ -99,7 +99,7 @@
 
 ### **Phase 6: New BASE Features (August 15, 2025)**
 
-### **Phase 7: Drivr Chat Agent Implementation (IMMEDIATE PRIORITY)**
+### **Phase 7: DRIVR Chat Agent Implementation (IMMEDIATE PRIORITY)**
 
 #### **✅ COMPLETED - Core Agent Architecture:**
 - ✅ **Agent Structure**: Complete modular service design with TypeScript
@@ -140,7 +140,7 @@
 - [ ] **Verify all features** work in production
 
 ##### **Task 5: Base App Integration**
-- [ ] **Submit Drivr for Base App review** 
+- [ ] **Submit DRIVR for Base App review** 
 - [ ] **Provide documentation** and use cases
 - [ ] **Demonstrate NFT-gating** and Quick Actions
 - [ ] **Show provenance system** capabilities
@@ -154,7 +154,7 @@
 - [ ] **Analytics Dashboard**: Track agent usage and user interactions
 
 #### **📱 USER EXPERIENCE INTEGRATION:**
-- [ ] **Add Drivr contact info** to CarMania Mini App
+- [ ] **Add DRIVR contact info** to CarMania Mini App
 - [ ] **Create messaging discovery flow** within the app
 - [ ] **Design return-to-app experience** after XMTP conversations
 - [ ] **Implement seamless handoff** between Mini App and messaging

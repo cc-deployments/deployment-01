@@ -1,4 +1,4 @@
-# 🚗 Drivr - CarMania Base App Chat Agent
+# 🚗 DRIVR - CarMania Base App Chat Agent
 
 A sophisticated XMTP-based chat agent for the CarMania platform, featuring NFT-gated responses, Quick Actions, and seamless Base App integration.
 
@@ -17,7 +17,7 @@ A sophisticated XMTP-based chat agent for the CarMania platform, featuring NFT-g
 ## 🏗️ Architecture
 
 ```
-Drivr Agent
+DRIVR Agent
 ├── XMTP Service          # Message handling and client management
 ├── NFT Verification      # OpenSea API integration and access control
 ├── Intent Handler        # AI-powered message analysis and responses
@@ -243,10 +243,10 @@ LOG_FORMAT=json
 
 ## 📚 API Reference
 
-### DrivrAgent Class
+### DRIVRAgent Class
 
 ```typescript
-class DrivrAgent {
+class DRIVRAgent {
   async start(): Promise<void>           // Start the agent
   async stop(): Promise<void>            // Stop the agent
   async sendDirectMessage(address: string, content: string): Promise<void>
@@ -283,5 +283,5 @@ For support and questions:
 
 ---
 
-**Built with ❤️ for the CarMania community by Drivr** 🚗✨
+**Built with ❤️ for the CarMania community by DRIVR** 🚗✨
 

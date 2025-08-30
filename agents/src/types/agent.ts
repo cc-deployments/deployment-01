@@ -94,3 +94,42 @@ export interface Intent {
   confidence: number;
   entities: Record<string, any>;
 }
+
+// Wallet Send Calls Content Type (xmtp.org/walletSendCalls:1.0)
+export interface WalletSendCallsContent {
+  id: string;
+  calls: WalletCall[];
+  expiresAt?: string;
+}
+
+export interface WalletCall {
+  id: string;
+  to: string;
+  data: string;
+  value?: string;
+  description?: string;
+}
+
+// Transaction Types for NFT Holders
+export interface CarStoryTransaction {
+  id: string;
+  userAddress: string;
+  carStory: {
+    title: string;
+    description: string;
+    carDetails: {
+      make: string;
+      model: string;
+      year: number;
+      vin?: string;
+    };
+    provenance: {
+      ownershipHistory: string[];
+      maintenanceRecords: string[];
+      modifications: string[];
+    };
+  };
+  nftTokenId: string;
+  collectionAddress: string;
+  timestamp: number;
+}

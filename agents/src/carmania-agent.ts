@@ -6,13 +6,15 @@ import {
   XMTPMessage, 
   AgentResponse, 
   AgentState,
-  Action 
+  Action,
+  WalletSendCallsContent
 } from './types/agent';
 
-export class DrivrAgent {
+export class DRIVRAgent {
   private xmtpService: XMTPService;
   private nftVerificationService: NFTVerificationService;
   private intentHandlerService: IntentHandlerService;
+  private walletCallService: WalletCallService;
   private config: CarManiaAgentConfig;
   private isRunning: boolean = false;
 
@@ -21,6 +23,7 @@ export class DrivrAgent {
     this.xmtpService = new XMTPService(config);
     this.nftVerificationService = new NFTVerificationService(config);
     this.intentHandlerService = new IntentHandlerService();
+    this.walletCallService = new WalletCallService(config);
     
     // Register message handler
     this.xmtpService.registerMessageHandler('drivr-main', this.handleMessage.bind(this));
@@ -28,7 +31,7 @@ export class DrivrAgent {
 
   async start(): Promise<void> {
     try {
-      console.log('🚗 Starting Drivr Agent...');
+      console.log('🚗 Starting DRIVR Agent...');
       
       // Initialize XMTP service
       await this.xmtpService.initialize();
@@ -37,7 +40,7 @@ export class DrivrAgent {
       console.log('✅ NFT verification service ready');
       
       this.isRunning = true;
-      console.log(`🚀 Drivr Agent is now running!`);
+      console.log(`🚀 DRIVR Agent is now running!`);
       console.log(`📍 Agent wallet: ${this.xmtpService.getState().walletAddress}`);
       console.log(`🎯 Supported collections: ${this.config.supportedCollections.join(', ')}`);
       
@@ -49,14 +52,14 @@ export class DrivrAgent {
 
   async stop(): Promise<void> {
     try {
-      console.log('🛑 Stopping Drivr Agent...');
+      console.log('🛑 Stopping DRIVR Agent...');
       
       await this.xmtpService.disconnect();
       this.isRunning = false;
       
-      console.log('✅ Drivr Agent stopped');
+      console.log('✅ DRIVR Agent stopped');
     } catch (error) {
-      console.error('❌ Error stopping Drivr Agent:', error);
+      console.error('❌ Error stopping DRIVR Agent:', error);
       throw error;
     }
   }
@@ -147,6 +150,81 @@ export class DrivrAgent {
     } catch (error) {
       console.error('❌ Error executing action:', error);
       throw error;
+    }
+  }
+
+  /**
+   * Handle car story submission from NFT holder
+   * This creates a wallet call for storing provenance on-chain
+   */
+  async handleCarStorySubmission(
+    userAddress: string,
+    carStory: {
+      title: string;
+      description: string;
+      carDetails: {
+        make: string;
+        model: string;
+        year: number;
+        vin?: string;
+      };
+      provenance: {
+        ownershipHistory: string[];
+        maintenanceRecords: string[];
+        modifications: string[];
+      };
+    }
+  ): Promise<void> {
+    try {
+      console.log(`📝 Processing car story submission from ${userAddress}`);
+      
+      // Verify user has NFT access
+      const nftVerification = await this.nftVerificationService.verifyNFTAccess(userAddress);
+      
+      if (!nftVerification.hasAccess) {
+        await this.xmtpService.sendDirectMessage(userAddress, 
+          "You need to own a CarMania NFT to submit car stories. Get your NFT first!"
+        );
+        return;
+      }
+
+      // Get the user's NFT token ID (first one found)
+      const tokenId = nftVerification.tokenIds?.[0];
+      const collectionAddress = this.config.supportedCollections[0]; // Use first supported collection
+      
+      if (!tokenId) {
+        await this.xmtpService.sendDirectMessage(userAddress, 
+          "Unable to verify your NFT. Please try again or contact support."
+        );
+        return;
+      }
+
+      // Create wallet call for storing car story
+      const walletCalls = await this.walletCallService.createCarStoryTransaction(
+        userAddress,
+        carStory,
+        tokenId,
+        collectionAddress
+      );
+
+      // Send wallet call message to user
+      const message = `🚗 Car Story Submission Ready!\n\n` +
+        `Title: ${carStory.title}\n` +
+        `Car: ${carStory.carDetails.year} ${carStory.carDetails.make} ${carStory.carDetails.model}\n` +
+        `NFT: #${tokenId}\n\n` +
+        `I've prepared a transaction to store your car story on-chain. ` +
+        `Click the transaction button below to submit it to the blockchain.`;
+
+      await this.xmtpService.sendMessageWithWalletCalls(userAddress, message, walletCalls);
+      
+      console.log(`✅ Car story wallet call sent to ${userAddress} for NFT #${tokenId}`);
+      
+    } catch (error) {
+      console.error('❌ Error handling car story submission:', error);
+      
+      await this.xmtpService.sendDirectMessage(userAddress, 
+        "Sorry, I encountered an error processing your car story. Please try again."
+      );
     }
   }
 

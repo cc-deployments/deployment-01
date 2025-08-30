@@ -1,6 +1,6 @@
 import { Client, Conversation, DecodedMessage } from '@xmtp/xmtp-js';
 import { ethers } from 'ethers';
-import { CarManiaAgentConfig, XMTPMessage, AgentResponse, AgentState } from '../types/agent';
+import { CarManiaAgentConfig, XMTPMessage, AgentResponse, AgentState, WalletSendCallsContent } from '../types/agent';
 
 export class XMTPService {
   private client: Client | null = null;
@@ -31,7 +31,7 @@ export class XMTPService {
       });
 
       this.state.isConnected = true;
-      console.log(`Drivr Agent initialized with wallet: ${this.wallet.address}`);
+      console.log(`DRIVR Agent initialized with wallet: ${this.wallet.address}`);
 
       // Start listening for messages
       await this.startMessageListener();
@@ -167,6 +167,40 @@ export class XMTPService {
     await this.sendMessageWithQuickActions(message.conversationId, response);
   }
 
+  // New method: Send message with Wallet Send Calls content type
+  async sendMessageWithWalletCalls(conversationId: string, content: string, walletCalls: WalletSendCallsContent): Promise<void> {
+    if (!this.client) {
+      throw new Error('XMTP client not initialized');
+    }
+
+    try {
+      const conversation = await this.client.conversations.newConversation(conversationId);
+      
+      // Send with wallet send calls content type
+      await conversation.send(content, {
+        contentType: 'xmtp.org/walletSendCalls:1.0',
+        content: walletCalls
+      });
+      
+      console.log(`Wallet Send Calls message sent to conversation: ${conversationId}`);
+      console.log(`Transaction calls: ${walletCalls.calls.map(call => call.description).join(', ')}`);
+    } catch (error) {
+      console.error('Failed to send Wallet Send Calls message:', error);
+      // Fallback to regular text message if wallet calls fail
+      try {
+        await this.sendMessage(conversationId, content);
+      } catch (fallbackError) {
+        console.error('Fallback message also failed:', fallbackError);
+        throw fallbackError;
+      }
+    }
+  }
+
+  // Enhanced reply method that supports Wallet Calls
+  async replyWithWalletCalls(message: XMTPMessage, content: string, walletCalls: WalletSendCallsContent): Promise<void> {
+    await this.sendMessageWithWalletCalls(message.conversationId, content, walletCalls);
+  }
+
   registerMessageHandler(id: string, handler: (message: XMTPMessage) => Promise<void>): void {
     this.messageHandlers.set(id, handler);
   }
@@ -185,6 +219,6 @@ export class XMTPService {
       this.client = null;
     }
     this.state.isConnected = false;
-    console.log('Drivr Agent disconnected from XMTP');
+    console.log('DRIVR Agent disconnected from XMTP');
   }
 }

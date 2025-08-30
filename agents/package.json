@@ -1,7 +1,7 @@
 {
   "name": "@cculture/drivr-agent",
   "version": "1.0.0",
-  "description": "Drivr - CarMania Base App Chat Agent using XMTP",
+  "description": "DRIVR - CarMania Base App Chat Agent using XMTP",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -10,6 +10,7 @@
     "start": "node dist/index.js",
     "test": "node dist/test-agent.js",
     "test:dev": "ts-node src/test-agent.ts",
+    "test:wallet": "ts-node src/test-wallet-calls.ts",
     "lint": "eslint src/**/*.ts",
     "clean": "rm -rf dist",
     "prebuild": "npm run clean"
@@ -38,15 +39,16 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
-  "keywords": [
-    "xmtp",
-    "chat",
-    "agent",
-    "drivr",
-    "carmania",
-    "base",
-    "blockchain"
-  ],
+      "keywords": [
+      "xmtp",
+      "chat",
+      "agent",
+      "drivr",
+      "DRIVR",
+      "carmania",
+      "base",
+      "blockchain"
+    ],
   "author": "CarCulture",
   "license": "MIT"
 }

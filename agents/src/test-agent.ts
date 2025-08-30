@@ -1,4 +1,4 @@
-import { DrivrAgent } from './carmania-agent';
+import { DRIVRAgent } from './carmania-agent';
 import { CarManiaAgentConfig } from './types/agent';
 
 // Test configuration (use testnet for safety)
@@ -19,7 +19,7 @@ async function testAgent() {
     console.log('🧪 Testing Drivr Agent...');
     
     // Create agent instance
-    const agent = new DrivrAgent(testConfig);
+    const agent = new DRIVRAgent(testConfig);
     
     // Test configuration
     console.log('✅ Agent created successfully');

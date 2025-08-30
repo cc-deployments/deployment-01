@@ -7,15 +7,20 @@ dotenv.config();
 // Configuration for Drivr Agent
 export const config: CarManiaAgentConfig = {
   walletPrivateKey: process.env.CARMANIA_AGENT_PRIVATE_KEY || '',
-  openSeaApiKey: process.env.OPENSEA_API_KEY || '',
+  env: (process.env.NODE_ENV as 'dev' | 'testnet' | 'production') || 'production',
+  openseaApiKey: process.env.OPENSEA_API_KEY || '',
   baseRpcUrl: process.env.BASE_RPC_URL || 'https://mainnet.base.org',
-  agentName: 'Drivr',
-  agentDescription: 'Your AI assistant for all things CarMania - NFTs, galleries, and community!',
+  openseaBaseUrl: 'https://api.opensea.io',
+  openseaApiEndpoint: '/api/v1',
   supportedCollections: [
     // Add your CarMania NFT collection addresses here
     // Example: '0x1234567890123456789012345678901234567890',
     // You can add multiple collections for different tiers
   ],
+  // Smart Contract Addresses (Base chain)
+  provenanceContractAddress: process.env.PROVENANCE_CONTRACT_ADDRESS || '',
+  mintingContractAddress: process.env.MINTING_CONTRACT_ADDRESS || '',
+  communityContractAddress: process.env.COMMUNITY_CONTRACT_ADDRESS || '',
 };
 
 // Validate configuration
