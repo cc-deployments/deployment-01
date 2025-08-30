@@ -54,8 +54,10 @@ export class XMTPService {
     });
 
     // Listen for new conversations
-    this.client.conversations.stream().on('conversation', (conversation) => {
-      this.listenToConversation(conversation);
+    this.client.conversations.stream().then((stream) => {
+      (stream as any).on('conversation', (conversation: any) => {
+        this.listenToConversation(conversation);
+      });
     });
   }
 
@@ -68,8 +70,11 @@ export class XMTPService {
     });
 
     // Listen for new messages
-    conversation.messages().on('message', (message) => {
-      this.handleMessage(conversation, message);
+    conversation.messages().then((messages) => {
+      // Handle existing messages
+      messages.forEach((message) => {
+        this.handleMessage(conversation, message);
+      });
     });
   }
 
@@ -125,6 +130,22 @@ export class XMTPService {
     }
   }
 
+  // Send direct message to user address
+  async sendDirectMessage(userAddress: string, content: string): Promise<void> {
+    if (!this.client) {
+      throw new Error('XMTP client not initialized');
+    }
+
+    try {
+      const conversation = await this.client.conversations.newConversation(userAddress);
+      await conversation.send(content);
+      console.log(`Direct message sent to: ${userAddress}`);
+    } catch (error) {
+      console.error('Failed to send direct message:', error);
+      throw error;
+    }
+  }
+
   async replyToMessage(message: XMTPMessage, content: string): Promise<void> {
     await this.sendMessage(message.conversationId, content);
   }
@@ -141,9 +162,9 @@ export class XMTPService {
       if (response.quickActions) {
         // Send with Quick Actions content type and fallback text
         await conversation.send(response.content, {
-          contentType: 'coinbase.com/actions:1.0',
+          contentType: 'coinbase.com/actions:1.0' as any,
           content: response.quickActions
-        });
+        } as any);
         console.log(`Quick Actions message sent to conversation: ${conversationId}`);
       } else {
         // Send regular text message
@@ -178,9 +199,9 @@ export class XMTPService {
       
       // Send with wallet send calls content type
       await conversation.send(content, {
-        contentType: 'xmtp.org/walletSendCalls:1.0',
+        contentType: 'xmtp.org/walletSendCalls:1.0' as any,
         content: walletCalls
-      });
+      } as any);
       
       console.log(`Wallet Send Calls message sent to conversation: ${conversationId}`);
       console.log(`Transaction calls: ${walletCalls.calls.map(call => call.description).join(', ')}`);

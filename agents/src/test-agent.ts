@@ -4,14 +4,19 @@ import { CarManiaAgentConfig } from './types/agent';
 // Test configuration (use testnet for safety)
 const testConfig: CarManiaAgentConfig = {
   walletPrivateKey: process.env.CARMANIA_AGENT_PRIVATE_KEY || '0x0000000000000000000000000000000000000000000000000000000000000000',
-  openSeaApiKey: process.env.OPENSEA_API_KEY || 'test_key',
+  env: 'testnet',
+  openseaApiKey: process.env.OPENSEA_API_KEY || 'test_key',
   baseRpcUrl: 'https://sepolia.base.org', // Use testnet for testing
-  agentName: 'Drivr Test',
-  agentDescription: 'Test agent for development and testing',
+  openseaBaseUrl: 'https://api.opensea.io',
+  openseaApiEndpoint: '/api/v1',
   supportedCollections: [
     // Add test collection addresses here
     '0x0000000000000000000000000000000000000000',
   ],
+  // Smart Contract Addresses (testnet)
+  provenanceContractAddress: '0x0000000000000000000000000000000000000000',
+  mintingContractAddress: '0x0000000000000000000000000000000000000000',
+  communityContractAddress: '0x0000000000000000000000000000000000000000',
 };
 
 async function testAgent() {

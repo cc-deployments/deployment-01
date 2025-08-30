@@ -1,5 +1,5 @@
 // Main exports for Drivr Base App Chat Agent
-export { DrivrAgent } from './carmania-agent';
+export { DRIVRAgent } from './carmania-agent';
 export { XMTPService } from './services/xmtp-service';
 export { NFTVerificationService } from './services/nft-verification';
 export { IntentHandlerService } from './services/intent-handler';

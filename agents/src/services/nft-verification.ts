@@ -160,7 +160,7 @@ export class NFTVerificationService {
         `https://api.opensea.io/api/v1/asset_contract/${contractAddress}`,
         {
           headers: {
-            'X-API-KEY': this.config.openSeaApiKey,
+            'X-API-KEY': this.config.openseaApiKey,
           },
         }
       );
@@ -171,10 +171,10 @@ export class NFTVerificationService {
 
       const data = await response.json();
       return {
-        name: data.collection?.name || 'Unknown Collection',
-        description: data.collection?.description || '',
-        externalUrl: data.collection?.external_url || '',
-        imageUrl: data.collection?.image_url || '',
+        name: (data as any).collection?.name || 'Unknown Collection',
+        description: (data as any).collection?.description || '',
+        externalUrl: (data as any).collection?.external_url || '',
+        imageUrl: (data as any).collection?.image_url || '',
       };
     } catch (error) {
       console.error('Failed to fetch OpenSea collection metadata:', error);

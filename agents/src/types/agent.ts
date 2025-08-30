@@ -1,10 +1,14 @@
 export interface CarManiaAgentConfig {
   walletPrivateKey: string;
-  openSeaApiKey: string;
+  env: 'dev' | 'testnet' | 'production';
+  openseaApiKey: string;
   baseRpcUrl: string;
-  agentName: string;
-  agentDescription: string;
+  openseaBaseUrl: string;
+  openseaApiEndpoint: string;
   supportedCollections: string[];
+  provenanceContractAddress: string;
+  mintingContractAddress: string;
+  communityContractAddress: string;
 }
 
 export interface XMTPMessage {

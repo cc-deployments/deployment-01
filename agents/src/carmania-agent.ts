@@ -1,6 +1,7 @@
 import { XMTPService } from './services/xmtp-service';
 import { NFTVerificationService } from './services/nft-verification';
 import { IntentHandlerService } from './services/intent-handler';
+import { WalletCallService } from './services/wallet-call-service';
 import { 
   CarManiaAgentConfig, 
   XMTPMessage, 

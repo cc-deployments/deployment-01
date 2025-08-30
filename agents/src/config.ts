@@ -18,9 +18,9 @@ export const config: CarManiaAgentConfig = {
     // You can add multiple collections for different tiers
   ],
   // Smart Contract Addresses (Base chain)
-  provenanceContractAddress: process.env.PROVENANCE_CONTRACT_ADDRESS || '',
-  mintingContractAddress: process.env.MINTING_CONTRACT_ADDRESS || '',
-  communityContractAddress: process.env.COMMUNITY_CONTRACT_ADDRESS || '',
+  provenanceContractAddress: process.env.PROVENANCE_CONTRACT_ADDRESS || '0x0000000000000000000000000000000000000000',
+  mintingContractAddress: process.env.MINTING_CONTRACT_ADDRESS || '0x0000000000000000000000000000000000000000',
+  communityContractAddress: process.env.COMMUNITY_CONTRACT_ADDRESS || '0x0000000000000000000000000000000000000000',
 };
 
 // Validate configuration
@@ -31,7 +31,7 @@ export function validateConfig(config: CarManiaAgentConfig): void {
     errors.push('CARMANIA_AGENT_PRIVATE_KEY is required');
   }
 
-  if (!config.openSeaApiKey) {
+  if (!config.openseaApiKey) {
     errors.push('OPENSEA_API_KEY is required');
   }
 
@@ -51,15 +51,15 @@ export function getConfigForEnvironment(env: 'development' | 'testnet' | 'produc
   switch (env) {
     case 'development':
       baseConfig.baseRpcUrl = 'https://sepolia.base.org';
-      baseConfig.agentName = 'Drivr Dev';
+      // baseConfig.agentName = 'DRIVR Dev'; // Removed - not in interface
       break;
     case 'testnet':
       baseConfig.baseRpcUrl = 'https://sepolia.base.org';
-      baseConfig.agentName = 'Drivr Test';
+      // baseConfig.agentName = 'DRIVR Test'; // Removed - not in interface
       break;
     case 'production':
       baseConfig.baseRpcUrl = 'https://mainnet.base.org';
-      baseConfig.agentName = 'Drivr';
+      // baseConfig.agentName = 'DRIVR'; // Removed - not in interface
       break;
   }
   
