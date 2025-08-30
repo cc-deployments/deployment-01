@@ -1,3 +1,4 @@
+
 // Dynamic API route for Farcaster manifest - Serve correct Mini App manifest
 // Vercel deployment fix: Ensure dynamic route is properly recognized
 // FORCE REBUILD: Vercel must serve this dynamic route, not cached manifest

@@ -252,10 +252,13 @@ Gallery Hero ↔ Gallery Hero 2 ↔ Text Page ↔ Manifold Gallery (redirects to
 Social Identity (wallet connection)
 ```
 
-### **Button Navigation (UPDATED - 2025-01-27):**
-- **Gallery Hero:** "Unlock the Ride" button → Manifold MINT page (Cloudflare API + SQL database), Share button → Social sharing
+### **Button Navigation (UPDATED - 2025-08-19):**
+- **Gallery Hero:** 
+  - **UNLOCK Button:** Positioned at `top: '75%'` (over visible "UNLOCK the RIDE" button) → Manifold MINT page (Cloudflare API + SQL database)
+  - **SHARE Button:** Positioned at `top: '75.8%', right: '20px'` → Farcaster compose for sharing mini app to X/Twitter
 - **Gallery Hero 2:** Image display only (no buttons)
-- **Text Page:** "Unlock the Ride" button → Manifold MINT page (Cloudflare API + SQL database)
+- **Text Page:** 
+  - **UNLOCK Button:** Positioned at `top: '63%'` → Manifold MINT page (Cloudflare API + SQL database)
 - **Manifold Gallery:** Follows text-page in navigation flow (static URL: https://manifold.xyz/@carculture), shows brief page then redirects
 - **Keyboard Navigation:** Arrow keys for accessibility
 
@@ -309,6 +312,14 @@ objectFit: 'contain'  /* No distortion */
 - **✅ Buttons stay in same relative positions** (75%, 75.3%, 63%)
 - **✅ No button repositioning needed**
 - **✅ Consistent touch targets across devices**
+
+#### **Current Working Button Implementation (2025-08-19):**
+- **Button Type:** Invisible transparent clickable areas (`<div>` elements)
+- **Positioning:** Absolute positioning with percentage-based coordinates
+- **Z-Index:** `9999` to ensure buttons are above other elements
+- **Touch Events:** `onClick` handlers (no `onTouchStart`/`onTouchEnd` conflicts)
+- **Container Structure:** Matches text-page layout for consistency
+- **Farcaster Integration:** SHARE button uses Farcaster compose when available
 
 #### **Implementation Plan:**
 1. **Update all three pages** to use FIXED aspect ratio

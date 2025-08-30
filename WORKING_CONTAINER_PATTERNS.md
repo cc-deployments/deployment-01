@@ -65,9 +65,72 @@ return (
 );
 ```
 
-## 🌐 **Base Mini App Hooks for External Navigation**
+## 🎯 **Current Working Button Implementation (2025-08-19)**
 
-### **CORRECT: Use useOpenUrl for External Links**
+### **Container Height & Button Placement:**
+- **Container Height:** `height: '100vh'` (full viewport height)
+- **Container Width:** `width: '100vw'` (full viewport width)
+- **Button Type:** Invisible transparent clickable areas (`<div>` elements)
+- **Positioning:** Absolute positioning with percentage-based coordinates
+- **Z-Index:** `9999` to ensure buttons are above other elements
+
+### **Working Button Positions:**
+```tsx
+// Gallery Hero Page
+{/* UNLOCK Button Area - Positioned over the visible "UNLOCK the RIDE" button */}
+<div
+  style={{
+    position: 'absolute',
+    top: '75%',           // 75% from top
+    left: '50%',          // Center horizontally
+    transform: 'translateX(-50%)',
+    zIndex: 9999,
+    width: '200px',       // Cover full button area
+    height: '60px',
+    backgroundColor: 'transparent',
+    cursor: 'pointer',
+  }}
+/>
+
+{/* SHARE Button Area - Positioned at 75.8% */}
+<div
+  style={{
+    position: 'absolute',
+    top: '75.8%',         // 75.8% from top
+    right: '20px',        // 20px from right edge
+    zIndex: 9999,
+    width: '80px',
+    height: '40px',
+    backgroundColor: 'transparent',
+    cursor: 'pointer',
+  }}
+/>
+
+// Text Page
+{/* UNLOCK Button - Positioned at 63% */}
+<div
+  style={{
+    position: 'absolute',
+    top: '63%',           // 63% from top
+    left: '50%',          // Center horizontally
+    transform: 'translateX(-50%)',
+    zIndex: 9999,
+    width: '200px',
+    height: '60px',
+    backgroundColor: 'transparent',
+    cursor: 'pointer',
+  }}
+/>
+```
+
+### **Key Success Factors:**
+1. **No `onTouchStart`/`onTouchEnd`** - These were blocking `onClick` events
+2. **High Z-Index** - `9999` ensures buttons are above other elements
+3. **Transparent Background** - Buttons are invisible but clickable
+4. **Percentage Positioning** - Works across different screen sizes
+5. **Container-Based Layout** - Buttons positioned relative to main container
+
+## 🌐 **Base Mini App Hooks for External Navigation**
 According to [Base Mini App documentation](https://docs.base.org/base-app/miniapps/overview#minikit-overview), external navigation should use the `useOpenUrl` hook:
 
 ```tsx
