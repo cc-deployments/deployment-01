@@ -1,12 +1,22 @@
 # 🚗 CarMania Smart Contracts
 
-Smart contracts for the CarMania NFT collection, deployed on Base Chain.
+Smart contracts for the CarMania NFT collection, deployed on Base Chain and Ethereum L1 using Manifold Studios.
 
 ## 📋 Overview
 
-**CarMania** is the flagship NFT collection of the CarCulture ecosystem, featuring legendary automobiles and car culture artifacts. These smart contracts handle NFT minting, ownership, and collection management.
+**CarMania** is the flagship NFT collection of the CarCulture ecosystem, featuring legendary automobiles and car culture artifacts. These smart contracts handle NFT minting, ownership, and collection management across multiple networks and standards.
 
 ## 🏗️ Contract Architecture
+
+### **4-Contract Multi-Network Architecture** ✅
+
+**BASE Chain (L2):**
+- **ERC-721**: `0x8ef0772347e0caed0119937175d7ef9636ae1aa0`
+- **ERC-1155**: `0x1c6d27a76f4f706cccb698acc236c31f886c5421`
+
+**Ethereum L1:**
+- **ERC-721**: `0x1839805916a9dcf0a4d88e6e043e8ae1b8dd865a`
+- **ERC-1155**: `0xB4d5Cb1198BF68C8076B72D554b5EbB45B824221`
 
 ### Main Contract: `CarManiaMiniApp.sol`
 - **Purpose**: NFT collection management and minting
@@ -26,7 +36,7 @@ Smart contracts for the CarMania NFT collection, deployed on Base Chain.
 
 ### Prerequisites
 - [Foundry](https://getfoundry.sh/) installed
-- Base Chain RPC access
+- Base Chain and Ethereum L1 RPC access
 - Environment variables configured
 
 ### Installation & Build
@@ -51,6 +61,9 @@ forge script script/Deploy.s.sol --rpc-url base-sepolia --broadcast --verify
 
 # Deploy to Base Mainnet
 forge script script/Deploy.s.sol --rpc-url base-mainnet --broadcast --verify
+
+# Deploy to Ethereum L1
+forge script script/Deploy.s.sol --rpc-url ethereum-mainnet --broadcast --verify
 ```
 
 ## 🔧 Configuration
@@ -70,6 +83,7 @@ remappings = [
 [rpc_endpoints]
 base-sepolia = "https://sepolia.base.org"
 base-mainnet = "https://mainnet.base.org"
+ethereum-mainnet = "https://eth-mainnet.g.alchemy.com/v2/YOUR_API_KEY"
 ```
 
 ### Environment Variables
@@ -77,21 +91,27 @@ base-mainnet = "https://mainnet.base.org"
 # Required for deployment
 PRIVATE_KEY=your_private_key
 BASE_RPC_URL=your_base_rpc_url
+ETHEREUM_RPC_URL=your_ethereum_rpc_url
 ETHERSCAN_API_KEY=your_etherscan_key
 ```
 
 ## 📊 Contract Status
 
-### Current Status: ✅ **Deployed and Functional**
-- **Network**: Base Chain (Sepolia + Mainnet)
-- **Contract**: CarManiaMiniApp.sol
+### Current Status: ✅ **All 4 Contracts Deployed and Functional**
+- **Networks**: Base Chain (L2) + Ethereum L1
+- **Standards**: ERC-721 + ERC-1155
 - **Features**: NFT minting, ownership, metadata
 - **Testing**: Comprehensive test coverage
 
 ### Deployment Addresses
-- **Base Sepolia**: [Contract Address]
-- **Base Mainnet**: [Contract Address]
-- **Etherscan**: [BaseScan Link]
+
+**BASE Chain (L2):**
+- **ERC-721**: [0x8ef0772347e0caed0119937175d7ef9636ae1aa0](https://basescan.org/address/0x8ef0772347e0caed0119937175d7ef9636ae1aa0)
+- **ERC-1155**: [0x1c6d27a76f4f706cccb698acc236c31f886c5421](https://basescan.org/address/0x1c6d27a76f4f706cccb698acc236c31f886c5421)
+
+**Ethereum L1:**
+- **ERC-721**: [0x1839805916a9dcf0a4d88e6e043e8ae1b8dd865a](https://etherscan.io/address/0x1839805916a9dcf0a4d88e6e043e8ae1b8dd865a)
+- **ERC-1155**: [0xB4d5Cb1198BF68C8076B72D554b5EbB45B824221](https://etherscan.io/address/0xB4d5Cb1198BF68C8076B72D554b5EbB45B824221)
 
 ## 🛡️ Security Features
 
@@ -113,31 +133,41 @@ ETHERSCAN_API_KEY=your_etherscan_key
 - **Mini App**: `../coinbase/fc-minikit/`
 - **Web3 Calls**: Direct contract interaction
 - **User Interface**: NFT display and management
+- **Multi-Network**: Support for all 4 contracts
 
 ### AI Agent Integration
 - **DRIVR Agent**: `../agents/carculture-drivr-agent/`
 - **NFT Verification**: Ownership and access control
 - **Provenance**: Story and metadata management
+- **Cross-Network**: Unified data across all contracts
+
+### DRIVR Platform Integration
+- **Provenance Tracking**: Universal provenance across all contracts
+- **Community Features**: Unified community across networks
+- **Registry System**: Contract discovery and management
+- **Cross-Collection**: Seamless user experience
 
 ## 📈 Roadmap
 
 ### Phase 1: Foundation ✅
-- [x] Basic NFT contract deployment
+- [x] Basic NFT contract deployment (all 4 contracts)
 - [x] Minting functionality
 - [x] Ownership management
-- [x] Base Chain integration
+- [x] Base Chain and Ethereum L1 integration
 
 ### Phase 2: Enhancement 🔄
 - [ ] Advanced metadata features
-- [ ] Provenance integration
+- [ ] Provenance integration with DRIVR
 - [ ] Community features
 - [ ] Cross-collection functionality
+- [ ] Cross-network bridge development
 
 ### Phase 3: Advanced 🎯
 - [ ] Governance mechanisms
 - [ ] Reward systems
 - [ ] Cross-chain bridges
 - [ ] Enterprise features
+- [ ] Advanced provenance features
 
 ## 🧪 Testing
 
@@ -192,35 +222,32 @@ forge test --gas-report
 - **Documentation**: Clear comments
 - **Security**: Professional standards
 
-## 🌐 Base Chain Integration
+## 🌐 Multi-Network Integration
 
-### Why Base Chain?
-- **Coinbase Ecosystem**: Native integration
-- **Low Gas Fees**: Cost-effective transactions
-- **Fast Finality**: Quick transaction confirmation
-- **Developer Friendly**: Excellent tooling and support
+### Why Multiple Networks?
+- **Base Chain**: Coinbase ecosystem, low gas fees, fast finality
+- **Ethereum L1**: Maximum security, liquidity, and adoption
+- **Dual Standards**: ERC-721 for unique NFTs, ERC-1155 for fungible/semi-fungible
 
-### Base Chain Features
-- **Ethereum L2**: Scalable and secure
-- **Smart Contract Support**: Full EVM compatibility
-- **Bridge Support**: Easy asset transfer
-- **Ecosystem Growth**: Expanding developer community
-
----
+### Network Features
+- **Base Chain**: L2 scaling, EVM compatibility, bridge support
+- **Ethereum L1**: Full decentralization, maximum security, ecosystem growth
+- **Cross-Network**: Unified user experience, shared metadata
 
 ## 🏆 Onchain Summer Hackathon
 
 This contract architecture is being developed for the Onchain Summer Hackathon, demonstrating:
 - **Professional Solidity development**
-- **Base Chain integration excellence**
+- **Multi-network integration excellence**
 - **Security-first smart contract design**
 - **Scalable NFT collection architecture**
+- **Manifold Studios platform expertise**
 
 ---
 
 *Built with ❤️ for the automotive community by CarCulture*
 
-**Status**: Production Ready
-**Network**: Base Chain
-**Standard**: ERC-721
-**Features**: Minting, Ownership, Metadata, Access Control
+**Status**: Production Ready (All 4 Contracts)
+**Networks**: Base Chain (L2) + Ethereum L1
+**Standards**: ERC-721 + ERC-1155
+**Features**: Minting, Ownership, Metadata, Access Control, Cross-Network

@@ -246,3 +246,8 @@ This contract architecture is being developed for the Onchain Summer Hackathon, 
 **Target**: Base Chain
 **Features**: Provenance, Community, Registry
 **Timeline**: Hackathon Ready
+
+
+
+
+
