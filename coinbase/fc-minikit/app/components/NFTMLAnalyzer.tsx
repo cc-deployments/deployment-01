@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Car, Brain, MessageSquare } from 'lucide-react';
+import { Loader2, Car, Brain, MessageSquare, Share2 } from 'lucide-react';
 
 interface MLAnalysis {
   success: boolean;
@@ -90,6 +90,46 @@ export default function NFTMLAnalyzer({
     setError(null);
   };
 
+  const shareAnalysis = async () => {
+    if (!analysis) return;
+    
+    const shareText = `🚗 CarMania AI Analysis 🚗
+
+${analysis.car_info.caption}
+
+🤖 AI Insights:
+Model: ${analysis.ml_insights.model_used}
+Analysis Time: ${analysis.ml_insights.analysis_timestamp}
+
+💬 AI Response:
+${analysis.chat_response}
+
+Token #${analysis.token_id}
+
+#CarMania #AI #NFT #CarCulture`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `CarMania AI Analysis - Token #${analysis.token_id}`,
+          text: shareText,
+          url: window.location.href,
+        });
+      } catch (err) {
+        console.log('Share cancelled or failed:', err);
+      }
+    } else {
+      // Fallback: copy to clipboard
+      try {
+        await navigator.clipboard.writeText(shareText);
+        alert('AI Analysis copied to clipboard! Share it in your Farcaster cast! 🚗✨');
+      } catch (err) {
+        console.error('Clipboard copy failed:', err);
+        alert('Share failed. Please copy manually.');
+      }
+    }
+  };
+
   return (
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
@@ -121,13 +161,24 @@ export default function NFTMLAnalyzer({
           </Button>
           
           {analysis && (
-            <Button 
-              variant="outline" 
-              onClick={resetAnalysis}
-              size="sm"
-            >
-              Reset
-            </Button>
+            <>
+              <Button 
+                variant="outline" 
+                onClick={shareAnalysis}
+                size="sm"
+                className="flex items-center gap-2"
+              >
+                <Share2 className="h-4 w-4" />
+                Share Analysis
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={resetAnalysis}
+                size="sm"
+              >
+                Reset
+              </Button>
+            </>
           )}
         </div>
 
