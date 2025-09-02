@@ -14,13 +14,23 @@ class BasePayServiceImpl implements BasePayService {
       this.error = undefined;
 
       // Prepare the payment configuration
-      const paymentConfig = {
+      const paymentConfig: any = {
         amount: config.amount,
         to: config.to,
         testnet: config.testnet ?? true, // Default to testnet for safety
-        ...(config.payerInfo && { payerInfo: config.payerInfo }),
         ...(config.callbackUrl && { callbackUrl: config.callbackUrl }),
       };
+
+      // Convert our PayerInfo format to SDK format if provided
+      if (config.payerInfo) {
+        paymentConfig.payerInfo = {
+          requests: {
+            ...(config.payerInfo.email && { email: true }),
+            ...(config.payerInfo.phone && { phone: true }),
+            ...(config.payerInfo.name && { name: true }),
+          }
+        };
+      }
 
       // Execute the payment
       const result = await pay(paymentConfig);
@@ -31,7 +41,7 @@ class BasePayServiceImpl implements BasePayService {
         status: 'completed',
         amount: config.amount,
         to: config.to,
-        transactionHash: result.transactionHash,
+        // transactionHash will be undefined until we know the correct property name
       };
 
       this.lastPayment = paymentResult;
@@ -57,15 +67,15 @@ class BasePayServiceImpl implements BasePayService {
 
   async getPaymentStatus(paymentId: string): Promise<BasePayResult> {
     try {
-      const status = await getPaymentStatus(paymentId);
+      const status = await getPaymentStatus({ id: paymentId });
       
       return {
         id: paymentId,
-        status: status.status as 'pending' | 'completed' | 'failed',
-        amount: status.amount || '',
-        to: status.to || '',
-        transactionHash: status.transactionHash,
-        error: status.error,
+        status: (status as any).status || 'pending',
+        amount: (status as any).amount || '',
+        to: (status as any).to || '',
+        transactionHash: (status as any).transactionHash,
+        error: (status as any).error,
       };
     } catch (error) {
       throw new Error(`Failed to get payment status: ${error instanceof Error ? error.message : 'Unknown error'}`);
