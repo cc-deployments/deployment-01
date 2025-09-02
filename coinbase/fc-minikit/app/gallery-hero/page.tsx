@@ -239,10 +239,10 @@ export default function GalleryHero() {
               console.log('📤 Share button clicked');
               
               // Use enhanced share functionality
-              if (window.shareCarMania) {
-                await window.shareCarMania();
-              } else if (window.enhancedShare) {
-                await window.enhancedShare({
+              if ((window as any).shareCarMania) {
+                await (window as any).shareCarMania();
+              } else if ((window as any).enhancedShare) {
+                await (window as any).enhancedShare({
                   title: 'CarMania Gallery',
                   text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
                   url: window.location.href
