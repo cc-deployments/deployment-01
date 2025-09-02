@@ -1,6 +1,9 @@
 // Cloudflare Worker for CarMania API
 // Based on CLOUDFLARE_SETUP.md specifications
 // GitHub Actions Test - 2025-07-26
+// Updated with MANIFOLD Gallery Discussion integration
+
+import ManifoldGalleryDiscussionAPI from './manifold-discussions.js';
 
 export default {
   async fetch(request, env, ctx) {
@@ -27,6 +30,8 @@ export default {
         return handleMints(request, env, corsHeaders);
       } else if (path === '/api/latest-mint') {
         return handleLatestMint(request, env, corsHeaders);
+      } else if (path.startsWith('/api/manifold-discussions')) {
+        return handleManifoldDiscussions(request, env, corsHeaders);
       } else {
         // Health check
         return new Response(JSON.stringify({
@@ -211,12 +216,12 @@ async function handleLatestMint(request, env, corsHeaders) {
       // Get today's date in YYYY-MM-DD format
       const today = new Date().toISOString().split('T')[0];
       
-      // For now, return the current active car (Light Bulb Moment)
-      // This will be replaced with CSV parsing logic
+      // Return the current active car (Car Culture: CarMania Garage - Test 1)
+      // This is the most recent mint on Manifold
       const currentCar = {
-        title: 'Light Bulb Moment',
-        publication_date: '2025-07-04',
-        mint_url: 'https://app.manifold.xyz/c/light-bulb-moment'
+        title: 'Car Culture: CarMania Garage - Test 1',
+        publication_date: '2025-01-15',
+        mint_url: 'https://manifold.xyz/@carculture/id/4169111792'
       };
       
       return new Response(JSON.stringify({
@@ -241,6 +246,47 @@ async function handleLatestMint(request, env, corsHeaders) {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
     }
+  }
+  
+  return new Response('Method not allowed', { status: 405 });
+}
+
+// Handle MANIFOLD Gallery Discussion endpoints
+async function handleManifoldDiscussions(request, env, corsHeaders) {
+  const url = new URL(request.url);
+  const path = url.pathname;
+  
+  // Extract collection ID from path: /api/manifold-discussions/{collectionId}
+  const pathParts = path.split('/');
+  const collectionId = pathParts[pathParts.length - 1] || '@carculture';
+  
+  const manifoldAPI = new ManifoldGalleryDiscussionAPI(env);
+  
+  if (request.method === 'GET') {
+    // Get discussions for collection
+    const result = await manifoldAPI.getDiscussions(collectionId);
+    
+    return new Response(JSON.stringify(result), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    });
+    
+  } else if (request.method === 'POST') {
+    // Post new discussion
+    const data = await request.json();
+    const result = await manifoldAPI.postDiscussion(collectionId, data);
+    
+    return new Response(JSON.stringify(result), {
+      status: result.success ? 201 : 400,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    });
+    
+  } else if (request.method === 'GET' && path.includes('/analytics')) {
+    // Get discussion analytics
+    const result = await manifoldAPI.getDiscussionAnalytics(collectionId);
+    
+    return new Response(JSON.stringify(result), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    });
   }
   
   return new Response('Method not allowed', { status: 405 });

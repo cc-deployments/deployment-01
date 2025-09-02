@@ -7,9 +7,22 @@ export default function ShareButtonTester() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Only show in development or when URL has ?debug=true
-    const urlParams = new URLSearchParams(window.location.search);
-    setIsVisible(urlParams.get('debug') === 'true' || process.env.NODE_ENV === 'development');
+    // Show debug panel when localStorage has debug flag
+    const debugMode = localStorage.getItem('carmania-debug') === 'true';
+    setIsVisible(debugMode);
+    
+    // Add keyboard shortcut to toggle debug mode (Ctrl+D or Cmd+D)
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+        e.preventDefault();
+        const newDebugMode = !debugMode;
+        localStorage.setItem('carmania-debug', newDebugMode.toString());
+        setIsVisible(newDebugMode);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const runShareTest = async () => {
