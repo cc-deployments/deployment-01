@@ -332,6 +332,26 @@ bucket_name = "carmania-storage"
 3. **Monitor deployments** in GitHub Actions
 4. **Add authentication** for production use 
 
+## **⚠️ CRITICAL: Database Sync Issue (2025-09-01)**
+
+### **Problem Identified:**
+- **Local CSV files** (`sql_carculture_public_local/`) contain all NFT data with correct dates
+- **Cloudflare D1 database** is **EMPTY** (no cars table data)
+- **API endpoints** serve from empty D1 database, causing "wiped out test images"
+- **Calendar sync issue**: File timestamps show August 2025 dates, but system date is September 1, 2025
+
+### **Current Status:**
+- ✅ **Local CSV files**: Complete NFT data (9 entries)
+- ❌ **D1 Database**: Empty cars table
+- ❌ **API**: Returns no data (serves from empty D1)
+- ❌ **Sync**: No connection between local files and live database
+
+### **Solution Required:**
+1. **Populate D1 database** with data from local CSV files
+2. **Add new "Summertime Blues" NFT** to both local and D1
+3. **Establish sync process** between local tracking and live API
+4. **Fix date timestamps** in local files
+
 ## **Local SQL Database Structure**
 
 ### **Location**: `sql_carculture_public_local/`

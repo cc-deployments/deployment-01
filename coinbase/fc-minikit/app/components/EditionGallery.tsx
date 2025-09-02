@@ -109,49 +109,48 @@ export default function EditionGallery() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="relative">
           <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-          <Input
+          <input
+            type="text"
             placeholder="Search cars..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
+            className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
 
-        <Select value={selectedChain} onValueChange={setSelectedChain}>
-          <SelectTrigger>
-            <SelectValue placeholder="All Chains" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Chains</SelectItem>
-            {getUniqueChains().map(chain => (
-              <SelectItem key={chain} value={chain}>{chain}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <select 
+          value={selectedChain} 
+          onChange={(e) => setSelectedChain(e.target.value)}
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        >
+          <option value="all">All Chains</option>
+          {getUniqueChains().map(chain => (
+            <option key={chain} value={chain}>{chain}</option>
+          ))}
+        </select>
 
-        <Select value={selectedMake} onValueChange={setSelectedMake}>
-          <SelectTrigger>
-            <SelectValue placeholder="All Makes" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Makes</SelectItem>
-            {getUniqueMakes().map(make => (
-              <SelectItem key={make} value={make}>{make}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <select 
+          value={selectedMake} 
+          onChange={(e) => setSelectedMake(e.target.value)}
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        >
+          <option value="all">All Makes</option>
+          {getUniqueMakes().map(make => (
+            <option key={make} value={make}>{make}</option>
+          ))}
+        </select>
 
-        <Button
-          variant="outline"
+        <button
           onClick={() => {
             setSearchQuery('');
             setSelectedChain('all');
             setSelectedMake('all');
           }}
+          className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-transparent flex items-center"
         >
           <Filter className="h-4 w-4 mr-2" />
           Clear Filters
-        </Button>
+        </button>
       </div>
 
       {/* Results Count */}
@@ -164,17 +163,17 @@ export default function EditionGallery() {
       {/* Editions Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredEditions.map((edition) => (
-          <Card key={edition.id} className="hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-3">
+          <div key={edition.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6">
+            <div className="pb-3">
               <div className="flex items-start justify-between">
-                <CardTitle className="text-lg line-clamp-2">{edition.title}</CardTitle>
-                <Badge variant="secondary" className="text-xs">
+                <h3 className="text-lg font-semibold line-clamp-2">{edition.title}</h3>
+                <span className="px-2 py-1 bg-gray-100 text-gray-800 text-xs rounded-full">
                   {edition.chain}
-                </Badge>
+                </span>
               </div>
-            </CardHeader>
+            </div>
             
-            <CardContent className="space-y-4">
+            <div className="space-y-4">
               {/* Car Image */}
               <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
                 {edition.imageUrl ? (
