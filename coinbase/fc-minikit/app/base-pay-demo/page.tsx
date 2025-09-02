@@ -1,4 +1,5 @@
 // coinbase/fc-minikit/app/base-pay-demo/page.tsx
+"use client";
 
 import React from 'react';
 import { BasePayIntegration } from '../components/BasePayIntegration';

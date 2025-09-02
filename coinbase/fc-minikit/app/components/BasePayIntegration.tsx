@@ -1,4 +1,5 @@
 // coinbase/fc-minikit/app/components/BasePayIntegration.tsx
+"use client";
 
 import React, { useState } from 'react';
 import { BasePayButton, BasePayModal, useBasePay } from '@cculture/shared-auth';
