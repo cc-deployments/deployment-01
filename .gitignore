@@ -37,3 +37,11 @@ nft_car_system/data/images/2024-06-15/
 nft_car_system/data/images/2024-06-08/
 nft_car_system/data/images/2025-06-15/
 nft_car_system/data/images/2025-06-08/
+
+# Ignore large video files
+*.mp4
+*.mov
+*.avi
+*.mkv
+carculture_splash_v8.mp4
+coinbase/fc-minikit/public/carculture_splash_v8.mp4
