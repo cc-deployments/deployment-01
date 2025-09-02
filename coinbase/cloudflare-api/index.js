@@ -217,11 +217,11 @@ async function handleLatestMint(request, env, corsHeaders) {
       const today = new Date().toISOString().split('T')[0];
       
       // Return the current active car (Car Culture: CarMania Garage - Test 1)
-      // Updated to use testing image until AI bug is resolved
+      // Updated to use main collection instead of specific mint with Summertime Blues image
       const currentCar = {
-        title: 'Car Culture: CarMania Garage - Testing Image',
+        title: 'Car Culture: CarMania Garage - Main Collection',
         publication_date: '2025-01-15',
-        mint_url: 'https://manifold.xyz/@carculture/id/4169111792'
+        mint_url: 'https://manifold.xyz/@carculture'
       };
       
       return new Response(JSON.stringify({
