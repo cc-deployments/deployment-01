@@ -27,11 +27,13 @@ export default function ImprovedShareHandler() {
 
   const shareContent = async (options: ShareOptions) => {
     try {
-      // Try Web Share API first (mobile-friendly)
-      if (shareSupported) {
+      // Try Web Share API first (mobile-friendly) - but skip in iframe environments
+      if (shareSupported && window.self === window.top) {
         await navigator.share(options);
         console.log('✅ Shared via Web Share API');
         return { success: true, method: 'web-share' };
+      } else if (shareSupported && window.self !== window.top) {
+        console.log('⚠️ Web Share API blocked in iframe, using clipboard...');
       }
       
       // Fallback to clipboard

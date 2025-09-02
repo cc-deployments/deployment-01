@@ -12,15 +12,17 @@ export default function DesktopShareHandler() {
     }) => {
       console.log('🔄 Attempting to share:', options);
       
-      try {
-        // Method 1: Try Web Share API (mobile only)
-        if (navigator.share && typeof navigator.share === 'function') {
-          console.log('📱 Trying Web Share API...');
-          await navigator.share(options);
-          console.log('✅ Shared via Web Share API');
-          alert('Shared successfully! 🚗✨');
-          return { success: true, method: 'web-share' };
-        }
+          try {
+      // Method 1: Try Web Share API (mobile only) - but skip in iframe environments
+      if (navigator.share && typeof navigator.share === 'function' && window.self === window.top) {
+        console.log('📱 Trying Web Share API...');
+        await navigator.share(options);
+        console.log('✅ Shared via Web Share API');
+        alert('Shared successfully! 🚗✨');
+        return { success: true, method: 'web-share' };
+      } else if (navigator.share && window.self !== window.top) {
+        console.log('⚠️ Web Share API blocked in iframe, skipping to clipboard...');
+      }
         
         // Method 2: Try Clipboard API (modern browsers)
         if (navigator.clipboard && navigator.clipboard.writeText) {
