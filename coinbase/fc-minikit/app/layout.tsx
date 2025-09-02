@@ -8,6 +8,8 @@ import "./globals.css";
 import { Providers } from "./providers";
 import EmbedHandler from "./components/EmbedHandler";
 import ShareHandler from "./components/ShareHandler";
+import DebugBannerRemover from "./components/DebugBannerRemover";
+import DesktopShareHandler from "./components/DesktopShareHandler";
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -60,6 +62,8 @@ export default function RootLayout({
           {children}
           <EmbedHandler />
           <ShareHandler />
+          <DebugBannerRemover />
+          <DesktopShareHandler />
         </Providers>
       </body>
     </html>

@@ -6,6 +6,7 @@ import { useSafeArea } from '../hooks/useSafeArea';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 import { sdk } from '@farcaster/miniapp-sdk';
+import ImprovedShareHandler from '../components/ImprovedShareHandler';
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea();
@@ -116,6 +117,8 @@ export default function GalleryHero() {
         touchAction: 'manipulation',
       }}
     >
+      {/* Improved Share Handler */}
+      <ImprovedShareHandler />
       {/* Main Content */}
       <div className="relative z-10">
         {/* Swipe Area */}
@@ -230,45 +233,23 @@ export default function GalleryHero() {
               backgroundColor: 'transparent',
               border: 'none',
             }}
-            onClick={(e) => {
+            onClick={async (e) => {
               e.preventDefault();
               e.stopPropagation();
-              if (navigator.share) {
-                navigator.share({
+              console.log('📤 Share button clicked');
+              
+              // Use enhanced share functionality
+              if (window.shareCarMania) {
+                await window.shareCarMania();
+              } else if (window.enhancedShare) {
+                await window.enhancedShare({
                   title: 'CarMania Gallery',
                   text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
-                  url: window.location.href,
-                }).catch(() => {});
+                  url: window.location.href
+                });
               } else {
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                  navigator.clipboard.writeText('Check out CarMania Gallery - an amazing car collection mini app! 🚗✨\n\n' + window.location.href).then(() => {
-                    alert('Link copied! Share this mini app in your Farcaster cast! 🚗✨');
-                  }).catch(() => {
-                    try {
-                      const textArea = document.createElement('textarea');
-                      textArea.value = window.location.href;
-                      document.body.appendChild(textArea);
-                      textArea.select();
-                      document.execCommand('copy');
-                      document.body.removeChild(textArea);
-                      alert('Link copied to clipboard!');
-                    } catch (fallbackError) {
-                      alert('Copy failed. Please copy manually: ' + window.location.href);
-                    }
-                  });
-                } else {
-                  try {
-                    const textArea = document.createElement('textarea');
-                    textArea.value = window.location.href;
-                    document.body.appendChild(textArea);
-                    textArea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textArea);
-                    alert('Copy failed. Please copy manually: ' + window.location.href);
-                  } catch (fallbackError) {
-                    alert('Copy failed. Please copy manually: ' + window.location.href);
-                  }
-                }
+                // Final fallback - show URL for manual copying
+                alert(`Please copy this link to share:\n\n${window.location.href}`);
               }
             }}
           />
