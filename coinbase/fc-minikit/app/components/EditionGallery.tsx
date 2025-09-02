@@ -1,11 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+// UI components removed - using basic HTML elements instead
 import { Car, Brain, Search, Filter, ExternalLink } from 'lucide-react';
 import { editionDataService, EditionDisplayData } from '../services/editionDataService';
 import NFTMLAnalyzer from './NFTMLAnalyzer';
@@ -289,5 +285,6 @@ export default function EditionGallery() {
     </div>
   );
 }
+
 
 

@@ -13,7 +13,7 @@
     "@cculture/privy": "file:packages/privy",
     "@cculture/shared-auth": "file:packages/shared-auth",
     "@cculture/shared-ui": "file:packages/shared-ui",
-    "@coinbase/onchainkit": "^0.38.15",
+    "@coinbase/onchainkit": "^0.38.19",
     "@upstash/redis": "^1.34.4",
     "next": "^15.3.3",
     "react": "^18",
@@ -48,12 +48,10 @@
     "viem": "2.31.4",
     "@privy-io/react-auth": "2.17.2",
     "wagmi": "2.15.6",
-    "@coinbase/onchainkit": "0.38.15",
+    "@coinbase/onchainkit": "0.38.19",
     "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "@farcaster/frame-sdk": "npm:@coinbase/onchainkit@0.38.15"
+    "react-dom": "18.3.1"
   },
   "overrides": {
-    "@farcaster/frame-sdk": "npm:@coinbase/onchainkit@0.38.19"
   }
 }
