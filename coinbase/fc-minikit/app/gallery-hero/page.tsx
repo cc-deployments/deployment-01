@@ -238,21 +238,6 @@ export default function GalleryHero() {
               e.stopPropagation();
               console.log('📤 Share button clicked');
               
-              // Check for debug mode activation (click 5 times quickly)
-              const now = Date.now();
-              const lastClicks = JSON.parse(localStorage.getItem('share-clicks') || '[]');
-              const recentClicks = lastClicks.filter((click: number) => now - click < 3000); // 3 seconds
-              recentClicks.push(now);
-              localStorage.setItem('share-clicks', JSON.stringify(recentClicks));
-              
-              if (recentClicks.length >= 5) {
-                // Enable debug mode
-                localStorage.setItem('carmania-debug', 'true');
-                alert('🔍 Debug mode enabled! Press Ctrl+D (or Cmd+D) to toggle debug panel.');
-                localStorage.setItem('share-clicks', '[]'); // Reset
-                return;
-              }
-              
               // Use enhanced share functionality
               if ((window as any).shareCarMania) {
                 await (window as any).shareCarMania();
