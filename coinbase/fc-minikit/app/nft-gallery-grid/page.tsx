@@ -246,11 +246,13 @@ export default function NFTGalleryGrid() {
 
       const data = await response.json();
       
-      if (data.payment_url) {
-        // Redirect to StableLink payment page
-        window.open(data.payment_url, '_blank');
+      if (data.paymentUrl) {
+        // Redirect to payment page (either CDP or direct mint)
+        console.log('Opening payment URL:', data.paymentUrl);
+        window.open(data.paymentUrl, '_blank');
       } else {
         // Fallback to direct mint URL
+        console.log('Fallback to direct mint URL:', nft.mintUrl);
         window.open(nft.mintUrl, '_blank');
       }
     } catch (error) {
