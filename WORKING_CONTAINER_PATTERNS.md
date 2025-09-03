@@ -130,6 +130,120 @@ return (
 4. **Percentage Positioning** - Works across different screen sizes
 5. **Container-Based Layout** - Buttons positioned relative to main container
 
+## 📤 **SHARE Button Implementation (Working Pattern)**
+
+### **Current Working SHARE Button (Commit 199d344):**
+The SHARE button now prioritizes Web Share API for mobile and falls back to OnchainKit's `useComposeCast` for desktop:
+
+```tsx
+import { useComposeCast } from '@coinbase/onchainkit/minikit';
+
+export default function GalleryHero() {
+  const { composeCast } = useComposeCast();
+  
+  const handleShare = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('📤 Share button clicked');
+    
+    try {
+      // Check if we're in Farcaster Mini App context
+      const isInMiniApp = sdk.isInMiniApp();
+      console.log('📱 Mini App context:', isInMiniApp);
+      
+      // For mobile Farcaster, try Web Share API first (more reliable)
+      if (navigator.share) {
+        console.log('📱 Using Web Share API (mobile-friendly)...');
+        await navigator.share({
+          title: 'CarMania Gallery',
+          text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
+          url: window.location.href
+        });
+        console.log('✅ Shared via Web Share API');
+        return;
+      }
+      
+      // Fallback to OnchainKit's composeCast for desktop
+      if (composeCast && !isInMiniApp) {
+        console.log('📱 Using OnchainKit composeCast (desktop)...');
+        await composeCast({
+          text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
+          embeds: [window.location.href]
+        });
+        console.log('✅ Shared via OnchainKit composeCast');
+        return;
+      }
+      
+      // Final fallback to clipboard
+      console.log('📋 Using clipboard fallback...');
+      await navigator.clipboard.writeText(window.location.href);
+      alert('Link copied to clipboard! Share this mini app in your Farcaster cast! 🚗✨');
+      
+    } catch (error) {
+      console.error('❌ Share failed:', error);
+      alert(`Please copy this link to share:\n\n${window.location.href}`);
+    }
+  };
+
+  return (
+    <div
+      onClick={handleShare}
+      style={{
+        position: 'absolute',
+        top: '75.8%',
+        right: '20px',
+        zIndex: 9999,
+        width: '80px',
+        height: '40px',
+        backgroundColor: 'transparent',
+        cursor: 'pointer',
+      }}
+    />
+  );
+}
+```
+
+### **Key Requirements for SHARE Button:**
+1. **MiniKitProvider Required**: Must be enabled in `providers.tsx` for `useComposeCast` to work
+2. **QueryClient Setup**: OnchainKit provides the necessary QueryClient
+3. **Mobile-First Approach**: `navigator.share` → `composeCast` (desktop only) → `clipboard.writeText`
+4. **Context Detection**: Use `sdk.isInMiniApp()` to determine environment
+5. **Error Handling**: Graceful degradation if sharing fails
+
+### **Provider Setup (Required):**
+```tsx
+// coinbase/fc-minikit/app/providers.tsx
+import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
+
+export function Providers(props: { children: ReactNode }) {
+  useEffect(() => {
+    sdk.actions.ready(); // Dismiss splash screen
+  }, []);
+
+  return (
+    <MiniKitProvider
+      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+      chain={baseChain}
+    >
+      {props.children}
+    </MiniKitProvider>
+  );
+}
+```
+
+### **What We Tried (Don't Use):**
+- ❌ `sdk.actions.share()` - This method doesn't exist
+- ❌ Custom share handlers without OnchainKit
+- ❌ Direct `window.shareCarMania` calls
+- ❌ Disabled MiniKitProvider (breaks useComposeCast)
+
+### **What Works:**
+- ✅ **Mobile**: `navigator.share` opens native share sheet
+- ✅ **Desktop**: `useComposeCast` opens Farcaster compose interface
+- ✅ **Context Detection**: `sdk.isInMiniApp()` determines environment
+- ✅ **Fallback Chain**: Web Share → ComposeCast → Clipboard
+- ✅ **Proper error handling and logging**
+
 ## 🌐 **Base Mini App Hooks for External Navigation**
 According to [Base Mini App documentation](https://docs.base.org/base-app/miniapps/overview#minikit-overview), external navigation should use the `useOpenUrl` hook:
 
@@ -221,7 +335,9 @@ window.location.href = 'https://manifold.xyz/...';
 
 - **Working Base**: `862380f` - Complete working version
 - **Container Fix**: `0f3599d` - Fixed container sizes and navigation
-- **Current Status**: All pages working with consistent structure
+- **SHARE Button Fix**: `7d19237` - Implemented useComposeCast with proper fallbacks
+- **Mobile SHARE Fix**: `199d344` - Prioritized Web Share API for mobile compatibility
+- **Current Status**: All pages working with consistent structure and functional SHARE button on both mobile and desktop
 
 ## 🔄 **Future Updates:**
 
