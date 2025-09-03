@@ -239,18 +239,11 @@ export default function GalleryHero() {
               console.log('📤 Share button clicked');
               
               try {
-                // Use Farcaster SDK share functionality for Mini Apps
-                const { sdk } = await import('@farcaster/miniapp-sdk');
-                
-                if (sdk.isInMiniApp()) {
-                  // Use Farcaster SDK share method
-                  await sdk.actions.share({
-                    text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
-                    url: window.location.href
-                  });
-                  console.log('✅ Shared via Farcaster SDK');
+                // Use the working share implementation from ImprovedShareHandler
+                if ((window as any).shareCarMania) {
+                  await (window as any).shareCarMania();
                 } else {
-                  // Fallback for non-Mini App environments
+                  // Fallback to direct Web Share API
                   if (navigator.share) {
                     await navigator.share({
                       title: 'CarMania Gallery',
