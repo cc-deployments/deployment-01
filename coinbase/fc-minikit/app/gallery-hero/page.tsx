@@ -241,26 +241,30 @@ export default function GalleryHero() {
               console.log('📤 Share button clicked');
               
               try {
-                // Use OnchainKit's composeCast for proper Mini App sharing
-                if (composeCast) {
-                  console.log('📱 Using OnchainKit composeCast...');
-                  await composeCast({
-                    text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
-                    embeds: [window.location.href]
-                  });
-                  console.log('✅ Shared via OnchainKit composeCast');
-                  return;
-                }
+                // Check if we're in Farcaster Mini App context
+                const isInMiniApp = sdk.isInMiniApp();
+                console.log('📱 Mini App context:', isInMiniApp);
                 
-                // Fallback to Web Share API
+                // For mobile Farcaster, try Web Share API first (more reliable)
                 if (navigator.share) {
-                  console.log('📱 Fallback to Web Share API...');
+                  console.log('📱 Using Web Share API (mobile-friendly)...');
                   await navigator.share({
                     title: 'CarMania Gallery',
                     text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
                     url: window.location.href
                   });
                   console.log('✅ Shared via Web Share API');
+                  return;
+                }
+                
+                // Fallback to OnchainKit's composeCast for desktop
+                if (composeCast && !isInMiniApp) {
+                  console.log('📱 Using OnchainKit composeCast (desktop)...');
+                  await composeCast({
+                    text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
+                    embeds: [window.location.href]
+                  });
+                  console.log('✅ Shared via OnchainKit composeCast');
                   return;
                 }
                 
