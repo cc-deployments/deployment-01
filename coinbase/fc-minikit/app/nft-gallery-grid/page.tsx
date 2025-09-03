@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 // Same NFT data as the single-card gallery, but optimized for grid display
 const mockNFTs = [
@@ -169,11 +170,23 @@ const rarityColors = {
 interface NFTGridCardProps {
   nft: typeof mockNFTs[0];
   onPurchase: (nft: typeof mockNFTs[0]) => void;
+  onViewDetails: (nft: typeof mockNFTs[0]) => void;
 }
 
-function NFTGridCard({ nft, onPurchase }: NFTGridCardProps) {
+function NFTGridCard({ nft, onPurchase, onViewDetails }: NFTGridCardProps) {
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Prevent navigation if clicking on the purchase button
+    if ((e.target as HTMLElement).closest('button')) {
+      return;
+    }
+    onViewDetails(nft);
+  };
+
   return (
-    <div className="group relative bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105 cursor-pointer">
+    <div 
+      className="group relative bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105 cursor-pointer"
+      onClick={handleCardClick}
+    >
       <div className="relative aspect-square overflow-hidden">
         <Image 
           src={nft.thumbnail} 
@@ -215,6 +228,7 @@ function NFTGridCard({ nft, onPurchase }: NFTGridCardProps) {
 
 export default function NFTGalleryGrid() {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handlePurchase = async (nft: typeof mockNFTs[0]) => {
     setIsLoading(true);
@@ -256,6 +270,11 @@ export default function NFTGalleryGrid() {
     }
   };
 
+  const handleViewDetails = (nft: typeof mockNFTs[0]) => {
+    // Navigate to single-card view with NFT ID as parameter
+    router.push(`/nft-gallery-demo?nft=${nft.id}`);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -288,6 +307,7 @@ export default function NFTGalleryGrid() {
               key={nft.id}
               nft={nft}
               onPurchase={handlePurchase}
+              onViewDetails={handleViewDetails}
             />
           ))}
         </div>
