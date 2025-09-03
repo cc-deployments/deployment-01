@@ -249,16 +249,17 @@ export default function NFTGalleryGrid() {
       if (data.paymentUrl) {
         // Redirect to payment page (either CDP or direct mint)
         console.log('Opening payment URL:', data.paymentUrl);
-        window.open(data.paymentUrl, '_blank');
+        // Use window.location.href to avoid popup blockers
+        window.location.href = data.paymentUrl;
       } else {
         // Fallback to direct mint URL
         console.log('Fallback to direct mint URL:', nft.mintUrl);
-        window.open(nft.mintUrl, '_blank');
+        window.location.href = nft.mintUrl;
       }
     } catch (error) {
       console.error('StableLink integration error:', error);
       // Fallback to direct mint URL
-      window.open(nft.mintUrl, '_blank');
+      window.location.href = nft.mintUrl;
     } finally {
       setIsLoading(false);
     }

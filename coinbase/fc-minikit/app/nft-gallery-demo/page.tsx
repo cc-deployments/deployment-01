@@ -246,11 +246,12 @@ export default function NFTGalleryDemo() {
     // This provides immediate functionality while we build out the CDP/Zora integration
     if (nft.mintUrl) {
       console.log('🔓 Redirecting to mint URL:', nft.mintUrl);
-      window.open(nft.mintUrl, '_blank');
+      // Use window.location.href to avoid popup blockers
+      window.location.href = nft.mintUrl;
     } else {
       // Fallback to your main Manifold profile
       console.log('🔓 Redirecting to CarCulture profile');
-      window.open('https://manifold.xyz/@carculture', '_blank');
+      window.location.href = 'https://manifold.xyz/@carculture';
     }
   };
 
