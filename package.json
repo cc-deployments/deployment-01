@@ -7,7 +7,8 @@
   ],
   "scripts": {
     "dev": "cd coinbase/fc-minikit && npm run dev",
-    "start": "cd coinbase/fc-minikit && npm run start"
+    "start": "cd coinbase/fc-minikit && npm run start",
+    "generate-previews": "node generate_preview_images.js"
   },
   "dependencies": {
     "@cculture/privy": "file:packages/privy",
@@ -37,6 +38,7 @@
     "lokijs": "^1.5.12",
     "pino-pretty": "^10.2.0",
     "postcss": "^8.4.38",
+    "sharp": "^0.34.3",
     "supports-color": "^9.4.0",
     "tailwindcss": "^3.4.0",
     "typescript": "5.6.2",
@@ -52,6 +54,5 @@
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },
-  "overrides": {
-  }
+  "overrides": {}
 }
