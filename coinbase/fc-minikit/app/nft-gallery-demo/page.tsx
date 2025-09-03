@@ -653,46 +653,70 @@ export default function NFTGalleryDemo() {
         {/* Navigation - Bottom Center */}
         <div style={{
           position: 'absolute',
-          bottom: '8%',
+          bottom: '12%',
           left: '50%',
           transform: 'translateX(-50%)',
           display: 'flex',
           alignItems: 'center',
           gap: '1.5rem',
-          zIndex: 10
+          zIndex: 20,
+          backgroundColor: 'rgba(0,0,0,0.3)',
+          padding: '1rem 2rem',
+          borderRadius: '2rem',
+          backdropFilter: 'blur(10px)'
         }}>
           <button
             onClick={prevNFT}
             style={{
-              backgroundColor: '#374151',
+              backgroundColor: '#2563eb',
               color: '#fff',
-              padding: '0.75rem',
+              padding: '1rem',
               borderRadius: '50%',
               border: 'none',
               cursor: 'pointer',
-              transition: 'background-color 0.2s'
+              transition: 'all 0.2s',
+              boxShadow: '0 4px 12px rgba(37, 99, 235, 0.3)',
+              fontSize: '1.2rem',
+              fontWeight: 'bold'
             }}
-            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#4b5563'}
-            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#374151'}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = '#1d4ed8';
+              e.currentTarget.style.transform = 'scale(1.1)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = '#2563eb';
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
           >
-            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
+            ←
           </button>
           
-          <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
             {mockNFTs.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToNFT(index)}
                 style={{
-                  width: '0.75rem',
-                  height: '0.75rem',
+                  width: '1rem',
+                  height: '1rem',
                   borderRadius: '50%',
                   border: 'none',
                   cursor: 'pointer',
                   backgroundColor: index === currentNFTIndex ? '#2563eb' : '#6b7280',
-                  transition: 'background-color 0.2s'
+                  transition: 'all 0.2s',
+                  boxShadow: index === currentNFTIndex ? '0 0 8px rgba(37, 99, 235, 0.5)' : 'none'
+                }}
+                onMouseOver={(e) => {
+                  if (index !== currentNFTIndex) {
+                    e.currentTarget.style.backgroundColor = '#9ca3af';
+                    e.currentTarget.style.transform = 'scale(1.2)';
+                  }
+                }}
+                onMouseOut={(e) => {
+                  if (index !== currentNFTIndex) {
+                    e.currentTarget.style.backgroundColor = '#6b7280';
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }
                 }}
               />
             ))}
@@ -701,20 +725,27 @@ export default function NFTGalleryDemo() {
           <button
             onClick={nextNFT}
             style={{
-              backgroundColor: '#374151',
+              backgroundColor: '#2563eb',
               color: '#fff',
-              padding: '0.75rem',
+              padding: '1rem',
               borderRadius: '50%',
               border: 'none',
               cursor: 'pointer',
-              transition: 'background-color 0.2s'
+              transition: 'all 0.2s',
+              boxShadow: '0 4px 12px rgba(37, 99, 235, 0.3)',
+              fontSize: '1.2rem',
+              fontWeight: 'bold'
             }}
-            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#4b5563'}
-            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#374151'}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = '#1d4ed8';
+              e.currentTarget.style.transform = 'scale(1.1)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = '#2563eb';
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
           >
-            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
+            →
           </button>
         </div>
 
