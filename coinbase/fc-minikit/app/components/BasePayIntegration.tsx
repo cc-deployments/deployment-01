@@ -2,8 +2,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import { BasePayButton, BasePayModal, useBasePay } from '@cculture/shared-auth';
-import type { BasePayConfig } from '@cculture/shared-auth';
+import { BasePayButton, BasePayModal, useBasePay } from '@shared/auth';
+import type { BasePayConfig } from '@shared/auth';
 
 export function BasePayIntegration() {
   const { lastPayment, reset } = useBasePay();

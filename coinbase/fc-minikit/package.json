@@ -11,6 +11,7 @@
     "monitor": "node monitor-onchainkit.js"
   },
   "dependencies": {
+    "@cculture/shared-auth": "file:../../packages/shared-auth",
     "@coinbase/onchainkit": "^0.38.18",
     "@farcaster/miniapp-sdk": "^0.1.9",
     "csv-parser": "^3.2.0",

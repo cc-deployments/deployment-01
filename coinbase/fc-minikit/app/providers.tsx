@@ -1,6 +1,7 @@
 "use client";
 
-import { type ReactNode } from "react";
+import { type ReactNode, useEffect } from "react";
+import { sdk } from '@farcaster/miniapp-sdk';
 // TEMPORARILY DISABLED: OnchainKit dependency issue
 // import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
 
@@ -27,6 +28,11 @@ const baseChain = {
 };
 
 export function Providers(props: { children: ReactNode }) {
+  // Call ready when the app loads in Farcaster
+  useEffect(() => {
+    sdk.actions.ready();
+  }, []);
+
   return (
     // TEMPORARILY DISABLED: OnchainKit dependency issue
     // <MiniKitProvider

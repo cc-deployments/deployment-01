@@ -15,7 +15,7 @@ export default function TestDirectSDK() {
         setSdkStatus('✅ SDK Import Successful!');
         setSdkInfo({
           version: '0.1.9',
-          isInMiniApp: sdk.isInMiniApp(),
+          isInMiniApp: sdk.context?.client?.clientFid === 309857, // CBW compatibility check
           capabilities: await sdk.getCapabilities(),
           context: sdk.context
         });
