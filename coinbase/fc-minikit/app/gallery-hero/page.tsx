@@ -6,11 +6,13 @@ import { useSafeArea } from '../hooks/useSafeArea';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 import { sdk } from '@farcaster/miniapp-sdk';
+import { useComposeCast } from '@coinbase/onchainkit/minikit';
 import ImprovedShareHandler from '../components/ImprovedShareHandler';
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea();
   const router = useRouter();
+  const { composeCast } = useComposeCast();
   
   // Dismiss splash screen IMMEDIATELY - Follow FC loading guide
   useEffect(() => {
@@ -239,23 +241,34 @@ export default function GalleryHero() {
               console.log('📤 Share button clicked');
               
               try {
-                // Use the working share implementation from ImprovedShareHandler
-                if ((window as any).shareCarMania) {
-                  await (window as any).shareCarMania();
-                } else {
-                  // Fallback to direct Web Share API
-                  if (navigator.share) {
-                    await navigator.share({
-                      title: 'CarMania Gallery',
-                      text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
-                      url: window.location.href
-                    });
-                  } else {
-                    // Copy to clipboard fallback
-                    await navigator.clipboard.writeText(window.location.href);
-                    alert('Link copied to clipboard! Share this mini app in your Farcaster cast! 🚗✨');
-                  }
+                // Use OnchainKit's composeCast for proper Mini App sharing
+                if (composeCast) {
+                  console.log('📱 Using OnchainKit composeCast...');
+                  await composeCast({
+                    text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
+                    embeds: [window.location.href]
+                  });
+                  console.log('✅ Shared via OnchainKit composeCast');
+                  return;
                 }
+                
+                // Fallback to Web Share API
+                if (navigator.share) {
+                  console.log('📱 Fallback to Web Share API...');
+                  await navigator.share({
+                    title: 'CarMania Gallery',
+                    text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
+                    url: window.location.href
+                  });
+                  console.log('✅ Shared via Web Share API');
+                  return;
+                }
+                
+                // Final fallback to clipboard
+                console.log('📋 Using clipboard fallback...');
+                await navigator.clipboard.writeText(window.location.href);
+                alert('Link copied to clipboard! Share this mini app in your Farcaster cast! 🚗✨');
+                
               } catch (error) {
                 console.error('❌ Share failed:', error);
                 // Final fallback - show URL for manual copying
