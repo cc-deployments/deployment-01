@@ -3,6 +3,7 @@
 import { type ReactNode, useEffect } from "react";
 import { sdk } from '@farcaster/miniapp-sdk';
 import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
+// Trigger Vercel build on master branch
 
 // Define Base chain without wagmi import
 const baseChain = {
