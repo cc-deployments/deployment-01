@@ -324,29 +324,38 @@ export default function NFTGalleryDemo() {
           {/* Back to Gallery Button */}
           <div style={{
             position: 'absolute',
-            top: '-2rem',
+            top: '-3rem',
             left: '-50%',
             transform: 'translateX(-50%)',
           }}>
             <button
               onClick={backToGallery}
               style={{
-                backgroundColor: 'rgba(55, 65, 81, 0.8)',
+                backgroundColor: '#2563eb',
                 color: '#fff',
-                padding: '0.5rem 1rem',
-                borderRadius: '0.5rem',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '0.75rem',
                 border: 'none',
                 cursor: 'pointer',
-                fontSize: '0.875rem',
+                fontSize: '1rem',
+                fontWeight: '600',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.5rem',
-                transition: 'background-color 0.2s'
+                gap: '0.75rem',
+                transition: 'all 0.2s',
+                boxShadow: '0 4px 12px rgba(37, 99, 235, 0.3)',
+                backdropFilter: 'blur(10px)'
               }}
-              onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'rgba(55, 65, 81, 1)'}
-              onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'rgba(55, 65, 81, 0.8)'}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = '#1d4ed8';
+                e.currentTarget.style.transform = 'scale(1.05)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = '#2563eb';
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
             >
-              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
               Back to Gallery
