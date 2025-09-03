@@ -190,3 +190,4 @@ if (require.main === module) {
 }
 
 module.exports = { processImage, downloadImage, resizeImage };
+

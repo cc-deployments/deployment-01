@@ -45,3 +45,18 @@ nft_car_system/data/images/2025-06-08/
 *.mkv
 carculture_splash_v8.mp4
 coinbase/fc-minikit/public/carculture_splash_v8.mp4
+
+# Ignore Python virtual environments (HUGE - 25k+ files)
+nft_car_system/venv/
+**/venv/
+**/env/
+
+# Ignore large ML datasets
+nft_car_system/nft_car_dataset_*/
+nft_car_system/*.arrow
+nft_car_system/*.safetensors
+
+# Ignore build artifacts
+**/.next/
+**/dist/
+**/build/

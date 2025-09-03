@@ -1,0 +1,46 @@
+commit 200d2b0a457ef6a266037bd41922418e4d8f980d
+Author: flatout <cindy.lewis@carculture.com>
+Date:   Wed Sep 3 11:57:56 2025 -0400
+
+    🔧 Fix Vercel build - wrap useSearchParams in Suspense boundary
+    
+    - Add Suspense wrapper around NFTGalleryDemoContent component
+    - Fix Next.js 15 requirement for useSearchParams in Suspense
+    - Build now passes successfully for production deployment
+    - Maintains all existing functionality
+    
+    Fixes: Vercel production build failures
+
+diff --git a/coinbase/fc-minikit/app/nft-gallery-demo/page.tsx b/coinbase/fc-minikit/app/nft-gallery-demo/page.tsx
+index 1012503..e66837c 100644
+--- a/coinbase/fc-minikit/app/nft-gallery-demo/page.tsx
++++ b/coinbase/fc-minikit/app/nft-gallery-demo/page.tsx
+@@ -1,6 +1,6 @@
+ 'use client';
+ 
+-import React, { useState, useEffect } from 'react';
++import React, { useState, useEffect, Suspense } from 'react';
+ import Image from 'next/image';
+ import { useRouter, useSearchParams } from 'next/navigation';
+ 
+@@ -223,7 +223,7 @@ function NFTCard({ nft, onPurchase }: NFTCardProps) {
+   );
+ }
+ 
+-export default function NFTGalleryDemo() {
++function NFTGalleryDemoContent() {
+   const [currentNFTIndex, setCurrentNFTIndex] = useState(0);
+   const [paymentMethod, setPaymentMethod] = useState<'credit' | 'crypto'>('credit');
+   const router = useRouter();
+@@ -826,3 +826,11 @@ export default function NFTGalleryDemo() {
+     </div>
+   );
+ }
++
++export default function NFTGalleryDemo() {
++  return (
++    <Suspense fallback={<div>Loading...</div>}>
++      <NFTGalleryDemoContent />
++    </Suspense>
++  );
++}

@@ -2,6 +2,7 @@ import { XMTPService } from './services/xmtp-service';
 import { NFTVerificationService } from './services/nft-verification';
 import { IntentHandlerService } from './services/intent-handler';
 import { WalletCallService } from './services/wallet-call-service';
+import { StableLinkService } from './services/stablelink-service';
 import { 
   CarManiaAgentConfig, 
   XMTPMessage, 
@@ -16,6 +17,7 @@ export class DRIVRAgent {
   private nftVerificationService: NFTVerificationService;
   private intentHandlerService: IntentHandlerService;
   private walletCallService: WalletCallService;
+  private stableLinkService: StableLinkService;
   private config: CarManiaAgentConfig;
   private isRunning: boolean = false;
 
@@ -25,6 +27,7 @@ export class DRIVRAgent {
     this.nftVerificationService = new NFTVerificationService(config);
     this.intentHandlerService = new IntentHandlerService();
     this.walletCallService = new WalletCallService(config);
+    this.stableLinkService = new StableLinkService(config);
     
     // Register message handler
     this.xmtpService.registerMessageHandler('drivr-main', this.handleMessage.bind(this));
@@ -68,6 +71,12 @@ export class DRIVRAgent {
   private async handleMessage(message: XMTPMessage): Promise<void> {
     try {
       console.log(`📨 Received message from ${message.senderAddress}: ${message.content}`);
+      
+      // Check if it's a commerce-related message first
+      if (this.isCommerceMessage(message.content)) {
+        await this.handleCommerceRequest(message.senderAddress, message.content);
+        return;
+      }
       
       // Analyze user intent
       const intent = await this.intentHandlerService.analyzeIntent(message);
@@ -247,6 +256,162 @@ export class DRIVRAgent {
     
     // Here you would integrate with your minting contract
     console.log(`🎨 Minting action triggered for ${tier} tier user ${userAddress}`);
+  }
+
+  /**
+   * Handle AI-powered NFT commerce with credit card payments
+   */
+  async handleCommerceRequest(userAddress: string, userMessage: string): Promise<void> {
+    try {
+      console.log(`🛒 Processing commerce request from ${userAddress}: ${userMessage}`);
+      
+      // Parse user intent for NFT purchase
+      const commerceIntent = await this.parseCommerceIntent(userMessage);
+      
+      if (!commerceIntent) {
+        await this.sendDirectMessage(userAddress, 
+          "I'd be happy to help you buy NFTs! Please tell me which CarMania NFT you're interested in, or describe what you're looking for."
+        );
+        return;
+      }
+
+      // Create dynamic NFT product with StableLink
+      const { product, paymentLink } = await this.stableLinkService.createDynamicNFTProduct(
+        userMessage,
+        {
+          name: commerceIntent.nftName,
+          description: commerceIntent.description,
+          priceUSD: commerceIntent.priceUSD,
+          contractAddress: commerceIntent.contractAddress,
+          network: commerceIntent.network,
+          standard: commerceIntent.standard
+        }
+      );
+
+      // Send commerce response with payment link
+      await this.sendCommerceResponse(userAddress, product, paymentLink, commerceIntent);
+      
+    } catch (error) {
+      console.error('Error handling commerce request:', error);
+      await this.sendDirectMessage(userAddress, 
+        "Sorry, I encountered an issue processing your NFT purchase request. Please try again or contact support."
+      );
+    }
+  }
+
+  /**
+   * Parse user message to extract commerce intent
+   */
+  private async parseCommerceIntent(userMessage: string): Promise<{
+    nftName: string;
+    description: string;
+    priceUSD: number;
+    contractAddress: string;
+    network: 'base' | 'ethereum';
+    standard: 'ERC-721' | 'ERC-1155';
+  } | null> {
+    try {
+      // Simple intent parsing - in production, you'd use more sophisticated NLP
+      const message = userMessage.toLowerCase();
+      
+      // Check for specific NFT mentions
+      if (message.includes('summertime blues') || message.includes('summertime')) {
+        return {
+          nftName: 'Summertime Blues NFT',
+          description: 'A legendary automotive NFT from the CarMania collection, featuring classic summer vibes and car culture nostalgia.',
+          priceUSD: 99.99,
+          contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0', // Base ERC-721
+          network: 'base',
+          standard: 'ERC-721'
+        };
+      }
+      
+      if (message.includes('premium') || message.includes('vip')) {
+        const tier = message.includes('vip') ? 'VIP' : 'Premium';
+        return {
+          nftName: `CarMania ${tier} NFT`,
+          description: `A ${tier.toLowerCase()} tier NFT from the CarMania collection with exclusive benefits and access.`,
+          priceUSD: tier === 'VIP' ? 299.99 : 149.99,
+          contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0', // Base ERC-721
+          network: 'base',
+          standard: 'ERC-721'
+        };
+      }
+      
+      // Generic CarMania NFT
+      if (message.includes('carmania') || message.includes('nft') || message.includes('buy')) {
+        return {
+          nftName: 'CarMania Classic NFT',
+          description: 'A classic NFT from the CarMania collection celebrating automotive culture and heritage.',
+          priceUSD: 79.99,
+          contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0', // Base ERC-721
+          network: 'base',
+          standard: 'ERC-721'
+        };
+      }
+      
+      return null;
+    } catch (error) {
+      console.error('Error parsing commerce intent:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Send commerce response with payment options
+   */
+  private async sendCommerceResponse(
+    userAddress: string, 
+    product: any, 
+    paymentLink: string, 
+    intent: any
+  ): Promise<void> {
+    const commerceMessage = `🛒 **AI-Powered NFT Commerce**
+
+I found the perfect NFT for you: **${product.name}**
+
+💰 **Price**: $${product.price} USD
+🔗 **Network**: ${intent.network.toUpperCase()}
+📄 **Standard**: ${intent.standard}
+
+${product.description}
+
+💳 **Pay with Credit Card**: [Buy Now](${paymentLink})
+
+✨ **What makes this special:**
+• Pay with your credit card - no crypto needed!
+• Automatic smart wallet creation
+• Instant NFT delivery after payment
+• Secure payment processing
+
+Just click the link above to complete your purchase with your credit card, Apple Pay, or Google Pay. I'll handle the rest! 🚗✨`;
+
+    await this.sendDirectMessage(userAddress, commerceMessage);
+  }
+
+  /**
+   * Handle StableLink webhook notifications
+   */
+  async handleStableLinkWebhook(webhookData: any): Promise<void> {
+    try {
+      console.log('📨 Received StableLink webhook:', webhookData);
+      await this.stableLinkService.handleWebhook(webhookData);
+    } catch (error) {
+      console.error('Error handling StableLink webhook:', error);
+    }
+  }
+
+  /**
+   * Check if message is commerce-related
+   */
+  private isCommerceMessage(message: string): boolean {
+    const commerceKeywords = [
+      'buy', 'purchase', 'nft', 'carmania', 'summertime', 'premium', 'vip',
+      'credit card', 'pay', 'price', 'cost', 'how much', 'available'
+    ];
+    
+    const lowerMessage = message.toLowerCase();
+    return commerceKeywords.some(keyword => lowerMessage.includes(keyword));
   }
 
   private async handleGalleryAction(action: Action, userAddress: string): Promise<void> {

@@ -238,16 +238,33 @@ export default function GalleryHero() {
               e.stopPropagation();
               console.log('📤 Share button clicked');
               
-              // Use enhanced share functionality
-              if ((window as any).shareCarMania) {
-                await (window as any).shareCarMania();
-              } else if ((window as any).enhancedShare) {
-                await (window as any).enhancedShare({
-                  title: 'CarMania Gallery',
-                  text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
-                  url: window.location.href
-                });
-              } else {
+              try {
+                // Use Farcaster SDK share functionality for Mini Apps
+                const { sdk } = await import('@farcaster/miniapp-sdk');
+                
+                if (sdk.isInMiniApp()) {
+                  // Use Farcaster SDK share method
+                  await sdk.actions.share({
+                    text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
+                    url: window.location.href
+                  });
+                  console.log('✅ Shared via Farcaster SDK');
+                } else {
+                  // Fallback for non-Mini App environments
+                  if (navigator.share) {
+                    await navigator.share({
+                      title: 'CarMania Gallery',
+                      text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
+                      url: window.location.href
+                    });
+                  } else {
+                    // Copy to clipboard fallback
+                    await navigator.clipboard.writeText(window.location.href);
+                    alert('Link copied to clipboard! Share this mini app in your Farcaster cast! 🚗✨');
+                  }
+                }
+              } catch (error) {
+                console.error('❌ Share failed:', error);
                 // Final fallback - show URL for manual copying
                 alert(`Please copy this link to share:\n\n${window.location.href}`);
               }

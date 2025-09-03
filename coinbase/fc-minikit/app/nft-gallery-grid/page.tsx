@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-// Same NFT data as the single-card gallery, but optimized for grid display
+// Updated NFT data with all 9 test images
 const mockNFTs = [
   {
     id: '1',
