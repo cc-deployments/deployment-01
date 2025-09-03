@@ -182,6 +182,11 @@ function NFTGridCard({ nft, onPurchase, onViewDetails }: NFTGridCardProps) {
     onViewDetails(nft);
   };
 
+  const handlePurchaseClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click
+    onPurchase(nft);
+  };
+
   return (
     <div 
       className="group relative bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105 cursor-pointer"
@@ -204,13 +209,22 @@ function NFTGridCard({ nft, onPurchase, onViewDetails }: NFTGridCardProps) {
           </div>
         </div>
         
-        {/* Hover Overlay with Purchase Button */}
-        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
+        {/* Hover Overlay with Action Buttons */}
+        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center gap-3">
           <button
-            onClick={() => onPurchase(nft)}
-            className="opacity-0 group-hover:opacity-100 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform translate-y-4 group-hover:translate-y-0"
+            onClick={handlePurchaseClick}
+            className="opacity-0 group-hover:opacity-100 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 text-sm"
           >
-            Buy with Credit Card
+            Buy Now
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onViewDetails(nft);
+            }}
+            className="opacity-0 group-hover:opacity-100 bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 text-sm"
+          >
+            View Details
           </button>
         </div>
       </div>
