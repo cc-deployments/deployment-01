@@ -197,12 +197,14 @@ function NFTGridCard({ nft, onPurchase, onViewDetails }: NFTGridCardProps) {
           quality={85}
         />
         
-        {/* Rarity Badge */}
-        <div className={`absolute top-3 right-3 px-2 py-1 rounded-full text-white text-xs font-semibold ${rarityColors[nft.rarity]}`}>
-          {nft.rarity.charAt(0).toUpperCase() + nft.rarity.slice(1)}
+        {/* Minimal Price Badge - Only on Hover */}
+        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="bg-black bg-opacity-70 text-white px-3 py-1 rounded-full text-sm font-semibold">
+            {nft.price} {nft.currency}
+          </div>
         </div>
         
-        {/* Hover Overlay */}
+        {/* Hover Overlay with Purchase Button */}
         <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
           <button
             onClick={() => onPurchase(nft)}
@@ -210,16 +212,6 @@ function NFTGridCard({ nft, onPurchase, onViewDetails }: NFTGridCardProps) {
           >
             Buy with Credit Card
           </button>
-        </div>
-      </div>
-      
-      <div className="p-4">
-        <h3 className="font-bold text-lg mb-1 truncate">{nft.name}</h3>
-        <p className="text-gray-600 text-sm mb-2 line-clamp-2">{nft.description}</p>
-        
-        <div className="flex justify-between items-center">
-          <span className="text-lg font-bold text-blue-600">{nft.price} {nft.currency}</span>
-          <span className="text-xs text-gray-500">#{nft.tokenId}</span>
         </div>
       </div>
     </div>
@@ -277,19 +269,16 @@ export default function NFTGalleryGrid() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+      {/* Minimal Header */}
       <div style={{ backgroundColor: 'white', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', borderBottom: '1px solid #e5e7eb' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '2rem' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
             <img 
               src="/carculture-wing-bl-logo.png" 
               alt="CarCulture Logo"
-              style={{ width: '6rem', height: '6rem', objectFit: 'contain' }}
+              style={{ width: '4rem', height: '4rem', objectFit: 'contain' }}
             />
-            <div style={{ textAlign: 'center' }}>
-              <h1 style={{ fontSize: '2.25rem', fontWeight: 'bold', color: '#111827', margin: '0 0 0.5rem 0' }}>CarMania NFT Gallery</h1>
-              <p style={{ color: '#6b7280', margin: '0', fontSize: '1.125rem' }}>Browse and purchase exclusive Car NFT collection</p>
-            </div>
+            <h1 style={{ fontSize: '1.875rem', fontWeight: 'bold', color: '#111827', margin: '0' }}>CarMania NFT Gallery</h1>
           </div>
         </div>
       </div>
