@@ -13,12 +13,11 @@ export default function TestDirectSDK() {
         const { sdk } = await import('@farcaster/miniapp-sdk');
         
         setSdkStatus('✅ SDK Import Successful!');
-        const context = await sdk.context;
         setSdkInfo({
           version: '0.1.9',
-          isInMiniApp: context?.client?.clientFid === 309857, // CBW compatibility check
+          isInMiniApp: sdk.isInMiniApp(), // Use the correct SDK method
           capabilities: await sdk.getCapabilities(),
-          context: context
+          context: sdk.context
         });
 
         console.log('🎉 Direct Farcaster SDK working in Mini App!');
