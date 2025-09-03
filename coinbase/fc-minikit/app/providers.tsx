@@ -2,8 +2,7 @@
 
 import { type ReactNode, useEffect } from "react";
 import { sdk } from '@farcaster/miniapp-sdk';
-// TEMPORARILY DISABLED: OnchainKit dependency issue
-// import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
+import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
 
 // Define Base chain without wagmi import
 const baseChain = {
@@ -34,14 +33,11 @@ export function Providers(props: { children: ReactNode }) {
   }, []);
 
   return (
-    // TEMPORARILY DISABLED: OnchainKit dependency issue
-    // <MiniKitProvider
-    //   apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
-    //   chain={baseChain}
-    // >
-    <>
+    <MiniKitProvider
+      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+      chain={baseChain}
+    >
       {props.children}
-    </>
-    // </MiniKitProvider>
+    </MiniKitProvider>
   );
 }
