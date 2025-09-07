@@ -19,6 +19,8 @@ export async function GET() {
   try {
     // Read and parse simplified CSV file
     const csvPath = path.join(process.cwd(), 'sql_carculture_public_local/carculture_content_schedule_simplified.csv');
+    console.log('CSV Path:', csvPath);
+    console.log('File exists:', fs.existsSync(csvPath));
     
     // Get today's date in YYYY-MM-DD format
     const today = new Date().toISOString().split('T')[0];
@@ -100,7 +102,9 @@ export async function GET() {
   } catch (error) {
     console.error('Error fetching latest mint:', error);
     return NextResponse.json({ 
-      error: 'Failed to fetch latest mint data' 
+      error: 'Failed to fetch latest mint data',
+      details: error instanceof Error ? error.message : 'Unknown error',
+      csvPath: path.join(process.cwd(), 'sql_carculture_public_local/carculture_content_schedule_simplified.csv')
     }, { status: 500 });
   }
 } 
