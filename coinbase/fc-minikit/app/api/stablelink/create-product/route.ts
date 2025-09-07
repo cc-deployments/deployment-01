@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log('Creating product with CDP integration:', {
+    console.log('Creating CDP OnRamp product:', {
       name,
       description,
       price,
@@ -24,31 +24,70 @@ export async function POST(request: NextRequest) {
       mintUrl
     });
 
-    // For now, redirect directly to the mint URL since we have the actual Manifold URLs
-    // This provides immediate functionality while we build out the full CDP integration
+    // Create CDP OnRamp configuration
+    const appId = process.env.CDP_APP_ID || '1cceb0e4-e690-40ac-8f3d-7d1f3da1417a';
+    const productId = `cdp_${Date.now()}`;
+    
+    // Build CDP OnRamp URL
+    const onRampConfig = {
+      appId,
+      targetChainId: '8453', // Base mainnet
+      destinationWallets: [{
+        address: contractAddress || '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+        blockchains: ['base']
+      }],
+      defaultExperience: 'buy',
+      defaultNetwork: 'base',
+      amount: price.toString(),
+      currency: currency.toLowerCase(),
+      productName: name,
+      productId
+    };
+
+    // Generate OnRamp URL - try direct ETH purchase URL
+    const baseUrl = 'https://pay.coinbase.com/buy/input';
+    const params = new URLSearchParams({
+      appId: onRampConfig.appId,
+      destinationWallets: JSON.stringify(onRampConfig.destinationWallets),
+      defaultExperience: 'buy',
+      defaultNetwork: 'base',
+      // Force ETH as the asset
+      asset: 'ETH',
+      amount: onRampConfig.amount,
+      currency: onRampConfig.currency,
+      productName: onRampConfig.productName,
+      productId: onRampConfig.productId,
+      forceLogin: 'true',
+      paymentMethods: 'card,apple_pay,google_pay,ach',
+      theme: 'light'
+    });
+
+    const cdpOnRampUrl = `${baseUrl}?${params.toString()}`;
+
+    // If mintUrl is provided, we can offer both options
     if (mintUrl) {
       return NextResponse.json({
         success: true,
-        productId: `cdp_${Date.now()}`,
-        paymentUrl: mintUrl, // Direct to Manifold mint URL
-        message: 'Redirecting to mint page',
-        type: 'direct_mint'
+        productId,
+        paymentUrl: cdpOnRampUrl,
+        mintUrl, // Keep Manifold URL as backup
+        message: 'CDP OnRamp payment created with Manifold fallback',
+        type: 'cdp_onramp',
+        config: onRampConfig
       });
     }
 
-    // Fallback: Create a CDP checkout URL (this would need real CDP integration)
-    const cdpCheckoutUrl = `https://commerce.coinbase.com/checkout/${contractAddress || 'default'}?amount=${price}&currency=${currency}&name=${encodeURIComponent(name)}`;
-    
     return NextResponse.json({
       success: true,
-      productId: `cdp_${Date.now()}`,
-      paymentUrl: cdpCheckoutUrl,
-      message: 'CDP checkout created',
-      type: 'cdp_checkout'
+      productId,
+      paymentUrl: cdpOnRampUrl,
+      message: 'CDP OnRamp payment created',
+      type: 'cdp_onramp',
+      config: onRampConfig
     });
 
   } catch (error) {
-    console.error('CDP integration error:', error);
+    console.error('CDP OnRamp integration error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
