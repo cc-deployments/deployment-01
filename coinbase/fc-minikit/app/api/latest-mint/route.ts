@@ -18,7 +18,7 @@ interface MintData {
 export async function GET() {
   try {
     // Read and parse simplified CSV file
-    const csvPath = path.join(process.cwd(), '../../sql_carculture_public_local/carculture_content_schedule_simplified.csv');
+    const csvPath = path.join(process.cwd(), 'sql_carculture_public_local/carculture_content_schedule_simplified.csv');
     
     // Get today's date in YYYY-MM-DD format
     const today = new Date().toISOString().split('T')[0];
