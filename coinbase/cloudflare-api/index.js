@@ -216,12 +216,12 @@ async function handleLatestMint(request, env, corsHeaders) {
       // Get today's date in YYYY-MM-DD format
       const today = new Date().toISOString().split('T')[0];
       
-      // Return the current active car (Car Culture: CarMania Garage - Test 1)
-      // Updated to use specific mint page for proper user flow
+      // Return the current active car (Low Tide)
+      // Updated to use Manifold mint page for proper user flow
       const currentCar = {
-        title: 'Car Culture: CarMania Garage - Test 1',
-        publication_date: '2025-01-15',
-        mint_url: 'https://manifold.xyz/@carculture/id/4169111792'
+        title: 'Low Tide',
+        publication_date: '2025-09-06',
+        mint_url: 'https://manifold.xyz/@carculture/id/4149840112'
       };
       
       return new Response(JSON.stringify({
