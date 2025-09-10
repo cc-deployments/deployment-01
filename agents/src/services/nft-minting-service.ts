@@ -94,7 +94,7 @@ export class NFTMintingService {
       console.error('Error minting NFT after payment:', error);
       return {
         success: false,
-        error: error.message
+        error: error instanceof Error ? error.message : String(error)
       };
     }
   }
@@ -120,7 +120,7 @@ export class NFTMintingService {
       console.error('Error minting ERC-721:', error);
       return {
         success: false,
-        error: error.message
+        error: error instanceof Error ? error.message : String(error)
       };
     }
   }
@@ -146,7 +146,7 @@ export class NFTMintingService {
       console.error('Error minting ERC-1155:', error);
       return {
         success: false,
-        error: error.message
+        error: error instanceof Error ? error.message : String(error)
       };
     }
   }
@@ -176,8 +176,8 @@ export class NFTMintingService {
    */
   private async generateMetadata(payment: StableLinkPayment): Promise<MintingRequest['metadata']> {
     // Extract NFT details from payment metadata
-    const nftName = payment.metadata?.nftName || 'CarMania NFT';
-    const nftDescription = payment.metadata?.nftDescription || 'A unique NFT from the CarMania collection';
+    const nftName = (payment as any).metadata?.nftName || 'CarMania NFT';
+    const nftDescription = (payment as any).metadata?.nftDescription || 'A unique NFT from the CarMania collection';
 
     return {
       name: nftName,
@@ -273,7 +273,7 @@ export class NFTMintingService {
       console.error('Error getting minting status:', error);
       return {
         status: 'failed',
-        error: error.message
+        error: error instanceof Error ? error.message : String(error)
       };
     }
   }
@@ -305,7 +305,7 @@ export class NFTMintingService {
       console.error('Error retrying minting:', error);
       return {
         success: false,
-        error: error.message
+        error: error instanceof Error ? error.message : String(error)
       };
     }
   }

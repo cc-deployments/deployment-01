@@ -8,7 +8,10 @@
   "scripts": {
     "dev": "cd coinbase/fc-minikit && npm run dev",
     "start": "cd coinbase/fc-minikit && npm run start",
-    "generate-previews": "node generate_preview_images.js"
+    "generate-previews": "node generate_preview_images.js",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed"
   },
   "dependencies": {
     "@cculture/privy": "file:packages/privy",
@@ -23,6 +26,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.3",
+    "@coinbase/onchaintestkit": "^1.2.0",
+    "@playwright/test": "^1.55.0",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^14.2.0",
     "@types/node": "^20.11.8",

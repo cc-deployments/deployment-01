@@ -158,6 +158,23 @@ const mockNFTs = [
     platform: 'cdp' as const,
     platformName: 'Coinbase Developer Platform',
     mintUrl: 'https://bzf6clfbkqqztyf5wscbtktorbzpq5syuoq4sdtzlpwpudqkk3nq.arweave.net/DkvhLKFUIZngvbSEGapuiHL4dlijockOeVvs-g4KVts'
+  },
+  {
+    id: 'summertime',
+    name: 'Summertime Blues',
+    description: 'A legendary automotive NFT from the CarMania collection, featuring classic summer vibes and car culture nostalgia.',
+    image: 'https://ur4re6uytbzkxhvamuzhxaugfrpsfywiukkeabahnvddaumlcama.arweave.net/pHkSepiYcqueoGUye4KGLF8i4siilEAEB21GMFGLEBg',
+    thumbnail: 'https://ur4re6uytbzkxhvamuzhxaugfrpsfywiukkeabahnvddaumlcama.arweave.net/pHkSepiYcqueoGUye4KGLF8i4siilEAEB21GMFGLEBg',
+    price: '0.001',
+    currency: 'ETH',
+    year: '1970s',
+    brand: 'Chevrolet',
+    rarity: 'legendary' as const,
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    tokenId: '76',
+    platform: 'manifold' as const,
+    platformName: 'Manifold',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4144040176'
   }
 ];
 
@@ -240,7 +257,18 @@ export default function NFTGalleryGrid() {
     setIsLoading(true);
     
     try {
-      // Create StableLink product using your existing API
+      // Use shared auth system - Go directly to Manifold
+      console.log('Using shared auth - Opening Manifold URL directly:', nft.mintUrl);
+      // Use window.location.href to avoid popup blockers
+      window.location.href = nft.mintUrl;
+      
+      // Reset loading state after redirect
+      setTimeout(() => setIsLoading(false), 1000);
+      
+      return; // Exit early, no need for StableLink
+      
+      // OLD STABLELINK CODE (commented out for testing)
+      /*
       const response = await fetch('/api/stablelink/create-product', {
         method: 'POST',
         headers: {
@@ -270,8 +298,9 @@ export default function NFTGalleryGrid() {
         console.log('Fallback to direct mint URL:', nft.mintUrl);
         window.location.href = nft.mintUrl;
       }
+      */
     } catch (error) {
-      console.error('StableLink integration error:', error);
+      console.error('Purchase error:', error);
       // Fallback to direct mint URL
       window.location.href = nft.mintUrl;
     } finally {

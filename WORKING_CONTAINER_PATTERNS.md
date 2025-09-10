@@ -1,9 +1,11 @@
 # Working Container Patterns for Mini App
 
-## 🎯 **Current Working Status (Commit 0f3599d)**
+## 🎯 **Current Working Status (Latest)**
 - ✅ **Container sizes**: All pages now have consistent sizing
 - ✅ **Arrow navigation**: Works on all 4 pages
 - ✅ **Structure**: All pages use the same proven container pattern
+- ✅ **EIP5792 Integration**: Batch transactions implemented for enhanced UX
+- ✅ **Enhanced Payment Flows**: Credit card + Crypto with atomic execution
 
 ## 📱 **Working Container Structure (Copy This Pattern)**
 
@@ -393,5 +395,58 @@ if (result.success && result.data.mint_url) {
 3. **Check console** for API call logs
 4. **Verify redirect** to Manifold Edition page
 
+## 🚀 **EIP5792 Integration (NEW)**
+
+### **What It Does:**
+EIP5792 enables batch transactions, allowing multiple operations to be executed atomically in a single transaction. This significantly improves user experience and reduces gas costs.
+
+### **Key Features:**
+- **Atomic Execution**: All operations succeed together or fail together
+- **Gas Optimization**: Single transaction instead of multiple separate ones
+- **Enhanced UX**: Fewer confirmations, smoother flow
+- **BASE Integration**: Optimized for Base ecosystem
+
+### **Implementation:**
+```typescript
+// Batch transaction example
+const batchCalls = createNFTPurchaseBatchCalls(
+  nftContract,
+  tokenId,
+  price,
+  buyerAddress
+);
+
+const result = await window.ethereum.request({
+  method: 'wallet_sendCalls',
+  params: [{
+    version: '1.0',
+    chainId: '0x2105', // Base mainnet
+    calls: batchCalls,
+    capabilities: {
+      paymasterService: {
+        url: 'https://paymaster.base.org'
+      }
+    }
+  }]
+});
+```
+
+### **Components Created:**
+- **`EIP5792BatchTransaction.tsx`**: Core batch transaction component
+- **`EnhancedStableLinkCommerce.tsx`**: Enhanced payment flows with EIP5792
+- **`/eip5792-test`**: Test page for EIP5792 functionality
+
+### **Benefits for CarMania:**
+- ✅ **Faster NFT purchases**: Approve + purchase + mint in one transaction
+- ✅ **Lower gas costs**: Batch operations reduce fees
+- ✅ **Better reliability**: No partial failures
+- ✅ **Professional UX**: Aligns with BASE recommendations
+
+### **Testing:**
+1. **Visit `/eip5792-test`** page
+2. **Test batch transactions** with compatible wallet
+3. **Try enhanced payment flows** (credit card + crypto)
+4. **Monitor console** for transaction details
+
 ---
-*Last Updated: Added UNLOCK THE RIDE button documentation - Daily car rotation system*
+*Last Updated: Added EIP5792 integration documentation - Batch transactions and enhanced payment flows*

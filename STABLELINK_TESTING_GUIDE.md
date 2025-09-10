@@ -4,6 +4,19 @@
 
 This guide provides comprehensive testing procedures for the StableLink-powered AI commerce system. Test the complete flow from user request to NFT delivery.
 
+## ⚠️ Current Status (Updated: September 5, 2024)
+
+### 🚫 BLOCKED: BASE Smart Wallet Connection Issue
+- **Issue**: BASE smart wallet (L3ldrivr.base.eth) not connecting to any dApp
+- **Impact**: All payment flows blocked until wallet connection is resolved
+- **Status**: Reported to BASE Discord and debug tool
+- **Resolution**: Waiting for BASE team response (Monday morning)
+
+### 🔄 Workaround Testing
+- **Direct Manifold Integration**: Test NFT gallery and purchase flow
+- **Wallet Test Page**: Use `/wallet-test` to diagnose connection issues
+- **Alternative Wallets**: Consider Rainbow Wallet or MetaMask for testing
+
 ## 🔧 Prerequisites
 
 ### Environment Setup

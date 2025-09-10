@@ -4,40 +4,40 @@ import React, { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-// Mock NFT data for testing
+// Mock NFT data for testing - matches grid view
 const mockNFTs = [
   {
-    id: '1',
+    id: 'summertime',
     name: 'Summertime Blues',
-    description: 'A classic car from the golden era of American automotive design.',
-    image: 'https://arweave.net/abc123',
-    price: '1.00',
-    currency: 'USD',
+    description: 'A legendary automotive NFT from the CarMania collection, featuring classic summer vibes and car culture nostalgia.',
+    image: 'https://ur4re6uytbzkxhvamuzhxaugfrpsfywiukkeabahnvddaumlcama.arweave.net/pHkSepiYcqueoGUye4KGLF8i4siilEAEB21GMFGLEBg',
+    price: '0.001',
+    currency: 'ETH',
+    tokenId: '76',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4144040176'
+  },
+  {
+    id: 'test1',
+    name: 'Test Car 1',
+    description: 'A beautiful test vehicle showcasing automotive excellence.',
+    image: '/preview-images/car1.jpg',
+    price: '0.001',
+    currency: 'ETH',
     tokenId: '1',
     contractAddress: '0x1234567890123456789012345678901234567890',
-    mintUrl: 'https://mint.manifold.xyz/0x1234567890123456789012345678901234567890/1'
+    mintUrl: 'https://manifold.xyz/@carculture/id/4144040176'
   },
   {
-    id: '2',
-    name: 'Man Driving Car',
-    description: 'Vintage automotive photography capturing the spirit of the road.',
-    image: 'https://arweave.net/def456',
-    price: '1.00',
-    currency: 'USD',
+    id: 'test2',
+    name: 'Test Car 2',
+    description: 'Another stunning test vehicle from our collection.',
+    image: '/preview-images/car2.jpg',
+    price: '0.001',
+    currency: 'ETH',
     tokenId: '2',
     contractAddress: '0x1234567890123456789012345678901234567890',
-    mintUrl: 'https://mint.manifold.xyz/0x1234567890123456789012345678901234567890/2'
-  },
-  {
-    id: '3',
-    name: 'Classic Roadster',
-    description: 'A timeless beauty that represents the pinnacle of automotive elegance.',
-    image: 'https://arweave.net/ghi789',
-    price: '1.00',
-    currency: 'USD',
-    tokenId: '3',
-    contractAddress: '0x1234567890123456789012345678901234567890',
-    mintUrl: 'https://mint.manifold.xyz/0x1234567890123456789012345678901234567890/3'
+    mintUrl: 'https://manifold.xyz/@carculture/id/4144040176'
   }
 ];
 

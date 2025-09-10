@@ -51,6 +51,13 @@ export class IntentHandlerService {
       /(what can you do|how does this work)/i,
       /(tutorial|guide|instructions)/i,
     ]);
+
+    // Drive command patterns
+    this.intentPatterns.set('drive', [
+      /^\$drive/i,
+      /^(drive|explore|discover)/i,
+      /^(show me cars|car exploration|car discovery)/i,
+    ]);
   }
 
   private initializeQuickActionTemplates(): void {
@@ -66,6 +73,40 @@ export class IntentHandlerService {
         id: 'join_community_basic',
         label: 'Join Community',
         imageUrl: 'https://carmania.carculture.com/community-icon.png',
+        style: 'secondary',
+      },
+    ]);
+
+    // Drive-specific quick actions
+    this.quickActionTemplates.set('drive', [
+      {
+        id: 'explore_classic_cars',
+        label: 'Classic Cars',
+        imageUrl: 'https://carmania.carculture.com/classic-cars-icon.png',
+        style: 'primary',
+      },
+      {
+        id: 'explore_supercars',
+        label: 'Supercars',
+        imageUrl: 'https://carmania.carculture.com/supercars-icon.png',
+        style: 'primary',
+      },
+      {
+        id: 'explore_racing_cars',
+        label: 'Racing Cars',
+        imageUrl: 'https://carmania.carculture.com/racing-cars-icon.png',
+        style: 'primary',
+      },
+      {
+        id: 'car_quiz',
+        label: 'Car Quiz',
+        imageUrl: 'https://carmania.carculture.com/quiz-icon.png',
+        style: 'secondary',
+      },
+      {
+        id: 'random_car',
+        label: 'Random Car',
+        imageUrl: 'https://carmania.carculture.com/random-icon.png',
         style: 'secondary',
       },
     ]);

@@ -1,0 +1,107 @@
+[
+  {
+    "path": "summertime_blues_placeholder.jpg",
+    "size": 71730,
+    "type": "metadata"
+  },
+  {
+    "path": "test_ml.py",
+    "size": 1441,
+    "type": "metadata"
+  },
+  {
+    "path": "summertime_blues_data.json",
+    "size": 757,
+    "type": "metadata"
+  },
+  {
+    "path": "dataset_manifest.json",
+    "size": 1822,
+    "type": "metadata"
+  },
+  {
+    "path": "models/simple_car_chat_model/model.safetensors",
+    "size": 989717056,
+    "type": "model"
+  },
+  {
+    "path": "models/simple_car_chat_model/tokenizer_config.json",
+    "size": 1379,
+    "type": "model"
+  },
+  {
+    "path": "models/simple_car_chat_model/special_tokens_map.json",
+    "size": 695,
+    "type": "model"
+  },
+  {
+    "path": "models/simple_car_chat_model/config.json",
+    "size": 1367,
+    "type": "model"
+  },
+  {
+    "path": "models/simple_car_chat_model/tokenizer.json",
+    "size": 711396,
+    "type": "model"
+  },
+  {
+    "path": "models/simple_car_chat_model/generation_config.json",
+    "size": 136,
+    "type": "model"
+  },
+  {
+    "path": "models/simple_car_chat_model/merges.txt",
+    "size": 456318,
+    "type": "model"
+  },
+  {
+    "path": "models/simple_car_chat_model/vocab.json",
+    "size": 798156,
+    "type": "model"
+  },
+  {
+    "path": "models/car_recognition_model/model.safetensors",
+    "size": 989717056,
+    "type": "model"
+  },
+  {
+    "path": "models/car_recognition_model/tokenizer_config.json",
+    "size": 1379,
+    "type": "model"
+  },
+  {
+    "path": "models/car_recognition_model/special_tokens_map.json",
+    "size": 695,
+    "type": "model"
+  },
+  {
+    "path": "models/car_recognition_model/config.json",
+    "size": 1367,
+    "type": "model"
+  },
+  {
+    "path": "models/car_recognition_model/tokenizer.json",
+    "size": 711396,
+    "type": "model"
+  },
+  {
+    "path": "models/car_recognition_model/generation_config.json",
+    "size": 136,
+    "type": "model"
+  },
+  {
+    "path": "models/car_recognition_model/training_metadata.json",
+    "size": 217,
+    "type": "model"
+  },
+  {
+    "path": "models/car_recognition_model/vocab.txt",
+    "size": 231508,
+    "type": "model"
+  },
+  {
+    "path": "models/car_recognition_model/preprocessor_config.json",
+    "size": 431,
+    "type": "model"
+  }
+]

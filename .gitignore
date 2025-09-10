@@ -56,6 +56,17 @@ nft_car_system/nft_car_dataset_*/
 nft_car_system/*.arrow
 nft_car_system/*.safetensors
 
+# Ignore ML model files (large .safetensors files)
+**/*.safetensors
+nft_car_system/**/models/
+nft_car_system/**/proper_minimal_dataset/
+nft_car_system/**/minimal_test_dataset/
+nft_car_system/**/summertime_blues_only/
+
+# Ignore test results and reports
+test-results/
+playwright-report/
+
 # Ignore build artifacts
 **/.next/
 **/dist/

@@ -4,6 +4,7 @@ export declare class DRIVRAgent {
     private nftVerificationService;
     private intentHandlerService;
     private walletCallService;
+    private stableLinkService;
     private config;
     private isRunning;
     constructor(config: CarManiaAgentConfig);
@@ -33,6 +34,26 @@ export declare class DRIVRAgent {
         };
     }): Promise<void>;
     private handleMintAction;
+    /**
+     * Handle AI-powered NFT commerce with credit card payments
+     */
+    handleCommerceRequest(userAddress: string, userMessage: string): Promise<void>;
+    /**
+     * Parse user message to extract commerce intent
+     */
+    private parseCommerceIntent;
+    /**
+     * Send commerce response with payment options
+     */
+    private sendCommerceResponse;
+    /**
+     * Handle StableLink webhook notifications
+     */
+    handleStableLinkWebhook(webhookData: any): Promise<void>;
+    /**
+     * Check if message is commerce-related
+     */
+    private isCommerceMessage;
     private handleGalleryAction;
     private handleCommunityAction;
     private handleCustomAction;

@@ -102,7 +102,7 @@ export class StableLinkService {
       return this.mapStableLinkProduct(product);
     } catch (error) {
       console.error('Error creating StableLink product:', error);
-      throw new Error(`Failed to create NFT product: ${error.message}`);
+      throw new Error(`Failed to create NFT product: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
 
@@ -123,8 +123,8 @@ export class StableLinkService {
           source: 'drivr-agent',
           timestamp: new Date().toISOString()
         },
-        returnUrl: `${this.config.baseUrl}/payment/success`,
-        cancelUrl: `${this.config.baseUrl}/payment/cancel`
+        returnUrl: `${process.env.BASE_URL || 'http://localhost:3000'}/payment/success`,
+        cancelUrl: `${process.env.BASE_URL || 'http://localhost:3000'}/payment/cancel`
       };
 
       const response = await fetch(`${this.baseUrl}/api/v1/payments/create`, {
@@ -142,10 +142,10 @@ export class StableLinkService {
       }
 
       const payment = await response.json();
-      return payment.paymentUrl;
+      return (payment as any).paymentUrl;
     } catch (error) {
       console.error('Error generating payment link:', error);
-      throw new Error(`Failed to generate payment link: ${error.message}`);
+      throw new Error(`Failed to generate payment link: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
 
@@ -170,7 +170,7 @@ export class StableLinkService {
       return this.mapStableLinkPayment(payment);
     } catch (error) {
       console.error('Error getting payment status:', error);
-      throw new Error(`Failed to get payment status: ${error.message}`);
+      throw new Error(`Failed to get payment status: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
 
@@ -240,7 +240,7 @@ export class StableLinkService {
       return { product, paymentLink };
     } catch (error) {
       console.error('Error creating dynamic NFT product:', error);
-      throw new Error(`Failed to create dynamic NFT product: ${error.message}`);
+      throw new Error(`Failed to create dynamic NFT product: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
 
@@ -266,7 +266,7 @@ export class StableLinkService {
         
         // Send error notification to user
         if (payment.userAddress) {
-          await this.sendMintingErrorNotification(payment, mintingResult.error);
+          await this.sendMintingErrorNotification(payment, mintingResult.error || 'Unknown error');
         }
       }
     } catch (error) {
