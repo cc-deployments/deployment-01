@@ -1,28 +1,31 @@
 "use client";
 
-import { type ReactNode, useEffect } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { sdk } from '@farcaster/miniapp-sdk';
-import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
 import { base } from 'viem/chains';
+import { WagmiProvider } from 'wagmi';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { BaseAccountProvider } from './components/BaseAccountProvider';
+import { BaseAuthProvider } from '@cculture/shared-auth';
+import { config } from './wagmi-config';
 
 export function Providers(props: { children: ReactNode }) {
+  const [queryClient] = useState(() => new QueryClient());
+
   // Call ready when the app loads in Farcaster
   useEffect(() => {
     sdk.actions.ready();
   }, []);
 
   return (
-    <MiniKitProvider
-      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
-      chain={base}
-      address={undefined}
-      config={{
-        appearance: {
-          name: "CarMania Gallery",
-        },
-      }}
-    >
-      {props.children}
-    </MiniKitProvider>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <BaseAuthProvider>
+          <BaseAccountProvider>
+            {props.children}
+          </BaseAccountProvider>
+        </BaseAuthProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }

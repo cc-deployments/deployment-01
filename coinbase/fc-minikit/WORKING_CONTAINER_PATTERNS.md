@@ -334,43 +334,38 @@ return (
 ---
 *Last Updated: Commit 708e00a - Container sizes fixed, text-page needs EXACT gallery-hero structure*
 
-## 🔑 **MiniKit Initialization Pattern (CRITICAL - MUST HAVE)**
+## 🔑 **MiniKit Initialization Pattern (DEPRECATED - USE FARCASTER SDK)**
 
-**ALWAYS use this pattern for buttons to work:**
+**NOTE: OnchainKit MiniKit has been replaced with Farcaster MiniApp SDK**
 
 ```tsx
-import { useMiniKit } from '@coinbase/onchainkit/minikit';
+import { sdk } from '@farcaster/miniapp-sdk';
 
 export default function YourComponent() {
-  const { setFrameReady, isFrameReady, context } = useMiniKit();
-
   useEffect(() => {
-    if (!isFrameReady) {
-      setFrameReady();
-    }
-  }, [setFrameReady, isFrameReady]);
+    // Call ready when the app loads in Farcaster
+    sdk.actions.ready();
+  }, []);
 
-  // Your buttons should work after frame is ready
+  // Your buttons should work after SDK is ready
   return (
     <div>
-      {isFrameReady && (
-        <button onClick={handleClick}>
-          Your Button
-        </button>
-      )}
+      <button onClick={handleClick}>
+        Your Button
+      </button>
     </div>
   );
 }
 ```
 
 **Key Points:**
-1. **Conditional Rendering**: Wrap ALL button content in `{isFrameReady && (...)}`
-2. **useEffect Hook**: Initialize MiniKit only once when not ready
-3. **Button Dependencies**: Buttons only render when MiniKit is fully initialized
-4. **No Infinite Loops**: Check `!isFrameReady` before calling `setFrameReady()`
+1. **SDK Ready**: Call `sdk.actions.ready()` in useEffect
+2. **useEffect Hook**: Initialize Farcaster SDK only once
+3. **Button Dependencies**: Buttons work after SDK is ready
+4. **No Infinite Loops**: Simple useEffect with empty dependency array
 
 **Why This Matters:**
-- Buttons won't work without MiniKit being ready
+- Buttons work properly with Farcaster SDK
 - Prevents gesture conflicts between navigation and buttons
 - Ensures proper touch event handling on mobile
 - This is the BASE AI recommended pattern

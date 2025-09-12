@@ -66,12 +66,20 @@ export default function CDPDemo() {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            🚀 CDP OnRamp Integration Demo
-          </h1>
-          <p className="text-gray-600">
-            Real credit card payments powered by Coinbase Developer Platform
-          </p>
+          {/* CarMania Logo */}
+          <div className="mb-6">
+            <img 
+              src="/ccult-carmania-2000x600.png" 
+              alt="CarMania Logo" 
+              className="mx-auto max-w-sm md:max-w-md lg:max-w-lg h-auto"
+              style={{ maxHeight: '150px' }}
+            />
+          </div>
+          
+          <div className="mt-4 inline-flex items-center gap-2 bg-[#a32428] text-white px-4 py-2 rounded-full text-sm font-semibold">
+            <span>🚗</span>
+            <span>Drive the Past. Own the Moment</span>
+          </div>
         </div>
 
         {/* Product Selector */}

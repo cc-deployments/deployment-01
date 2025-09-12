@@ -6,13 +6,11 @@ import { useSafeArea } from '../hooks/useSafeArea';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 import { sdk } from '@farcaster/miniapp-sdk';
-import { useComposeCast } from '@coinbase/onchainkit/minikit';
 import ImprovedShareHandler from '../components/ImprovedShareHandler';
 
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea();
   const router = useRouter();
-  const { composeCast } = useComposeCast();
   
   // Dismiss splash screen IMMEDIATELY - Follow FC loading guide
   useEffect(() => {
@@ -254,17 +252,6 @@ export default function GalleryHero() {
                     url: window.location.href
                   });
                   console.log('✅ Shared via Web Share API');
-                  return;
-                }
-                
-                // Fallback to OnchainKit's composeCast for desktop
-                if (composeCast && !isInMiniApp) {
-                  console.log('📱 Using OnchainKit composeCast (desktop)...');
-                  await composeCast({
-                    text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
-                    embeds: [window.location.href]
-                  });
-                  console.log('✅ Shared via OnchainKit composeCast');
                   return;
                 }
                 
