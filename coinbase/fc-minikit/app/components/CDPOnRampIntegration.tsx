@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { getOnrampBuyUrl } from '@coinbase/onchainkit/fund';
+import { useBaseAccount } from './BaseAccountProvider';
 
 interface CDPOnRampProps {
   productId: string;
@@ -41,44 +43,45 @@ export function CDPOnRampIntegration({
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
   const [onRampUrl, setOnRampUrl] = useState<string>('');
   const onRampRef = useRef<HTMLDivElement>(null);
+  
+  // Use existing Base Account hook
+  const { address: userAddress, isConnected, connect } = useBaseAccount();
 
-  // Initialize CDP OnRamp when component mounts
-  useEffect(() => {
-    initializeOnRamp();
-  }, [productId, price, currency]);
 
-  const initializeOnRamp = async () => {
+  // Generate OnRamp URL using getOnrampBuyUrl with Base Account integration
+  const generateOnRampUrl = () => {
     try {
-      // Generate session token for secure OnRamp initialization
-      const response = await fetch('/api/stablelink/create-product', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: productName,
-          description: description || '',
-          price: price,
-          currency: currency,
-          image: imageUrl || '',
-          contractAddress: contractAddress,
-          tokenId: tokenId || '',
-          mintUrl: mintUrl || ''
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create OnRamp session');
+      if (!userAddress) {
+        console.warn('No user address available for OnRamp');
+        return;
       }
 
-      const data = await response.json();
-      setOnRampUrl(data.paymentUrl);
-
+      const onrampUrl = getOnrampBuyUrl({
+        projectId: '1cceb0e4-e690-40ac-8f3d-7d1f3da1417a',
+        addresses: { [userAddress]: ['base'] }, // Use user's smart wallet address
+        assets: ['ETH'], // Restrict to only ETH
+        defaultAsset: 'ETH', // Pre-select ETH
+        defaultNetwork: 'base', // Pre-select Base network
+        presetFiatAmount: price, // Set the USD amount
+        fiatCurrency: 'USD',
+        partnerUserId: `nft-buyer-${userAddress}`,
+        redirectUrl: `${window.location.origin}/nft-purchase-complete`
+      });
+      
+      setOnRampUrl(onrampUrl);
+      console.log('Generated OnRamp URL (Base Account + OnchainKit):', onrampUrl);
     } catch (error) {
-      console.error('Failed to initialize OnRamp:', error);
+      console.error('Failed to generate OnRamp URL:', error);
       onPaymentError?.(error.message);
     }
   };
+
+  // Generate OnRamp URL when user address is available
+  useEffect(() => {
+    if (userAddress) {
+      generateOnRampUrl();
+    }
+  }, [userAddress, productId, price, currency]);
 
   const handlePayment = async () => {
     try {
@@ -235,14 +238,6 @@ export function CDPOnRampIntegration({
             <span className="font-medium">Debit Card, Apple Pay, ACH Transfer</span>
           </div>
           <div className="flex items-center gap-3 text-sm text-gray-700 bg-white rounded-lg p-3 border border-gray-200">
-            <span className="text-lg">📱</span>
-            <span className="font-medium">Automatic Smart Wallet Creation</span>
-          </div>
-          <div className="flex items-center gap-3 text-sm text-gray-700 bg-white rounded-lg p-3 border border-gray-200">
-            <span className="text-lg">🛡️</span>
-            <span className="font-medium">Secure CDP Processing</span>
-          </div>
-          <div className="flex items-center gap-3 text-sm text-gray-700 bg-white rounded-lg p-3 border border-gray-200">
             <span className="text-lg">⚡</span>
             <span className="font-medium">Instant NFT Delivery</span>
           </div>
@@ -250,12 +245,17 @@ export function CDPOnRampIntegration({
 
         {/* Payment Button */}
         <button
-          onClick={handlePayment}
-          disabled={isLoading || !onRampUrl}
+          onClick={!isConnected ? connect : handlePayment}
+          disabled={isLoading}
           className="w-full bg-gradient-to-r from-[#a32428] to-[#8b1e22] hover:from-[#8b1e22] hover:to-[#6b1519] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl transition-all duration-200 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
           style={{ fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}
         >
-          {isLoading ? (
+          {!isConnected ? (
+            <>
+              <span className="mr-3 text-xl">🔗</span>
+              Connect Base Account to Buy
+            </>
+          ) : isLoading ? (
             <>
               <div className="w-5 h-5 mr-3 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
               Processing Payment...

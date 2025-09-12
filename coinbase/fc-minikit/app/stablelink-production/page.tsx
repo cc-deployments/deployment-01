@@ -50,6 +50,11 @@ export default function StableLinkProductionPage() {
   const [paymentResult, setPaymentResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const handleProductSelect = (key: keyof typeof products) => {
+    console.log('Product selected:', key, products[key]);
+    setSelectedProduct(key);
+  };
+
   const handlePaymentSuccess = (result: any) => {
     console.log('Payment successful:', result);
     setPaymentResult(result);
@@ -94,7 +99,7 @@ export default function StableLinkProductionPage() {
             {Object.entries(products).map(([key, product]) => (
               <button
                 key={key}
-                onClick={() => setSelectedProduct(key as keyof typeof products)}
+                onClick={() => handleProductSelect(key as keyof typeof products)}
                 className={`p-6 rounded-xl border-2 transition-all transform hover:scale-[1.02] ${
                   selectedProduct === key
                     ? 'border-[#a32428] bg-gradient-to-br from-[#a32428]/10 to-[#8b1e22]/10 shadow-lg'
@@ -117,6 +122,16 @@ export default function StableLinkProductionPage() {
               </button>
             ))}
           </div>
+        </div>
+
+        {/* Debug Info */}
+        <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <h3 className="text-sm font-bold text-blue-800 mb-2">Debug: Selected Product</h3>
+          <p className="text-xs text-blue-700">
+            Key: <strong>{selectedProduct}</strong> | 
+            Name: <strong>{products[selectedProduct].productName}</strong> | 
+            Price: <strong>${products[selectedProduct].price}</strong>
+          </p>
         </div>
 
         {/* Payment Component */}

@@ -31,8 +31,7 @@ export function BaseAccountProvider({ children }: { children: ReactNode }) {
     // Initialize Base Account SDK
     const baseAccount = createBaseAccountSDK({
       appName: 'CarMania Gallery',
-      appLogo: 'https://carmania.carculture.com/carmania-share.png',
-      chain: base,
+      appLogoUrl: 'https://carmania.carculture.com/carmania-share.png',
     });
 
     setSdk(baseAccount);
@@ -41,12 +40,11 @@ export function BaseAccountProvider({ children }: { children: ReactNode }) {
     const checkConnection = async () => {
       try {
         const provider = baseAccount.getProvider();
-        if (provider) {
-          const accounts = await provider.request({ method: 'eth_accounts' });
-          if (accounts && accounts.length > 0) {
-            setAddress(accounts[0]);
-            setIsConnected(true);
-          }
+        const accounts = await provider.request({ method: 'eth_accounts' });
+        if (accounts && accounts.length > 0) {
+          setAddress(accounts[0]);
+          setIsConnected(true);
+          console.log('Base Account connected:', accounts[0]);
         }
       } catch (error) {
         console.log('No existing connection:', error);
@@ -60,13 +58,13 @@ export function BaseAccountProvider({ children }: { children: ReactNode }) {
     if (!sdk) return;
 
     try {
+      // Use the correct Base Account SDK method
       const provider = sdk.getProvider();
-      if (provider) {
-        const accounts = await provider.request({ method: 'eth_requestAccounts' });
-        if (accounts && accounts.length > 0) {
-          setAddress(accounts[0]);
-          setIsConnected(true);
-        }
+      const accounts = await provider.request({ method: 'eth_requestAccounts' });
+      if (accounts && accounts.length > 0) {
+        setAddress(accounts[0]);
+        setIsConnected(true);
+        console.log('Base Account connected:', accounts[0]);
       }
     } catch (error) {
       console.error('Connection failed:', error);
@@ -93,3 +91,4 @@ export function BaseAccountProvider({ children }: { children: ReactNode }) {
     </BaseAccountContext.Provider>
   );
 }
+
