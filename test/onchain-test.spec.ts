@@ -29,3 +29,6 @@ test('OnchainTestKit test - should load MiniApp', async ({ page }) => {
   
   console.log('✅ MiniApp loaded successfully!');
 });
+
+
+

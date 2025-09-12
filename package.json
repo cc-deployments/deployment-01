@@ -8,10 +8,7 @@
   "scripts": {
     "dev": "cd coinbase/fc-minikit && npm run dev",
     "start": "cd coinbase/fc-minikit && npm run start",
-    "generate-previews": "node generate_preview_images.js",
-    "test": "playwright test",
-    "test:ui": "playwright test --ui",
-    "test:headed": "playwright test --headed"
+    "generate-previews": "node generate_preview_images.js"
   },
   "dependencies": {
     "@cculture/privy": "file:packages/privy",
