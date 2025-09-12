@@ -19,12 +19,9 @@ async function mintNFTToBuyer(
       tokenId
     });
 
-    // Get the provider from Base Account SDK
-    const provider = sdk.getProvider();
-    
-    // Use the real NFT minting function
+    // Pass the SDK directly instead of the provider
     const result = await mintNFTToWallet(
-      provider,
+      sdk,
       nftContractAddress,
       buyerAddress,
       tokenId
