@@ -40,8 +40,8 @@ export function BaseAccountProvider({ children }: { children: ReactNode }) {
     const checkConnection = async () => {
       try {
         const provider = baseAccount.getProvider();
-        const accounts = await provider.request({ method: 'eth_accounts' });
-        if (accounts && accounts.length > 0) {
+        const accounts = await provider.request({ method: 'eth_accounts' }) as string[];
+        if (accounts && Array.isArray(accounts) && accounts.length > 0) {
           setAddress(accounts[0]);
           setIsConnected(true);
           console.log('Base Account connected:', accounts[0]);
@@ -60,8 +60,8 @@ export function BaseAccountProvider({ children }: { children: ReactNode }) {
     try {
       // Use the correct Base Account SDK method
       const provider = sdk.getProvider();
-      const accounts = await provider.request({ method: 'eth_requestAccounts' });
-      if (accounts && accounts.length > 0) {
+      const accounts = await provider.request({ method: 'eth_requestAccounts' }) as string[];
+      if (accounts && Array.isArray(accounts) && accounts.length > 0) {
         setAddress(accounts[0]);
         setIsConnected(true);
         console.log('Base Account connected:', accounts[0]);

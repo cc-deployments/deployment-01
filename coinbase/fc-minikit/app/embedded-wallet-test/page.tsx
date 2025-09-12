@@ -43,7 +43,7 @@ export default function EmbeddedWalletTest() {
 
   const handleConnectWallet = async () => {
     try {
-      await connect();
+      await connectBaseAccount();
     } catch (err) {
       console.error('Error connecting wallet:', err);
       setError(err instanceof Error ? err.message : 'Failed to connect wallet');

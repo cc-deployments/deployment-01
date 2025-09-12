@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { BasePayIntegration } from './BasePayIntegration';
 import { CDPOnRampIntegration } from './CDPOnRampIntegration';
 import { MoonPayIntegration } from './MoonPayIntegration';
 
@@ -75,9 +76,9 @@ export function UnifiedPayment({
 
       {/* Direct Checkout - No Payment Method Selection Needed */}
 
-      {/* Direct Checkout - CDP OnRamp handles all payment methods */}
+      {/* Base Pay Integration - Corrected USD payment solution */}
       <div className="payment-component">
-        <CDPOnRampIntegration
+        <BasePayIntegration
           productId={product.productId}
           productName={product.productName}
           price={product.price}
@@ -86,6 +87,9 @@ export function UnifiedPayment({
           tokenId={product.tokenId}
           imageUrl={product.imageUrl}
           description={product.description}
+          make={product.make}
+          model={product.model}
+          year={product.year}
           onPaymentSuccess={handleSuccess}
           onPaymentError={handleError}
         />

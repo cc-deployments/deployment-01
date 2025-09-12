@@ -18,25 +18,25 @@ export default function StableLinkProductionPage() {
       model: 'Suburban',
       year: '1970'
     },
-    lowTide: {
-      productId: 'low-tide-4149840112',
-      productName: 'Low Tide',
-      price: 3.00,
-      currency: 'USD',
-      contractAddress: '0x7d9bfEC6bDA952128D0321DeDa02199527A7b989', // Your BASE SAFE wallet
-      tokenId: '4149840112',
-      imageUrl: '/preview-images/low_tide_preview.png',
-      description: 'Classic Woodie Wagon',
-      make: 'Ford',
-      model: 'Woodie',
-      year: '1946'
-    },
+  lowTide: {
+    productId: 'low-tide-4149840112',
+    productName: 'Low Tide',
+    price: 1.00,
+    currency: 'USD',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0', // NFT Contract
+    tokenId: '4149840112',
+    imageUrl: '/preview-images/low_tide_preview.png',
+    description: 'Classic Woodie Wagon',
+    make: 'Ford',
+    model: 'Woodie',
+    year: '1946'
+  },
     flatSea: {
       productId: 'flat-sea-4150000001',
       productName: 'Flat Sea',
-      price: 3.00,
+      price: 1.00,
       currency: 'USD',
-      contractAddress: '0x7d9bfEC6bDA952128D0321DeDa02199527A7b989', // Your BASE SAFE wallet
+      contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0', // NFT Contract
       tokenId: '4150000001',
       imageUrl: '/preview-images/flat_sea_preview.png',
       description: 'Ocean Breeze Woodie',
