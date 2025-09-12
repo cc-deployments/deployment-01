@@ -1,4 +1,4 @@
-// Real NFT minting utility for Base network using Base Account SDK
+// NFT minting utility for Manifold editions
 export async function mintNFTToWallet(
   sdk: any, // Base Account SDK instance
   nftContractAddress: string,
@@ -6,52 +6,58 @@ export async function mintNFTToWallet(
   tokenId: string
 ) {
   try {
-    console.log('Starting real NFT minting process...', {
+    console.log('Starting Manifold edition minting process...', {
       nftContractAddress,
       buyerAddress,
       tokenId
     });
 
-    // Use Base Account SDK's built-in methods instead of ethers.js
-    try {
-      console.log(`Attempting to mint token ${tokenId} to ${buyerAddress}`);
-      
-      // For now, we'll simulate the minting since we need the exact contract ABI
-      // In a real implementation, you would use Base Account SDK's contract interaction methods
-      // const tx = await sdk.sendTransaction({
-      //   to: nftContractAddress,
-      //   data: mintCalldata, // Encoded mint function call
-      //   value: '0x0'
-      // });
-      
-      console.log(`Simulating mint transaction for token ${tokenId}`);
-      
-      // Simulate transaction delay
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      
-      // Generate a mock transaction hash
-      const mockTxHash = `0x${Math.random().toString(16).substr(2, 64)}`;
-      
-      console.log(`NFT minting completed: ${mockTxHash}`);
-      
-      return {
-        success: true,
-        transactionHash: mockTxHash,
-        tokenId,
-        buyerAddress,
-        contractAddress: nftContractAddress,
-        message: 'NFT minted successfully (simulated)'
-      };
-      
-    } catch (mintError) {
-      console.error('Minting failed:', mintError);
-      throw new Error(`Failed to mint NFT: ${mintError.message}`);
+    // Get the Manifold mint URL for this token
+    const mintUrl = getManifoldMintUrl(tokenId);
+    
+    if (!mintUrl) {
+      throw new Error(`No Manifold mint URL found for token ${tokenId}`);
     }
+
+    console.log(`Redirecting to Manifold mint page: ${mintUrl}`);
+    
+    // Open Manifold mint page in new window/tab
+    const mintWindow = window.open(
+      mintUrl,
+      'manifold-mint',
+      'width=800,height=700,scrollbars=yes,resizable=yes'
+    );
+
+    if (!mintWindow) {
+      throw new Error('Failed to open Manifold mint window. Please allow popups for this site.');
+    }
+
+    // Return success with the mint URL
+    return {
+      success: true,
+      transactionHash: 'manifold-redirect',
+      tokenId,
+      buyerAddress,
+      contractAddress: nftContractAddress,
+      message: 'Redirected to Manifold mint page',
+      mintUrl: mintUrl
+    };
     
   } catch (error) {
-    console.error('NFT minting process failed:', error);
+    console.error('Manifold minting process failed:', error);
     throw error;
   }
+}
+
+// Get Manifold mint URL for specific token IDs
+function getManifoldMintUrl(tokenId: string): string | null {
+  const mintUrls: { [key: string]: string } = {
+    '4149840112': 'https://manifold.xyz/@carculture/id/4149840112', // Low Tide
+    '4149807344': 'https://manifold.xyz/@carculture/id/4149807344', // Flat Sea
+    '4144040176': 'https://manifold.xyz/@carculture/id/4144040176', // Summertime Blues
+  };
+
+  return mintUrls[tokenId] || null;
 }
 
 // Alternative: Transfer existing NFT
@@ -70,36 +76,25 @@ export async function transferNFTToWallet(
       tokenId
     });
 
-    const contract = new ethers.Contract(nftContractAddress, ERC721_ABI, provider);
+    // For Manifold editions, we redirect to the mint page instead
+    const mintUrl = getManifoldMintUrl(tokenId);
     
-    // Check if token exists and get owner
-    const owner = await contract.ownerOf(tokenId);
-    console.log(`Token ${tokenId} is owned by ${owner}`);
-    
-    if (owner.toLowerCase() !== fromAddress.toLowerCase()) {
-      throw new Error(`Token ${tokenId} is not owned by ${fromAddress}`);
+    if (mintUrl) {
+      window.open(mintUrl, '_blank');
+      return {
+        success: true,
+        transactionHash: 'manifold-redirect',
+        tokenId,
+        buyerAddress,
+        contractAddress: nftContractAddress,
+        message: 'Redirected to Manifold mint page for transfer'
+      };
     }
-    
-    // Transfer the token
-    const tx = await contract.safeTransferFrom(fromAddress, buyerAddress, tokenId);
-    console.log(`Transfer transaction submitted: ${tx.hash}`);
-    
-    // Wait for confirmation
-    const receipt = await tx.wait();
-    console.log(`Transfer confirmed in block ${receipt.blockNumber}`);
-    
-    return {
-      success: true,
-      transactionHash: tx.hash,
-      tokenId,
-      buyerAddress,
-      contractAddress: nftContractAddress,
-      message: 'NFT transferred successfully'
-    };
+
+    throw new Error(`No Manifold mint URL found for token ${tokenId}`);
     
   } catch (error) {
     console.error('NFT transfer failed:', error);
     throw error;
   }
 }
-

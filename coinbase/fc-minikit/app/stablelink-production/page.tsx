@@ -32,12 +32,12 @@ export default function StableLinkProductionPage() {
     year: '1946'
   },
     flatSea: {
-      productId: 'flat-sea-4150000001',
+      productId: 'flat-sea-4149807344',
       productName: 'Flat Sea',
       price: 1.00,
       currency: 'USD',
       contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0', // NFT Contract
-      tokenId: '4150000001',
+      tokenId: '4149807344',
       imageUrl: '/preview-images/flat_sea_preview.png',
       description: 'Ocean Breeze Woodie',
       make: 'Chevrolet',
