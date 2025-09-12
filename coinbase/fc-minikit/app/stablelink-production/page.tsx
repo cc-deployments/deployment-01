@@ -51,10 +51,10 @@ export default function StableLinkProductionPage() {
     currency: 'USD',
     contractAddress: '0x7d9bfEC6bDA952128D0321DeDa02199527A7b989', // Merchant Wallet
     tokenId: '4169097456',
-    imageUrl: '/preview-images/test_9_preview.png',
-    description: 'Test NFT for StableLink',
-    make: 'Test',
-    model: 'NFT',
+    imageUrl: '/preview-images/test_9_preview.png', // Placeholder - will be updated with actual image
+    description: 'Pink Car Art - Test NFT for StableLink',
+    make: 'Art',
+    model: 'Test',
     year: '2025'
   }
   };
