@@ -55,6 +55,7 @@ function getManifoldMintUrl(tokenId: string): string | null {
     '4149840112': 'https://manifold.xyz/@carculture/id/4149840112', // Low Tide
     '4149807344': 'https://manifold.xyz/@carculture/id/4149807344', // Flat Sea
     '4144040176': 'https://manifold.xyz/@carculture/id/4144040176', // Summertime Blues
+    '4169097456': 'https://manifold.xyz/@carculture/id/4169097456', // Test 9
   };
 
   return mintUrls[tokenId] || null;

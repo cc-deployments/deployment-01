@@ -23,7 +23,7 @@ export default function StableLinkProductionPage() {
     productName: 'Low Tide',
     price: 1.00,
     currency: 'USD',
-    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0', // NFT Contract
+    contractAddress: '0x7d9bfEC6bDA952128D0321DeDa02199527A7b989', // Merchant Wallet
     tokenId: '4149840112',
     imageUrl: '/preview-images/low_tide_preview.png',
     description: 'Classic Woodie Wagon',
@@ -31,19 +31,32 @@ export default function StableLinkProductionPage() {
     model: 'Woodie',
     year: '1946'
   },
-    flatSea: {
-      productId: 'flat-sea-4149807344',
-      productName: 'Flat Sea',
-      price: 1.00,
-      currency: 'USD',
-      contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0', // NFT Contract
-      tokenId: '4149807344',
-      imageUrl: '/preview-images/flat_sea_preview.png',
-      description: 'Ocean Breeze Woodie',
-      make: 'Chevrolet',
-      model: 'Woodie',
-      year: '1948'
-    }
+  flatSea: {
+    productId: 'flat-sea-4149807344',
+    productName: 'Flat Sea',
+    price: 1.00,
+    currency: 'USD',
+    contractAddress: '0x7d9bfEC6bDA952128D0321DeDa02199527A7b989', // Merchant Wallet
+    tokenId: '4149807344',
+    imageUrl: '/preview-images/flat_sea_preview.png',
+    description: 'Ocean Breeze Woodie',
+    make: 'Chevrolet',
+    model: 'Woodie',
+    year: '1948'
+  },
+  test9: {
+    productId: 'test-9-4169097456',
+    productName: 'Car Culture: CarMania Garage - Test 9',
+    price: 1.00,
+    currency: 'USD',
+    contractAddress: '0x7d9bfEC6bDA952128D0321DeDa02199527A7b989', // Merchant Wallet
+    tokenId: '4169097456',
+    imageUrl: '/preview-images/test_9_preview.png',
+    description: 'Test NFT for StableLink',
+    make: 'Test',
+    model: 'NFT',
+    year: '2025'
+  }
   };
 
   const [selectedProduct, setSelectedProduct] = useState<keyof typeof products>('summertime');

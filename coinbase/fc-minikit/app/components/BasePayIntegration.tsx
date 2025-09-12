@@ -234,7 +234,9 @@ export function BasePayIntegration({
           
           {paymentStatus === 'success' && (
             <div className="mt-4 text-center text-sm text-green-600">
-              Payment completed successfully! NFT delivered to your wallet.
+              Payment completed successfully! Complete your NFT mint on Manifold.
+              <br />
+              <span className="text-xs text-gray-500">A new window should open with the Manifold mint page.</span>
             </div>
           )}
 
