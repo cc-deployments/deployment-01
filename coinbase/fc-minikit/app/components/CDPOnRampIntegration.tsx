@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { getOnrampBuyUrl } from '@coinbase/onchainkit/fund';
+// import { getOnrampBuyUrl } from '@coinbase/onchainkit/fund'; // Removed - using manual URL construction instead
 import { useBaseAccount } from './BaseAccountProvider';
 
 interface CDPOnRampProps {

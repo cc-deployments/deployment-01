@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { FundCard } from '@coinbase/onchainkit/fund';
+// import { FundCard } from '@coinbase/onchainkit/fund'; // Removed - using Base Account SDK instead
 import { useBaseAccount } from './BaseAccountProvider';
 
 interface FundCardIntegrationProps {
