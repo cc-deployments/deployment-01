@@ -125,7 +125,7 @@ export function BasePayIntegration({
       }
       
       setPaymentStatus('success');
-      // Use payment.id as the transaction hash or provide a fallback
+      // payment.id is the transaction hash according to PaymentSuccess interface
       onPaymentSuccess?.(payment.id, payment.id);
       
     } catch (error) {
