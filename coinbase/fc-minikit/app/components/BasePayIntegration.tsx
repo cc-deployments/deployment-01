@@ -125,7 +125,8 @@ export function BasePayIntegration({
       }
       
       setPaymentStatus('success');
-      onPaymentSuccess?.(payment.id, payment.transactionHash);
+      // Use payment.id as the transaction hash or provide a fallback
+      onPaymentSuccess?.(payment.id, payment.id);
       
     } catch (error) {
       console.error('Base Pay payment failed:', error);
