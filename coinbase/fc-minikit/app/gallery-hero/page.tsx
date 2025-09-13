@@ -12,7 +12,7 @@ import ImprovedShareHandler from '../components/ImprovedShareHandler';
 export default function GalleryHero() {
   const { safeArea, isLoading } = useSafeArea();
   const router = useRouter();
-  const { composeCast } = useComposeCast();
+  // useComposeCast removed - using native share instead
   
   // Dismiss splash screen IMMEDIATELY - Follow FC loading guide
   useEffect(() => {
@@ -257,14 +257,11 @@ export default function GalleryHero() {
                   return;
                 }
                 
-                // Fallback to OnchainKit's composeCast for desktop
-                if (composeCast && !isInMiniApp) {
-                  console.log('📱 Using OnchainKit composeCast (desktop)...');
-                  await composeCast({
-                    text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
-                    embeds: [window.location.href]
-                  });
-                  console.log('✅ Shared via OnchainKit composeCast');
+                // Fallback to clipboard for desktop
+                if (!isInMiniApp) {
+                  console.log('📱 Using clipboard fallback (desktop)...');
+                  await navigator.clipboard.writeText('Check out CarMania Gallery - an amazing car collection mini app! 🚗✨ ' + window.location.href);
+                  console.log('✅ Copied to clipboard');
                   return;
                 }
                 
