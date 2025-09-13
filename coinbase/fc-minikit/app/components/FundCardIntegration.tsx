@@ -140,14 +140,10 @@ export function FundCardIntegration({
             </p>
           </div>
 
-          <FundCard
-            assetSymbol="ETH"
-            country="US"
-            currency="USD"
-            subdivision="CA" // Required for US residents
-            onSuccess={handlePaymentSuccess}
-            onError={handlePaymentError}
-          />
+          {/* FundCard component removed - using Base Pay instead */}
+          <div className="p-4 bg-gray-100 rounded-lg text-center">
+            <p className="text-gray-600">FundCard integration disabled - using Base Pay instead</p>
+          </div>
         </div>
 
         {/* Payment Features */}
