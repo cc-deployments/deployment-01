@@ -241,11 +241,7 @@ export default function GalleryHero() {
               console.log('📤 Share button clicked');
               
               try {
-                // Check if we're in Farcaster Mini App context
-                const isInMiniApp = sdk.isInMiniApp();
-                console.log('📱 Mini App context:', isInMiniApp);
-                
-                // For mobile Farcaster, try Web Share API first (more reliable)
+                // Use Web Share API for better cross-platform compatibility
                 if (navigator.share) {
                   console.log('📱 Using Web Share API (mobile-friendly)...');
                   await navigator.share({
@@ -258,12 +254,9 @@ export default function GalleryHero() {
                 }
                 
                 // Fallback to clipboard for desktop
-                if (!isInMiniApp) {
-                  console.log('📱 Using clipboard fallback (desktop)...');
-                  await navigator.clipboard.writeText('Check out CarMania Gallery - an amazing car collection mini app! 🚗✨ ' + window.location.href);
-                  console.log('✅ Copied to clipboard');
-                  return;
-                }
+                console.log('📱 Using clipboard fallback (desktop)...');
+                await navigator.clipboard.writeText('Check out CarMania Gallery - an amazing car collection mini app! 🚗✨ ' + window.location.href);
+                console.log('✅ Copied to clipboard');
                 
                 // Final fallback to clipboard
                 console.log('📋 Using clipboard fallback...');

@@ -15,7 +15,7 @@ export default function TestDirectSDK() {
         setSdkStatus('✅ SDK Import Successful!');
         setSdkInfo({
           version: '0.1.9',
-          isInMiniApp: sdk.isInMiniApp(), // Use the correct SDK method
+          isInMiniApp: 'N/A (removed for CBW compatibility)', // Removed for Coinbase Wallet compatibility
           capabilities: await sdk.getCapabilities(),
           context: sdk.context
         });
