@@ -56,20 +56,11 @@ export function CDPOnRampIntegration({
         return;
       }
 
-      const onrampUrl = getOnrampBuyUrl({
-        projectId: '1cceb0e4-e690-40ac-8f3d-7d1f3da1417a',
-        addresses: { [userAddress]: ['base'] }, // Use user's smart wallet address
-        assets: ['ETH'], // Restrict to only ETH
-        defaultAsset: 'ETH', // Pre-select ETH
-        defaultNetwork: 'base', // Pre-select Base network
-        presetFiatAmount: price, // Set the USD amount
-        fiatCurrency: 'USD',
-        partnerUserId: `nft-buyer-${userAddress}`,
-        redirectUrl: `${window.location.origin}/nft-purchase-complete`
-      });
+      // Manual URL construction since we removed OnchainKit
+      const onrampUrl = `https://pay.coinbase.com/buy/select-asset?appId=1cceb0e4-e690-40ac-8f3d-7d1f3da1417a&defaultAsset=ETH&defaultNetwork=base&presetFiatAmount=${price}&fiatCurrency=USD&partnerUserId=nft-buyer-${userAddress}&destinationWallets=[{"address":"${userAddress}","blockchain":"base"}]&redirectUrl=${encodeURIComponent(`${window.location.origin}/nft-purchase-complete`)}`;
       
       setOnRampUrl(onrampUrl);
-      console.log('Generated OnRamp URL (Base Account + OnchainKit):', onrampUrl);
+      console.log('Generated OnRamp URL (manual construction):', onrampUrl);
     } catch (error) {
       console.error('Failed to generate OnRamp URL:', error);
       onPaymentError?.(error.message);
