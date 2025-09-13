@@ -18,54 +18,54 @@ export default function StableLinkProductionPage() {
       model: 'Suburban',
       year: '1970'
     },
-  lowTide: {
-    productId: 'low-tide-4149840112',
-    productName: 'Low Tide',
-    price: 1.00,
-    currency: 'USD',
-    contractAddress: '0x7d9bfEC6bDA952128D0321DeDa02199527A7b989', // Merchant Wallet
-    tokenId: '4149840112',
-    imageUrl: '/preview-images/low_tide_preview.png',
-    description: 'Classic Woodie Wagon',
-    make: 'Ford',
-    model: 'Woodie',
-    year: '1946'
-  },
-  flatSea: {
-    productId: 'flat-sea-4149807344',
-    productName: 'Flat Sea',
-    price: 1.00,
-    currency: 'USD',
-    contractAddress: '0x7d9bfEC6bDA952128D0321DeDa02199527A7b989', // Merchant Wallet
-    tokenId: '4149807344',
-    imageUrl: '/preview-images/flat_sea_preview.png',
-    description: 'Ocean Breeze Woodie',
-    make: 'Chevrolet',
-    model: 'Woodie',
-    year: '1948'
-  },
-  test9: {
-    productId: 'test-9-4169097456',
-    productName: 'Car Culture: CarMania Garage - Test 9',
-    price: 1.00,
-    currency: 'USD',
-    contractAddress: '0x7d9bfEC6bDA952128D0321DeDa02199527A7b989', // Merchant Wallet
-    tokenId: '4169097456',
-    imageUrl: '/preview-images/test_9_preview.png', // Placeholder - will be updated with actual image
-    description: 'Pink Car Art - Test NFT for StableLink',
-    make: 'Art',
-    model: 'Test',
-    year: '2025'
-  }
+    lowTide: {
+      productId: 'low-tide-4149840112',
+      productName: 'Low Tide',
+      price: 1.00,
+      currency: 'USD',
+      contractAddress: '0x7d9bfEC6bDA952128D0321DeDa02199527A7b989', // Your BASE SAFE wallet
+      tokenId: '4149840112',
+      imageUrl: '/preview-images/low_tide_preview.png',
+      description: 'Classic Woodie Wagon',
+      make: 'Ford',
+      model: 'Woodie',
+      year: '1946'
+    },
+    flatSea: {
+      productId: 'flat-sea-4149807344',
+      productName: 'Flat Sea',
+      price: 1.00,
+      currency: 'USD',
+      contractAddress: '0x7d9bfEC6bDA952128D0321DeDa02199527A7b989', // Your BASE SAFE wallet
+      tokenId: '4149807344',
+      imageUrl: '/preview-images/flat_sea_preview.png',
+      description: 'Ocean Breeze Woodie',
+      make: 'Chevrolet',
+      model: 'Woodie',
+      year: '1948'
+    },
+    test9: {
+      productId: 'test-9-4169097456',
+      productName: 'Car Culture: CarMania Garage - Test 9',
+      price: 1.00,
+      currency: 'USD',
+      contractAddress: '0x7d9bfEC6bDA952128D0321DeDa02199527A7b989', // Merchant Wallet
+      tokenId: '4169097456',
+      imageUrl: '/preview-images/test_9_preview.png', // Placeholder - will be updated with actual image
+      description: 'Pink Car Art - Test NFT for StableLink',
+      make: 'Art',
+      model: 'Test',
+      year: '2025'
+    }
   };
 
   const [selectedProduct, setSelectedProduct] = useState<keyof typeof products>('summertime');
   const [paymentResult, setPaymentResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleProductSelect = (key: keyof typeof products) => {
-    console.log('Product selected:', key, products[key]);
-    setSelectedProduct(key);
+  const handleProductSelect = (productKey: keyof typeof products) => {
+    console.log('Product selected:', productKey, products[productKey]);
+    setSelectedProduct(productKey);
   };
 
   const handlePaymentSuccess = (result: any) => {
@@ -139,12 +139,10 @@ export default function StableLinkProductionPage() {
 
         {/* Debug Info */}
         <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <h3 className="text-sm font-bold text-blue-800 mb-2">Debug: Selected Product</h3>
-          <p className="text-xs text-blue-700">
-            Key: <strong>{selectedProduct}</strong> | 
-            Name: <strong>{products[selectedProduct].productName}</strong> | 
-            Price: <strong>${products[selectedProduct].price}</strong>
-          </p>
+          <h3 className="font-bold text-blue-800 mb-2">Debug: Selected Product</h3>
+          <pre className="text-sm text-blue-700">
+            {JSON.stringify(products[selectedProduct], null, 2)}
+          </pre>
         </div>
 
         {/* Payment Component */}
@@ -156,14 +154,38 @@ export default function StableLinkProductionPage() {
           />
         </div>
 
-
         {/* Payment Results */}
         {paymentResult && (
           <div className="mt-8 p-6 bg-green-50 border-2 border-green-200 rounded-xl">
             <h3 className="text-xl font-bold text-green-800 mb-3" style={{ fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>Payment Successful! 🎉</h3>
-            <pre className="text-sm text-green-700 bg-green-100 p-4 rounded-lg overflow-auto">
-              {JSON.stringify(paymentResult, null, 2)}
-            </pre>
+            
+            {paymentResult.verification && (
+              <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <h4 className="font-bold text-blue-800 mb-2">✅ Transaction Verified</h4>
+                <div className="text-sm text-blue-700 space-y-1">
+                  <p><strong>NFT:</strong> {paymentResult.nft?.tokenName}</p>
+                  <p><strong>Contract:</strong> {paymentResult.nft?.contractAddress}</p>
+                  <p><strong>Network:</strong> {paymentResult.nft?.network}</p>
+                  <p><strong>Wallet:</strong> {paymentResult.verification.walletAddress}</p>
+                  <p><strong>Status:</strong> {paymentResult.verification.status}</p>
+                  <a 
+                    href={paymentResult.verification.basescanUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-800 underline"
+                  >
+                    View on BaseScan →
+                  </a>
+                </div>
+              </div>
+            )}
+            
+            <details className="text-sm text-green-700">
+              <summary className="cursor-pointer font-medium mb-2">View Full Transaction Details</summary>
+              <pre className="bg-green-100 p-4 rounded-lg overflow-auto text-xs">
+                {JSON.stringify(paymentResult, null, 2)}
+              </pre>
+            </details>
             <button
               onClick={resetPayment}
               className="mt-4 px-6 py-3 bg-[#a32428] text-white rounded-xl hover:bg-[#8b1e22] font-semibold transition-colors"

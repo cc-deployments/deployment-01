@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { BasePayIntegration } from './BasePayIntegration';
 import { CDPOnRampIntegration } from './CDPOnRampIntegration';
 import { MoonPayIntegration } from './MoonPayIntegration';
+import { BasePayIntegration } from './BasePayIntegration';
 
 interface Product {
   productId: string;
@@ -32,6 +32,7 @@ export function UnifiedPayment({
   onError, 
   className = '' 
 }: UnifiedPaymentProps) {
+  const [selectedMethod, setSelectedMethod] = useState<'crypto' | 'debit' | 'credit'>('crypto');
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleSuccess = (result: any) => {
@@ -42,6 +43,10 @@ export function UnifiedPayment({
   const handleError = (error: string) => {
     setIsProcessing(false);
     onError?.(error);
+  };
+
+  const handleMethodChange = (method: 'crypto' | 'debit' | 'credit') => {
+    setSelectedMethod(method);
   };
 
   return (
@@ -74,25 +79,115 @@ export function UnifiedPayment({
         </div>
       </div>
 
-      {/* Direct Checkout - No Payment Method Selection Needed */}
+      {/* Payment Method Selection */}
+      <div className="mb-6">
+        <h4 className="text-lg font-bold text-gray-900 mb-4" style={{ fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>Choose Payment Method</h4>
+        <div className="grid grid-cols-1 gap-4">
+          <button
+            onClick={() => handleMethodChange('crypto')}
+            className={`p-4 rounded-xl border-2 transition-all transform hover:scale-[1.02] ${
+              selectedMethod === 'crypto'
+                ? 'border-[#a32428] bg-gradient-to-br from-[#a32428]/10 to-[#8b1e22]/10 shadow-lg'
+                : 'border-gray-200 hover:border-[#a32428]/50 hover:shadow-md'
+            }`}
+          >
+            <div className="flex items-center space-x-4">
+              <span className="text-3xl">🪙</span>
+              <div className="text-left">
+                <div className="font-bold text-gray-900">Base Pay (USD)</div>
+                <div className="text-sm text-gray-600">Pay with USD using Base Pay - instant and secure</div>
+              </div>
+            </div>
+          </button>
 
-      {/* Base Pay Integration - Corrected USD payment solution */}
+          <button
+            onClick={() => handleMethodChange('debit')}
+            className={`p-4 rounded-xl border-2 transition-all transform hover:scale-[1.02] ${
+              selectedMethod === 'debit'
+                ? 'border-[#a32428] bg-gradient-to-br from-[#a32428]/10 to-[#8b1e22]/10 shadow-lg'
+                : 'border-gray-200 hover:border-[#a32428]/50 hover:shadow-md'
+            }`}
+          >
+            <div className="flex items-center space-x-4">
+              <span className="text-3xl">💳</span>
+              <div className="text-left">
+                <div className="font-bold text-gray-900">Debit Card / Apple Pay</div>
+                <div className="text-sm text-gray-600">Instant fiat-to-crypto conversion</div>
+              </div>
+            </div>
+          </button>
+
+          <button
+            onClick={() => handleMethodChange('credit')}
+            className={`p-4 rounded-xl border-2 transition-all transform hover:scale-[1.02] ${
+              selectedMethod === 'credit'
+                ? 'border-[#a32428] bg-gradient-to-br from-[#a32428]/10 to-[#8b1e22]/10 shadow-lg'
+                : 'border-gray-200 hover:border-[#a32428]/50 hover:shadow-md'
+            }`}
+          >
+            <div className="flex items-center space-x-4">
+              <span className="text-3xl">💳</span>
+              <div className="text-left">
+                <div className="font-bold text-gray-900">Credit Card</div>
+                <div className="text-sm text-gray-600">Visa, Mastercard, American Express</div>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* Payment Component */}
       <div className="payment-component">
-        <BasePayIntegration
-          productId={product.productId}
-          productName={product.productName}
-          price={product.price}
-          currency={product.currency}
-          contractAddress={product.contractAddress}
-          tokenId={product.tokenId}
-          imageUrl={product.imageUrl}
-          description={product.description}
-          make={product.make}
-          model={product.model}
-          year={product.year}
-          onPaymentSuccess={handleSuccess}
-          onPaymentError={handleError}
-        />
+        {selectedMethod === 'crypto' && (
+          <BasePayIntegration
+            config={{
+              productId: product.productId,
+              productName: product.productName,
+              price: product.price,
+              currency: product.currency,
+              contractAddress: product.contractAddress,
+              tokenId: product.tokenId,
+              imageUrl: product.imageUrl,
+              description: product.description
+            }}
+            onSuccess={handleSuccess}
+            onError={handleError}
+          />
+        )}
+
+        {selectedMethod === 'debit' && (
+          <CDPOnRampIntegration
+            config={{
+              productId: product.productId,
+              productName: product.productName,
+              price: product.price,
+              currency: product.currency,
+              contractAddress: product.contractAddress,
+              tokenId: product.tokenId,
+              imageUrl: product.imageUrl,
+              description: product.description
+            }}
+            onSuccess={handleSuccess}
+            onError={handleError}
+          />
+        )}
+
+        {selectedMethod === 'credit' && (
+          <MoonPayIntegration
+            config={{
+              productId: product.productId,
+              productName: product.productName,
+              price: product.price,
+              currency: product.currency,
+              contractAddress: product.contractAddress,
+              tokenId: product.tokenId,
+              imageUrl: product.imageUrl,
+              description: product.description
+            }}
+            onSuccess={handleSuccess}
+            onError={handleError}
+          />
+        )}
       </div>
 
       {/* Processing State */}

@@ -19,16 +19,50 @@ export async function mintNFTToWallet(
       throw new Error(`No Manifold mint URL found for token ${tokenId}`);
     }
 
-    // For testing: Use Rainbow wallet address
-    const testWalletAddress = '0x72995D007d4eCE7c6495baC448d7A57A0e2DC2D2';
+    // Get the actual Base Smart Wallet address from the SDK
+    let smartWalletAddress = null;
+    if (sdk && sdk.getProvider) {
+      try {
+        const provider = sdk.getProvider();
+        const accounts = await provider.request({ method: 'eth_accounts' }) as string[];
+        if (accounts && accounts.length > 0) {
+          smartWalletAddress = accounts[0];
+          console.log('✅ Base Smart Wallet address found:', smartWalletAddress);
+        } else {
+          console.log('⚠️ No accounts found in Base Smart Wallet');
+        }
+      } catch (error) {
+        console.warn('Could not get smart wallet address:', error);
+      }
+    } else {
+      console.warn('No SDK provided for wallet address lookup');
+    }
+    
+    // If no smart wallet address, don't add wallet parameter to URL
+    if (!smartWalletAddress) {
+      console.log('⚠️ No wallet address available, opening Manifold without pre-filled wallet');
+      const mintWindow = window.open(mintUrl, 'manifold-mint', 'width=800,height=700,scrollbars=yes,resizable=yes');
+      if (!mintWindow) {
+        window.location.href = mintUrl;
+      }
+      return {
+        success: true,
+        transactionHash: 'manifold-redirect',
+        tokenId,
+        buyerAddress: 'user-will-connect-wallet',
+        contractAddress: nftContractAddress,
+        message: 'Opened Manifold - user will connect their own wallet',
+        mintUrl: mintUrl
+      };
+    }
     
     // Add wallet address parameter to Manifold URL for testing
-    const mintUrlWithWallet = `${mintUrl}?wallet=${testWalletAddress}`;
+    const mintUrlWithWallet = `${mintUrl}?wallet=${smartWalletAddress}`;
     
-    console.log(`Redirecting to Manifold mint page with test wallet: ${mintUrlWithWallet}`);
-    console.log(`🎯 TESTING: NFT will be delivered to Rainbow wallet: ${testWalletAddress}`);
+    console.log(`Redirecting to Manifold mint page with Base Smart Wallet: ${mintUrlWithWallet}`);
+    console.log(`🎯 TESTING: NFT will be delivered to Base Smart Wallet: ${smartWalletAddress}`);
 
-    // Open Manifold mint page in new window/tab
+    // Try to open Manifold mint page in new window/tab
     const mintWindow = window.open(
       mintUrlWithWallet,
       'manifold-mint',
@@ -36,7 +70,9 @@ export async function mintNFTToWallet(
     );
 
     if (!mintWindow) {
-      throw new Error('Failed to open Manifold mint window. Please allow popups for this site.');
+      // Fallback: redirect current window to Manifold
+      console.warn('Popup blocked, redirecting current window to Manifold');
+      window.location.href = mintUrlWithWallet;
     }
 
     // Return success with the mint URL

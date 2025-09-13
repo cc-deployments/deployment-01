@@ -28,10 +28,14 @@ export function BaseAccountProvider({ children }: { children: ReactNode }) {
   const [address, setAddress] = useState<string | null>(null);
 
   useEffect(() => {
-    // Initialize Base Account SDK
+    // Initialize Base Account SDK with Smart Wallet
     const baseAccount = createBaseAccountSDK({
       appName: 'CarMania Gallery',
       appLogoUrl: 'https://carmania.carculture.com/carmania-share.png',
+      preference: {
+        telemetry: false,  // Disable telemetry to prevent 401 errors
+        smartWallet: true  // Enable Base Smart Wallet for better Manifold compatibility
+      }
     });
 
     setSdk(baseAccount);
