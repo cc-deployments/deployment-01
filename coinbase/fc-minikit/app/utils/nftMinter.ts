@@ -80,7 +80,7 @@ export async function mintNFTToWallet(
       success: true,
       transactionHash: 'manifold-redirect',
       tokenId,
-      buyerAddress: testWalletAddress, // Use test wallet address
+      buyerAddress: buyerAddress, // Use provided buyer address
       contractAddress: nftContractAddress,
       message: 'Redirected to Manifold mint page with test wallet',
       mintUrl: mintUrlWithWallet
