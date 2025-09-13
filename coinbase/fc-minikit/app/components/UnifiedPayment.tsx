@@ -157,18 +157,16 @@ export function UnifiedPayment({
 
         {selectedMethod === 'debit' && (
           <CDPOnRampIntegration
-            config={{
-              productId: product.productId,
-              productName: product.productName,
-              price: product.price,
-              currency: product.currency,
-              contractAddress: product.contractAddress,
-              tokenId: product.tokenId,
-              imageUrl: product.imageUrl,
-              description: product.description
-            }}
-            onSuccess={handleSuccess}
-            onError={handleError}
+            productId={product.productId}
+            productName={product.productName}
+            price={product.price}
+            currency={product.currency}
+            contractAddress={product.contractAddress}
+            tokenId={product.tokenId}
+            imageUrl={product.imageUrl}
+            description={product.description}
+            onPaymentSuccess={handleSuccess}
+            onPaymentError={handleError}
           />
         )}
 
