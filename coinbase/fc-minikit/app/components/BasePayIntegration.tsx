@@ -90,8 +90,8 @@ export function BasePayIntegration({
       // Redirect to Manifold with Farcaster wallet pre-filled
       const farcasterWalletAddress = '0xF74FE33d71bF46cDC006FE0F2888783174fE2aA2';
       
-      // Create Manifold URL with wallet pre-filled
-      const manifoldUrl = `https://manifold.xyz/0x1c6d27a76f4f706cccb698acc236c31f886c5421?wallet=${farcasterWalletAddress}`;
+      // Create Manifold mint page URL with wallet pre-filled
+      const manifoldUrl = `https://manifold.xyz/@carculture/id/4169097456?wallet=${farcasterWalletAddress}`;
       
       console.log('🎯 Redirecting to Manifold with Farcaster wallet pre-filled');
       console.log('💰 Wallet:', farcasterWalletAddress);
@@ -126,10 +126,11 @@ export function BasePayIntegration({
         payment: payment,
         nft: {
           contractAddress: '0x1c6d27a76f4f706cccb698acc236c31f886c5421', // DRIFT contract
-          tokenId: '17', // From BaseScan
-          tokenName: 'CarMania.cb.id#17',
+          tokenId: '4169097456', // Test 9 NFT
+          tokenName: 'Test 9 NFT',
           type: 'ERC-1155',
-          network: 'Base'
+          network: 'Base',
+          mintPage: 'https://manifold.xyz/@carculture/id/4169097456'
         },
         verification: {
           basescanUrl: `https://basescan.org/address/0xF74FE33d71bF46cDC006FE0F2888783174fE2aA2`,
