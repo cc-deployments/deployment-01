@@ -21,17 +21,19 @@ export default function BasePayDemoPage() {
           {/* Main Integration */}
           <div>
             <BasePayIntegration
-              productId="demo-product-123"
-              productName="Demo NFT"
-              price={1.00}
-              currency="USD"
-              contractAddress="0x8ef0772347e0caed0119937175d7ef9636ae1aa0"
-              tokenId="123"
-              imageUrl="/carmania-splash.png"
-              description="Demo NFT for testing Base Pay integration"
-              make="Demo"
-              model="NFT"
-              year="2024"
+              config={{
+                productId: "demo-product-123",
+                productName: "Demo NFT",
+                price: 1.00,
+                currency: "USD",
+                contractAddress: "0x8ef0772347e0caed0119937175d7ef9636ae1aa0",
+                tokenId: "123",
+                imageUrl: "/carmania-splash.png",
+                description: "Demo NFT for testing Base Pay integration",
+                make: "Demo",
+                model: "NFT",
+                year: "2024"
+              }}
             />
           </div>
 
