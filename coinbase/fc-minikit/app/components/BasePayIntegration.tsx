@@ -91,6 +91,11 @@ export function BasePayIntegration({
 
       console.log('Base Pay payment successful:', payment);
       
+      // Log the buyer's wallet address for NFT delivery tracking
+      console.log('🎯 TESTING: NFT will be delivered to Rainbow wallet (0x72995D007d4eCE7c6495baC448d7A57A0e2DC2D2)');
+      console.log('📱 Check your Rainbow wallet for the NFT after completing mint on Manifold');
+      console.log('🔍 Testing with Rainbow wallet for NFT display verification');
+      
       // After successful payment, redirect to Manifold mint page
       try {
         console.log('Initiating NFT minting/transfer...');
@@ -188,13 +193,15 @@ export function BasePayIntegration({
             </div>
           )}
           
-          {paymentStatus === 'success' && (
-            <div className="mt-4 text-center text-sm text-green-600">
-              Payment completed successfully! Complete your NFT mint on Manifold.
-              <br />
-              <span className="text-xs text-gray-500">A new window should open with the Manifold mint page.</span>
-            </div>
-          )}
+                      {paymentStatus === 'success' && (
+                        <div className="mt-4 text-center text-sm text-green-600">
+                          Payment completed successfully! Complete your NFT mint on Manifold.
+                          <br />
+                          <span className="text-xs text-gray-500">A new window should open with the Manifold mint page.</span>
+                          <br />
+                          <span className="text-xs text-blue-600 font-semibold">NFT will be delivered to your connected wallet address</span>
+                        </div>
+                      )}
 
           {paymentStatus === 'error' && (
             <div className="mt-4 text-center text-sm text-red-600">

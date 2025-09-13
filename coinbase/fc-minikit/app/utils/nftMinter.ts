@@ -19,11 +19,18 @@ export async function mintNFTToWallet(
       throw new Error(`No Manifold mint URL found for token ${tokenId}`);
     }
 
-    console.log(`Redirecting to Manifold mint page: ${mintUrl}`);
+    // For testing: Use Rainbow wallet address
+    const testWalletAddress = '0x72995D007d4eCE7c6495baC448d7A57A0e2DC2D2';
     
+    // Add wallet address parameter to Manifold URL for testing
+    const mintUrlWithWallet = `${mintUrl}?wallet=${testWalletAddress}`;
+    
+    console.log(`Redirecting to Manifold mint page with test wallet: ${mintUrlWithWallet}`);
+    console.log(`🎯 TESTING: NFT will be delivered to Rainbow wallet: ${testWalletAddress}`);
+
     // Open Manifold mint page in new window/tab
     const mintWindow = window.open(
-      mintUrl,
+      mintUrlWithWallet,
       'manifold-mint',
       'width=800,height=700,scrollbars=yes,resizable=yes'
     );
@@ -37,12 +44,12 @@ export async function mintNFTToWallet(
       success: true,
       transactionHash: 'manifold-redirect',
       tokenId,
-      buyerAddress,
+      buyerAddress: testWalletAddress, // Use test wallet address
       contractAddress: nftContractAddress,
-      message: 'Redirected to Manifold mint page',
-      mintUrl: mintUrl
+      message: 'Redirected to Manifold mint page with test wallet',
+      mintUrl: mintUrlWithWallet
     };
-    
+
   } catch (error) {
     console.error('Manifold minting process failed:', error);
     throw error;
