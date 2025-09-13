@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { pay, getPaymentStatus } from '@base-org/account';
-import { useBaseAccount } from './BaseAccountProvider';
 import { mintNFTToWallet } from '../utils/nftMinter';
 
 // Real NFT minting function using Base Account SDK
@@ -71,26 +70,8 @@ export function BasePayIntegration({
 }: BasePayIntegrationProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
-  
-  // Use existing Base Account hook
-  const { address: userAddress, isConnected, connect, sdk } = useBaseAccount();
-
-  const handleConnect = async () => {
-    try {
-      await connect();
-    } catch (error) {
-      console.error('Failed to connect Base Account:', error);
-      onPaymentError?.(error.message);
-    }
-  };
 
   const handlePayment = async () => {
-    if (!sdk || !userAddress) {
-      console.error('Base Account SDK or user address not available');
-      onPaymentError?.('Please connect your Base Account first');
-      return;
-    }
-
     try {
       setIsLoading(true);
       setPaymentStatus('processing');
@@ -110,11 +91,11 @@ export function BasePayIntegration({
 
       console.log('Base Pay payment successful:', payment);
       
-      // After successful payment, mint/transfer the NFT
+      // After successful payment, redirect to Manifold mint page
       try {
         console.log('Initiating NFT minting/transfer...');
-        await mintNFTToBuyer(userAddress, contractAddress, tokenId, sdk);
-        console.log('NFT successfully minted/transferred to buyer');
+        await mintNFTToWallet(null, contractAddress, '', tokenId);
+        console.log('NFT minting process initiated');
       } catch (nftError) {
         console.error('NFT minting failed:', nftError);
         // Payment succeeded but NFT failed - still show success but log the issue
@@ -134,31 +115,6 @@ export function BasePayIntegration({
     }
   };
 
-  if (!isConnected || !userAddress) {
-    return (
-      <div className={`base-pay-integration ${className}`}>
-        <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200">
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full flex items-center justify-center">
-              <span className="text-2xl">🔗</span>
-            </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              Connect Base Account
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Connect your Base Account to purchase this NFT with Base Pay
-            </p>
-            <button
-              onClick={handleConnect}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200"
-            >
-              Connect Base Account to Buy
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className={`base-pay-integration ${className}`}>
