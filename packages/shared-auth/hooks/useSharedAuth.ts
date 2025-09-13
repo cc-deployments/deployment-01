@@ -17,19 +17,8 @@ export function useSharedAuth(): SharedAuthState {
   const [miniKitContext, setMiniKitContext] = useState<any>(null);
   
   useEffect(() => {
-    // Use dynamic import instead of require for better webpack compatibility
-    const loadMiniKit = async () => {
-      try {
-        const { useMiniKit } = await import('@coinbase/onchainkit/minikit');
-        const context = useMiniKit();
-        setMiniKitContext(context);
-      } catch (error) {
-        console.log('MiniKit not available in this environment');
-        setMiniKitContext(null);
-      }
-    };
-
-    loadMiniKit();
+    // OnchainKit removed - MiniKit not available
+    setMiniKitContext(null);
   }, []);
   
   return {

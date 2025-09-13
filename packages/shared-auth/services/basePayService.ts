@@ -122,17 +122,8 @@ class BasePayServiceImpl implements BasePayService {
       const projectId = process.env.CDP_PROJECT_ID || '1cceb0e4-e690-40ac-8f3d-7d1f3da1417a';
       const productId = `cdp_${Date.now()}`;
       
-      // Use OnChainKit's getOnrampBuyUrl utility
-      const { getOnrampBuyUrl } = await import('@coinbase/onchainkit/fund');
-      
-      const paymentUrl = getOnrampBuyUrl({
-        projectId,
-        addresses: { [config.contractAddress || config.to]: ['base'] },
-        assets: ['ETH'], // Pre-select ETH
-        presetCryptoAmount: parseFloat(config.amount), // Pre-fill amount
-        defaultAsset: 'ETH', // Skip asset selection
-        defaultNetwork: 'base'
-      });
+      // OnchainKit removed - use manual URL construction
+      const paymentUrl = `https://pay.coinbase.com/buy/select-asset?appId=${projectId}&defaultAsset=ETH&defaultNetwork=base&presetCryptoAmount=${config.amount}`;
 
       return {
         paymentUrl,
