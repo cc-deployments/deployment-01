@@ -218,11 +218,11 @@ async function handleLatestMint(request, env, corsHeaders) {
       
       // Return the current active car (Low Tide)
       // Updated to use Manifold mint page for proper user flow
-      const currentCar = {
-        title: 'Low Tide',
-        publication_date: '2025-09-06',
-        mint_url: 'https://manifold.xyz/@carculture/id/4149840112'
-      };
+        const currentCar = {
+          title: 'Flat Sea',
+          publication_date: '2025-09-10',
+          mint_url: 'https://manifold.xyz/@carculture/id/4149807344'
+        };
       
       return new Response(JSON.stringify({
         success: true,

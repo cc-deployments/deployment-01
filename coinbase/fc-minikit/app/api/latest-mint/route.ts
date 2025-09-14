@@ -17,21 +17,21 @@ interface MintData {
 
 export async function GET() {
   try {
-    // TEMPORARY: Hardcode the correct URL while debugging CSV issue
-    const today = new Date().toISOString().split('T')[0];
-    
-    // Return the correct "Low Tide" mint URL
-    const selectedMint: MintData = {
-      publication_date: '2025-09-06',
-      title: 'Low Tide',
-      mint_url: 'https://manifold.xyz/@carculture/id/4149840112',
-      status: 'published',
-      image_url: 'https://3yqpmriehuvnvqi3j7br7u2y37o6eh4siieto2aljd2qvcv4fxxa.arweave.net/3iD2RQQ9KtrBG0_DH9NY393iH5JCCTdoC0j1Coq8Le4',
-      description: 'Low Tide - A moment of calm reflection by the water\'s edge',
-      make: 'Nil',
-      model: 'Nil',
-      year: 'Nil'
-    };
+        // TEMPORARY: Hardcode the correct URL while debugging CSV issue
+        const today = new Date().toISOString().split('T')[0];
+        
+        // Return the correct "Flat Sea" mint URL
+        const selectedMint: MintData = {
+          publication_date: '2025-09-10',
+          title: 'Flat Sea',
+          mint_url: 'https://manifold.xyz/@carculture/id/4149807344',
+          status: 'published',
+          image_url: '',
+          description: 'Ocean Breeze Woodie',
+          make: 'Chevrolet',
+          model: 'Woodie',
+          year: '1948'
+        };
     
     return NextResponse.json({
       success: true,
