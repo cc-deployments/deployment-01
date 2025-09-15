@@ -45,7 +45,6 @@ export async function GET() {
         "entertainment"
       ],
       previewImageUrl: "https://carmania.carculture.com/hero-v2.png",
-      buttonTitle: "Unlock the Ride",
       noindex: false
     }
   };
