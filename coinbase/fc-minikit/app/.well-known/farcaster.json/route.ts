@@ -30,7 +30,7 @@ export async function GET() {
       tagline: "Daily Drops. Legendary Rides.",
       ogTitle: "CarCulture: CarMania Garage",
       ogDescription: "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' collectibles",
-      ogImageUrl: "https://carmania.carculture.com/hero-v2.png",
+      ogImageUrl: "https://carmania.carculture.com/carmania-share.png",
       castShareUrl: "https://carmania.carculture.com/gallery-hero",
       screenshotUrls: [
         "https://carmania.carculture.com/carmania-gallery-hero.png",
@@ -55,7 +55,9 @@ export async function GET() {
       'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
       'Pragma': 'no-cache',
       'Expires': '0',
-      'Surrogate-Control': 'no-store'
+      'Surrogate-Control': 'no-store',
+      'Last-Modified': new Date().toUTCString(),
+      'ETag': `"${Date.now()}"`
     }
   });
 }
