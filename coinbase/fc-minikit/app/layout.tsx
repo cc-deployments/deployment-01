@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     images: ['https://carmania.carculture.com/carmania-share.png'],
   },
   other: {
-    'fc:miniapp': '{"version":"1","imageUrl":"https://carmania.carculture.com/carmania-share.png","button":{"title":"Unlock the Ride","action":{"type":"launch_miniapp","url":"https://carmania.carculture.com/gallery-hero","name":"CarCulture: CarMania Garage","splashImageUrl":"https://carmania.carculture.com/splashImageUrl.png","splashBackgroundColor":"#a32428"}}}'
+    'fc:miniapp': '{"version":"1","imageUrl":"https://carmania.carculture.com/carmania-share.png","ogimageUrl":"https://carmania.carculture.com/hero-v2.png","button":{"title":"Unlock the Ride","action":{"type":"launch_miniapp","url":"https://carmania.carculture.com/gallery-hero","name":"CarCulture: CarMania Garage","splashImageUrl":"https://carmania.carculture.com/splashImageUrl.png","splashBackgroundColor":"#a32428"}}}'
   }
 }
 
