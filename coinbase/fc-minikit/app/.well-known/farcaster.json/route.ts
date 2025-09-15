@@ -52,12 +52,14 @@ export async function GET() {
 
   return NextResponse.json(manifest, {
     headers: {
-      'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
+      'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0, private',
       'Pragma': 'no-cache',
       'Expires': '0',
       'Surrogate-Control': 'no-store',
       'Last-Modified': new Date().toUTCString(),
-      'ETag': `"${Date.now()}"`
+      'ETag': `"${Date.now()}-${Math.random()}"`,
+      'Vary': '*',
+      'X-Cache-Bust': Date.now().toString()
     }
   });
 }
