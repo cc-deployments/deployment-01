@@ -14,7 +14,7 @@ export async function GET() {
       payload: "eyJkb21haW4iOiJjYXJtYW5pYS5jYXJjdWx0dXJlLmNvbSJ9",
       signature: "MHgxODMxOTM2MjI2OWM3MTM5NmYyYjFmZDYwMDM1YTc3ZDM2NDNjMWY4ZmM0YWM4YmQ1NzYzMzhkYmUyZWI1MDA4MzAxODk1N2U3ZjJmMGMwZWViOWVhZjcwZGUwYjkwZDQzMDczMTE3MDk1OTkyMjllZmI2NTNhNzhjZDE5YjhiNDFi"
     },
-    miniapp: {
+    frame: {
       version: "1",
       name: "CarCulture: CarMania Garage",
       subtitle: "Drive the Past. Own the Moment",
