@@ -351,21 +351,21 @@ When making changes:
 5. **Test on mobile**
 6. **Use Base documentation for Mini App patterns**
 
-## 🚗 **UNLOCK THE RIDE Button - Daily Car Rotation System**
+## 🚗 **UNLOCK THE RIDE Button - Manual Update System**
 
 ### **What It Unlocks:**
-The "UNLOCK THE RIDE" button automatically redirects users to the current day's CarMania NFT on Manifold, based on the publication date in your CSV schedule.
+The "UNLOCK THE RIDE" button redirects users to the current CarMania NFT on Manifold, manually updated to match your latest Paragraph.xyz post.
 
 ### **How It Works:**
 1. **User clicks "UNLOCK THE RIDE"** on any page
-2. **MiniApp calls Cloudflare API**: `/api/latest-mint`
-3. **API returns today's car** based on `publication_date` in CSV
+2. **MiniApp calls Next.js API**: `/api/latest-mint` (Vercel)
+3. **API returns hardcoded car data** for current Paragraph post
 4. **User redirects to Manifold** to mint the current car
 
 ### **Current Implementation:**
 ```typescript
 // Button click handler in gallery-hero and text-page
-const response = await fetch('https://ccult.carculture-com.workers.dev/api/latest-mint');
+const response = await fetch('/api/latest-mint');
 const result = await response.json();
 if (result.success && result.data.mint_url) {
   window.location.href = result.data.mint_url; // Redirect to Manifold
@@ -373,27 +373,46 @@ if (result.success && result.data.mint_url) {
 ```
 
 ### **Data Source:**
-- **CSV File**: `sql_carculture_public_local/carculture_content_schedule.csv`
-- **Key Fields**: `publication_date`, `mint_url`, `title`, `status`
-- **Current Active**: "Light Bulb Moment" (2025-07-04) as fallback
+- **API File**: `coinbase/fc-minikit/app/api/latest-mint/route.ts`
+- **Current Method**: Hardcoded data (temporary fix for CSV reading issues)
+- **Current Active**: "Flat Sea" (2025-09-10) - 1948 Chevrolet Woodie
 
-### **Friday Evening Workflow:**
-1. **Create 7 cars on Manifold Studios** (2 hours)
-2. **Update CSV** with new publication dates (August 16-22)
-3. **Deploy changes** to repository
-4. **Automatic daily rotation** for the next 7 days
+### **Manual Update Workflow:**
+1. **Publish new story on Paragraph.xyz**
+2. **Get Manifold URL** from your new NFT mint
+3. **Update Next.js API** with new car data:
+   ```typescript
+   const selectedMint: MintData = {
+     publication_date: '2025-09-10',
+     title: 'Flat Sea',
+     mint_url: 'https://manifold.xyz/@carculture/id/4149807344',
+     status: 'published',
+     image_url: '',
+     description: 'Ocean Breeze Woodie',
+     make: 'Chevrolet',
+     model: 'Woodie',
+     year: '1948'
+   };
+   ```
+4. **Commit and push** changes to GitHub
+5. **Vercel auto-deploys** the updated API
 
 ### **Benefits:**
-- ✅ **Daily engagement** - Active collectors see new content every day
-- ✅ **Zero daily maintenance** - Set up once, works automatically
-- ✅ **CSV-driven** - Simple file updates, no database needed
+- ✅ **Immediate updates** - Change car instantly when you publish
+- ✅ **Reliable deployment** - Vercel handles the infrastructure
 - ✅ **Version controlled** - Track changes in git
+- ✅ **Simple process** - One file edit, commit, push
 
 ### **Testing the Button:**
-1. **Visit any page** with "UNLOCK THE RIDE" button
-2. **Click the button** - should redirect to current car
-3. **Check console** for API call logs
-4. **Verify redirect** to Manifold Edition page
+1. **Visit app**: `https://carmania.carculture.com`
+2. **Click "UNLOCK THE RIDE"** button
+3. **Verify redirect** to current Manifold mint page
+4. **Check API**: `curl https://carmania.carculture.com/api/latest-mint`
+
+### **Architecture Notes:**
+- **NOT using Cloudflare API** - switched to Next.js API on Vercel
+- **CSV reading disabled** - temporarily hardcoded due to deployment issues
+- **Future plan**: Implement StableLink solution for dynamic updates
 
 ## 🚀 **EIP5792 Integration (NEW)**
 
