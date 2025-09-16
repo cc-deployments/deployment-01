@@ -5,6 +5,7 @@ export declare class DRIVRAgent {
     private intentHandlerService;
     private walletCallService;
     private stableLinkService;
+    private pilotService;
     private config;
     private isRunning;
     constructor(config: CarManiaAgentConfig);

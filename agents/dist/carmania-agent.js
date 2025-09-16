@@ -6,6 +6,7 @@ const nft_verification_1 = require("./services/nft-verification");
 const intent_handler_1 = require("./services/intent-handler");
 const wallet_call_service_1 = require("./services/wallet-call-service");
 const stablelink_service_1 = require("./services/stablelink-service");
+const pilot_service_1 = require("./services/pilot-service");
 class DRIVRAgent {
     constructor(config) {
         this.isRunning = false;
@@ -15,12 +16,19 @@ class DRIVRAgent {
         this.intentHandlerService = new intent_handler_1.IntentHandlerService();
         this.walletCallService = new wallet_call_service_1.WalletCallService(config);
         this.stableLinkService = new stablelink_service_1.StableLinkService(config);
+        // Initialize PILOT service with CarMania collection (contains Surfing Woodie Wagon NFTs)
+        const carmaniaAddress = '0x8ef0772347e0caed0119937175d7ef9636ae1aa0'; // CarMania ERC-721 collection
+        this.pilotService = new pilot_service_1.PilotService(carmaniaAddress);
         // Register message handler
         this.xmtpService.registerMessageHandler('drivr-main', this.handleMessage.bind(this));
     }
     async start() {
         try {
             console.log('🚗 Starting DRIVR Agent...');
+            // Initialize database connection
+            await this.pilotService.databaseService.connect();
+            await this.pilotService.databaseService.createTables();
+            console.log('✅ Database connected and tables created');
             // Initialize XMTP service
             await this.xmtpService.initialize();
             // Initialize NFT verification service
@@ -29,6 +37,7 @@ class DRIVRAgent {
             console.log(`🚀 DRIVR Agent is now running!`);
             console.log(`📍 Agent wallet: ${this.xmtpService.getState().walletAddress}`);
             console.log(`🎯 Supported collections: ${this.config.supportedCollections.join(', ')}`);
+            console.log(`🏄‍♂️ PILOT: Surfing Woodie Wagon chat enabled`);
         }
         catch (error) {
             console.error('❌ Failed to start Drivr Agent:', error);
@@ -55,12 +64,21 @@ class DRIVRAgent {
                 await this.handleCommerceRequest(message.senderAddress, message.content);
                 return;
             }
-            // Analyze user intent
-            const intent = await this.intentHandlerService.analyzeIntent(message);
-            console.log(`🧠 Intent detected: ${intent.type} (confidence: ${intent.confidence})`);
-            // Verify NFT access
+            // Verify NFT access first
             const nftVerification = await this.nftVerificationService.verifyNFTAccess(message.senderAddress);
             console.log(`🔐 NFT verification: ${nftVerification.hasAccess ? 'Access granted' : 'No access'} (${nftVerification.accessLevel})`);
+            // Check PILOT access (Surfing Woodie Wagon NFTs)
+            const pilotAccess = await this.pilotService.checkPilotAccess(nftVerification);
+            if (pilotAccess.hasPilotAccess && pilotAccess.carData) {
+                // PILOT: User has Surfing Woodie Wagon NFT - enable car-specific chat
+                console.log(`🏄‍♂️ PILOT access granted! User has Surfing Woodie Wagon NFT`);
+                const carSpecificResponse = await this.pilotService.generateCarSpecificResponse(message.content, pilotAccess.carData, pilotAccess.surfingWoodieNFTs[0]);
+                await this.xmtpService.replyToMessage(message, carSpecificResponse);
+                return;
+            }
+            // Standard flow for non-PILOT users
+            const intent = await this.intentHandlerService.analyzeIntent(message);
+            console.log(`🧠 Intent detected: ${intent.type} (confidence: ${intent.confidence})`);
             // Generate response with Quick Actions and fallback text
             const response = this.intentHandlerService.generateResponse(intent, nftVerification);
             console.log(`💬 Generated response: ${response.content.substring(0, 100)}...`);

@@ -18,10 +18,14 @@ exports.config = {
     openseaBaseUrl: 'https://api.opensea.io',
     openseaApiEndpoint: '/api/v1',
     supportedCollections: [
-    // Add your CarMania NFT collection addresses here
-    // Example: '0x1234567890123456789012345678901234567890',
-    // You can add multiple collections for different tiers
-    ],
+        // PILOT: Surfing Woodie Wagon collection
+        process.env.SURFING_WOODIE_COLLECTION || '',
+        // CarMania collections (for future expansion)
+        process.env.CARMANIA_COLLECTION_1 || '',
+        process.env.CARMANIA_COLLECTION_2 || '',
+        process.env.CARMANIA_COLLECTION_3 || '',
+        process.env.CARMANIA_COLLECTION_4 || '',
+    ].filter(addr => addr !== ''), // Remove empty strings
     // Smart Contract Addresses (Base chain)
     provenanceContractAddress: process.env.PROVENANCE_CONTRACT_ADDRESS || '0x0000000000000000000000000000000000000000',
     mintingContractAddress: process.env.MINTING_CONTRACT_ADDRESS || '0x0000000000000000000000000000000000000000',

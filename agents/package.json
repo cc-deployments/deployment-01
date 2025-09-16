@@ -18,11 +18,13 @@
   "dependencies": {
     "@tanstack/react-query": "^5.0.0",
     "@types/express": "^5.0.3",
+    "@types/pg": "^8.15.5",
     "@xmtp/frames-validator": "^0.6.0",
-    "@xmtp/xmtp-js": "^12.0.0",
+    "@xmtp/node-sdk": "^4.1.1",
     "dotenv": "^16.3.1",
     "ethers": "^6.8.1",
     "express": "^5.1.0",
+    "pg": "^8.16.3",
     "viem": "^2.31.4",
     "wagmi": "^2.15.6",
     "zod": "^3.25.76"

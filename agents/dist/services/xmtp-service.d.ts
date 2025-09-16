@@ -8,7 +8,6 @@ export declare class XMTPService {
     constructor(config: CarManiaAgentConfig);
     initialize(): Promise<void>;
     private startMessageListener;
-    private listenToConversation;
     private handleMessage;
     sendMessage(conversationId: string, content: string): Promise<void>;
     sendDirectMessage(userAddress: string, content: string): Promise<void>;
