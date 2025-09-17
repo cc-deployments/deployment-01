@@ -121,3 +121,4 @@ SELECT 'EDITION database created!' as status;
 SELECT 'surfing_woodie_editions' as table_name, COUNT(*) as record_count FROM surfing_woodie_editions
 UNION ALL
 SELECT 'edition_ownership' as table_name, COUNT(*) as record_count FROM edition_ownership;
+

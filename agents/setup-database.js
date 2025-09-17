@@ -100,3 +100,4 @@ async function setupDatabase() {
 
 // Run setup
 setupDatabase().catch(console.error);
+

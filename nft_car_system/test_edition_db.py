@@ -17,8 +17,8 @@ def test_edition_database():
         'host': os.getenv('DB_HOST', 'localhost'),
         'port': os.getenv('DB_PORT', '5432'),
         'database': os.getenv('DB_NAME', 'carmania_pilot'),
-        'user': os.getenv('DB_USER', 'postgres'),
-        'password': os.getenv('DB_PASSWORD', 'password')
+        'user': os.getenv('DB_USER', 'carculture'),  # Use carculture user
+        'password': os.getenv('DB_PASSWORD', '')  # No password needed for local
     }
     
     try:

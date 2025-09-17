@@ -33,3 +33,4 @@ else
     echo "❌ Database setup failed"
     exit 1
 fi
+

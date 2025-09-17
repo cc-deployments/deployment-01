@@ -13,7 +13,7 @@ export interface BasePayExampleProps {
 }
 
 export function BasePayExample({ 
-  recipientAddress: initialRecipientAddress = '0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6', // Example address
+  recipientAddress: initialRecipientAddress = process.env.NEXT_PUBLIC_SAFE_REVENUE_ADDRESS || '0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6', // SAFE #1: NFT Sales Revenue
   defaultAmount = '5.00',
   testnet: initialTestnet = true 
 }: BasePayExampleProps) {
