@@ -56,6 +56,7 @@ export interface NFTVerificationResult {
     collectionName?: string;
     tokenIds?: string[];
     accessLevel: 'basic' | 'premium' | 'vip';
+    userAddress?: string;
     error?: string;
 }
 export interface OpenSeaNFT {
@@ -117,5 +118,38 @@ export interface CarStoryTransaction {
     nftTokenId: string;
     collectionAddress: string;
     timestamp: number;
+}
+export interface SurfingWoodieImage {
+    id: string;
+    tokenId: string;
+    imageUrl: string;
+    title: string;
+    description: string;
+    traits: Record<string, any>;
+    ownerAddress: string;
+    createdAt: Date;
+}
+export interface SurfingWoodieNFT {
+    tokenId: string;
+    imageUrl: string;
+    title: string;
+    description: string;
+    traits: Record<string, any>;
+    ownerAddress: string;
+}
+export interface CarSpecificData {
+    carId: string;
+    make: string;
+    model: string;
+    year: number;
+    color: string;
+    vin?: string;
+    ownerAddress: string;
+    nftTokenId: string;
+    carModel?: string;
+    specialFeatures?: string[];
+    history?: string;
+    technicalSpecs?: string;
+    culturalSignificance?: string;
 }
 //# sourceMappingURL=agent.d.ts.map

@@ -1,28 +1,7 @@
-import { NFTVerificationResult } from '../types/agent';
-import { DatabaseService, SurfingWoodieImage } from './database-service';
+import { NFTVerificationResult, SurfingWoodieImage, SurfingWoodieNFT, CarSpecificData } from '../types/agent';
+import { DatabaseService } from './database-service';
 
-export interface SurfingWoodieNFT {
-  tokenId: string;
-  metadata: {
-    name: string;
-    description: string;
-    image: string;
-    attributes: Array<{
-      trait_type: string;
-      value: string;
-    }>;
-  };
-}
-
-export interface CarSpecificData {
-  carModel: string;
-  year: string;
-  color: string;
-  specialFeatures: string[];
-  history: string;
-  technicalSpecs: string;
-  culturalSignificance: string;
-}
+// SurfingWoodieNFT and CarSpecificData are now imported from types/agent
 
 export class PilotService {
   private carmaniaCollectionAddress: string;
@@ -78,16 +57,15 @@ export class PilotService {
     // Convert editions to SurfingWoodieNFT format
     const surfingWoodieNFTs: SurfingWoodieNFT[] = editions.map(edition => ({
       tokenId: edition.manifold_id, // Use Manifold ID as token ID
-      metadata: {
-        name: edition.title,
-        description: `A classic Surfing Woodie Wagon from the CarMania collection`,
-        image: `https://carmania.carculture.com/${edition.filename}`,
-        attributes: [
-          { trait_type: "Type", value: "Surfing Woodie Wagon" },
-          { trait_type: "Collection", value: "CarMania" },
-          { trait_type: "Edition", value: "Limited" }
-        ]
-      }
+      imageUrl: `https://carmania.carculture.com/${edition.filename}`,
+      title: edition.title,
+      description: `A classic Surfing Woodie Wagon from the CarMania collection`,
+      traits: {
+        type: "Surfing Woodie Wagon",
+        collection: "CarMania",
+        edition: "Limited"
+      },
+      ownerAddress: userAddress
     }));
 
     // Get car-specific data for the first edition (by filename)
@@ -115,17 +93,16 @@ export class PilotService {
         if (isSurfingWoodie) {
           const nft: SurfingWoodieNFT = {
             tokenId,
-            metadata: {
-              name: `Surfing Woodie Wagon #${tokenId}`,
-              description: "A classic 1940s woodie wagon with surfboard on top",
-              image: "https://carmania.carculture.com/surfing-woodie-wagon.png",
-              attributes: [
-                { trait_type: "Year", value: "1947" },
-                { trait_type: "Color", value: "Wood Panel" },
-                { trait_type: "Style", value: "Surf Wagon" },
-                { trait_type: "Rarity", value: "Rare" }
-              ]
-            }
+            imageUrl: "https://carmania.carculture.com/surfing-woodie-wagon.png",
+            title: `Surfing Woodie Wagon #${tokenId}`,
+            description: "A classic 1940s woodie wagon with surfboard on top",
+            traits: {
+              year: "1947",
+              color: "Wood Panel",
+              style: "Surf Wagon",
+              rarity: "Rare"
+            },
+            ownerAddress: "" // Will be set by caller
           };
           nfts.push(nft);
         }
@@ -171,9 +148,15 @@ export class PilotService {
       // For now, return sample data based on filename
       // This will be replaced with actual HF ML data lookup
       const carData: CarSpecificData = {
-        carModel: edition.title,
-        year: "1947", // Default year, will be from HF ML data
+        carId: edition.manifold_id,
+        make: "Ford",
+        model: edition.title,
+        year: 1947, // Default year, will be from HF ML data
         color: "Natural Wood with Dark Panels", // Default, will be from HF ML data
+        ownerAddress: "", // Will be set by caller
+        nftTokenId: edition.manifold_id,
+        // Additional fields for pilot service
+        carModel: edition.title,
         specialFeatures: [
           "Wood paneling construction",
           "Surfboard mounting system",
@@ -216,7 +199,8 @@ export class PilotService {
     }
     
     if (message.includes('feature') || message.includes('special')) {
-      return `Your ${carData.carModel} has some amazing features: ${carData.specialFeatures.join(', ')}. The wood paneling was hand-crafted and each wagon was unique!`;
+      const features = carData.specialFeatures || [];
+      return `Your ${carData.carModel} has some amazing features: ${features.join(', ')}. The wood paneling was hand-crafted and each wagon was unique!`;
     }
     
     if (message.includes('surf') || message.includes('beach') || message.includes('california')) {

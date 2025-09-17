@@ -1,4 +1,5 @@
 import { Pool, PoolClient } from 'pg';
+import { SurfingWoodieImage, SurfingWoodieNFT, CarSpecificData } from '../types/agent';
 
 export interface SurfingWoodieEdition {
   id: number;
@@ -184,19 +185,21 @@ export class DatabaseService {
       const row = result.rows[0];
       return {
         id: row.id,
-        token_id: row.token_id,
-        image_name: row.image_name,
-        image_url: row.image_url,
-        car_model: row.car_model,
-        year: row.year,
-        color: row.color,
-        special_features: row.special_features || [],
-        history: row.history,
-        technical_specs: row.technical_specs,
-        cultural_significance: row.cultural_significance,
-        rarity: row.rarity,
-        created_at: row.created_at,
-        updated_at: row.updated_at
+        tokenId: row.token_id,
+        imageUrl: row.image_url,
+        title: row.image_name,
+        description: row.history || '',
+        traits: {
+          carModel: row.car_model,
+          year: row.year,
+          color: row.color,
+          specialFeatures: row.special_features || [],
+          technicalSpecs: row.technical_specs,
+          culturalSignificance: row.cultural_significance,
+          rarity: row.rarity
+        },
+        ownerAddress: '', // Will be set by caller
+        createdAt: row.created_at
       };
     } catch (error) {
       console.error(`Error fetching Surfing Woodie data for token ${tokenId}:`, error);
@@ -215,19 +218,21 @@ export class DatabaseService {
 
       return result.rows.map(row => ({
         id: row.id,
-        token_id: row.token_id,
-        image_name: row.image_name,
-        image_url: row.image_url,
-        car_model: row.car_model,
-        year: row.year,
-        color: row.color,
-        special_features: row.special_features || [],
-        history: row.history,
-        technical_specs: row.technical_specs,
-        cultural_significance: row.cultural_significance,
-        rarity: row.rarity,
-        created_at: row.created_at,
-        updated_at: row.updated_at
+        tokenId: row.token_id,
+        imageUrl: row.image_url,
+        title: row.image_name,
+        description: row.history || '',
+        traits: {
+          carModel: row.car_model,
+          year: row.year,
+          color: row.color,
+          specialFeatures: row.special_features || [],
+          technicalSpecs: row.technical_specs,
+          culturalSignificance: row.cultural_significance,
+          rarity: row.rarity
+        },
+        ownerAddress: '', // Will be set by caller
+        createdAt: row.created_at
       }));
     } catch (error) {
       console.error('Error fetching all Surfing Woodie images:', error);
