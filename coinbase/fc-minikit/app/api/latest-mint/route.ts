@@ -20,17 +20,17 @@ export async function GET() {
         // TEMPORARY: Hardcode the correct URL while debugging CSV issue
         const today = new Date().toISOString().split('T')[0];
         
-        // Return the correct "Flat Sea" mint URL
+        // Return the correct mint URL
         const selectedMint: MintData = {
           publication_date: '2025-09-10',
-          title: 'Flat Sea',
-          mint_url: 'https://manifold.xyz/@carculture/id/4149807344',
+          title: 'Updated Mint',
+          mint_url: 'https://manifold.xyz/@carculture/id/4149854448',
           status: 'published',
           image_url: '',
-          description: 'Ocean Breeze Woodie',
-          make: 'Chevrolet',
-          model: 'Woodie',
-          year: '1948'
+          description: 'Updated mint URL',
+          make: 'CarCulture',
+          model: 'Updated',
+          year: '2025'
         };
     
     return NextResponse.json({
