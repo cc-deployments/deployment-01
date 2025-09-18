@@ -209,16 +209,16 @@ export default function TextPage() {
                 console.log('✅ API success, redirecting to:', result.data.mint_url);
                 window.location.href = result.data.mint_url;
               } else {
-                console.log('⚠️ API success but no mint_url, using fallback');
-                window.location.href = 'https://manifold.xyz/@carculture';
+                console.log('⚠️ API success but no mint_url, using specific Manifold URL');
+                window.location.href = 'https://manifold.xyz/@carculture/id/4149854448';
               }
             } else {
-              console.log('❌ API not ready yet (status:', response.status, '), using fallback');
-              window.location.href = 'https://manifold.xyz/@carculture';
+              console.log('❌ API not ready yet (status:', response.status, '), using specific Manifold URL');
+              window.location.href = 'https://manifold.xyz/@carculture/id/4149854448';
             }
           } catch (error) {
-            console.log('❌ API error, using fallback:', error);
-            window.location.href = 'https://manifold.xyz/@carculture';
+            console.log('❌ API error, using specific Manifold URL:', error);
+            window.location.href = 'https://manifold.xyz/@carculture/id/4149854448';
           }
         }}
       />
