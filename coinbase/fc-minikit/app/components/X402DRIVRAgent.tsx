@@ -44,7 +44,7 @@ export function X402DRIVRAgent({
     {
       id: '1',
       type: 'agent',
-      content: `hey, i'm DRIVR. i can help you discover, analyze, and purchase amazing automotive NFTs from the CarMania collection. here's the rundown:
+      content: `hey, i'm DRIVR, your CarCulture AI agent. i can help you discover, analyze, and purchase amazing automotive NFTs from the CarCulture collection. here's the rundown:
 
 • **discover cars**: find NFTs by style, era, or theme. try "show me summer cars" or "find vintage woodies"
 • **get market data**: real-time floor prices, trends, and analytics. try "floor price for summertime" 
@@ -62,7 +62,59 @@ what kind of car interests you most?`,
   const [paymentRequired, setPaymentRequired] = useState(false);
   const [paymentAmount, setPaymentAmount] = useState('');
 
-  // Sample NFT products with x402 integration
+  // Enhanced car style categories with detailed descriptions
+  const carStyles = {
+    'summer': {
+      id: 'summer',
+      name: 'Summer Cars',
+      emoji: '☀️',
+      description: 'Classic summer vibes, convertibles, and beach cruisers',
+      keywords: ['summer', 'convertible', 'beach', 'cruise', 'sunshine', 'vacation', 'road trip'],
+      imageUrl: '/carmania-gallery-hero.png'
+    },
+    'vintage': {
+      id: 'vintage',
+      name: 'Vintage Classics',
+      emoji: '🏛️',
+      description: 'Timeless classics from the golden age of automotive',
+      keywords: ['vintage', 'classic', 'antique', 'retro', 'heritage', 'timeless', 'elegant'],
+      imageUrl: '/carmania-gallery-hero-2.png'
+    },
+    'surf': {
+      id: 'surf',
+      name: 'Surf Culture',
+      emoji: '🏄',
+      description: 'Woodie wagons and surf-inspired automotive art',
+      keywords: ['surf', 'woodie', 'wagon', 'beach', 'california', 'waves', 'board'],
+      imageUrl: '/carmania-gallery-hero.png'
+    },
+    'premium': {
+      id: 'premium',
+      name: 'Premium Collectors',
+      emoji: '👑',
+      description: 'Exclusive, limited edition automotive masterpieces',
+      keywords: ['premium', 'exclusive', 'limited', 'collector', 'rare', 'vip', 'luxury'],
+      imageUrl: '/carmania-gallery-hero-2.png'
+    },
+    'muscle': {
+      id: 'muscle',
+      name: 'Muscle Cars',
+      emoji: '💪',
+      description: 'Powerful American muscle cars and performance vehicles',
+      keywords: ['muscle', 'power', 'speed', 'american', 'v8', 'performance', 'drag'],
+      imageUrl: '/carmania-gallery-hero.png'
+    },
+    'european': {
+      id: 'european',
+      name: 'European Classics',
+      emoji: '🏎️',
+      description: 'Elegant European sports cars and luxury vehicles',
+      keywords: ['european', 'ferrari', 'porsche', 'lamborghini', 'elegant', 'sports', 'luxury'],
+      imageUrl: '/carmania-gallery-hero-2.png'
+    }
+  };
+
+  // Sample NFT products with enhanced categorization
   const nftProducts = {
     'summertime': {
       productId: 'summertime-blues',
@@ -72,7 +124,8 @@ what kind of car interests you most?`,
       contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
       tokenId: '1',
       description: 'A legendary automotive NFT featuring classic summer vibes and car culture nostalgia. Perfect for collectors who appreciate vintage aesthetics.',
-      keywords: ['summer', 'vintage', 'classic', 'nostalgia', 'blues'],
+      keywords: ['summer', 'vintage', 'classic', 'nostalgia', 'blues', 'convertible', 'beach'],
+      style: 'summer',
       mintUrl: 'https://manifold.xyz/@carculture/id/4144040176'
     },
     'woodie': {
@@ -83,7 +136,8 @@ what kind of car interests you most?`,
       contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
       tokenId: '2',
       description: 'An exclusive Woodie Wagon design celebrating surf culture and automotive heritage. Limited edition with premium artistic quality.',
-      keywords: ['woodie', 'wagon', 'surf', 'premium', 'limited', 'heritage'],
+      keywords: ['woodie', 'wagon', 'surf', 'premium', 'limited', 'heritage', 'california'],
+      style: 'surf',
       mintUrl: 'https://manifold.xyz/@carculture/id/4149840112'
     },
     'premium': {
@@ -94,7 +148,8 @@ what kind of car interests you most?`,
       contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
       tokenId: '3',
       description: 'The ultimate collector piece featuring rare automotive art with exclusive benefits and community access.',
-      keywords: ['premium', 'collector', 'exclusive', 'rare', 'vip', 'ultimate'],
+      keywords: ['premium', 'collector', 'exclusive', 'rare', 'vip', 'ultimate', 'luxury'],
+      style: 'premium',
       mintUrl: 'https://manifold.xyz/@carculture/id/4169097456'
     }
   };
@@ -114,6 +169,128 @@ what kind of car interests you most?`,
 
   const addQuickActions = (description: string, actions: QuickAction[]) => {
     addMessage('agent', description, undefined, 'actions', actions);
+  };
+
+  const handleCarStyleSelection = async (styleId: string) => {
+    const style = carStyles[styleId as keyof typeof carStyles];
+    if (!style) return;
+
+    await simulateTyping(
+      `excellent choice! ${style.emoji} **${style.name}** - ${style.description}\n\n` +
+      `here's what i found in this category:`
+    );
+
+    // Find products that match this style
+    const matchingProducts = Object.values(nftProducts).filter(
+      product => product.style === styleId
+    );
+
+    if (matchingProducts.length > 0) {
+      // Show matching products
+      const productActions: QuickAction[] = matchingProducts.map(product => ({
+        id: `view_${product.productId}`,
+        label: `${product.productName} - ${product.price} ${product.currency}`,
+        style: 'primary' as const
+      }));
+
+      addQuickActions("available NFTs in this style:", productActions);
+
+      // Add style-specific actions
+      addQuickActions("what would you like to do?", [
+        { id: 'get_style_market_data', label: '📊 Market Data', style: 'secondary' },
+        { id: 'find_similar_styles', label: '🔍 Find Similar', style: 'secondary' },
+        { id: 'style_quiz', label: '🎯 Style Quiz', style: 'secondary' }
+      ]);
+    } else {
+      // No products in this style yet
+      await simulateTyping(
+        `we don't have any NFTs in the ${style.name} category yet, but we're working on it!\n\n` +
+        `would you like to:\n` +
+        `• explore other car styles\n` +
+        `• get notified when we add ${style.name} NFTs\n` +
+        `• suggest specific cars for this category`
+      );
+
+      addQuickActions("what's next?", [
+        { id: 'discover_cars', label: '🔍 Explore Other Styles', style: 'primary' },
+        { id: 'suggest_cars', label: '💡 Suggest Cars', style: 'secondary' },
+        { id: 'get_notified', label: '🔔 Get Notified', style: 'secondary' }
+      ]);
+    }
+  };
+
+  const handleStyleQuiz = async () => {
+    await simulateTyping("let's find your perfect car style! answer a few questions:");
+    
+    addQuickActions("what's your ideal driving experience?", [
+      { id: 'quiz_cruise', label: '🌊 Cruise & Relax', style: 'primary' },
+      { id: 'quiz_speed', label: '⚡ Speed & Power', style: 'primary' },
+      { id: 'quiz_elegance', label: '✨ Elegance & Style', style: 'primary' },
+      { id: 'quiz_nostalgia', label: '📚 Nostalgia & Heritage', style: 'secondary' }
+    ]);
+  };
+
+  const handleCarSuggestion = async () => {
+    await simulateTyping(
+      "i'd love to hear your suggestions! what specific cars or styles would you like to see in our collection?\n\n" +
+      "you can suggest:\n" +
+      "• specific car models (e.g., '1967 Mustang')\n" +
+      "• car styles (e.g., 'lowriders')\n" +
+      "• themes (e.g., 'racing cars')\n" +
+      "• eras (e.g., '80s supercars')"
+    );
+    
+    addQuickActions("how would you like to suggest?", [
+      { id: 'suggest_text', label: '💬 Type Your Suggestion', style: 'primary' },
+      { id: 'suggest_categories', label: '📋 Browse Categories', style: 'secondary' },
+      { id: 'suggest_popular', label: '🔥 Popular Requests', style: 'secondary' }
+    ]);
+  };
+
+  const handleGetNotified = async () => {
+    await simulateTyping(
+      "great! i'll notify you when we add new NFTs to your favorite categories.\n\n" +
+      "you'll get updates about:\n" +
+      "• new releases in your preferred styles\n" +
+      "• special drops and limited editions\n" +
+      "• market updates and price changes\n" +
+      "• exclusive early access opportunities"
+    );
+    
+    addQuickActions("notification preferences:", [
+      { id: 'notify_all', label: '🔔 All Updates', style: 'primary' },
+      { id: 'notify_new', label: '🆕 New Releases Only', style: 'secondary' },
+      { id: 'notify_drops', label: '💎 Special Drops Only', style: 'secondary' }
+    ]);
+  };
+
+  const handleFindSimilarStyles = async () => {
+    await simulateTyping("let me find similar car styles you might enjoy:");
+    
+    addQuickActions("based on your interests, try these styles:", [
+      { id: 'similar_vintage', label: '🏛️ Vintage Classics', style: 'primary' },
+      { id: 'similar_surf', label: '🏄 Surf Culture', style: 'primary' },
+      { id: 'similar_premium', label: '👑 Premium Collectors', style: 'secondary' },
+      { id: 'similar_muscle', label: '💪 Muscle Cars', style: 'secondary' }
+    ]);
+  };
+
+  const handleStyleMarketData = async () => {
+    await simulateTyping("getting market data for this car style using x402 payments...");
+    
+    // Simulate x402 payment for style-specific market data
+    const paymentDetails = await handleX402Payment('/api/style-market-data', 'Car Style Market Data');
+    
+    if (paymentDetails) {
+      await simulateTyping(
+        "📊 **Style Market Analysis:**\n\n" +
+        "• **trending styles**: summer cars +15% this month\n" +
+        "• **average price**: 0.002 ETH across all styles\n" +
+        "• **rarity score**: premium collectors are most exclusive\n" +
+        "• **market sentiment**: vintage classics gaining popularity\n\n" +
+        "this data was retrieved using x402 autonomous payments!"
+      );
+    }
   };
 
   const simulateTyping = async (response: string, delay: number = 1000) => {
@@ -173,9 +350,11 @@ what kind of car interests you most?`,
         await simulateTyping("let's find some amazing cars! what style interests you?");
         addQuickActions("choose a car style:", [
           { id: 'summer_cars', label: '☀️ Summer Cars', style: 'primary' },
-          { id: 'vintage_cars', label: '🏛️ Vintage Cars', style: 'primary' },
-          { id: 'surf_cars', label: '🏄 Surf Cars', style: 'secondary' },
-          { id: 'premium_cars', label: '👑 Premium Cars', style: 'secondary' }
+          { id: 'vintage_cars', label: '🏛️ Vintage Classics', style: 'primary' },
+          { id: 'surf_cars', label: '🏄 Surf Culture', style: 'primary' },
+          { id: 'muscle_cars', label: '💪 Muscle Cars', style: 'secondary' },
+          { id: 'european_cars', label: '🏎️ European Classics', style: 'secondary' },
+          { id: 'premium_cars', label: '👑 Premium Collectors', style: 'secondary' }
         ]);
         break;
       case 'market_data':
@@ -205,14 +384,66 @@ what kind of car interests you most?`,
 
 try asking for "floor price for summertime" to see it in action!`);
         break;
+      case 'summer_cars':
+        await handleCarStyleSelection('summer');
+        break;
+      case 'vintage_cars':
+        await handleCarStyleSelection('vintage');
+        break;
+      case 'surf_cars':
+        await handleCarStyleSelection('surf');
+        break;
+      case 'muscle_cars':
+        await handleCarStyleSelection('muscle');
+        break;
+      case 'european_cars':
+        await handleCarStyleSelection('european');
+        break;
+      case 'premium_cars':
+        await handleCarStyleSelection('premium');
+        break;
       case 'buy_now':
         setShowPayment(true);
         break;
       case 'get_market_data':
         await handleX402Payment(`/api/nft-floor/${selectedProduct?.productId}`, selectedProduct?.productName);
         break;
+      case 'style_quiz':
+        await handleStyleQuiz();
+        break;
+      case 'suggest_cars':
+        await handleCarSuggestion();
+        break;
+      case 'get_notified':
+        await handleGetNotified();
+        break;
+      case 'find_similar_styles':
+        await handleFindSimilarStyles();
+        break;
+      case 'get_style_market_data':
+        await handleStyleMarketData();
+        break;
       default:
-        await simulateTyping(`you selected: ${actionId}. let me help you with that!`);
+        // Handle product viewing
+        if (actionId.startsWith('view_')) {
+          const productId = actionId.replace('view_', '');
+          const product = Object.values(nftProducts).find(p => p.productId === productId);
+          if (product) {
+            setSelectedProduct(product);
+            await simulateTyping(
+              `great choice! here's the **${product.productName}**:\n\n` +
+              `💰 price: ${product.price} ${product.currency}\n` +
+              `🎨 description: ${product.description}`
+            );
+            addQuickActions("what would you like to do?", [
+              { id: 'buy_now', label: '🛒 Buy Now', style: 'primary' },
+              { id: 'get_market_data', label: '📊 Market Data', style: 'secondary' },
+              { id: 'view_details', label: '🔍 More Details', style: 'secondary' }
+            ]);
+          }
+        } else {
+          await simulateTyping(`you selected: ${actionId}. let me help you with that!`);
+        }
     }
   };
 
@@ -372,8 +603,8 @@ try asking for "floor price for summertime" to see it in action!`);
             🚗
           </div>
           <div>
-            <h2 className="text-lg font-bold">DRIVR - AI Car Expert with x402</h2>
-            <p className="text-sm opacity-90">Autonomous payment-enabled automotive NFT assistant</p>
+            <h2 className="text-lg font-bold">DRIVR - CarCulture AI Agent</h2>
+            <p className="text-sm opacity-90">drivr.base.eth • Autonomous payment-enabled automotive NFT assistant</p>
           </div>
         </div>
       </div>
@@ -494,7 +725,7 @@ export function X402DRIVRAgentExample() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            🤖 x402 DRIVR Agent Demo
+            🤖 CarCulture DRIVR Agent Demo
           </h1>
           <p className="text-gray-600">
             Experience AI-powered NFT sales with autonomous x402 payments

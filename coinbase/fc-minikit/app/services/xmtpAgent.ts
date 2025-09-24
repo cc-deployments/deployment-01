@@ -1,5 +1,6 @@
 import { Client, type XmtpEnv, type Signer } from "@xmtp/node-sdk";
 import { PaymentFacilitator } from '@coinbase/x402-sdk';
+import { AGENT_CONFIG } from '../config/agent';
 
 export interface XMTPAgentConfig {
   privateKey: string;
@@ -8,7 +9,7 @@ export interface XMTPAgentConfig {
   network: 'base' | 'mainnet';
 }
 
-export class CarManiaXMTPAgent {
+export class CarCultureXMTPAgent {
   private client: Client;
   private facilitator: PaymentFacilitator;
   private config: XMTPAgentConfig;
@@ -36,7 +37,7 @@ export class CarManiaXMTPAgent {
     });
 
     await this.client.conversations.sync();
-    console.log('✅ CarMania XMTP Agent initialized');
+    console.log('✅ CarCulture XMTP Agent initialized');
   }
 
   async startListening() {
@@ -217,5 +218,15 @@ Just ask me anything about cars or NFTs!`);
   async getAgentAddress(): Promise<string> {
     const inboxState = await this.client.preferences.inboxState();
     return inboxState.identifiers[0].identifier;
+  }
+
+  // Get agent basename for user-friendly messaging
+  getAgentBasename(): string {
+    return AGENT_CONFIG.basename;
+  }
+
+  // Get agent configuration
+  getAgentConfig() {
+    return AGENT_CONFIG;
   }
 }

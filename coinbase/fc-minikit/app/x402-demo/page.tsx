@@ -8,10 +8,13 @@ export default function X402Demo() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            🚗 x402 DRIVR Agent Demo
+            🚗 CarCulture DRIVR Agent Demo
           </h1>
-          <p className="text-xl text-gray-600 mb-6">
+          <p className="text-xl text-gray-600 mb-2">
             Experience the future of autonomous payment agents
+          </p>
+          <p className="text-lg text-blue-600 font-medium mb-6">
+            Message: drivr.base.eth
           </p>
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 max-w-4xl mx-auto">
             <h2 className="text-lg font-semibold text-blue-900 mb-3">
@@ -90,7 +93,7 @@ export default function X402Demo() {
             🚀 Built with Base & x402 Foundation
           </h2>
           <p className="text-lg mb-4">
-            This demo showcases the power of autonomous payment agents using the x402 protocol 
+            This CarCulture DRIVR agent showcases the power of autonomous payment agents using the x402 protocol 
             developed by Coinbase and Cloudflare.
           </p>
           <div className="flex flex-wrap gap-4">
