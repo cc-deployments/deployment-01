@@ -38,9 +38,9 @@ const products = {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { productId: string } }
+  { params }: { params: Promise<{ productId: string }> }
 ) {
-  const { productId } = params;
+  const { productId } = await params;
   
   try {
     const product = products[productId as keyof typeof products];
@@ -95,3 +95,4 @@ export async function GET(
     );
   }
 }
+
