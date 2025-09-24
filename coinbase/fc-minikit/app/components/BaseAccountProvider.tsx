@@ -4,6 +4,15 @@ import { type ReactNode, createContext, useContext, useEffect, useState } from '
 import { createBaseAccountSDK } from '@base-org/account';
 import { base } from 'viem/chains';
 
+// Extend Window interface for crypto polyfill
+declare global {
+  interface Window {
+    crypto: {
+      randomUUID: () => string;
+    };
+  }
+}
+
 interface BaseAccountContextType {
   sdk: any;
   isConnected: boolean;
@@ -28,34 +37,15 @@ export function BaseAccountProvider({ children }: { children: ReactNode }) {
   const [address, setAddress] = useState<string | null>(null);
 
   useEffect(() => {
-    // Initialize Base Account SDK with Smart Wallet
-    const baseAccount = createBaseAccountSDK({
-      appName: 'CarMania Gallery',
-      appLogoUrl: 'https://carmania.carculture.com/carmania-share.png',
-      preference: {
-        telemetry: false,  // Disable telemetry to prevent 401 errors
-        smartWallet: true  // Enable Base Smart Wallet for better Manifold compatibility
-      }
+    // Temporarily disable Base Account SDK to avoid crypto.randomUUID issues
+    // The NFT purchase flow will work with standard wallet connections
+    console.log('Base Account Provider initialized (SDK disabled for now)');
+    
+    // Set a mock SDK to prevent errors
+    setSdk({ 
+      getProvider: () => null,
+      isConnected: false 
     });
-
-    setSdk(baseAccount);
-
-    // Check if already connected
-    const checkConnection = async () => {
-      try {
-        const provider = baseAccount.getProvider();
-        const accounts = await provider.request({ method: 'eth_accounts' }) as string[];
-        if (accounts && Array.isArray(accounts) && accounts.length > 0) {
-          setAddress(accounts[0]);
-          setIsConnected(true);
-          console.log('Base Account connected:', accounts[0]);
-        }
-      } catch (error) {
-        console.log('No existing connection:', error);
-      }
-    };
-
-    checkConnection();
   }, []);
 
   const connect = async () => {

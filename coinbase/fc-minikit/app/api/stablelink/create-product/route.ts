@@ -28,20 +28,18 @@ export async function POST(request: NextRequest) {
     const projectId = process.env.CDP_PROJECT_ID || '1cceb0e4-e690-40ac-8f3d-7d1f3da1417a';
     const productId = `cdp_${Date.now()}`;
     
-    // Build OnRamp URL with correct parameters to bypass asset selection
+    // Build OnRamp URL with required addresses parameter
     const baseUrl = 'https://pay.coinbase.com/buy/input';
     const params = new URLSearchParams({
       appId: projectId,
-      destinationWallets: JSON.stringify([{
-        address: contractAddress || '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+      addresses: JSON.stringify([{
+        address: '0x048a22DAB92f2c1e7Deb3847Ca151B888aAbOF1C', // Your CarCulture wallet address
         blockchains: ['base']
       }]),
-      defaultExperience: 'buy',
+      assets: 'USDC',
+      defaultAsset: 'USDC',
       defaultNetwork: 'base',
-      // Key parameters to bypass asset selection
-      assets: 'ETH', // Restrict to only ETH
-      defaultAsset: 'ETH', // Pre-select ETH
-      presetFiatAmount: price.toString(), // Set the USD amount
+      presetFiatAmount: price.toString(),
       fiatCurrency: 'USD',
       productName: `${name} NFT`,
       productId,
@@ -70,12 +68,12 @@ export async function POST(request: NextRequest) {
         type: 'cdp_onramp',
         config: {
           projectId,
-          destinationWallets: [{
-            address: contractAddress || '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+          addresses: [{
+            address: '0x048a22DAB92f2c1e7Deb3847Ca151B888aAbOF1C', // Your CarCulture wallet address
             blockchains: ['base']
           }],
-          assets: 'ETH',
-          defaultAsset: 'ETH',
+          assets: 'USDC',
+          defaultAsset: 'USDC',
           defaultNetwork: 'base',
           presetFiatAmount: price,
           fiatCurrency: 'USD'
@@ -91,12 +89,12 @@ export async function POST(request: NextRequest) {
       type: 'cdp_onramp',
       config: {
         projectId,
-        destinationWallets: [{
-          address: contractAddress || '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+        addresses: [{
+          address: '0x048a22DAB92f2c1e7Deb3847Ca151B888aAbOF1C', // Your CarCulture wallet address
           blockchains: ['base']
         }],
-        assets: 'ETH',
-        defaultAsset: 'ETH',
+        assets: 'USDC',
+        defaultAsset: 'USDC',
         defaultNetwork: 'base',
         presetFiatAmount: price,
         fiatCurrency: 'USD'

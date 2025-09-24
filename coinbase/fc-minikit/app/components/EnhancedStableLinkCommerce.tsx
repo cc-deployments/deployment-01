@@ -118,12 +118,23 @@ export function EnhancedStableLinkCommerce({
       const isEIP5792Supported = walletCapabilities.includes('wallet_sendCalls');
       
       if (isEIP5792Supported && enableEIP5792) {
+        // Get current user's wallet address
+        const accounts = await window.ethereum.request({
+          method: 'eth_requestAccounts'
+        });
+        
+        if (!accounts || accounts.length === 0) {
+          throw new Error('No wallet connected. Please connect your wallet first.');
+        }
+        
+        const buyerAddress = accounts[0];
+        
         // Use EIP5792 batch transaction
         const batchCalls = createNFTPurchaseBatchCalls(
           product.nftMetadata.contractAddress,
           product.nftMetadata.tokenId || '1',
           (product.price * 1e18).toString(), // Convert to wei
-          '0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6' // Buyer address
+          buyerAddress
         );
 
         // Execute batch transaction

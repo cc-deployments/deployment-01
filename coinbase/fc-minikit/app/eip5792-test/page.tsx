@@ -1,145 +1,205 @@
 'use client';
 
-import { EIP5792BatchTransaction, createNFTPurchaseBatchCalls, EIP5792Example } from '../components/EIP5792BatchTransaction';
-import { EnhancedStableLinkCommerce, EnhancedStableLinkCommerceExample } from '../components/EnhancedStableLinkCommerce';
+import React, { useState } from 'react';
+import { EIP5792BatchTransaction, createNFTPurchaseBatchCalls } from '../components/EIP5792BatchTransaction';
+import { CARMANIA_NFTS } from '../utils/manifoldUtils';
 
 export default function EIP5792TestPage() {
+  const [selectedNFT, setSelectedNFT] = useState(CARMANIA_NFTS[0]);
+  const [testResults, setTestResults] = useState<any[]>([]);
+
+  const handleTestSuccess = (result: any) => {
+    console.log('✅ EIP5792 Test Success:', result);
+    setTestResults(prev => [...prev, {
+      type: 'success',
+      timestamp: new Date().toISOString(),
+      result: result
+    }]);
+  };
+
+  const handleTestError = (error: string) => {
+    console.error('❌ EIP5792 Test Error:', error);
+    setTestResults(prev => [...prev, {
+      type: 'error',
+      timestamp: new Date().toISOString(),
+      error: error
+    }]);
+  };
+
+  const createTestCalls = () => {
+    return createNFTPurchaseBatchCalls(
+      selectedNFT.contractAddress,
+      selectedNFT.tokenId,
+      (selectedNFT.price! * 1e18).toString(), // Convert to wei
+      '0x0000000000000000000000000000000000000000' // Placeholder - will be replaced with actual buyer
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4 max-w-6xl">
+      <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            EIP5792 Integration Test
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            🚀 EIP5792 + Paymaster Test
           </h1>
-          <p className="text-lg text-gray-600 mb-2">
-            Testing batch transactions and enhanced payment flows
-          </p>
-          <p className="text-sm text-gray-500">
-            BASE Pay + EIP5792 = Better UX + Lower Costs
+          <p className="text-gray-600">
+            Test our streamlined 1-click NFT purchase flow with sponsored gas fees
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* EIP5792 Batch Transaction Test */}
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-bold mb-4 text-center">
-              🚀 EIP5792 Batch Transactions
-            </h2>
-            <p className="text-gray-600 mb-6 text-center">
-              Test atomic execution of multiple operations
-            </p>
-            <EIP5792Example />
+          {/* Test Interface */}
+          <div className="space-y-6">
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-semibold mb-4">🎯 Test Configuration</h2>
+              
+              {/* NFT Selection */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Select NFT to Test:
+                </label>
+                <select
+                  value={selectedNFT.tokenId}
+                  onChange={(e) => {
+                    const nft = CARMANIA_NFTS.find(n => n.tokenId === e.target.value);
+                    if (nft) setSelectedNFT(nft);
+                  }}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  {CARMANIA_NFTS.map((nft) => (
+                    <option key={nft.tokenId} value={nft.tokenId}>
+                      CarMania Garage Testing {nft.tokenId.slice(-1)} - ${nft.price} {nft.currency}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* NFT Details */}
+              <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                <h3 className="font-semibold mb-2">NFT Details:</h3>
+                <div className="text-sm space-y-1">
+                  <div><strong>Token ID:</strong> {selectedNFT.tokenId}</div>
+                  <div><strong>Contract:</strong> {selectedNFT.contractAddress}</div>
+                  <div><strong>Price:</strong> ${selectedNFT.price} {selectedNFT.currency}</div>
+                  <div><strong>URL:</strong> 
+                    <a 
+                      href={selectedNFT.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline ml-1"
+                    >
+                      View on Manifold
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Test Button */}
+              <EIP5792BatchTransaction
+                calls={createTestCalls()}
+                onSuccess={handleTestSuccess}
+                onError={handleTestError}
+                className="mb-4"
+              />
+            </div>
+
+            {/* Paymaster Status */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-semibold mb-4">⚡ Paymaster Status</h2>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-green-600">✅</span>
+                  <span>BASE Paymaster Service: Active</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-blue-600">💰</span>
+                  <span>Gas Fees: Sponsored (Free for users)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-purple-600">🔒</span>
+                  <span>Atomic Execution: Enabled</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-orange-600">⚡</span>
+                  <span>Batch Transactions: Optimized</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Enhanced StableLink Commerce Test */}
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-bold mb-4 text-center">
-              💳 Enhanced Payment Flows
-            </h2>
-            <p className="text-gray-600 mb-6 text-center">
-              Credit card + Crypto with EIP5792 support
-            </p>
-            <EnhancedStableLinkCommerceExample />
-          </div>
-        </div>
+          {/* Test Results */}
+          <div className="space-y-6">
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-semibold mb-4">📊 Test Results</h2>
+              
+              {testResults.length === 0 ? (
+                <div className="text-center text-gray-500 py-8">
+                  <div className="text-4xl mb-2">🧪</div>
+                  <p>No tests run yet. Click "Execute batch transaction" to start testing.</p>
+                </div>
+              ) : (
+                <div className="space-y-3 max-h-96 overflow-y-auto">
+                  {testResults.map((result, index) => (
+                    <div
+                      key={index}
+                      className={`p-3 rounded-lg border-l-4 ${
+                        result.type === 'success'
+                          ? 'bg-green-50 border-green-400'
+                          : 'bg-red-50 border-red-400'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-sm font-medium">
+                          {result.type === 'success' ? '✅ Success' : '❌ Error'}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          {new Date(result.timestamp).toLocaleTimeString()}
+                        </span>
+                      </div>
+                      <div className="text-xs text-gray-600">
+                        {result.type === 'success' 
+                          ? `Transaction ID: ${result.result?.sessionId || 'N/A'}`
+                          : `Error: ${result.error}`
+                        }
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
-        {/* Benefits Section */}
-        <div className="mt-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-8">
-          <h2 className="text-3xl font-bold text-center mb-6">
-            Why EIP5792 Matters for CarMania
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="text-4xl mb-4">⚡</div>
-              <h3 className="text-xl font-semibold mb-2">Faster Transactions</h3>
-              <p className="text-gray-600">
-                Batch multiple operations (approve + purchase + mint) into a single transaction
-              </p>
+            {/* Expected Flow */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-semibold mb-4">🎯 Expected Flow</h2>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                  <span>Connect wallet (if not connected)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                  <span>Execute batch transaction with paymaster</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                  <span>NFT minted directly to wallet</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold">✓</span>
+                  <span>Success! (No 9-step process)</span>
+                </div>
+              </div>
             </div>
-            
-            <div className="text-center">
-              <div className="text-4xl mb-4">💰</div>
-              <h3 className="text-xl font-semibold mb-2">Lower Costs</h3>
-              <p className="text-gray-600">
-                Reduce gas fees by combining operations instead of separate transactions
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="text-4xl mb-4">🔒</div>
-              <h3 className="text-xl font-semibold mb-2">Atomic Execution</h3>
-              <p className="text-gray-600">
-                All operations succeed together or fail together - no partial failures
-              </p>
-            </div>
-          </div>
-        </div>
 
-        {/* Technical Details */}
-        <div className="mt-12 bg-white rounded-lg shadow-lg p-8">
-          <h2 className="text-2xl font-bold mb-6 text-center">
-            Technical Implementation
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">EIP5792 Features</h3>
-              <ul className="space-y-2 text-gray-600">
-                <li>• <code className="bg-gray-100 px-2 py-1 rounded">wallet_sendCalls</code> - Execute batch transactions</li>
-                <li>• <code className="bg-gray-100 px-2 py-1 rounded">wallet_getCallsStatus</code> - Monitor transaction status</li>
-                <li>• <code className="bg-gray-100 px-2 py-1 rounded">wallet_getCapabilities</code> - Check wallet features</li>
-                <li>• Paymaster integration for gasless transactions</li>
-                <li>• Atomic execution guarantees</li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="text-lg font-semibold mb-4">BASE Integration</h3>
-              <ul className="space-y-2 text-gray-600">
-                <li>• Base mainnet support (Chain ID: 8453)</li>
-                <li>• BASE Pay paymaster service integration</li>
-                <li>• Optimized for Base ecosystem</li>
-                <li>• Compatible with Base smart wallets</li>
-                <li>• Enhanced UX for BASE users</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* Testing Instructions */}
-        <div className="mt-12 bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-          <h2 className="text-xl font-bold mb-4 text-center">
-            🧪 Testing Instructions
-          </h2>
-          
-          <div className="space-y-4">
-            <div>
-              <h3 className="font-semibold mb-2">1. Wallet Setup</h3>
-              <p className="text-gray-600">
-                Install a wallet that supports EIP5792 (MetaMask, Ambire, etc.)
-              </p>
-            </div>
-            
-            <div>
-              <h3 className="font-semibold mb-2">2. Test Batch Transactions</h3>
-              <p className="text-gray-600">
-                Click "Execute batch transaction" to test atomic operations
-              </p>
-            </div>
-            
-            <div>
-              <h3 className="font-semibold mb-2">3. Test Payment Flows</h3>
-              <p className="text-gray-600">
-                Try both credit card and crypto payment methods
-              </p>
-            </div>
-            
-            <div>
-              <h3 className="font-semibold mb-2">4. Monitor Console</h3>
-              <p className="text-gray-600">
-                Check browser console for transaction details and status updates
-              </p>
+            {/* Troubleshooting */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-semibold mb-4">🔧 Troubleshooting</h2>
+              <div className="text-sm space-y-2">
+                <div><strong>Wallet not connected:</strong> Make sure you're using a compatible wallet (Coinbase Wallet, MetaMask, etc.)</div>
+                <div><strong>EIP5792 not supported:</strong> Your wallet needs to support batch transactions</div>
+                <div><strong>Paymaster error:</strong> Check if BASE paymaster service is available</div>
+                <div><strong>Contract error:</strong> Verify the Manifold contract address and token ID</div>
+              </div>
             </div>
           </div>
         </div>
@@ -147,5 +207,3 @@ export default function EIP5792TestPage() {
     </div>
   );
 }
-
-

@@ -233,24 +233,30 @@ export function createNFTPurchaseBatchCalls(
   price: string,
   buyerAddress: string
 ): BatchCall[] {
+  // Helper function to pad hex values
+  const padHex = (value: string, length: number = 64) => {
+    const hex = value.startsWith('0x') ? value.slice(2) : value;
+    return '0x' + hex.padStart(length, '0');
+  };
+
+  // Helper function to encode uint256
+  const encodeUint256 = (value: string) => {
+    const hex = BigInt(value).toString(16);
+    return hex.padStart(64, '0');
+  };
+
+  // For Manifold contracts, we need to call the purchase function
+  // Function signature: purchase(uint256 tokenId)
+  // Function selector: 0x693ec85e (first 4 bytes of keccak256 hash)
+  const functionSelector = '0x693ec85e';
+  const encodedTokenId = encodeUint256(tokenId);
+  
   return [
-    // 1. Approve spending
+    // Single call to purchase NFT from Manifold contract
     {
       to: nftContract,
-      data: `0x095ea7b3${buyerAddress.padStart(64, '0')}${parseInt(price).toString(16).padStart(64, '0')}`, // approve(address,uint256)
-      value: '0x0'
-    },
-    // 2. Purchase NFT
-    {
-      to: nftContract,
-      data: `0x42842e0e${buyerAddress.padStart(64, '0')}${tokenId.padStart(64, '0')}`, // safeTransferFrom(address,address,uint256)
-      value: price
-    },
-    // 3. Mint to buyer
-    {
-      to: nftContract,
-      data: `0x40c10f19${buyerAddress.padStart(64, '0')}${tokenId.padStart(64, '0')}`, // mint(address,uint256)
-      value: '0x0'
+      data: `${functionSelector}${encodedTokenId}`,
+      value: padHex(price) // Send ETH/USDC as payment
     }
   ];
 }

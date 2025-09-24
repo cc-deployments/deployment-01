@@ -57,6 +57,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Manifold Widget Scripts removed - not needed for direct contract interaction */}
+      </head>
       <body className={inter.className}>
         <Providers>
           {children}

@@ -4,39 +4,116 @@ import React, { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-// Mock NFT data for testing - matches grid view
+// Mock NFT data for testing - matches grid view with correct Manifold URLs
 const mockNFTs = [
+  {
+    id: '1',
+    name: 'CarMania Garage Testing 1',
+    description: 'The first in our exclusive CarMania Garage Testing series.',
+    image: '/preview-images/car_culture__carmania_garage_testing_1_preview.jpg',
+    price: '1.00',
+    currency: 'USD',
+    tokenId: '1',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169111792'
+  },
+  {
+    id: '2',
+    name: 'CarMania Garage Testing 2',
+    description: 'The second in our exclusive CarMania Garage Testing series.',
+    image: '/preview-images/car_culture__carmania_garage_testing_2_preview.jpg',
+    price: '1.00',
+    currency: 'USD',
+    tokenId: '2',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169128176'
+  },
+  {
+    id: '3',
+    name: 'CarMania Garage Testing 3',
+    description: 'The third in our exclusive CarMania Garage Testing series.',
+    image: '/preview-images/car_culture__carmania_garage_testing_3_preview.jpg',
+    price: '1.00',
+    currency: 'USD',
+    tokenId: '3',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169124080'
+  },
+  {
+    id: '4',
+    name: 'CarMania Garage Testing 4',
+    description: 'The fourth in our exclusive CarMania Garage Testing series.',
+    image: '/preview-images/car_culture__carmania_garage_testing_4_preview.jpg',
+    price: '1.00',
+    currency: 'USD',
+    tokenId: '4',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169085168'
+  },
+  {
+    id: '5',
+    name: 'CarMania Garage Testing 5',
+    description: 'The fifth in our exclusive CarMania Garage Testing series.',
+    image: '/preview-images/car_culture__carmania_garage_testing_5_preview.jpg',
+    price: '1.00',
+    currency: 'USD',
+    tokenId: '5',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169081072'
+  },
+  {
+    id: '6',
+    name: 'CarMania Garage Testing 6',
+    description: 'The sixth in our exclusive CarMania Garage Testing series.',
+    image: '/preview-images/car_culture__carmania_garage_testing_6_preview.jpg',
+    price: '1.00',
+    currency: 'USD',
+    tokenId: '6',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169076976'
+  },
+  {
+    id: '7',
+    name: 'CarMania Garage Testing 7',
+    description: 'The seventh in our exclusive CarMania Garage Testing series.',
+    image: '/preview-images/car_culture__carmania_garage_testing_7_preview.jpg',
+    price: '1.00',
+    currency: 'USD',
+    tokenId: '7',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169074928'
+  },
+  {
+    id: '8',
+    name: 'CarMania Garage Testing 8',
+    description: 'The eighth in our exclusive CarMania Garage Testing series.',
+    image: '/preview-images/car_culture__carmania_garage_testing_8_preview.jpg',
+    price: '1.00',
+    currency: 'USD',
+    tokenId: '8',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169103600'
+  },
+  {
+    id: '9',
+    name: 'CarMania Garage Testing 9',
+    description: 'The ninth and final in our exclusive CarMania Garage Testing series.',
+    image: '/preview-images/car_culture__carmania_garage_testing_9_preview.jpg',
+    price: '1.00',
+    currency: 'USD',
+    tokenId: '9',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169097456'
+  },
   {
     id: 'summertime',
     name: 'Summertime Blues',
     description: 'A legendary automotive NFT from the CarMania collection, featuring classic summer vibes and car culture nostalgia.',
     image: 'https://ur4re6uytbzkxhvamuzhxaugfrpsfywiukkeabahnvddaumlcama.arweave.net/pHkSepiYcqueoGUye4KGLF8i4siilEAEB21GMFGLEBg',
-    price: '0.001',
-    currency: 'ETH',
+    price: '5.00',
+    currency: 'USD',
     tokenId: '76',
     contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
-    mintUrl: 'https://manifold.xyz/@carculture/id/4144040176'
-  },
-  {
-    id: 'test1',
-    name: 'Test Car 1',
-    description: 'A beautiful test vehicle showcasing automotive excellence.',
-    image: '/preview-images/car1.jpg',
-    price: '0.001',
-    currency: 'ETH',
-    tokenId: '1',
-    contractAddress: '0x1234567890123456789012345678901234567890',
-    mintUrl: 'https://manifold.xyz/@carculture/id/4144040176'
-  },
-  {
-    id: 'test2',
-    name: 'Test Car 2',
-    description: 'Another stunning test vehicle from our collection.',
-    image: '/preview-images/car2.jpg',
-    price: '0.001',
-    currency: 'ETH',
-    tokenId: '2',
-    contractAddress: '0x1234567890123456789012345678901234567890',
     mintUrl: 'https://manifold.xyz/@carculture/id/4144040176'
   }
 ];

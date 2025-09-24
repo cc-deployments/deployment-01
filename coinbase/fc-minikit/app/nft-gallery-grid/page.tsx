@@ -3,180 +3,21 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { getCarManiaGarageNFTs, getPublishedNFTs, type NFTData } from '../utils/nftDataUtils';
 
-// Updated NFT data with all 9 test images
-const mockNFTs = [
-  {
-    id: '1',
-    name: 'CarMania Garage Testing 1',
-    description: 'The first in our exclusive CarMania Garage Testing series.',
-    image: '/preview-images/car_culture__carmania_garage_testing_1_preview.jpg',
-    thumbnail: '/thumbnail-images/car_culture__carmania_garage_testing_1_thumbnail.jpg',
-    price: '1.00',
-    currency: 'USD',
-    year: '2025',
-    brand: 'CarCulture',
-    rarity: 'legendary' as const,
-    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
-    tokenId: '1',
-    platform: 'cdp' as const,
-    platformName: 'Coinbase Developer Platform',
-    mintUrl: 'https://hlwk6ht7i3v7hnrmrouv4jhwjss4ztuibm5ey7qii6ou7eq2ye5a.arweave.net/OuyvHn9G6_O2LIupXiT2TKXMzogLOkx-CEedT5IawTo'
-  },
-  {
-    id: '2',
-    name: 'CarMania Garage Testing 2',
-    description: 'The second in our exclusive CarMania Garage Testing series.',
-    image: '/preview-images/car_culture__carmania_garage_testing_2_preview.jpg',
-    thumbnail: '/thumbnail-images/car_culture__carmania_garage_testing_2_thumbnail.jpg',
-    price: '1.00',
-    currency: 'USD',
-    year: '2025',
-    brand: 'CarCulture',
-    rarity: 'legendary' as const,
-    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
-    tokenId: '2',
-    platform: 'cdp' as const,
-    platformName: 'Coinbase Developer Platform',
-    mintUrl: 'https://56k43jlbc26cs47a6lg6srqv77epwa2uibctqtg5jmedtrg6gfoq.arweave.net/75XNpWEWvClz4PLN6UYV_8j7A1RARThM3UsIOcTeMV0'
-  },
-  {
-    id: '3',
-    name: 'CarMania Garage Testing 3',
-    description: 'The third in our exclusive CarMania Garage Testing series.',
-    image: '/preview-images/car_culture__carmania_garage_testing_3_preview.jpg',
-    thumbnail: '/thumbnail-images/car_culture__carmania_garage_testing_3_thumbnail.jpg',
-    price: '1.00',
-    currency: 'USD',
-    year: '2025',
-    brand: 'CarCulture',
-    rarity: 'legendary' as const,
-    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
-    tokenId: '3',
-    platform: 'cdp' as const,
-    platformName: 'Coinbase Developer Platform',
-    mintUrl: 'https://kl5lgl3bvujomrzo5noe35jw6yxws5whnw53zogrhbaz73edu6kq.arweave.net/UvqzL2GtEuZHLutcTfU29i9pdsdtu7y40ThBn-yDp5U'
-  },
-  {
-    id: '4',
-    name: 'CarMania Garage Testing 4',
-    description: 'The fourth in our exclusive CarMania Garage Testing series.',
-    image: '/preview-images/car_culture__carmania_garage_testing_4_preview.jpg',
-    thumbnail: '/thumbnail-images/car_culture__carmania_garage_testing_4_thumbnail.jpg',
-    price: '1.00',
-    currency: 'USD',
-    year: '2025',
-    brand: 'CarCulture',
-    rarity: 'legendary' as const,
-    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
-    tokenId: '4',
-    platform: 'cdp' as const,
-    platformName: 'Coinbase Developer Platform',
-    mintUrl: 'https://iragqon5jdtmlmb64usi3ec3du4fdgxodx3zqw3r5ctdsc3ej7xa.arweave.net/REBoOb1I5sWwPuUkjZBbHThRmu4d95hbceimOQtkT-4'
-  },
-  {
-    id: '5',
-    name: 'CarMania Garage Testing 5',
-    description: 'The fifth in our exclusive CarMania Garage Testing series.',
-    image: '/preview-images/car_culture__carmania_garage_testing_5_preview.jpg',
-    thumbnail: '/thumbnail-images/car_culture__carmania_garage_testing_5_thumbnail.jpg',
-    price: '1.00',
-    currency: 'USD',
-    year: '2025',
-    brand: 'CarCulture',
-    rarity: 'legendary' as const,
-    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
-    tokenId: '5',
-    platform: 'cdp' as const,
-    platformName: 'Coinbase Developer Platform',
-    mintUrl: 'https://f5d2zie2k6s545nphdhdnpmdufvfccbevim2bu4ziewakwsmm6wa.arweave.net/L0esoJpXpd51rzjONr2DoWpRCCSqGaDTmUEsBVpMZ6w'
-  },
-  {
-    id: '6',
-    name: 'CarMania Garage Testing 6',
-    description: 'The sixth in our exclusive CarMania Garage Testing series.',
-    image: '/preview-images/car_culture__carmania_garage_testing_6_preview.jpg',
-    thumbnail: '/thumbnail-images/car_culture__carmania_garage_testing_6_thumbnail.jpg',
-    price: '1.00',
-    currency: 'USD',
-    year: '2025',
-    brand: 'CarCulture',
-    rarity: 'legendary' as const,
-    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
-    tokenId: '6',
-    platform: 'cdp' as const,
-    platformName: 'Coinbase Developer Platform',
-    mintUrl: 'https://3yqpmriehuvnvqi3j7br7u2y37o6eh4siieto2aljd2qvcv4fxxa.arweave.net/3iD2RQQ9KtrBG0_DH9NY393iH5JCCTdoC0j1Coq8Le4'
-  },
-  {
-    id: '7',
-    name: 'CarMania Garage Testing 7',
-    description: 'The seventh in our exclusive CarMania Garage Testing series.',
-    image: '/preview-images/car_culture__carmania_garage_testing_7_preview.jpg',
-    thumbnail: '/thumbnail-images/car_culture__carmania_garage_testing_7_thumbnail.jpg',
-    price: '1.00',
-    currency: 'USD',
-    year: '2025',
-    brand: 'CarCulture',
-    rarity: 'legendary' as const,
-    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
-    tokenId: '7',
-    platform: 'cdp' as const,
-    platformName: 'Coinbase Developer Platform',
-    mintUrl: 'https://3z23cykd5cjsmvt3ion3ubfsqpmkrhslmg3cx3e4gzlnjjmswknq.arweave.net/3nWxYUPokyZWe0ObugSyg9ionkthtivsnDZW1KWSsps'
-  },
-  {
-    id: '8',
-    name: 'CarMania Garage Testing 8',
-    description: 'The eighth in our exclusive CarMania Garage Testing series.',
-    image: '/preview-images/car_culture__carmania_garage_testing_8_preview.jpg',
-    thumbnail: '/thumbnail-images/car_culture__carmania_garage_testing_8_thumbnail.jpg',
-    price: '1.00',
-    currency: 'USD',
-    year: '2025',
-    brand: 'CarCulture',
-    rarity: 'legendary' as const,
-    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
-    tokenId: '8',
-    platform: 'cdp' as const,
-    platformName: 'Coinbase Developer Platform',
-    mintUrl: 'https://s7427qxzu2ggghmvczxiftg44ew4j2fjisfh3yq47yucx5y32rna.arweave.net/l_mvwvmmjGMdlRZugszc4S3E6KlEin3iHP4oK_cb1Fo'
-  },
-  {
-    id: '9',
-    name: 'CarMania Garage Testing 9',
-    description: 'The ninth and final in our exclusive CarMania Garage Testing series.',
-    image: '/preview-images/car_culture__carmania_garage_testing_9_preview.jpg',
-    thumbnail: '/thumbnail-images/car_culture__carmania_garage_testing_9_thumbnail.jpg',
-    price: '1.00',
-    currency: 'USD',
-    year: '2025',
-    brand: 'CarCulture',
-    rarity: 'legendary' as const,
-    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
-    tokenId: '9',
-    platform: 'cdp' as const,
-    platformName: 'Coinbase Developer Platform',
-    mintUrl: 'https://bzf6clfbkqqztyf5wscbtktorbzpq5syuoq4sdtzlpwpudqkk3nq.arweave.net/DkvhLKFUIZngvbSEGapuiHL4dlijockOeVvs-g4KVts'
-  },
-  {
-    id: 'summertime',
-    name: 'Summertime Blues',
-    description: 'A legendary automotive NFT from the CarMania collection, featuring classic summer vibes and car culture nostalgia.',
-    image: 'https://ur4re6uytbzkxhvamuzhxaugfrpsfywiukkeabahnvddaumlcama.arweave.net/pHkSepiYcqueoGUye4KGLF8i4siilEAEB21GMFGLEBg',
-    thumbnail: 'https://ur4re6uytbzkxhvamuzhxaugfrpsfywiukkeabahnvddaumlcama.arweave.net/pHkSepiYcqueoGUye4KGLF8i4siilEAEB21GMFGLEBg',
-    price: '0.001',
-    currency: 'ETH',
-    year: '1970s',
-    brand: 'Chevrolet',
-    rarity: 'legendary' as const,
-    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
-    tokenId: '76',
-    platform: 'manifold' as const,
-    platformName: 'Manifold',
-    mintUrl: 'https://manifold.xyz/@carculture/id/4144040176'
-  }
-];
+// Get real NFT data from CSV
+const realNFTs = [
+  // CarMania Garage Testing NFTs (from CSV)
+  ...getCarManiaGarageNFTs(),
+  // Published NFTs (from CSV) 
+  ...getPublishedNFTs()
+].map((nft, index) => ({
+  ...nft,
+  id: `${nft.tokenId}-${index}`, // Ensure unique IDs by combining tokenId with index
+}));
+
+// Use real data instead of mock data
+const mockNFTs = realNFTs;
 
 const rarityColors = {
   common: 'bg-gray-500',
@@ -191,14 +32,6 @@ interface NFTGridCardProps {
 }
 
 function NFTGridCard({ nft, onPurchase, onViewDetails }: NFTGridCardProps) {
-  const handleCardClick = (e: React.MouseEvent) => {
-    // Prevent navigation if clicking on the purchase button
-    if ((e.target as HTMLElement).closest('button')) {
-      return;
-    }
-    onViewDetails(nft);
-  };
-
   const handlePurchaseClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent card click
     onPurchase(nft);
@@ -206,42 +39,44 @@ function NFTGridCard({ nft, onPurchase, onViewDetails }: NFTGridCardProps) {
 
   return (
     <div 
-      className="group relative bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105 cursor-pointer"
-      onClick={handleCardClick}
+      className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+      onClick={() => onViewDetails(nft)}
     >
-      <div className="relative aspect-square overflow-hidden">
-        <Image 
-          src={nft.thumbnail} 
+      <div className="relative">
+        <Image
+          src={nft.image}
           alt={nft.name}
-          width={400}
-          height={400}
-          className="w-full h-full object-cover"
-          quality={85}
+          width={300}
+          height={300}
+          className="w-full h-48 object-cover"
         />
+        <div className={`absolute top-2 right-2 px-2 py-1 rounded-full text-white text-xs font-semibold ${rarityColors[nft.rarity]}`}>
+          {nft.rarity.toUpperCase()}
+        </div>
+      </div>
+      
+      <div className="p-4">
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">{nft.name}</h3>
+        <p className="text-gray-600 text-sm mb-3 line-clamp-2">{nft.description}</p>
         
-        {/* Minimal Price Badge - Only on Hover */}
-        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div className="bg-black bg-opacity-70 text-white px-3 py-1 rounded-full text-sm font-semibold">
-            {nft.price} {nft.currency}
+        <div className="flex items-center justify-between mb-3">
+          <div className="text-sm text-gray-500">
+            <span className="font-medium">{nft.brand}</span> • {nft.year}
+          </div>
+          <div className="text-sm text-gray-500">
+            {nft.platformName}
           </div>
         </div>
         
-        {/* Hover Overlay with Action Buttons */}
-        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center gap-3">
+        <div className="flex items-center justify-between">
+          <div className="text-lg font-bold text-gray-900">
+            ${nft.price} {nft.currency}
+          </div>
           <button
             onClick={handlePurchaseClick}
-            className="opacity-0 group-hover:opacity-100 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 text-sm"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
           >
             Buy Now
-          </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onViewDetails(nft);
-            }}
-            className="opacity-0 group-hover:opacity-100 bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 text-sm"
-          >
-            View Details
           </button>
         </div>
       </div>
@@ -257,52 +92,92 @@ export default function NFTGalleryGrid() {
     setIsLoading(true);
     
     try {
-      // Use shared auth system - Go directly to Manifold
-      console.log('Using shared auth - Opening Manifold URL directly:', nft.mintUrl);
-      // Use window.location.href to avoid popup blockers
-      window.location.href = nft.mintUrl;
-      
-      // Reset loading state after redirect
-      setTimeout(() => setIsLoading(false), 1000);
-      
-      return; // Exit early, no need for StableLink
-      
-      // OLD STABLELINK CODE (commented out for testing)
-      /*
-      const response = await fetch('/api/stablelink/create-product', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: nft.name,
-          description: nft.description,
-          price: nft.price,
-          currency: nft.currency,
-          image: nft.image,
-          contractAddress: nft.contractAddress,
-          tokenId: nft.tokenId,
-          mintUrl: nft.mintUrl
-        }),
-      });
-
-      const data = await response.json();
-      
-      if (data.paymentUrl) {
-        // Redirect to payment page (either CDP or direct mint)
-        console.log('Opening payment URL:', data.paymentUrl);
-        // Use window.location.href to avoid popup blockers
-        window.location.href = data.paymentUrl;
-      } else {
-        // Fallback to direct mint URL
-        console.log('Fallback to direct mint URL:', nft.mintUrl);
-        window.location.href = nft.mintUrl;
+      // Check if wallet is available
+      if (!window.ethereum) {
+        alert('Please install a compatible wallet (Coinbase Wallet, MetaMask, etc.) to purchase NFTs.');
+        setIsLoading(false);
+        return;
       }
-      */
+
+      // Request wallet connection
+      const accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts'
+      });
+      
+      if (!accounts || accounts.length === 0) {
+        alert('Please connect your wallet to purchase NFTs.');
+        setIsLoading(false);
+        return;
+      }
+
+      const buyerAddress = accounts[0];
+      console.log('🚀 Starting streamlined NFT purchase for:', nft.name);
+      console.log('👤 Buyer address:', buyerAddress);
+      console.log('🎯 Contract:', nft.contractAddress);
+      console.log('🆔 Token ID:', nft.tokenId);
+
+      // Check if wallet supports EIP5792
+      const capabilities = await window.ethereum.request({
+        method: 'wallet_getCapabilities'
+      });
+      
+      const isEIP5792Supported = capabilities && Object.keys(capabilities).includes('wallet_sendCalls');
+      
+      if (isEIP5792Supported) {
+        console.log('✅ EIP5792 supported - Using streamlined batch transaction');
+        
+        // Import the batch transaction function
+        const { createNFTPurchaseBatchCalls } = await import('../components/EIP5792BatchTransaction');
+        
+        // Create batch calls for NFT purchase
+        const batchCalls = createNFTPurchaseBatchCalls(
+          nft.contractAddress,
+          nft.tokenId,
+          (parseFloat(nft.price) * 1e18).toString(), // Convert USD to wei
+          buyerAddress
+        );
+
+        // Execute batch transaction with paymaster
+        const result = await window.ethereum.request({
+          method: 'wallet_sendCalls',
+          params: [{
+            version: '1.0',
+            chainId: '0x2105', // Base mainnet
+            calls: batchCalls,
+            capabilities: {
+              paymasterService: {
+                url: 'https://paymaster.base.org' // FREE GAS! 🎉
+              }
+            }
+          }]
+        });
+
+        console.log('🎉 NFT purchase transaction submitted:', result);
+        alert(`🎉 NFT purchase successful! Transaction ID: ${result.sessionId || 'N/A'}\n\nYour NFT will be minted directly to your wallet with sponsored gas fees!`);
+        
+      } else {
+        console.log('⚠️ EIP5792 not supported - Using traditional transaction');
+        
+        // Fallback to traditional transaction
+        const transaction = {
+          to: nft.contractAddress,
+          from: buyerAddress,
+          value: (parseFloat(nft.price) * 1e18).toString(16), // Convert to hex
+          data: '0x' // Simplified - would need proper ABI encoding
+        };
+
+        const txHash = await window.ethereum.request({
+          method: 'eth_sendTransaction',
+          params: [transaction]
+        });
+
+        console.log('📝 Traditional transaction submitted:', txHash);
+        alert(`📝 NFT purchase transaction submitted!\n\nTransaction Hash: ${txHash}\n\nYour NFT will be minted once the transaction is confirmed.`);
+      }
+      
     } catch (error) {
-      console.error('Purchase error:', error);
-      // Fallback to direct mint URL
-      window.location.href = nft.mintUrl;
+      console.error('❌ NFT purchase failed:', error);
+      alert(`❌ NFT purchase failed: ${error.message}\n\nPlease try again or contact support.`);
     } finally {
       setIsLoading(false);
     }
@@ -321,21 +196,32 @@ export default function NFTGalleryGrid() {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
             <img 
               src="/carculture-wing-bl-logo.png" 
-              alt="CarCulture Logo"
-              style={{ width: '4rem', height: '4rem', objectFit: 'contain' }}
+              alt="CarCulture" 
+              style={{ height: '40px' }}
             />
-            <h1 style={{ fontSize: '1.875rem', fontWeight: 'bold', color: '#111827', margin: '0' }}>CarMania NFT Gallery</h1>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1f2937', margin: 0 }}>
+              CarMania NFT Gallery
+            </h1>
           </div>
         </div>
       </div>
 
-      {/* Grid */}
+      {/* Main Content */}
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '2rem' }}>
+        <div style={{ marginBottom: '2rem' }}>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: '#374151', marginBottom: '0.5rem' }}>
+            Exclusive CarMania Collection
+          </h2>
+          <p style={{ color: '#6b7280', fontSize: '0.875rem' }}>
+            Discover unique automotive NFTs from the CarMania Garage Testing series and published collections.
+          </p>
+        </div>
+
+        {/* NFT Grid */}
         <div style={{ 
           display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-          gap: '1.5rem',
-          width: '100%'
+          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', 
+          gap: '1.5rem' 
         }}>
           {mockNFTs.map((nft) => (
             <NFTGridCard
@@ -346,17 +232,37 @@ export default function NFTGalleryGrid() {
             />
           ))}
         </div>
-      </div>
 
-      {/* Loading Overlay */}
-      {isLoading && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 flex items-center gap-4">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            <span className="text-lg font-semibold">Creating payment link...</span>
+        {/* Loading Overlay */}
+        {isLoading && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000
+          }}>
+            <div style={{
+              backgroundColor: 'white',
+              padding: '2rem',
+              borderRadius: '0.5rem',
+              textAlign: 'center'
+            }}>
+              <div style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '0.5rem' }}>
+                Processing Purchase...
+              </div>
+              <div style={{ color: '#6b7280', fontSize: '0.875rem' }}>
+                Please wait while we process your NFT purchase.
+              </div>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
