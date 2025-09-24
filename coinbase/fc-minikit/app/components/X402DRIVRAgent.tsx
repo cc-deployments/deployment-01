@@ -17,6 +17,16 @@ interface ChatMessage {
     paymentRequired?: boolean;
     paymentAmount?: string;
   };
+  contentType?: 'text' | 'actions' | 'intent';
+  actions?: QuickAction[];
+}
+
+interface QuickAction {
+  id: string;
+  label: string;
+  imageUrl?: string;
+  style?: 'primary' | 'secondary' | 'danger';
+  expiresAt?: string;
 }
 
 interface X402DRIVRAgentProps {
@@ -34,7 +44,14 @@ export function X402DRIVRAgent({
     {
       id: '1',
       type: 'agent',
-      content: "🚗 Hi! I'm DRIVR, your AI car expert with x402 payment capabilities! I can help you discover and purchase amazing automotive NFTs from the CarMania collection. What kind of car are you interested in?",
+      content: `hey, i'm DRIVR. i can help you discover, analyze, and purchase amazing automotive NFTs from the CarMania collection. here's the rundown:
+
+• **discover cars**: find NFTs by style, era, or theme. try "show me summer cars" or "find vintage woodies"
+• **get market data**: real-time floor prices, trends, and analytics. try "floor price for summertime" 
+• **autonomous payments**: i handle x402 payments automatically for premium data
+• **instant purchases**: buy with credit card, Apple Pay, or crypto. try "buy woodie wagon"
+
+what kind of car interests you most?`,
       timestamp: new Date()
     }
   ]);
@@ -82,15 +99,21 @@ export function X402DRIVRAgent({
     }
   };
 
-  const addMessage = (type: 'user' | 'agent' | 'system', content: string, metadata?: any) => {
+  const addMessage = (type: 'user' | 'agent' | 'system', content: string, metadata?: any, contentType: 'text' | 'actions' | 'intent' = 'text', actions?: QuickAction[]) => {
     const newMessage: ChatMessage = {
       id: Date.now().toString(),
       type,
       content,
       timestamp: new Date(),
-      metadata
+      metadata,
+      contentType,
+      actions
     };
     setMessages(prev => [...prev, newMessage]);
+  };
+
+  const addQuickActions = (description: string, actions: QuickAction[]) => {
+    addMessage('agent', description, undefined, 'actions', actions);
   };
 
   const simulateTyping = async (response: string, delay: number = 1000) => {
@@ -141,6 +164,58 @@ export function X402DRIVRAgent({
     }
   };
 
+  const handleQuickAction = async (actionId: string) => {
+    // Handle Quick Action selections
+    addMessage('user', `Selected: ${actionId}`, undefined, 'intent');
+    
+    switch (actionId) {
+      case 'discover_cars':
+        await simulateTyping("let's find some amazing cars! what style interests you?");
+        addQuickActions("choose a car style:", [
+          { id: 'summer_cars', label: '☀️ Summer Cars', style: 'primary' },
+          { id: 'vintage_cars', label: '🏛️ Vintage Cars', style: 'primary' },
+          { id: 'surf_cars', label: '🏄 Surf Cars', style: 'secondary' },
+          { id: 'premium_cars', label: '👑 Premium Cars', style: 'secondary' }
+        ]);
+        break;
+      case 'market_data':
+        await simulateTyping("i'll get you real-time market data using x402 payments!");
+        addQuickActions("which collection?", [
+          { id: 'summertime_data', label: '☀️ Summertime Blues', style: 'primary' },
+          { id: 'woodie_data', label: '🏄 Woodie Wagon', style: 'primary' },
+          { id: 'premium_data', label: '👑 Premium Collector', style: 'secondary' }
+        ]);
+        break;
+      case 'buy_nft':
+        await simulateTyping("let's find the perfect NFT to buy!");
+        addQuickActions("which NFT interests you?", [
+          { id: 'buy_summertime', label: '☀️ Summertime Blues', style: 'primary' },
+          { id: 'buy_woodie', label: '🏄 Woodie Wagon', style: 'primary' },
+          { id: 'buy_premium', label: '👑 Premium Collector', style: 'secondary' }
+        ]);
+        break;
+      case 'x402_demo':
+        await simulateTyping("here's how x402 autonomous payments work:");
+        addMessage('agent', `🔧 **x402 Demo Features:**
+
+• **autonomous payments** - i pay for premium data automatically
+• **pay-as-you-go** - only pay for what you use  
+• **instant settlement** - verified on-chain in real-time
+• **base network** - fast, cheap transactions
+
+try asking for "floor price for summertime" to see it in action!`);
+        break;
+      case 'buy_now':
+        setShowPayment(true);
+        break;
+      case 'get_market_data':
+        await handleX402Payment(`/api/nft-floor/${selectedProduct?.productId}`, selectedProduct?.productName);
+        break;
+      default:
+        await simulateTyping(`you selected: ${actionId}. let me help you with that!`);
+    }
+  };
+
   const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
 
@@ -148,6 +223,9 @@ export function X402DRIVRAgent({
     addMessage('user', userMessage);
     setInputMessage('');
 
+    // Immediate feedback (reaction) as per Base guidelines
+    addMessage('agent', '👀', undefined, 'text');
+    
     // Simulate AI processing
     setIsTyping(true);
     
@@ -178,11 +256,34 @@ export function X402DRIVRAgent({
           }
         } else {
           await simulateTyping(
-            `Great choice! I found the perfect NFT for you: **${product.productName}**\n\n` +
-            `💰 Price: ${product.currency === 'ETH' ? `${product.price} ETH` : `$${product.price}`}\n` +
-            `🎨 Description: ${product.description}\n\n` +
-            `This is a premium automotive NFT with unique artistic value. Would you like to purchase it?`
+            `great choice! i found the perfect NFT for you: **${product.productName}**\n\n` +
+            `💰 price: ${product.currency === 'ETH' ? `${product.price} ETH` : `$${product.price}`}\n` +
+            `🎨 description: ${product.description}`
           );
+          
+          // Add Quick Actions for product interaction
+          addQuickActions("what would you like to do?", [
+            {
+              id: 'buy_now',
+              label: '🛒 Buy Now',
+              style: 'primary'
+            },
+            {
+              id: 'get_market_data',
+              label: '📊 Market Data',
+              style: 'secondary'
+            },
+            {
+              id: 'view_details',
+              label: '🔍 View Details',
+              style: 'secondary'
+            },
+            {
+              id: 'find_similar',
+              label: '🔍 Find Similar',
+              style: 'secondary'
+            }
+          ]);
         }
         
         // Show payment option
@@ -193,16 +294,32 @@ export function X402DRIVRAgent({
         
       } else if (userMessage.includes('help') || userMessage.includes('what') || userMessage.includes('show')) {
         await simulateTyping(
-          "I can help you find the perfect automotive NFT! Here are some options:\n\n" +
-          "🚗 **Summertime Blues** - Classic summer vibes (0.001 ETH)\n" +
-          "🏄 **Woodie Wagon** - Surf culture heritage (0.002 ETH)\n" +
-          "👑 **Premium Collector** - Exclusive VIP edition (0.005 ETH)\n\n" +
-          "💡 **x402 Features:**\n" +
-          "• Ask for 'floor price' or 'market data' for real-time pricing\n" +
-          "• Autonomous payments for premium data access\n" +
-          "• Seamless integration with Base network\n\n" +
-          "Just tell me what style you're interested in!"
+          "here's what i can help you with:"
         );
+        
+        // Add Quick Actions for better engagement
+        addQuickActions("choose what interests you most:", [
+          {
+            id: 'discover_cars',
+            label: '🚗 Discover Cars',
+            style: 'primary'
+          },
+          {
+            id: 'market_data',
+            label: '📊 Market Data',
+            style: 'primary'
+          },
+          {
+            id: 'buy_nft',
+            label: '🛒 Buy NFT',
+            style: 'secondary'
+          },
+          {
+            id: 'x402_demo',
+            label: '⚡ x402 Demo',
+            style: 'secondary'
+          }
+        ]);
       } else if (userMessage.includes('x402') || userMessage.includes('payment')) {
         await simulateTyping(
           "🔧 **x402 Payment Protocol Features:**\n\n" +
@@ -277,24 +394,46 @@ export function X402DRIVRAgent({
       {/* Chat Messages */}
       <div className="h-96 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
-          >
+          <div key={message.id}>
             <div
-              className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                message.type === 'user'
-                  ? 'bg-blue-600 text-white'
-                  : message.type === 'system'
-                  ? 'bg-yellow-100 text-yellow-800 border border-yellow-300'
-                  : 'bg-gray-100 text-gray-800'
-              }`}
+              className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <div className="text-sm whitespace-pre-wrap">{message.content}</div>
-              <div className="text-xs opacity-70 mt-1">
-                {message.timestamp.toLocaleTimeString()}
+              <div
+                className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                  message.type === 'user'
+                    ? 'bg-blue-600 text-white'
+                    : message.type === 'system'
+                    ? 'bg-yellow-100 text-yellow-800 border border-yellow-300'
+                    : 'bg-gray-100 text-gray-800'
+                }`}
+              >
+                <div className="text-sm whitespace-pre-wrap">{message.content}</div>
+                <div className="text-xs opacity-70 mt-1">
+                  {message.timestamp.toLocaleTimeString()}
+                </div>
               </div>
             </div>
+            
+            {/* Quick Actions */}
+            {message.contentType === 'actions' && message.actions && (
+              <div className="flex flex-wrap gap-2 mt-2 ml-0">
+                {message.actions.map((action) => (
+                  <button
+                    key={action.id}
+                    onClick={() => handleQuickAction(action.id)}
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      action.style === 'primary'
+                        ? 'bg-blue-600 text-white hover:bg-blue-700'
+                        : action.style === 'danger'
+                        ? 'bg-red-600 text-white hover:bg-red-700'
+                        : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                    }`}
+                  >
+                    {action.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         ))}
         
