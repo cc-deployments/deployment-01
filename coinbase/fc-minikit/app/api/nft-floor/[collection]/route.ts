@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ collection: string }> }
+  { params }: { params: { collection: string } }
 ) {
-  const { collection } = await params;
+  const { collection } = params;
   
   try {
     // Check if payment is provided in headers
@@ -55,3 +55,4 @@ export async function GET(
     );
   }
 }
+
