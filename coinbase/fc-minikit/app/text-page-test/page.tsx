@@ -16,37 +16,27 @@ export default function TextPage() {
     console.log('📄 Text Page loaded - splash already dismissed');
   }, []);
 
-  // Navigation helper function - 4th page goes directly to StableLink Gallery
+  // Navigation helper function - Test miniapp navigation
   const navigateTo = useCallback(async (path: string) => {
     try {
-      if (path === '/manifold-gallery') {
-        // 4th page: Always open StableLink Gallery (not Manifold)
-        console.log('🚀 Opening StableLink Gallery: /nft-gallery-grid');
-        
-        // Use router.push for internal navigation
-        console.log('🔄 Opening StableLink Gallery via router.push');
-        router.push('/nft-gallery-grid');
-      } else {
-        router.push(path);
-      }
+      console.log(`🧭 Navigating to: ${path}`);
+      router.push(path);
     } catch (error) {
-      if (path === '/manifold-gallery') {
-        // Final fallback: use location.href
-        console.log('🔄 Final fallback to location.href');
-        window.location.href = '/nft-gallery-grid';
-      } else {
-        window.location.href = path;
-      }
+      console.error('Navigation error:', error);
+      console.log('🔄 Falling back to window.location.href');
+      window.location.href = path;
     }
   }, [router]);
 
   // Custom swipe handlers for navigation
   const swipeHandlers = useSwipeable({
     onSwipedUp: async () => {
-      navigateTo('/manifold-gallery');
+      console.log('⬆️ Swipe up detected - navigating to StableLink gallery');
+      navigateTo('/nft-gallery-grid');
     },
     onSwipedDown: async () => {
-      navigateTo('/gallery-hero-2');
+      console.log('⬇️ Swipe down detected - navigating to gallery-hero-2-test');
+      navigateTo('/gallery-hero-2-test');
     },
     onSwipedLeft: () => {
     },
@@ -65,15 +55,16 @@ export default function TextPage() {
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
-      console.log('⬆️ Keyboard navigation: Swipe up - opening Manifold Gallery');
-      // 4th page: Always open Manifold Gallery (not mint page)
-      console.log('🚀 Opening Manifold Gallery: https://manifold.xyz/@carculture');
+      console.log('⬆️ Keyboard navigation: Swipe up - opening StableLink Gallery');
+      // 4th page: Always open StableLink Gallery (not Manifold)
+      console.log('🚀 Opening StableLink Gallery: /nft-gallery-grid');
       
-      // Use window.location.href for external URL navigation
-      console.log('🔄 Opening Manifold Gallery via window.location.href');
-      window.location.href = 'https://manifold.xyz/@carculture';
+      // Use router.push for internal navigation
+      console.log('🔄 Opening StableLink Gallery via router.push');
+      navigateTo('/nft-gallery-grid');
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
-      navigateTo('/gallery-hero-2');
+      console.log('⬇️ Keyboard navigation: Swipe down - navigating to gallery-hero-2-test');
+      navigateTo('/gallery-hero-2-test');
     }
   }, [navigateTo]);
 
@@ -197,29 +188,11 @@ export default function TextPage() {
         onClick={async (e) => {
           e.preventDefault();
           e.stopPropagation();
-          console.log('🔓 UNLOCK button clicked');
+          console.log('🔓 UNLOCK button clicked - Test Miniapp');
           
-          try {
-            console.log('🔄 Calling /api/latest-mint API...');
-            const response = await fetch('/api/latest-mint');
-            
-            if (response.ok) {
-              const result = await response.json();
-              if (result.success && result.data.mint_url) {
-                console.log('✅ API success, redirecting to:', result.data.mint_url);
-                window.location.href = result.data.mint_url;
-              } else {
-                console.log('⚠️ API success but no mint_url, using specific Manifold URL');
-                window.location.href = 'https://manifold.xyz/@carculture';
-              }
-            } else {
-              console.log('❌ API not ready yet (status:', response.status, '), using specific Manifold URL');
-              window.location.href = 'https://manifold.xyz/@carculture/id/4144040176';
-            }
-          } catch (error) {
-            console.log('❌ API error, using specific Manifold URL:', error);
-            window.location.href = 'https://manifold.xyz/@carculture/id/4144040176';
-          }
+          // Navigate to StableLink gallery instead of Manifold
+          console.log('🔄 Navigating to StableLink gallery');
+          navigateTo('/nft-gallery-grid');
         }}
       />
     </div>
