@@ -197,9 +197,9 @@ export default function GalleryHero() {
               e.stopPropagation();
               console.log('🔓 UNLOCK button clicked - Test Miniapp');
               
-              // Navigate to test text page instead of Manifold
-              console.log('🔄 Navigating to test text page');
-              navigateTo('/text-page-test');
+              // Navigate directly to Manifold for testing
+              console.log('🔄 Navigating to Manifold for testing');
+              window.location.href = 'https://manifold.xyz/@carculture/id/4169111792';
             }}
           />
 

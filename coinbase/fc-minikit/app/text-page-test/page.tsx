@@ -56,11 +56,8 @@ export default function TextPage() {
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
       console.log('⬆️ Keyboard navigation: Swipe up - opening StableLink Gallery');
-      // 4th page: Always open StableLink Gallery (not Manifold)
+      // Swipe up goes to StableLink Gallery
       console.log('🚀 Opening StableLink Gallery: /nft-gallery-grid');
-      
-      // Use router.push for internal navigation
-      console.log('🔄 Opening StableLink Gallery via router.push');
       navigateTo('/nft-gallery-grid');
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       console.log('⬇️ Keyboard navigation: Swipe down - navigating to gallery-hero-2-test');
@@ -190,9 +187,9 @@ export default function TextPage() {
           e.stopPropagation();
           console.log('🔓 UNLOCK button clicked - Test Miniapp');
           
-          // Navigate to StableLink gallery instead of Manifold
-          console.log('🔄 Navigating to StableLink gallery');
-          navigateTo('/nft-gallery-grid');
+          // Navigate directly to Manifold for testing
+          console.log('🔄 Navigating to Manifold for testing');
+          window.location.href = 'https://manifold.xyz/@carculture/id/4169111792';
         }}
       />
     </div>
