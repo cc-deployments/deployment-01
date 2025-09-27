@@ -42,8 +42,8 @@ export default function GalleryHero() {
   // Custom swipe handlers for navigation - Mobile optimized
   const swipeHandlers = useSwipeable({
     onSwipedUp: async () => {
-      console.log('⬆️ Swipe up detected - navigating to gallery-hero-2');
-      navigateTo('/gallery-hero-2');
+      console.log('⬆️ Swipe up detected - navigating to gallery-hero-2-test');
+      navigateTo('/gallery-hero-2-test');
     },
     onSwipedDown: async () => {
       console.log('⬇️ Swipe down detected - no previous page');
