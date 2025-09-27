@@ -24,6 +24,7 @@ export interface CSVRow {
   title: string;
   mint_url: string;
   status: string;
+  image_url: string;
   description: string;
   make: string;
   model: string;
@@ -47,10 +48,11 @@ export function parseCSVToNFTs(csvData: string): NFTData[] {
       title: values[1] || '',
       mint_url: values[2] || '',
       status: values[3] || 'draft',
-      description: values[4] || '',
-      make: values[5] || '',
-      model: values[6] || '',
-      year: values[7] || ''
+      image_url: values[4] || '',
+      description: values[5] || '',
+      make: values[6] || '',
+      model: values[7] || '',
+      year: values[8] || ''
     };
 
     // Skip empty rows or rows without proper URLs
@@ -73,22 +75,9 @@ export function parseCSVToNFTs(csvData: string): NFTData[] {
     const platform = row.mint_url.includes('manifold') ? 'manifold' : 'cdp';
     const currency = platform === 'manifold' ? 'USD' : 'USD'; // Default to USD for now
 
-    // Use only images that actually exist - no thumbnails to avoid 404s
-    let image = '/hero-v2.png'; // Default fallback
+    // Use the actual image URL from the database
+    let image = row.image_url || '/hero-v2.png'; // Use database image or fallback
     let thumbnail = '/hero-v2.png'; // Always use fallback for thumbnails
-    
-    if (row.title.includes('CarMania Garage Testing')) {
-      const testNumber = row.title.match(/\d+/)?.[0] || '1';
-      image = `/preview-images/car_culture__carmania_garage_testing_${testNumber}_preview.jpg`;
-      // Don't use thumbnail - it causes 404s
-    } else if (row.title === 'Low Tide') {
-      image = '/preview-images/low_tide_preview.png';
-    } else if (row.title === 'Summertime Blues') {
-      image = '/preview-images/summertime_blues_preview.png';
-    } else if (row.title === 'Flat Sea') {
-      image = '/preview-images/flat_sea_preview.png';
-    }
-    // For all other titles (Barn Fresh, etc.), use default fallback
 
     // Determine rarity based on status and year
     let rarity: 'common' | 'rare' | 'legendary' = 'common';
@@ -127,16 +116,17 @@ export function parseCSVToNFTs(csvData: string): NFTData[] {
  * Get CarMania Garage Testing NFTs specifically
  */
 export function getCarManiaGarageNFTs(): NFTData[] {
-  const csvData = `publication_date,title,mint_url,status,description,make,model,year
-2025-09-01,Car Culture: CarMania Garage Testing 1,https://manifold.xyz/@carculture/id/4169111792,testing,CarMania Garage Testing 1,Nil,Nil,Nil
-2025-09-02,Car Culture: CarMania Garage Testing 2,https://manifold.xyz/@carculture/id/4169128176,published,CarMania Garage Testing 2,Nil,Nil,Nil
-2025-09-03,Car Culture: CarMania Garage Testing 3,https://manifold.xyz/@carculture/id/4169124080,testing,CarMania Garage Testing 3,Nil,Nil,Nil
-2025-09-04,Car Culture: CarMania Garage Testing 4,https://manifold.xyz/@carculture/id/4169085168,testing,CarMania Garage Testing 4,Nil,Nil,Nil
-2025-09-05,Car Culture: CarMania Garage Testing 5,https://manifold.xyz/@carculture/id/4169081072,testing,CarMania Garage Testing 5,Nil,Nil,Nil
-2025-09-07,Car Culture: CarMania Garage Testing 6,https://manifold.xyz/@carculture/id/4169076976,testing,CarMania Garage Testing 6,Nil,Nil,Nil
-2025-09-07,Car Culture: CarMania Garage Testing 7,https://manifold.xyz/@carculture/id/4169074928,testing,CarMania Garage Testing 7,Nil,Nil,Nil
-2025-09-08,Car Culture: CarMania Garage Testing 8,https://manifold.xyz/@carculture/id/4169103600,testing,CarMania Garage Testing 8,Nil,Nil,Nil
-2025-09-09,Car Culture: CarMania Garage Testing 9,https://manifold.xyz/@carculture/id/4169097456,testing,CarMania Garage Testing 9,Nil,Nil,Nil`;
+  const csvData = `publication_date,title,mint_url,status,image_url,description,make,model,year
+2025-09-01,Car Culture: CarMania Garage Testing 1,https://manifold.xyz/@carculture/id/4169111792,testing,https://hlwk6ht7i3v7hnrmrouv4jhwjss4ztuibm5ey7qii6ou7eq2ye5a.arweave.net/OuyvHn9G6_O2LIupXiT2TKXMzogLOkx-CEedT5IawTo,CarMania Garage Testing 1,Nil,Nil,Nil
+2025-09-02,Car Culture: CarMania Garage Testing 2,https://manifold.xyz/@carculture/id/4169128176,published,https://56k43jlbc26cs47a6lg6srqv77epwa2uibctqtg5jmedtrg6gfoq.arweave.net/75XNpWEWvClz4PLN6UYV_8j7A1RARThM3UsIOcTeMV0,CarMania Garage Testing 2,Nil,Nil,Nil
+2025-09-03,Car Culture: CarMania Garage Testing 3,https://manifold.xyz/@carculture/id/4169124080,testing,https://kl5lgl3bvujomrzo5noe35jw6yxws5whnw53zogrhbaz73edu6kq.arweave.net/UvqzL2GtEuZHLutcTfU29i9pdsdtu7y40ThBn-yDp5U,CarMania Garage Testing 3,Nil,Nil,Nil
+2025-09-04,Car Culture: CarMania Garage Testing 4,https://manifold.xyz/@carculture/id/4169085168,testing,https://iragqon5jdtmlmb64usi3ec3du4fdgxodx3zqw3r5ctdsc3ej7xa.arweave.net/REBoOb1I5sWwPuUkjZBbHThRmu4d95hbceimOQtkT-4,CarMania Garage Testing 4,Nil,Nil,Nil
+2025-09-05,Car Culture: CarMania Garage Testing 5,https://manifold.xyz/@carculture/id/4169081072,testing,https://f5d2zie2k6s545nphdhdnpmdufvfccbevim2bu4ziewakwsmm6wa.arweave.net/L0esoJpXpd51rzjONr2DoWpRCCSqGaDTmUEsBVpMZ6w,CarMania Garage Testing 5,Nil,Nil,Nil
+2025-09-06,Car Culture: CarMania Garage Testing 6,https://manifold.xyz/@carculture/id/4169076976,testing,https://3yqpmriehuvnvqi3j7br7u2y37o6eh4siieto2aljd2qvcv4fxxa.arweave.net/3iD2RQQ9KtrBG0_DH9NY393iH5JCCTdoC0j1Coq8Le4,CarMania Garage Testing 6,Nil,Nil,Nil
+2025-09-07,Car Culture: CarMania Garage Testing 7,https://manifold.xyz/@carculture/id/4169074928,testing,https://3z23cykd5cjsmvt3ion3ubfsqpmkrhslmg3cx3e4gzlnjjmswknq.arweave.net/3nWxYUPokyZWe0ObugSyg9ionkthtivsnDZW1KWSsps,CarMania Garage Testing 7,Nil,Nil,Nil
+2025-09-08,Car Culture: CarMania Garage Testing 8,https://manifold.xyz/@carculture/id/4169103600,testing,https://s7427qxzu2ggghmvczxiftg44ew4j2fjisfh3yq47yucx5y32rna.arweave.net/l_mvwvmmjGMdlRZugszc4S3E6KlEin3iHP4oK_cb1Fo,CarMania Garage Testing 8,Nil,Nil,Nil
+2025-09-09,Car Culture: CarMania Garage Testing 9,https://manifold.xyz/@carculture/id/4169097456,testing,https://bzf6clfbkqqztyf5wscbtktorbzpq5syuoq4sdtzlpwpudqkk3nq.arweave.net/DkvhLKFUIZngvbSEGapuiHL4dlijockOeVvs-g4KVts,CarMania Garage Testing 9,Nil,Nil,Nil
+2025-09-01,Summertime Blues,https://manifold.xyz/@carculture/id/4144040176,First test with ai chat,https://ur4re6uytbzkxhvamuzhxaugfrpsfywiukkeabahnvddaumlcama.arweave.net/pHkSepiYcqueoGUye4KGLF8i4siilEAEB21GMFGLEBg,Post-modern Surfing Wagon,Chevrolet,Suburban,1970`;
 
   return parseCSVToNFTs(csvData);
 }
@@ -147,9 +137,6 @@ export function getCarManiaGarageNFTs(): NFTData[] {
 export function getPublishedNFTs(): NFTData[] {
   const csvData = `publication_date,title,mint_url,status,description,make,model,year
 2025-07-03,Barn Fresh,https://manifold.xyz/@carculture/id/4195533040,published,Jaguar fresh from the barn and ready for the highest auto auction bidder,Jaguar,Jaguar XK120 Drophead Coupe,1953
-2025-09-02,Car Culture: CarMania Garage Testing 2,https://manifold.xyz/@carculture/id/4169128176,published,CarMania Garage Testing 2,Nil,Nil,Nil
-2025-09-06,Low Tide,https://manifold.xyz/@carculture/id/4149840112,published,Low Tide - A moment of calm reflection by the water's edge,Nil,Nil,Nil
-2025-09-01 12:00 AM,Summertime Blues,https://manifold.xyz/@carculture/id/4144040176,published,Post-modern Surfing Wagon,Chevrolet,Suburban,1970
 2025-09-16,Flat Sea,https://manifold.xyz/@carculture/id/4149807344,published,Flat Sea,Nil,Nil,Nil`;
 
   return parseCSVToNFTs(csvData);
