@@ -150,8 +150,7 @@ export function getPublishedNFTs(): NFTData[] {
 2025-09-02,Car Culture: CarMania Garage Testing 2,https://manifold.xyz/@carculture/id/4169128176,published,CarMania Garage Testing 2,Nil,Nil,Nil
 2025-09-06,Low Tide,https://manifold.xyz/@carculture/id/4149840112,published,Low Tide - A moment of calm reflection by the water's edge,Nil,Nil,Nil
 2025-09-01 12:00 AM,Summertime Blues,https://manifold.xyz/@carculture/id/4144040176,published,Post-modern Surfing Wagon,Chevrolet,Suburban,1970
-2025-09-16,Flat Sea,https://manifold.xyz/@carculture/id/4149807344,published,Flat Sea,Nil,Nil,Nil
-9/23/2025,Boss,https://manifold.xyz/@carculture/id/4149833968,published,Boss,Nil,Nil,Nil`;
+2025-09-16,Flat Sea,https://manifold.xyz/@carculture/id/4149807344,published,Flat Sea,Nil,Nil,Nil`;
 
   return parseCSVToNFTs(csvData);
 }
