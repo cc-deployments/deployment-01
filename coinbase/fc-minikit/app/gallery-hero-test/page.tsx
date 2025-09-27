@@ -146,8 +146,8 @@ export default function GalleryHero() {
           touchAction: 'manipulation',
         }}>
           <Image
-            src="https://hlwk6ht7i3v7hnrmrouv4jhwjss4ztuibm5ey7qii6ou7eq2ye5a.arweave.net/OuyvHn9G6_O2LIupXiT2TKXMzogLOkx-CEedT5IawTo"
-            alt="CarMania Garage Testing 1 - StableLink Test"
+            src="/carmania-gallery-hero.png"
+            alt="CarMania Gallery Hero - Test Miniapp"
             width={1260}
             height={2400}
             style={{ 
@@ -168,7 +168,7 @@ export default function GalleryHero() {
                 img.style.display = 'none';
                 const container = img.parentElement;
                 if (container) {
-                  container.innerHTML = '<div style="color: white; text-align: center; font-size: 24px;">CarMania StableLink Test</div>';
+                  container.innerHTML = '<div style="color: white; text-align: center; font-size: 24px;">CarMania Test Miniapp</div>';
                 }
               }
             }}
