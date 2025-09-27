@@ -135,9 +135,9 @@ export function getCarManiaGarageNFTs(): NFTData[] {
  * Get all published NFTs
  */
 export function getPublishedNFTs(): NFTData[] {
-  const csvData = `publication_date,title,mint_url,status,description,make,model,year
-2025-07-03,Barn Fresh,https://manifold.xyz/@carculture/id/4195533040,published,Jaguar fresh from the barn and ready for the highest auto auction bidder,Jaguar,Jaguar XK120 Drophead Coupe,1953
-2025-09-16,Flat Sea,https://manifold.xyz/@carculture/id/4149807344,published,Flat Sea,Nil,Nil,Nil`;
+  // Only include working NFTs - removed Barn Fresh and Flat Sea due to broken links
+  const csvData = `publication_date,title,mint_url,status,image_url,description,make,model,year
+2025-09-01,Summertime Blues,https://manifold.xyz/@carculture/id/4144040176,published,https://ur4re6uytbzkxhvamuzhxaugfrpsfywiukkeabahnvddaumlcama.arweave.net/pHkSepiYcqueoGUye4KGLF8i4siilEAEB21GMFGLEBg,Post-modern Surfing Wagon,Chevrolet,Suburban,1970`;
 
   return parseCSVToNFTs(csvData);
 }
