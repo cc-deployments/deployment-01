@@ -1,0 +1,259 @@
+"use client";
+
+import { useEffect, useCallback } from 'react';
+import Image from 'next/image';
+import { useSafeArea } from '../hooks/useSafeArea';
+import { useSwipeable } from 'react-swipeable';
+import { useRouter } from 'next/navigation';
+import { sdk } from '@farcaster/miniapp-sdk';
+// import { useComposeCast } from '@coinbase/onchainkit/minikit'; // Removed - using native share instead
+import ImprovedShareHandler from '../components/ImprovedShareHandler';
+
+export default function GalleryHero() {
+  const { safeArea, isLoading } = useSafeArea();
+  const router = useRouter();
+  // useComposeCast removed - using native share instead
+  
+  // Dismiss splash screen IMMEDIATELY - Follow FC loading guide
+  useEffect(() => {
+    const dismissSplash = async () => {
+      try {
+        // Call ready() as soon as possible to avoid white screen
+        // According to FC docs: "You should call ready as soon as possible while avoiding jitter and content reflows"
+        await sdk.actions.ready({ disableNativeGestures: true });
+        console.log('✅ Splash screen dismissed immediately - no white screen delay');
+      } catch (error) {
+        console.error('❌ Error dismissing splash screen:', error);
+      }
+    };
+
+    dismissSplash();
+  }, []);
+
+  // Navigation helper function - Use Next.js router by default
+  const navigateTo = useCallback((path: string) => {
+    try {
+      router.push(path);
+    } catch (error) {
+      window.location.href = path;
+    }
+  }, [router]);
+
+  // Custom swipe handlers for navigation - Mobile optimized
+  const swipeHandlers = useSwipeable({
+    onSwipedUp: async () => {
+      console.log('⬆️ Swipe up detected - navigating to gallery-hero-2');
+      navigateTo('/gallery-hero-2');
+    },
+    onSwipedDown: async () => {
+      console.log('⬇️ Swipe down detected - no previous page');
+      // This is the first page, no previous page to navigate to
+    },
+    onSwipedLeft: () => {
+      console.log('⬅️ Swipe left detected');
+    },
+    onSwipedRight: () => {
+      console.log('➡️ Swipe right detected');
+    },
+    onSwipeStart: () => {
+      console.log('👆 Swipe start detected');
+    },
+    trackMouse: false, // Disable mouse tracking to reduce conflicts
+    delta: 50, // Increased delta for more reliable mobile detection
+    swipeDuration: 500, // Slower duration for mobile accuracy
+    preventScrollOnSwipe: true, // Prevent scroll conflicts on mobile
+    trackTouch: true,
+    rotationAngle: 0,
+    touchEventOptions: { passive: false }, // Allow event handling
+  });
+
+  const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
+    if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
+      navigateTo('/gallery-hero-2');
+    } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
+      // This is the first page, no previous page to navigate to
+    }
+  }, [navigateTo]);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyPress);
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [handleKeyPress]);
+
+  if (isLoading) {
+    return (
+      <div style={{
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#000',
+        color: '#fff'
+      }}>
+        Loading...
+      </div>
+    );
+  }
+
+  return (
+    <div 
+      {...swipeHandlers}
+      style={{
+        position: 'relative',
+        backgroundColor: '#000',
+        width: '100vw',
+        height: '100vh',
+        margin: 0,
+        padding: 0,
+        overflow: 'hidden',
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        WebkitTouchCallout: 'none',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        touchAction: 'manipulation',
+      }}
+    >
+      {/* Improved Share Handler */}
+      <ImprovedShareHandler />
+      {/* Main Content */}
+      <div className="relative z-10">
+        {/* Swipe Area */}
+        <div 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '70%',
+            pointerEvents: 'auto',
+            zIndex: 1,
+          }}
+        />
+        
+        {/* Image Container */}
+        <div style={{ 
+          width: '100%', 
+          height: '100%', 
+          backgroundColor: '#000',
+          position: 'relative',
+          pointerEvents: 'auto',
+          touchAction: 'manipulation',
+        }}>
+          <Image
+            src="https://hlwk6ht7i3v7hnrmrouv4jhwjss4ztuibm5ey7qii6ou7eq2ye5a.arweave.net/OuyvHn9G6_O2LIupXiT2TKXMzogLOkx-CEedT5IawTo"
+            alt="CarMania Garage Testing 1 - StableLink Test"
+            width={1260}
+            height={2400}
+            style={{ 
+              width: '100%', 
+              height: '100%',
+              objectFit: 'cover',
+              display: 'block',
+              pointerEvents: 'auto',
+              touchAction: 'manipulation',
+            }}
+            priority
+            unoptimized={true}
+            onError={(e) => {
+              const img = e.currentTarget as HTMLImageElement;
+              if (img.src !== '/hero-v2.png') {
+                img.src = '/hero-v2.png';
+              } else {
+                img.style.display = 'none';
+                const container = img.parentElement;
+                if (container) {
+                  container.innerHTML = '<div style="color: white; text-align: center; font-size: 24px;">CarMania StableLink Test</div>';
+                }
+              }
+            }}
+          />
+        </div>
+        
+        {/* Invisible Transparent Clickable Areas - Positioned over visual elements */}
+        <>
+          {/* UNLOCK Button Area - Positioned over the visible "UNLOCK the RIDE" button */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '75%',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: 9999,
+              pointerEvents: 'auto',
+              width: '200px',
+              height: '60px',
+              cursor: 'pointer',
+              backgroundColor: 'transparent',
+              border: 'none',
+            }}
+            onClick={async (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('🔓 UNLOCK button clicked - Test Miniapp');
+              
+              // Navigate to test text page instead of Manifold
+              console.log('🔄 Navigating to test text page');
+              navigateTo('/text-page-test');
+            }}
+          />
+
+          {/* Share Button Area - Positioned at 75.8% */}
+          <div 
+            style={{
+              position: 'absolute',
+              top: '75.8%',
+              right: '20px',
+              zIndex: 9999,
+              pointerEvents: 'auto',
+              width: '80px',
+              height: '40px',
+              cursor: 'pointer',
+              backgroundColor: 'transparent',
+              border: 'none',
+            }}
+            onClick={async (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('📤 Share button clicked');
+              
+              try {
+                // Use Web Share API for better cross-platform compatibility
+                if (navigator.share) {
+                  console.log('📱 Using Web Share API (mobile-friendly)...');
+                  await navigator.share({
+                    title: 'CarMania Gallery',
+                    text: 'Check out CarMania Gallery - an amazing car collection mini app! 🚗✨',
+                    url: window.location.href
+                  });
+                  console.log('✅ Shared via Web Share API');
+                  return;
+                }
+                
+                // Fallback to clipboard for desktop
+                console.log('📱 Using clipboard fallback (desktop)...');
+                await navigator.clipboard.writeText('Check out CarMania Gallery - an amazing car collection mini app! 🚗✨ ' + window.location.href);
+                console.log('✅ Copied to clipboard');
+                
+                // Final fallback to clipboard
+                console.log('📋 Using clipboard fallback...');
+                await navigator.clipboard.writeText(window.location.href);
+                alert('Link copied to clipboard! Share this mini app in your Farcaster cast! 🚗✨');
+                
+              } catch (error) {
+                console.error('❌ Share failed:', error);
+                // Final fallback - show URL for manual copying
+                alert(`Please copy this link to share:\n\n${window.location.href}`);
+              }
+            }}
+          />
+        </>
+      </div>
+    </div>
+  );
+} 

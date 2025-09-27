@@ -7,6 +7,6 @@ export default function Home() {
   // IMPORTANT: This is a server component that redirects immediately
   // The splash screen timing is handled by the Farcaster app itself
   // We don't need to call sdk.actions.ready() here - it's handled in gallery-hero
-  redirect('/gallery-hero');
+  redirect('/nft-gallery-grid');
   return null;
 }
