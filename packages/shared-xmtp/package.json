@@ -1,0 +1,23 @@
+{
+  "name": "@cculture/shared-xmtp",
+  "version": "1.0.0",
+  "description": "Shared XMTP utilities for DRIVR agent and chat app",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@xmtp/browser-sdk": "^2.0.0",
+    "@xmtp/node-sdk": "^2.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  }
+}

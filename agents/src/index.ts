@@ -1,72 +1,42 @@
-// Main exports for Drivr Base App Chat Agent
-export { DRIVRAgent } from './carmania-agent';
-export { XMTPService } from './services/xmtp-service';
-export { NFTVerificationService } from './services/nft-verification';
-export { IntentHandlerService } from './services/intent-handler';
+// DRIVR Agent Main Entry Point
+import dotenv from 'dotenv';
+import { DRIVRAgent } from './drivr-agent';
 
-// Types and interfaces
-export type {
-  CarManiaAgentConfig,
-  XMTPMessage,
-  AgentResponse,
-  QuickAction,
-  NFTVerificationResult,
-  OpenSeaNFT,
-  AgentState,
-  ConversationState,
-  Intent,
-} from './types/agent';
+// Load environment variables
+dotenv.config();
 
-// Configuration and utilities
-export { config, validateConfig, getConfigForEnvironment } from './config';
-export { testAgent } from './test-agent';
+async function main() {
+  console.log('🚀 Starting DRIVR Agent...\n');
 
-// Main entry point
-import { DRIVRAgent } from './carmania-agent';
-import { config, validateConfig } from './config';
-
-// Main function
-async function main(): Promise<void> {
   try {
-    console.log('🚗 Drivr Base App Chat Agent');
-    console.log('================================');
-    
-    // Validate configuration
-    validateConfig(config);
-    console.log('✅ Configuration validated');
-    
-    // Create and start agent
-    const agent = new DRIVRAgent(config);
-    
-    // Handle graceful shutdown
-    process.on('SIGINT', async () => {
-      console.log('\n🛑 Received SIGINT, shutting down gracefully...');
-      await agent.stop();
-      process.exit(0);
-    });
-    
-    process.on('SIGTERM', async () => {
-      console.log('\n🛑 Received SIGTERM, shutting down gracefully...');
-      await agent.stop();
-      process.exit(0);
-    });
-    
-    // Start the agent
+    // Create and start DRIVR agent
+    const agent = new DRIVRAgent();
     await agent.start();
-    
+
     // Keep the process running
-    console.log('🔄 Agent is running. Press Ctrl+C to stop.');
-    
+    process.on('SIGINT', async () => {
+      console.log('\n🛑 Shutting down DRIVR Agent...');
+      await agent.stop();
+      process.exit(0);
+    });
+
+    process.on('SIGTERM', async () => {
+      console.log('\n🛑 Shutting down DRIVR Agent...');
+      await agent.stop();
+      process.exit(0);
+    });
+
+    // Log status every 30 seconds
+    setInterval(() => {
+      const status = agent.getStatus();
+      console.log(`📊 DRIVR Agent Status: ${status.isRunning ? 'Running' : 'Stopped'}`);
+    }, 30000);
+
   } catch (error) {
-    console.error('❌ Failed to start Drivr Agent:', error);
+    console.error('❌ Failed to start DRIVR Agent:', error);
     process.exit(1);
   }
 }
 
-// Start the agent if this file is run directly
-if (require.main === module) {
-  main().catch((error) => {
-    console.error('❌ Unhandled error:', error);
-    process.exit(1);
-  });
-}
+// Run main function
+main().catch(console.error);

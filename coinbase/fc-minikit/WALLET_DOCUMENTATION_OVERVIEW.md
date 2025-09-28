@@ -18,22 +18,22 @@ Based on the codebase analysis, here are the wallet-related documents and config
 ### 2. **SAFE_CONFIGURATION.md** - Environment Variables
 ```bash
 # SAFE #1: NFT Sales Revenue (2 signers)
-NEXT_PUBLIC_SAFE_REVENUE_ADDRESS=0x0000000000000000000000000000000000000000
+NEXT_PUBLIC_SAFE_REVENUE_ADDRESS=0x7d9bfEC6bDA952128D0321DeDa02199527A7b989
 
 # SAFE #2: Cold Storage NFTs (3 signers)  
-NEXT_PUBLIC_SAFE_COLD_STORAGE_ADDRESS=0x0000000000000000000000000000000000000000
+NEXT_PUBLIC_SAFE_COLD_STORAGE_ADDRESS=0xBA03D53507412639795bDb3591aa3EE3ADe1881C
 ```
 
 ### 3. **STABLELINK_TESTING_GUIDE.md** - Current Issues
-- **BLOCKED**: BASE Smart Wallet (L3ldrivr.base.eth) not connecting to dApps
+- **BLOCKED**: BASE Smart Wallet (carculture.base.eth) not connecting to dApps
 - **Status**: Reported to BASE Discord, waiting for resolution
 - **Workaround**: Direct Manifold integration, alternative wallets
 
 ## 🔍 Identified Wallet Addresses
 
 ### Production Wallets
-- **CarCulture Smart Wallet**: `0x048a22DAB92f2c1e7Deb3847Ca151B888aAb0F1C` (L3ldrivr.base.eth)
-- **Farcaster Wallet**: `0xF74FE33d71bF46cDC006FE0F2888783174fE2aA2`
+- **CarCulture Smart Wallet**: `0x048a22DAB92f2c1e7Deb3847Ca151B888aAb0F1C` (carculture.base.eth)
+- **Farcaster Wallet**: `0x175de0fd25651a48e39b9f2512650bf4f592bf59` (carculture.eth)
 - **SAFE #1 (Revenue)**: `0x7d9bfEC6bDA952128D0321DeDa02199527A7b989`
 - **SAFE #2 (NFT Storage)**: `0xBA03D53507412639795bDb3591aa3EE3ADe1881C`
 
@@ -41,9 +41,10 @@ NEXT_PUBLIC_SAFE_COLD_STORAGE_ADDRESS=0x0000000000000000000000000000000000000000
 - **DRIVR Agent Wallet**: `0x564D30E9c91dF7B0B7B5C65E1d21A4e164905142`
 - **BasePay Recipient**: `0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6`
 
-### Basename
-- **DRIVR Basename**: `drivr.base.eth` (owned by CarCulture.eth)
-- **Current Issue**: Not migrated to smart wallet yet
+### Basenames
+- **carculture.base.eth**: Base basename (funds migrated ✅, basename not migrated ❌)
+- **drivr.base.eth**: Base basename (owned by carculture.eth, not migrated ❌)
+- **Current Issue**: Both basenames need migration to smart wallet
 
 ## 🏗️ Wallet Architecture
 
@@ -57,12 +58,55 @@ NEXT_PUBLIC_SAFE_COLD_STORAGE_ADDRESS=0x0000000000000000000000000000000000000000
 2. **High-value NFTs** → **SAFE #2** (Secure Custody)
 3. **Emergency Recovery** ← **SAFE #2** (Backup)
 
+## 🔄 Identity Relationship Map
+
+### **Farcaster Identities:**
+- **`carculture.eth`** - Main Farcaster identity
+  - **Wallet:** `0x175de0fd25651a48e39b9f2512650bf4f592bf59`
+  - **Purpose:** Matches X and Instagram accounts
+  - **Status:** Currently posting from this identity
+  - **Owns:** "drivr" username on Farcaster
+
+### **Base Identities:**
+- **`carculture.base.eth`** - Base basename
+  - **Wallet:** Smart wallet `0x048a22DAB92f2c1e7Deb3847Ca151B888aAb0F1C`
+  - **Status:** Funds migrated ✅, basename not migrated ❌
+  - **Purpose:** Main CarCulture brand on Base
+
+- **`drivr.base.eth`** - Base basename
+  - **Owner:** carculture.eth wallet
+  - **Status:** Not migrated yet ❌
+  - **Purpose:** DRIVR agent operations
+
+### **CB.ID Identities:**
+- **`carculture.cb.id`** - EOA address
+  - **Status:** Ingested into TBA beta
+  - **Purpose:** Base app integration
+
+- **`carmania.cb.id`** - CB.ID identity
+  - **Purpose:** CarMania brand identity
+
+- **`drivr.cb.id`** - CB.ID identity
+  - **Wallet:** `0x564D30E9c91dF7B0B7B5C65E1d21A4e164905142`
+  - **Purpose:** DRIVR agent operations
+
+### **The Confusion Source:**
+**Multiple overlapping identities with same names:**
+- **Farcaster "drivr"** username owned by `carculture.eth` wallet
+- **Base "drivr.base.eth"** basename owned by `carculture.eth`
+- **CB.ID "drivr.cb.id"** with different wallet address
+
+**This creates conflicts because:**
+1. **Same name, different wallets** (drivr on different platforms)
+2. **Same wallet, different purposes** (carculture.eth owns multiple basenames)
+3. **Multiple basenames not migrated** (carculture.base.eth, drivr.base.eth)
+
 ## ⚠️ Current Issues
 
 ### 1. **Complex Basename Migration Status**
 - **carculture.base.eth**: Funds migrated ✅, basename still on old wallet ❌
-- **drivr.base.eth**: Not migrated yet ❌, owned by CarCulture.eth
-- **L3ldrivr.base.eth**: Smart wallet ready (`0x048a22DAB92f2c1e7Deb3847Ca151B888aAb0F1C`)
+- **drivr.base.eth**: Not migrated yet ❌, owned by carculture.eth
+- **Smart wallet ready**: `0x048a22DAB92f2c1e7Deb3847Ca151B888aAb0F1C`
 - **Migration Required**: Both basenames need 4 transactions each to smart wallet
 
 ### 2. **SAFE Addresses Now Set** ✅
@@ -71,14 +115,13 @@ NEXT_PUBLIC_SAFE_COLD_STORAGE_ADDRESS=0x0000000000000000000000000000000000000000
 - **Environment variables**: Need to be updated with actual addresses
 
 ### 3. **Wallet Connection Issues**
-- BASE Smart Wallet (L3ldrivr.base.eth) not connecting to dApps
+- BASE Smart Wallet (carculture.base.eth) not connecting to dApps
 - Reported to BASE Discord, awaiting resolution
 
-### 4. **Basename Ownership Complexity**
-- **carculture.eth**: Farcaster username (imported, currently posting)
-- **carculture.base.eth**: Base basename (funds migrated, basename not migrated)
-- **drivr.base.eth**: Base basename (owned by CarCulture.eth, not migrated)
-- **Migration Strategy**: Need to consolidate all basenames to smart wallet
+### 4. **Identity Consolidation Needed**
+- **Multiple "drivr" identities** across platforms need clarification
+- **Basename ownership** needs to be consolidated to smart wallet
+- **CB.ID identities** need clear purpose definition
 
 ## 📝 Missing Documentation
 

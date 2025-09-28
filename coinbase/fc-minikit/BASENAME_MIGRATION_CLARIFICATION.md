@@ -99,3 +99,15 @@ SMART_WALLET_ADDRESS=0x048a22DAB92f2c1e7Deb3847Ca151B888aAb0F1C
 
 **Summary**: You need to complete both basename migrations to your smart wallet. The process is the same for both - just complete all 4 transactions for each one!
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+
+
+>>>>>>> a08cb119... 🚀 Implement complete XMTP integration for DRIVR agent and chat app
