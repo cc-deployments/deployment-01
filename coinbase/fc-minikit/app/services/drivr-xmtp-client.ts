@@ -50,8 +50,7 @@ export class DRIVRChatClient {
         },
       };
 
-      this.client = await Client.create({
-        signer,
+      this.client = await Client.create(signer, {
         env: this.config.env as XmtpEnv,
       });
 
