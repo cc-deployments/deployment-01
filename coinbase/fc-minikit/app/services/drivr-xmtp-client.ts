@@ -75,12 +75,7 @@ export class DRIVRChatClient {
   async disconnect(): Promise<void> {
     try {
       if (this.client) {
-        // Close all conversations
-        const conversations = await this.client.conversations.list();
-        for (const conversation of conversations) {
-          conversation.off('message', () => {});
-        }
-        
+        // Clear local state
         this.client = null;
         this.isConnected = false;
         this.conversations = [];
