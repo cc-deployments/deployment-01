@@ -130,15 +130,15 @@ export class DRIVRChatClient {
     if (!this.client) return;
 
     // Listen for new conversations
-    this.client.conversations.stream().then(stream => {
-      stream.onValue(async (conversation) => {
+    this.client.conversations.stream({
+      onValue: async (conversation) => {
         if (conversation instanceof Dm) {
           const peerInboxId = await conversation.peerInboxId();
           if (peerInboxId === process.env.NEXT_PUBLIC_DRIVR_AGENT_ADDRESS) {
             await this.handleNewConversation(conversation);
           }
         }
-      });
+      }
     });
 
     // Listen for messages in existing conversations
@@ -148,9 +148,10 @@ export class DRIVRChatClient {
         if (conversation instanceof Dm) {
           const peerInboxId = await conversation.peerInboxId();
           if (peerInboxId === process.env.NEXT_PUBLIC_DRIVR_AGENT_ADDRESS) {
-            const stream = await conversation.stream();
-            stream.onValue((message) => {
-              this.handleIncomingMessage(message, peerInboxId);
+            await conversation.stream({
+              onValue: (message) => {
+                this.handleIncomingMessage(message, peerInboxId);
+              }
             });
           }
         }
@@ -174,9 +175,10 @@ export class DRIVRChatClient {
     this.conversations.push(newConversation);
     
     // Set up message listener for new conversation
-    const stream = await conversation.stream();
-    stream.onValue((message: any) => {
-      this.handleIncomingMessage(message, peerInboxId);
+    await conversation.stream({
+      onValue: (message: any) => {
+        this.handleIncomingMessage(message, peerInboxId);
+      }
     });
   }
 
@@ -256,9 +258,10 @@ export class DRIVRChatClient {
       this.currentConversation = newConversation;
 
       // Set up message listener
-      const stream = await conversation.stream();
-      stream.onValue((message: any) => {
-        this.handleIncomingMessage(message, drivrAgentAddress);
+      await conversation.stream({
+        onValue: (message: any) => {
+          this.handleIncomingMessage(message, drivrAgentAddress);
+        }
       });
 
       // Send initial greeting
