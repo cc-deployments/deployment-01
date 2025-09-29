@@ -214,11 +214,11 @@ export default function TextPage() {
               }
             } else {
               console.log('❌ API not ready yet (status:', response.status, '), using specific Manifold URL');
-              window.location.href = 'https://manifold.xyz/@carculture/id/4144040176';
+              window.location.href = 'https://manifold.xyz/@carculture/id/4149836016';
             }
           } catch (error) {
             console.log('❌ API error, using specific Manifold URL:', error);
-            window.location.href = 'https://manifold.xyz/@carculture/id/4144040176';
+            window.location.href = 'https://manifold.xyz/@carculture/id/4149836016';
           }
         }}
       />
