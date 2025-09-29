@@ -22,16 +22,3 @@ export const AGENT_CONFIG = {
 } as const;
 
 export type AgentConfig = typeof AGENT_CONFIG;
-
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
-
-
-
->>>>>>> a08cb119... 🚀 Implement complete XMTP integration for DRIVR agent and chat app
