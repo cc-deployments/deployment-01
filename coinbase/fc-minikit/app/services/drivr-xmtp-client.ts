@@ -51,7 +51,7 @@ export class DRIVRChatClient {
       };
 
       this.client = await Client.create({
-        wallet: signer,
+        signer,
         env: this.config.env as XmtpEnv,
       });
 
