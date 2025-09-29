@@ -79,12 +79,14 @@ export class DRIVRPaymentService {
 
       return {
         success: true,
+        method: 'x402',
         transactionHash: `0x${Math.random().toString(16).substr(2, 64)}`,
       };
 
     } catch (error) {
       return {
         success: false,
+        method: 'x402',
         error: error instanceof Error ? error.message : 'x402 payment failed',
       };
     }
@@ -111,12 +113,14 @@ export class DRIVRPaymentService {
 
       return {
         success: true,
+        method: 'x402',
         transactionHash: `0x${Math.random().toString(16).substr(2, 64)}`,
       };
 
     } catch (error) {
       return {
         success: false,
+        method: 'basepay',
         error: error instanceof Error ? error.message : 'Base Pay payment failed',
       };
     }
@@ -134,12 +138,14 @@ export class DRIVRPaymentService {
       // For x402 and Base Pay, simulate status check
       return {
         success: true,
+        method: method,
         transactionHash,
       };
 
     } catch (error) {
       return {
         success: false,
+        method: method,
         error: error instanceof Error ? error.message : 'Status check failed',
       };
     }
