@@ -113,7 +113,7 @@ export class DRIVRPaymentService {
 
       return {
         success: true,
-        method: 'x402',
+        method: 'basepay',
         transactionHash: `0x${Math.random().toString(16).substr(2, 64)}`,
       };
 
