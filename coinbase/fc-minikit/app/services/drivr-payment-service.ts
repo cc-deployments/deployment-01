@@ -132,7 +132,11 @@ export class DRIVRPaymentService {
   async checkPaymentStatus(transactionHash: string, method: 'x402' | 'basepay' | 'safe'): Promise<PaymentResult> {
     try {
       if (method === 'safe') {
-        return await this.safeServices.revenueSafe.checkTransactionStatus(transactionHash);
+        const safeResult = await this.safeServices.revenueSafe.checkTransactionStatus(transactionHash);
+        return {
+          ...safeResult,
+          method: 'safe' as const,
+        };
       }
 
       // For x402 and Base Pay, simulate status check
