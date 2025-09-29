@@ -31,8 +31,24 @@ export class DRIVRChatClient {
         throw new Error('Wallet required for XMTP connection');
       }
 
+      // Create a proper signer from the wallet
+      const signer = {
+        getAddress: async () => {
+          if (typeof wallet.getAddress === 'function') {
+            return await wallet.getAddress();
+          }
+          return wallet.address || wallet;
+        },
+        signMessage: async (message: string) => {
+          if (typeof wallet.signMessage === 'function') {
+            return await wallet.signMessage(message);
+          }
+          throw new Error('Wallet does not support message signing');
+        },
+      };
+
       this.client = await Client.create({
-        wallet,
+        wallet: signer,
         env: this.config.env as XmtpEnv,
       });
 
