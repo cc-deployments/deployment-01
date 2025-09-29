@@ -97,22 +97,25 @@ export class DRIVRChatClient {
     try {
       const xmtpConversations = await this.client.conversations.list();
       
-      this.conversations = xmtpConversations
-        .filter(conv => {
-          // For DMs, check if it's a conversation with the DRIVR agent
-          if (conv instanceof Dm) {
-            return conv.peerInboxId() === process.env.NEXT_PUBLIC_DRIVR_AGENT_ADDRESS;
+      // Filter and map conversations with async operations
+      const filteredConversations: DRIVRConversation[] = [];
+      
+      for (const conv of xmtpConversations) {
+        if (conv instanceof Dm) {
+          const peerInboxId = await conv.peerInboxId();
+          if (peerInboxId === process.env.NEXT_PUBLIC_DRIVR_AGENT_ADDRESS) {
+            filteredConversations.push({
+              id: conv.id,
+              peerAddress: peerInboxId,
+              messages: [],
+              lastMessageAt: Date.now(),
+              isActive: true,
+            });
           }
-          // For Groups, we'll need to check members or other properties
-          return false; // For now, only handle DMs
-        })
-        .map(conv => ({
-          id: conv.id,
-          peerAddress: conv instanceof Dm ? conv.peerInboxId() : '',
-          messages: [],
-          lastMessageAt: Date.now(),
-          isActive: true,
-        }));
+        }
+      }
+      
+      this.conversations = filteredConversations;
 
       console.log(`📋 Loaded ${this.conversations.length} DRIVR conversations`);
     } catch (error) {
