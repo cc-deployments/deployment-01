@@ -20,12 +20,12 @@ export default function TextPage() {
   const navigateTo = useCallback(async (path: string) => {
     try {
       if (path === '/manifold-gallery') {
-        // 4th page: Always open Manifold Gallery (not mint page)
-        console.log('🚀 Opening Manifold Gallery: https://manifold.xyz/@carculture');
+        // 4th page: Always open StableLink Gallery (not Manifold)
+        console.log('🚀 Opening StableLink Gallery: https://carmania-test.carculture.com/nft-gallery-grid');
         
         // Use window.location.href for external URL navigation
-        console.log('🔄 Opening Manifold Gallery via window.location.href');
-        window.location.href = 'https://manifold.xyz/@carculture';
+        console.log('🔄 Opening StableLink Gallery via window.location.href');
+        window.location.href = 'https://carmania-test.carculture.com/nft-gallery-grid';
       } else {
         router.push(path);
       }
@@ -33,7 +33,7 @@ export default function TextPage() {
       if (path === '/manifold-gallery') {
         // Final fallback: use location.href
         console.log('🔄 Final fallback to location.href');
-        window.location.href = 'https://manifold.xyz/@carculture';
+        window.location.href = 'https://carmania-test.carculture.com/nft-gallery-grid';
       } else {
         window.location.href = path;
       }
@@ -65,13 +65,13 @@ export default function TextPage() {
 
   const handleKeyPress = useCallback(async (event: KeyboardEvent) => {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'W') {
-      console.log('⬆️ Keyboard navigation: Swipe up - opening Manifold Gallery');
-      // 4th page: Always open Manifold Gallery (not mint page)
-      console.log('🚀 Opening Manifold Gallery: https://manifold.xyz/@carculture');
+      console.log('⬆️ Keyboard navigation: Swipe up - opening StableLink Gallery');
+      // 4th page: Always open StableLink Gallery (not mint page)
+      console.log('🚀 Opening StableLink Gallery: https://carmania-test.carculture.com/nft-gallery-grid');
       
       // Use window.location.href for external URL navigation
-      console.log('🔄 Opening Manifold Gallery via window.location.href');
-      window.location.href = 'https://manifold.xyz/@carculture';
+      console.log('🔄 Opening StableLink Gallery via window.location.href');
+      window.location.href = 'https://carmania-test.carculture.com/nft-gallery-grid';
     } else if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S') {
       navigateTo('/gallery-hero-2');
     }
@@ -209,16 +209,16 @@ export default function TextPage() {
                 console.log('✅ API success, redirecting to:', result.data.mint_url);
                 window.location.href = result.data.mint_url;
               } else {
-                console.log('⚠️ API success but no mint_url, using specific Manifold URL');
-                window.location.href = 'https://manifold.xyz/@carculture';
+                console.log('⚠️ API success but no mint_url, using StableLink gallery');
+                window.location.href = 'https://carmania-test.carculture.com/nft-gallery-grid';
               }
             } else {
-              console.log('❌ API not ready yet (status:', response.status, '), using specific Manifold URL');
-              window.location.href = 'https://manifold.xyz/@carculture/id/4144040176';
+              console.log('❌ API not ready yet (status:', response.status, '), using StableLink gallery');
+              window.location.href = 'https://carmania-test.carculture.com/nft-gallery-grid';
             }
           } catch (error) {
-            console.log('❌ API error, using specific Manifold URL:', error);
-            window.location.href = 'https://manifold.xyz/@carculture/id/4144040176';
+            console.log('❌ API error, using StableLink gallery:', error);
+            window.location.href = 'https://carmania-test.carculture.com/nft-gallery-grid';
           }
         }}
       />
