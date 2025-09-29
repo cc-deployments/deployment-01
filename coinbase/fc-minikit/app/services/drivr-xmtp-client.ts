@@ -430,6 +430,6 @@ export class DRIVRChatClient {
    * Get client address
    */
   getClientAddress(): string | null {
-    return this.client?.address || null;
+    return this.client?.inboxId || null;
   }
 }
