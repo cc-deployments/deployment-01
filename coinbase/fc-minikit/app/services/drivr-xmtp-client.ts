@@ -1,5 +1,5 @@
 // DRIVR Chat XMTP Client for FC Miniapp
-import { Client, type XmtpEnv } from '@xmtp/browser-sdk';
+import { Client, type XmtpEnv, Dm } from '@xmtp/browser-sdk';
 import { 
   DRIVRXMTPConfig, 
   DRIVRMessage, 
@@ -98,10 +98,17 @@ export class DRIVRChatClient {
       const xmtpConversations = await this.client.conversations.list();
       
       this.conversations = xmtpConversations
-        .filter(conv => conv.peerAddress === process.env.NEXT_PUBLIC_DRIVR_AGENT_ADDRESS)
+        .filter(conv => {
+          // For DMs, check if it's a conversation with the DRIVR agent
+          if (conv instanceof Dm) {
+            return conv.peerInboxId() === process.env.NEXT_PUBLIC_DRIVR_AGENT_ADDRESS;
+          }
+          // For Groups, we'll need to check members or other properties
+          return false; // For now, only handle DMs
+        })
         .map(conv => ({
-          id: conv.topic,
-          peerAddress: conv.peerAddress,
+          id: conv.id,
+          peerAddress: conv instanceof Dm ? conv.peerInboxId() : '',
           messages: [],
           lastMessageAt: Date.now(),
           isActive: true,
@@ -120,20 +127,29 @@ export class DRIVRChatClient {
     if (!this.client) return;
 
     // Listen for new conversations
-    this.client.on('conversation', async (conversation) => {
-      if (conversation.peerAddress === process.env.NEXT_PUBLIC_DRIVR_AGENT_ADDRESS) {
-        await this.handleNewConversation(conversation);
-      }
+    this.client.conversations.stream().then(stream => {
+      stream.onValue(async (conversation) => {
+        if (conversation instanceof Dm) {
+          const peerInboxId = await conversation.peerInboxId();
+          if (peerInboxId === process.env.NEXT_PUBLIC_DRIVR_AGENT_ADDRESS) {
+            await this.handleNewConversation(conversation);
+          }
+        }
+      });
     });
 
     // Listen for messages in existing conversations
     const conversations = this.client.conversations.list();
     conversations.then(convs => {
-      convs.forEach(conversation => {
-        if (conversation.peerAddress === process.env.NEXT_PUBLIC_DRIVR_AGENT_ADDRESS) {
-          conversation.on('message', (message) => {
-            this.handleIncomingMessage(message, conversation.peerAddress);
-          });
+      convs.forEach(async (conversation) => {
+        if (conversation instanceof Dm) {
+          const peerInboxId = await conversation.peerInboxId();
+          if (peerInboxId === process.env.NEXT_PUBLIC_DRIVR_AGENT_ADDRESS) {
+            const stream = await conversation.stream();
+            stream.onValue((message) => {
+              this.handleIncomingMessage(message, peerInboxId);
+            });
+          }
         }
       });
     });
@@ -142,10 +158,11 @@ export class DRIVRChatClient {
   /**
    * Handle new conversation
    */
-  private async handleNewConversation(conversation: any): Promise<void> {
+  private async handleNewConversation(conversation: Dm): Promise<void> {
+    const peerInboxId = await conversation.peerInboxId();
     const newConversation: DRIVRConversation = {
-      id: conversation.topic,
-      peerAddress: conversation.peerAddress,
+      id: conversation.id,
+      peerAddress: peerInboxId,
       messages: [],
       lastMessageAt: Date.now(),
       isActive: true,
@@ -154,8 +171,9 @@ export class DRIVRChatClient {
     this.conversations.push(newConversation);
     
     // Set up message listener for new conversation
-    conversation.on('message', (message: any) => {
-      this.handleIncomingMessage(message, conversation.peerAddress);
+    const stream = await conversation.stream();
+    stream.onValue((message: any) => {
+      this.handleIncomingMessage(message, peerInboxId);
     });
   }
 
@@ -220,10 +238,11 @@ export class DRIVRChatClient {
     }
 
     try {
-      const conversation = await this.client.conversations.newConversation(drivrAgentAddress);
+      // Create a new DM conversation with the DRIVR agent
+      const conversation = await this.client.conversations.newDm(drivrAgentAddress);
       
       const newConversation: DRIVRConversation = {
-        id: conversation.topic,
+        id: conversation.id,
         peerAddress: drivrAgentAddress,
         messages: [],
         lastMessageAt: Date.now(),
@@ -234,7 +253,8 @@ export class DRIVRChatClient {
       this.currentConversation = newConversation;
 
       // Set up message listener
-      conversation.on('message', (message: any) => {
+      const stream = await conversation.stream();
+      stream.onValue((message: any) => {
         this.handleIncomingMessage(message, drivrAgentAddress);
       });
 
@@ -259,7 +279,8 @@ export class DRIVRChatClient {
     }
 
     try {
-      const conversation = await this.client.conversations.newConversation(
+      // Get the existing conversation or create a new one
+      const conversation = await this.client.conversations.newDm(
         this.currentConversation.peerAddress
       );
       
@@ -268,7 +289,7 @@ export class DRIVRChatClient {
       // Add message to local state
       const userMessage: DRIVRMessage = {
         id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-        senderAddress: this.client.address || 'unknown',
+        senderAddress: this.client.inboxId || 'unknown',
         content,
         timestamp: Date.now(),
         type: 'text',
