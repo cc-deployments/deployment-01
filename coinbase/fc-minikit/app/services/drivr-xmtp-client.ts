@@ -33,22 +33,25 @@ export class DRIVRChatClient {
 
       // Create a proper signer from the wallet
       const signer = {
-        getAddress: async () => {
-          if (typeof wallet.getAddress === 'function') {
-            return await wallet.getAddress();
-          }
-          return wallet.address || wallet;
-        },
+        type: 'EOA' as const,
+        getIdentifier: () => ({
+          identifier: wallet.address || wallet,
+          identifierKind: 'Ethereum' as const,
+        }),
         signMessage: async (message: string) => {
           if (typeof wallet.signMessage === 'function') {
-            return await wallet.signMessage(message);
+            const signature = await wallet.signMessage(message);
+            // Convert signature to Uint8Array if needed
+            return typeof signature === 'string' 
+              ? new TextEncoder().encode(signature)
+              : signature;
           }
           throw new Error('Wallet does not support message signing');
         },
       };
 
       this.client = await Client.create({
-        wallet: signer,
+        signer,
         env: this.config.env as XmtpEnv,
       });
 
