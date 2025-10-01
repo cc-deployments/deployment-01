@@ -19,6 +19,7 @@ interface CardData {
   contractAddress?: string;
   tokenId?: string;
   auctionEnds?: string; // ISO timestamp for 24-hour auction
+  aspectRatio?: number; // width/height ratio
 }
 
 export function CardFeed() {
@@ -28,6 +29,45 @@ export function CardFeed() {
   const [timeLeft, setTimeLeft] = useState<{ [key: string]: string }>({});
   const [layout, setLayout] = useState<'grid' | 'stream'>('grid');
   const { address, isConnected, connect, disconnect } = useBaseAccount();
+
+  // Function to calculate aspect ratio from image
+  const calculateAspectRatio = (imageSrc: string): Promise<number> => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        resolve(img.width / img.height);
+      };
+      img.onerror = () => {
+        resolve(1); // Default to square if image fails to load
+      };
+      img.src = imageSrc;
+    });
+  };
+
+  // Function to get dynamic card dimensions based on aspect ratio
+  const getCardDimensions = (aspectRatio: number, layout: 'grid' | 'stream') => {
+    if (layout === 'stream') {
+      // Stream view: let content dictate height, constrain image container
+      return {
+        cardWidth: '100%',
+        cardHeight: 'auto', // Let card height be determined by content
+        imageContainerHeight: 'auto',
+        imageContainerMaxHeight: '60vh', // Max height for image container
+        imageAspectRatio: `${aspectRatio}/1`,
+        objectFit: 'contain'
+      };
+    } else {
+      // Grid view: fixed height for consistency
+      return {
+        cardWidth: '100%',
+        cardHeight: 'auto', // Let card height be determined by content
+        imageContainerHeight: 'auto',
+        imageContainerMaxHeight: '300px', // Max height for image within grid
+        imageAspectRatio: `${aspectRatio}/1`,
+        objectFit: 'contain'
+      };
+    }
+  };
 
   // Fetch Manifold card data
   useEffect(() => {
@@ -46,7 +86,8 @@ export function CardFeed() {
           manifoldUrl: 'https://app.manifold.xyz/c/man-driving-car',
           contractAddress: 'CarMania.cb.id',
           tokenId: '4249233648',
-          auctionEnds: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // 24 hours from now
+          auctionEnds: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours from now
+          aspectRatio: 1.0 // Square
         };
 
         // Try to fetch the actual image from Manifold
@@ -74,7 +115,8 @@ export function CardFeed() {
             isTokenGated: true,
             price: '$1.00 USDC',
             arweaveHash: 'arweave-hash-1',
-            auctionEnds: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // 24 hours from now
+            auctionEnds: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours from now
+            aspectRatio: 1.5 // 3:2 ratio
           },
           {
             id: '2',
@@ -85,7 +127,8 @@ export function CardFeed() {
             type: 'story',
             isTokenGated: true,
             price: '$1.00 USDC',
-            arweaveHash: 'arweave-hash-2'
+            arweaveHash: 'arweave-hash-2',
+            aspectRatio: 1.2 // Slightly wide
           },
           {
             id: '3',
@@ -96,7 +139,8 @@ export function CardFeed() {
             type: 'story',
             isTokenGated: true,
             price: '$1.00 USDC',
-            arweaveHash: 'arweave-hash-3'
+            arweaveHash: 'arweave-hash-3',
+            aspectRatio: 1.6 // Wide landscape
           },
           {
             id: '4',
@@ -107,7 +151,8 @@ export function CardFeed() {
             type: 'story',
             isTokenGated: true,
             price: '$1.00 USDC',
-            arweaveHash: 'arweave-hash-4'
+            arweaveHash: 'arweave-hash-4',
+            aspectRatio: 0.8 // Portrait
           },
           {
             id: '5',
@@ -116,7 +161,8 @@ export function CardFeed() {
             image: '/car-cards/Fintastic.png',
             date: '2024-09-25',
             type: 'visual',
-            isTokenGated: false
+            isTokenGated: false,
+            aspectRatio: 0.6 // Very tall portrait
           },
           {
             id: '9',
@@ -125,7 +171,8 @@ export function CardFeed() {
             image: '/placeholder-card.jpg',
             date: '2024-09-21',
             type: 'visual',
-            isTokenGated: false
+            isTokenGated: false,
+            aspectRatio: 1.0 // Square
           },
           {
             id: '10',
@@ -134,7 +181,8 @@ export function CardFeed() {
             image: '/placeholder-card.jpg',
             date: '2024-09-20',
             type: 'visual',
-            isTokenGated: false
+            isTokenGated: false,
+            aspectRatio: 1.0 // Square
           },
           {
             id: '6',
@@ -145,7 +193,8 @@ export function CardFeed() {
             type: 'story',
             isTokenGated: true,
             price: '$1.00 USDC',
-            arweaveHash: 'arweave-hash-6'
+            arweaveHash: 'arweave-hash-6',
+            aspectRatio: 1.3 // Slightly wide
           },
           {
             id: '7',
@@ -156,7 +205,8 @@ export function CardFeed() {
             type: 'story',
             isTokenGated: true,
             price: '$1.00 USDC',
-            arweaveHash: 'arweave-hash-7'
+            arweaveHash: 'arweave-hash-7',
+            aspectRatio: 1.4 // Wide
           },
           {
             id: '8',
@@ -165,7 +215,8 @@ export function CardFeed() {
             image: '/placeholder-card.jpg',
             date: '2024-09-22',
             type: 'visual',
-            isTokenGated: false
+            isTokenGated: false,
+            aspectRatio: 1.0 // Square
           }
         ];
 
@@ -310,7 +361,7 @@ export function CardFeed() {
                 href="https://carmania.carculture.com"
                 className="bg-[#a32428] text-white px-4 py-2 rounded-lg hover:bg-[#8b1e22] transition-colors"
               >
-                Car of the Day
+                CarMania Garage
               </Link>
             </div>
           </div>
@@ -325,28 +376,41 @@ export function CardFeed() {
           </div>
         ) : (
           <div className={layout === 'grid' 
-            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-max"
             : "max-w-4xl mx-auto space-y-6"
           }>
-            {cards.map((card) => (
-            <div
-              key={card.id}
-              className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer overflow-hidden"
-              onClick={() => handleCardClick(card)}
-            >
-              <div className={`relative ${layout === 'stream' ? 'h-[500px] w-full flex-shrink-0' : 'h-[400px] w-full'}`}>
-                <Image
-                  src={card.image}
-                  alt={card.title}
-                  fill
-                  className="object-cover"
-                  priority={card.manifoldUrl ? true : false}
-                  sizes={layout === 'stream' 
-                    ? "(max-width: 768px) 100vw, 384px" 
-                    : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                  }
-                  quality={card.manifoldUrl ? 75 : 90}
-                />
+            {cards.map((card) => {
+              const dimensions = getCardDimensions(card.aspectRatio || 1, layout);
+              return (
+              <div
+                key={card.id}
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer overflow-hidden"
+                onClick={() => handleCardClick(card)}
+                style={{
+                  width: dimensions.cardWidth,
+                  height: dimensions.cardHeight
+                }}
+              >
+                <div 
+                  className="relative w-full flex items-center justify-center bg-gray-100"
+                  style={{
+                    height: dimensions.imageContainerHeight,
+                    maxHeight: dimensions.imageContainerMaxHeight,
+                    aspectRatio: dimensions.imageAspectRatio
+                  }}
+                >
+                  <Image
+                    src={card.image}
+                    alt={card.title}
+                    fill
+                    className="object-contain"
+                    priority={card.manifoldUrl ? true : false}
+                    sizes={layout === 'stream' 
+                      ? "(max-width: 768px) 100vw, 384px" 
+                      : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    }
+                    quality={card.manifoldUrl ? 75 : 90}
+                  />
                 {card.isTokenGated && (
                   <div className="absolute top-4 right-4 bg-[#a32428] text-white px-3 py-1 rounded-full text-sm font-semibold">
                     Collect
@@ -357,10 +421,27 @@ export function CardFeed() {
                     {timeLeft[card.id]}
                   </div>
                 )}
+                
+                {/* Like/Share buttons */}
+                <div className="absolute bottom-4 left-4 flex items-center space-x-2">
+                  <button
+                    onClick={(e) => handleLike(card, e)}
+                    className="bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                  >
+                    ❤️
+                  </button>
+                  <button
+                    onClick={(e) => handleShare(card, e)}
+                    className="bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                  >
+                    📤
+                  </button>
+                </div>
               </div>
               
             </div>
-          ))}
+            );
+          })}
           </div>
         )}
       </div>
@@ -400,7 +481,7 @@ export function CardFeed() {
                   onClick={() => handleUnlockStory(selectedCard)}
                   className="flex-1 bg-[#a32428] text-white py-3 rounded-lg hover:bg-[#8b1e22] transition-colors font-semibold"
                 >
-                  Collect with BasePay
+                  Collect
                 </button>
               </div>
               
