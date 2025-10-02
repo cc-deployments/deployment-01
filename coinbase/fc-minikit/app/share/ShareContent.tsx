@@ -92,7 +92,7 @@ export default function ShareContent() {
         </div>
         <div className="flex flex-col items-center w-full mt-0">
           <a
-            href="https://app.manifold.xyz/c/man-driving-car"
+            href="https://manifold.xyz/@carculture/id/4149831920"
             target="_blank"
             rel="noopener noreferrer"
             className="md:w-auto flex justify-center"

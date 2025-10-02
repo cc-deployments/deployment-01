@@ -1,7 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { securityMiddleware, handleOPTIONS } from '../../../lib/security';
 
 export async function POST(request: NextRequest) {
   try {
+    // Security validation using centralized middleware
+    const security = securityMiddleware(request);
+    if (security.error) {
+      return security.error;
+    }
+    
+    const { clientIP, headers } = security;
+    
     const body = await request.json();
     const { name, description, price, currency, image, contractAddress, tokenId, mintUrl } = body;
 
@@ -28,7 +37,7 @@ export async function POST(request: NextRequest) {
     const projectId = process.env.CDP_PROJECT_ID || '1cceb0e4-e690-40ac-8f3d-7d1f3da1417a';
     const productId = `cdp_${Date.now()}`;
     
-    // Build OnRamp URL with required addresses parameter
+    // Build OnRamp URL with required addresses parameter and client IP verification
     const baseUrl = 'https://pay.coinbase.com/buy/input';
     const params = new URLSearchParams({
       appId: projectId,
@@ -49,13 +58,17 @@ export async function POST(request: NextRequest) {
       theme: 'light',
       description: `Purchase ${name} NFT - ${description || 'Digital collectible'}`,
       minAmount: price.toString(),
-      maxAmount: (price * 1.1).toFixed(2)
+      maxAmount: (price * 1.1).toFixed(2),
+      // Add client IP for verification (if supported by Coinbase)
+      clientIp: clientIP
     });
 
     const cdpOnRampUrl = `${baseUrl}?${params.toString()}`;
     
     console.log('Generated OnRamp URL (manual construction):', cdpOnRampUrl);
     console.log('OnRamp parameters:', Object.fromEntries(params.entries()));
+
+    // Use pre-configured CORS headers from security middleware
 
     // If mintUrl is provided, we can offer both options
     if (mintUrl) {
@@ -66,6 +79,7 @@ export async function POST(request: NextRequest) {
         mintUrl, // Keep Manifold URL as backup
         message: 'CDP OnRamp payment created with Manifold fallback',
         type: 'cdp_onramp',
+        clientIp: clientIP, // Include for debugging
         config: {
           projectId,
           addresses: [{
@@ -78,7 +92,7 @@ export async function POST(request: NextRequest) {
           presetFiatAmount: price,
           fiatCurrency: 'USD'
         }
-      });
+      }, { headers });
     }
 
     return NextResponse.json({
@@ -87,6 +101,7 @@ export async function POST(request: NextRequest) {
       paymentUrl: cdpOnRampUrl,
       message: 'CDP OnRamp payment created',
       type: 'cdp_onramp',
+      clientIp: clientIP, // Include for debugging
       config: {
         projectId,
         addresses: [{
@@ -99,7 +114,7 @@ export async function POST(request: NextRequest) {
         presetFiatAmount: price,
         fiatCurrency: 'USD'
       }
-    });
+    }, { headers });
 
   } catch (error) {
     console.error('CDP OnRamp integration error:', error);
@@ -108,4 +123,9 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
+}
+
+// Handle preflight OPTIONS requests
+export async function OPTIONS(request: NextRequest): Promise<NextResponse> {
+  return handleOPTIONS(request);
 }

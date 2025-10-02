@@ -1,6 +1,5 @@
 import React from "react";
 import "./theme.css";
-// TEMPORARILY DISABLED: OnchainKit dependency issue
 // import "@coinbase/onchainkit/styles.css";
 import type { Metadata, Viewport } from "next";
 import { Inter } from 'next/font/google';

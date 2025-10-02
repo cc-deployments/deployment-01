@@ -24,10 +24,11 @@ NEXT_PUBLIC_SAFE_REVENUE_ADDRESS=0x7d9bfEC6bDA952128D0321DeDa02199527A7b989
 NEXT_PUBLIC_SAFE_COLD_STORAGE_ADDRESS=0xBA03D53507412639795bDb3591aa3EE3ADe1881C
 ```
 
-### 3. **STABLELINK_TESTING_GUIDE.md** - Current Issues
-- **BLOCKED**: BASE Smart Wallet (carculture.base.eth) not connecting to dApps
-- **Status**: Reported to BASE Discord, waiting for resolution
-- **Workaround**: Direct Manifold integration, alternative wallets
+### 3. **WALLET_MODAL_INTEGRATION.md** - Current Status ✅
+- **Base Account SDK**: Successfully integrated and working
+- **Smart Wallet Connection**: `0x048a22DAB92f2c1e7Deb3847Ca151B888aAb0F1C` connected
+- **Wallet Modal**: Fully functional with Base Account + Coinbase Wallet + Mobile wallets
+- **Status**: Ready for production deployment
 
 ## 🔍 Identified Wallet Addresses
 
@@ -42,9 +43,10 @@ NEXT_PUBLIC_SAFE_COLD_STORAGE_ADDRESS=0xBA03D53507412639795bDb3591aa3EE3ADe1881C
 - **BasePay Recipient**: `0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6`
 
 ### Basenames
-- **carculture.base.eth**: Base basename (funds migrated ✅, basename not migrated ❌)
+- **carculture.base.eth**: Base basename (funds migrated ✅, basename migrated ✅)
+- **carmania.base.eth**: Base basename (funds migrated ✅, basename migrated ✅)
 - **drivr.base.eth**: Base basename (owned by carculture.eth, not migrated ❌)
-- **Current Issue**: Both basenames need migration to smart wallet
+- **Current Issue**: drivr.base.eth needs migration decision
 
 ## 🏗️ Wallet Architecture
 
@@ -63,15 +65,17 @@ NEXT_PUBLIC_SAFE_COLD_STORAGE_ADDRESS=0xBA03D53507412639795bDb3591aa3EE3ADe1881C
 ### **Farcaster Identities:**
 - **`carculture.eth`** - Main Farcaster identity
   - **Wallet:** `0x175de0fd25651a48e39b9f2512650bf4f592bf59`
-  - **Purpose:** Matches X and Instagram accounts
+  - **Purpose:** Matches X and Instagram accounts (carculture)
   - **Status:** Currently posting from this identity
   - **Owns:** "drivr" username on Farcaster
+  - **Base.org username:** "drivr" (for cross-platform consistency)
 
 ### **Base Identities:**
 - **`carculture.base.eth`** - Base basename
   - **Wallet:** Smart wallet `0x048a22DAB92f2c1e7Deb3847Ca151B888aAb0F1C`
-  - **Status:** Funds migrated ✅, basename not migrated ❌
+  - **Status:** Funds migrated ✅, basename migrated ✅
   - **Purpose:** Main CarCulture brand on Base
+  - **TBA username:** "carculture.eth" (matches X/IG for consistency)
 
 - **`drivr.base.eth`** - Base basename
   - **Owner:** carculture.eth wallet
@@ -80,8 +84,10 @@ NEXT_PUBLIC_SAFE_COLD_STORAGE_ADDRESS=0xBA03D53507412639795bDb3591aa3EE3ADe1881C
 
 ### **CB.ID Identities:**
 - **`carculture.cb.id`** - EOA address
-  - **Status:** Ingested into TBA beta
-  - **Purpose:** Base app integration
+  - **Status:** Separate wallet from smart wallet (confirmed by Base support)
+  - **Purpose:** Coinbase ecosystem integration
+  - **Access Method:** Via Coinbase Wallet extension or mobile app
+  - **Cannot be linked:** Base confirmed separate wallets cannot be connected
 
 - **`carmania.cb.id`** - CB.ID identity
   - **Purpose:** CarMania brand identity
@@ -103,20 +109,22 @@ NEXT_PUBLIC_SAFE_COLD_STORAGE_ADDRESS=0xBA03D53507412639795bDb3591aa3EE3ADe1881C
 
 ## ⚠️ Current Issues
 
-### 1. **Complex Basename Migration Status**
-- **carculture.base.eth**: Funds migrated ✅, basename still on old wallet ❌
+### 1. **Basename Migration Status**
+- **carculture.base.eth**: Funds migrated ✅, basename migrated ✅
+- **carmania.base.eth**: Funds migrated ✅, basename migrated ✅
 - **drivr.base.eth**: Not migrated yet ❌, owned by carculture.eth
 - **Smart wallet ready**: `0x048a22DAB92f2c1e7Deb3847Ca151B888aAb0F1C`
-- **Migration Required**: Both basenames need 4 transactions each to smart wallet
+- **Security Decision**: Keep DRIVR agent separate from main smart wallet
 
 ### 2. **SAFE Addresses Now Set** ✅
 - **SAFE #1 (Revenue)**: `0x7d9bfEC6bDA952128D0321DeDa02199527A7b989`
 - **SAFE #2 (NFT Storage)**: `0xBA03D53507412639795bDb3591aa3EE3ADe1881C`
 - **Environment variables**: Need to be updated with actual addresses
 
-### 3. **Wallet Connection Issues**
-- BASE Smart Wallet (carculture.base.eth) not connecting to dApps
-- Reported to BASE Discord, awaiting resolution
+### 3. **Wallet Connection Issues** ✅ RESOLVED
+- BASE Smart Wallet (carculture.base.eth) now connecting successfully
+- Base Account SDK properly integrated and working
+- Wallet modal supports Base Account + Coinbase Wallet + Mobile wallets
 
 ### 4. **Identity Consolidation Needed**
 - **Multiple "drivr" identities** across platforms need clarification
@@ -139,15 +147,42 @@ NEXT_PUBLIC_SAFE_COLD_STORAGE_ADDRESS=0xBA03D53507412639795bDb3591aa3EE3ADe1881C
 3. **Security procedures** (outlined but not fully implemented)
 4. **Basename migration** (process understood, execution pending)
 
+## 🔑 Accessing carculture.cb.id Wallet
+
+### **How to Access carculture.cb.id:**
+
+#### **Method 1: Coinbase Wallet Extension**
+1. **Install Coinbase Wallet** browser extension
+2. **Import existing wallet** using seed phrase/private key
+3. **Connect to Base network** in wallet settings
+4. **Access carculture.cb.id** identity
+
+#### **Method 2: Coinbase Wallet Mobile App**
+1. **Download Coinbase Wallet** mobile app
+2. **Import wallet** using recovery phrase
+3. **Switch to Base network**
+4. **Access CB.ID features**
+
+#### **Method 3: Direct Wallet Import**
+1. **Use private key/seed phrase** for carculture.cb.id wallet
+2. **Import into any compatible wallet** (MetaMask, Rainbow, etc.)
+3. **Switch to Base network**
+4. **Access CB.ID functionality**
+
+### **Important Notes:**
+- **Separate from Smart Wallet**: `carculture.cb.id` cannot be linked to `carculture.base.eth` smart wallet
+- **Independent Operations**: Each wallet operates independently
+- **Different Purposes**: Smart wallet for dApps, CB.ID for Coinbase ecosystem
+- **Security**: Keep both wallets secure with proper backup procedures
+
 ## 🎯 Next Steps
 
 ### Immediate Actions Needed
 1. **Update environment variables** with actual SAFE addresses
-2. **Complete carculture.base.eth migration** (4 transactions)
-3. **Migrate drivr.base.eth** to smart wallet (4 transactions)
-4. **Resolve wallet connection issues** with BASE team
-5. **Document signer information** securely
-6. **Test multi-sig operations** with small amounts
+2. **Decide on drivr.base.eth migration** (security vs. convenience)
+3. **Document signer information** securely
+4. **Test multi-sig operations** with small amounts
+5. **Set up carculture.cb.id wallet access** using preferred method
 
 ### Documentation Gaps to Fill
 1. **Basename migration step-by-step guide**

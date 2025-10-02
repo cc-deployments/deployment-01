@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 // import { FundCard } from '@coinbase/onchainkit/fund'; // Removed - using Base Account SDK instead
 import { useBaseAccount } from './BaseAccountProvider';
+import { WalletModal } from './WalletModal';
 
 interface FundCardIntegrationProps {
   productId: string;
@@ -81,17 +82,14 @@ export function FundCardIntegration({
               <span className="text-2xl">🔗</span>
             </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              Connect Base Account
+              Connect Wallet
             </h3>
             <p className="text-gray-600 mb-4">
-              Connect your Base Account to purchase this NFT with USD
+              Connect your wallet to purchase this NFT
             </p>
-            <button
-              onClick={handleConnect}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200"
-            >
-              Connect Base Account to Buy
-            </button>
+            <div className="flex justify-center">
+              <WalletModal className="w-full max-w-sm" />
+            </div>
           </div>
         </div>
       </div>

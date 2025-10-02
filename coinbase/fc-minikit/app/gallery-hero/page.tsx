@@ -208,15 +208,15 @@ export default function GalleryHero() {
                     window.location.href = result.data.mint_url;
                   } else {
                     console.log('⚠️ API success but no mint_url, using specific Manifold URL');
-                    window.location.href = 'https://manifold.xyz/@carculture/id/4149836016';
+                    window.location.href = 'https://manifold.xyz/@carculture/id/4149831920';
                   }
                 } else {
                   console.log('❌ API not ready yet (status:', response.status, '), using specific Manifold URL');
-                  window.location.href = 'https://manifold.xyz/@carculture/id/4149836016';
+                  window.location.href = 'https://manifold.xyz/@carculture/id/4149831920';
                 }
               } catch (error) {
                 console.log('❌ API error, using specific Manifold URL:', error);
-                window.location.href = 'https://manifold.xyz/@carculture/id/4149836016';
+                window.location.href = 'https://manifold.xyz/@carculture/id/4149831920';
               }
             }}
           />

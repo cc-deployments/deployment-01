@@ -13,6 +13,20 @@ declare global {
   }
 }
 
+// Add crypto polyfill if needed
+if (typeof window !== 'undefined' && !window.crypto?.randomUUID) {
+  window.crypto = {
+    ...window.crypto,
+    randomUUID: () => {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+  };
+}
+
 interface BaseAccountContextType {
   sdk: any;
   isConnected: boolean;
@@ -37,31 +51,57 @@ export function BaseAccountProvider({ children }: { children: ReactNode }) {
   const [address, setAddress] = useState<string | null>(null);
 
   useEffect(() => {
-    // Temporarily disable Base Account SDK to avoid crypto.randomUUID issues
-    // The NFT purchase flow will work with standard wallet connections
-    console.log('Base Account Provider initialized (SDK disabled for now)');
-    
-    // Set a mock SDK to prevent errors
-    setSdk({ 
-      getProvider: () => null,
-      isConnected: false 
-    });
+    const initializeSDK = async () => {
+      try {
+        console.log('Initializing Base Account SDK...');
+        
+        // Initialize the Base Account SDK
+        const baseAccountSDK = await createBaseAccountSDK({
+          chain: base,
+          apiKey: process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY || '',
+        });
+        
+        setSdk(baseAccountSDK);
+        console.log('Base Account SDK initialized successfully');
+      } catch (error) {
+        console.error('Failed to initialize Base Account SDK:', error);
+        // Set a mock SDK to prevent errors
+        setSdk({ 
+          getProvider: () => null,
+          isConnected: false 
+        });
+      }
+    };
+
+    initializeSDK();
   }, []);
 
   const connect = async () => {
-    if (!sdk) return;
+    if (!sdk) {
+      throw new Error('Base Account SDK is not available');
+    }
 
     try {
-      // Use the correct Base Account SDK method
+      console.log('Connecting to Base Account...');
+      
+      // Use the Base Account SDK getProvider method and request accounts
       const provider = sdk.getProvider();
+      if (!provider) {
+        throw new Error('Base Account provider is not available');
+      }
+
+      // Request accounts using the provider
       const accounts = await provider.request({ method: 'eth_requestAccounts' }) as string[];
+      
       if (accounts && Array.isArray(accounts) && accounts.length > 0) {
         setAddress(accounts[0]);
         setIsConnected(true);
         console.log('Base Account connected:', accounts[0]);
+      } else {
+        throw new Error('No accounts returned from Base Account');
       }
     } catch (error) {
-      console.error('Connection failed:', error);
+      console.error('Base Account connection failed:', error);
       throw error;
     }
   };
