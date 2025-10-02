@@ -210,7 +210,7 @@ export default function TextPage() {
                 window.location.href = result.data.mint_url;
               } else {
                 console.log('⚠️ API success but no mint_url, using specific Manifold URL');
-                window.location.href = 'https://manifold.xyz/@carculture';
+                window.location.href = 'https://manifold.xyz/@carculture/id/4149831920';
               }
             } else {
               console.log('❌ API not ready yet (status:', response.status, '), using specific Manifold URL');
