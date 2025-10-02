@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount, useConnect } from 'wagmi';
+import { injected } from 'wagmi/connectors';
 
 interface CDPOnRampProps {
   productId: string;
@@ -45,6 +46,7 @@ export function CDPOnRampIntegration({
   
   // Use existing Base Account hook
   const { address: userAddress, isConnected } = useAccount();
+  const { connect } = useConnect();
 
 
   // Generate OnRamp URL using getOnrampBuyUrl with Base Account integration
@@ -235,7 +237,7 @@ export function CDPOnRampIntegration({
 
         {/* Payment Button */}
         <button
-          onClick={!isConnected ? connect : handlePayment}
+          onClick={!isConnected ? () => connect({ connector: injected() }) : handlePayment}
           disabled={isLoading}
           className="w-full bg-gradient-to-r from-[#a32428] to-[#8b1e22] hover:from-[#8b1e22] hover:to-[#6b1519] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl transition-all duration-200 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
           style={{ fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}
