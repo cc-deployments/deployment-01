@@ -15,7 +15,7 @@ export default function WalletIntegrationTest() {
     description: 'A test NFT for wallet integration testing',
     make: 'Test',
     model: 'Car',
-    year: 2024,
+    year: '2024',
   };
 
   const handlePaymentSuccess = (paymentId: string, transactionHash: string) => {
