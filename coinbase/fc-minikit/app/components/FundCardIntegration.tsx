@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount, useConnect } from 'wagmi';
+import { injected } from 'wagmi/connectors';
 import { WalletModal } from './WalletModal';
 
 interface FundCardIntegrationProps {
@@ -42,6 +43,7 @@ export function FundCardIntegration({
   
   // Use wagmi hook
   const { address, isConnected: wagmiConnected } = useAccount();
+  const { connect } = useConnect();
 
   useEffect(() => {
     if (wagmiConnected && address) {
@@ -55,7 +57,7 @@ export function FundCardIntegration({
 
   const handleConnect = async () => {
     try {
-      await connect();
+      await connect({ connector: injected() });
     } catch (error) {
       console.error('Failed to connect Base Account:', error);
       onPaymentError?.(error.message);
