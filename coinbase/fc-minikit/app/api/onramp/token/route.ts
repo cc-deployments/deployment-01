@@ -22,7 +22,10 @@ export async function POST(request: NextRequest): Promise<NextResponse<OnrampTok
     // Security validation using centralized middleware
     const security = securityMiddleware(request);
     if (security.error) {
-      return security.error;
+      return NextResponse.json(
+        { success: false, error: 'Security validation failed' },
+        { status: 403 }
+      );
     }
     
     const { clientIP, headers } = security;
