@@ -44,8 +44,8 @@ export function getClientIP(request: NextRequest): string {
     return vercelIP;
   }
   
-  // Fallback to connection remote address
-  return request.ip || 'unknown';
+  // No IP found in headers
+  return 'unknown';
 }
 
 /**
