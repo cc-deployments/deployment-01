@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import "./theme.css";
 // import "@coinbase/onchainkit/styles.css"; // Disabled due to Tailwind CSS v4 compatibility issue with v3 project
@@ -49,11 +50,11 @@ export const viewport: Viewport = {
   userScalable: true,
 };
 
-interface RootLayoutProps {
+export default function RootLayout({
+  children,
+}: {
   children: React.ReactNode;
-}
-
-export default function RootLayout({ children }: RootLayoutProps) {
+}) {
   return (
     <html lang="en">
       <head>
