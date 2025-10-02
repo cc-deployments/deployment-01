@@ -13,13 +13,30 @@ export function WalletModal({ className = '' }: WalletModalProps) {
   const { connect, connectors, error, isPending } = useConnect();
   const { disconnect } = useDisconnect();
 
+  // Debug logging
+  console.log('🔍 WalletModal render:', { 
+    isConnected, 
+    address, 
+    connectorsCount: connectors.length,
+    connectors: connectors.map(c => c.name),
+    error: error?.message,
+    isPending 
+  });
+
   if (!isConnected) {
     return (
       <div className={className}>
         <div className="space-y-3">
           {/* Base Account Connector */}
           <button
-            onClick={() => connect({ connector: baseAccount() })}
+            onClick={() => {
+              console.log('🔷 Base Account button clicked');
+              try {
+                connect({ connector: baseAccount() });
+              } catch (err) {
+                console.error('❌ Base Account connection error:', err);
+              }
+            }}
             disabled={isPending}
             className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
           >
@@ -38,7 +55,14 @@ export function WalletModal({ className = '' }: WalletModalProps) {
           
           {/* Injected Connector (MetaMask, etc.) */}
           <button
-            onClick={() => connect({ connector: injected() })}
+            onClick={() => {
+              console.log('🦊 MetaMask button clicked');
+              try {
+                connect({ connector: injected() });
+              } catch (err) {
+                console.error('❌ MetaMask connection error:', err);
+              }
+            }}
             disabled={isPending}
             className="w-full px-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
           >
