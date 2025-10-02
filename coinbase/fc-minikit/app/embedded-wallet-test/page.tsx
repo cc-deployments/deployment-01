@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
+import { injected } from 'wagmi/connectors';
 import { base } from 'viem/chains';
 
 export default function EmbeddedWalletTest() {
@@ -26,8 +27,8 @@ export default function EmbeddedWalletTest() {
     try {
       console.log('Connecting to Base Account for email:', email);
       
-      // Use Base Account SDK to connect
-      await connectBaseAccount();
+      // Use wagmi to connect
+      await connect({ connector: injected() });
       
       console.log('Base Account connected:', baseAccountAddress);
       setWalletAddress(baseAccountAddress);
@@ -42,7 +43,7 @@ export default function EmbeddedWalletTest() {
 
   const handleConnectWallet = async () => {
     try {
-      await connectBaseAccount();
+      await connect({ connector: injected() });
     } catch (err) {
       console.error('Error connecting wallet:', err);
       setError(err instanceof Error ? err.message : 'Failed to connect wallet');
