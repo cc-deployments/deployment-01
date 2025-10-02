@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { securityMiddleware, handleOPTIONS } from '../../../lib/security';
+import { securityMiddleware, handleOPTIONS } from '../../../../lib/security';
 
 export async function POST(request: NextRequest) {
   try {
