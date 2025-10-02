@@ -2,6 +2,7 @@ import React from "react";
 import "./theme.css";
 // import "@coinbase/onchainkit/styles.css"; // Disabled due to Tailwind CSS v4 compatibility issue with v3 project
 import type { Metadata, Viewport } from "next";
+import type { ReactNode } from "react";
 import { Inter } from 'next/font/google';
 import "./globals.css";
 import { Providers } from "./providers";
@@ -52,7 +53,7 @@ export const viewport: Viewport = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <html lang="en">
