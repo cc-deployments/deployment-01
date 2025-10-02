@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { useSharedAuth } from '@cculture/shared-auth';
 import { StableLinkPayment } from '@cculture/shared-auth';
-import { useAccount } from 'wagmi';
+import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { injected } from 'wagmi/connectors';
 
 function SharedAuthWrapper() {
   // For now, let's skip the SharedAuth integration to focus on testing the payment flow
@@ -14,6 +15,8 @@ function SharedAuthWrapper() {
 
 function EmbeddedWalletTestContent({ sharedAuthAddress, sharedAuthConnected }: { sharedAuthAddress: string | null, sharedAuthConnected: boolean }) {
   const { address: baseAccountAddress, isConnected: baseAccountConnected } = useAccount();
+  const { connect } = useConnect();
+  const { disconnect } = useDisconnect();
   const [showPayment, setShowPayment] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
 
@@ -109,7 +112,7 @@ function EmbeddedWalletTestContent({ sharedAuthAddress, sharedAuthConnected }: {
                 onClick={async () => {
                   setIsConnecting(true);
                   try {
-                    await connectBaseAccount();
+                    await connect({ connector: injected() });
                   } catch (error) {
                     console.error('Failed to connect Base Account:', error);
                     alert('Failed to connect Base Account. Please try again.');
@@ -125,7 +128,7 @@ function EmbeddedWalletTestContent({ sharedAuthAddress, sharedAuthConnected }: {
               </button>
             ) : (
               <button
-                onClick={disconnectBaseAccount}
+                onClick={() => disconnect()}
                 className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-3 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
                 style={{ fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}
               >
