@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 // Security configuration for Coinbase Onramp compliance
 export const SECURITY_CONFIG = {

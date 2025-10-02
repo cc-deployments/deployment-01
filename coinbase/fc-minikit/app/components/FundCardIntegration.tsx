@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-// import { FundCard } from '@coinbase/onchainkit/fund'; // Removed - using Base Account SDK instead
-import { useBaseAccount } from './BaseAccountProvider';
+import { useAccount } from 'wagmi';
 import { WalletModal } from './WalletModal';
 
 interface FundCardIntegrationProps {
@@ -41,18 +40,18 @@ export function FundCardIntegration({
   const [isConnected, setIsConnected] = useState(false);
   const [userAddress, setUserAddress] = useState<string>('');
   
-  // Use existing Base Account hook
-  const { address, isConnected: baseConnected, connect } = useBaseAccount();
+  // Use wagmi hook
+  const { address, isConnected: wagmiConnected } = useAccount();
 
   useEffect(() => {
-    if (baseConnected && address) {
+    if (wagmiConnected && address) {
       setIsConnected(true);
       setUserAddress(address);
     } else {
       setIsConnected(false);
       setUserAddress('');
     }
-  }, [baseConnected, address]);
+  }, [wagmiConnected, address]);
 
   const handleConnect = async () => {
     try {

@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
 import { base } from 'viem/chains';
-import { useBaseAccount } from '../components/BaseAccountProvider';
 
 export default function EmbeddedWalletTest() {
   const [email, setEmail] = useState('');
@@ -11,7 +10,7 @@ export default function EmbeddedWalletTest() {
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const { address: baseAccountAddress, isConnected: baseAccountConnected, connect: connectBaseAccount } = useBaseAccount();
+  const { address: baseAccountAddress, isConnected: baseAccountConnected } = useAccount();
   const { address, isConnected } = useAccount();
   const { connect } = useConnect();
 

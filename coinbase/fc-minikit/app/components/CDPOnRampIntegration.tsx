@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-// import { getOnrampBuyUrl } from '@coinbase/onchainkit/fund'; // Removed - using manual URL construction instead
-import { useBaseAccount } from './BaseAccountProvider';
+import { useAccount } from 'wagmi';
 
 interface CDPOnRampProps {
   productId: string;
@@ -45,7 +44,7 @@ export function CDPOnRampIntegration({
   const onRampRef = useRef<HTMLDivElement>(null);
   
   // Use existing Base Account hook
-  const { address: userAddress, isConnected, connect } = useBaseAccount();
+  const { address: userAddress, isConnected } = useAccount();
 
 
   // Generate OnRamp URL using getOnrampBuyUrl with Base Account integration

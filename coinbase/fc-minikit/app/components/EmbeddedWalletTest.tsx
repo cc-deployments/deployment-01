@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useSharedAuth } from '@cculture/shared-auth';
 import { StableLinkPayment } from '@cculture/shared-auth';
-import { useBaseAccount } from './BaseAccountProvider';
+import { useAccount } from 'wagmi';
 
 function SharedAuthWrapper() {
   // For now, let's skip the SharedAuth integration to focus on testing the payment flow
@@ -13,7 +13,7 @@ function SharedAuthWrapper() {
 }
 
 function EmbeddedWalletTestContent({ sharedAuthAddress, sharedAuthConnected }: { sharedAuthAddress: string | null, sharedAuthConnected: boolean }) {
-  const { address: baseAccountAddress, isConnected: baseAccountConnected, connect: connectBaseAccount, disconnect: disconnectBaseAccount } = useBaseAccount();
+  const { address: baseAccountAddress, isConnected: baseAccountConnected } = useAccount();
   const [showPayment, setShowPayment] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
 
