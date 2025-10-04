@@ -207,18 +207,26 @@ export default function TextPage() {
               const result = await response.json();
               if (result.success && result.data.mint_url) {
                 console.log('✅ API success, redirecting to:', result.data.mint_url);
-                window.location.href = result.data.mint_url;
+                
+                // Try to open in new window first (desktop)
+                const mintWindow = window.open(result.data.mint_url, '_blank', 'width=800,height=700,scrollbars=yes,resizable=yes');
+                
+                if (!mintWindow) {
+                  // Fallback: redirect current window (mobile-friendly)
+                  console.log('📱 Popup blocked, redirecting current window (mobile-friendly)');
+                  window.location.href = result.data.mint_url;
+                }
               } else {
                 console.log('⚠️ API success but no mint_url, using specific Manifold URL');
-                window.location.href = 'https://manifold.xyz/@carculture/id/4149831920';
+                window.location.href = 'https://manifold.xyz/@carculture/id/4149819632';
               }
             } else {
               console.log('❌ API not ready yet (status:', response.status, '), using specific Manifold URL');
-              window.location.href = 'https://manifold.xyz/@carculture/id/4149831920';
+              window.location.href = 'https://manifold.xyz/@carculture/id/4149819632';
             }
           } catch (error) {
             console.log('❌ API error, using specific Manifold URL:', error);
-            window.location.href = 'https://manifold.xyz/@carculture/id/4149831920';
+            window.location.href = 'https://manifold.xyz/@carculture/id/4149819632';
           }
         }}
       />

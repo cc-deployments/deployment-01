@@ -82,3 +82,28 @@ export const DRIVR_RESPONSES = {
   
   PRICE_UNAVAILABLE: `I'm having trouble getting the latest price data. Please try again in a moment.`
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

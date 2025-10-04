@@ -4,7 +4,10 @@ import { NextRequest, NextResponse } from 'next/server';
 export const SECURITY_CONFIG = {
   // Allowed origins for CORS (supports both mobile and desktop)
   ALLOWED_ORIGINS: [
-    'https://carmania.carculture.com',
+    'https://carculture.com',           // Main site with Stablelink gallery
+    'https://carmania.carculture.com',  // Car of the day miniapp
+    'http://localhost:3000',            // Development - main site
+    'http://localhost:3001',            // Development - miniapp
     // Add additional approved web origins here if needed
   ],
   

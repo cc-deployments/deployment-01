@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { CDPOnRampIntegration } from './CDPOnRampIntegration';
 import { MoonPayIntegration } from './MoonPayIntegration';
 import { BasePayIntegration } from './BasePayIntegration';
+import { EmbeddedWalletIntegration } from './EmbeddedWalletIntegration';
 
 interface Product {
   productId: string;
@@ -32,7 +33,7 @@ export function UnifiedPayment({
   onError, 
   className = '' 
 }: UnifiedPaymentProps) {
-  const [selectedMethod, setSelectedMethod] = useState<'crypto' | 'debit' | 'credit'>('crypto');
+  const [selectedMethod, setSelectedMethod] = useState<'crypto' | 'debit' | 'credit' | 'embedded'>('embedded');
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleSuccess = (result: any) => {
@@ -45,7 +46,7 @@ export function UnifiedPayment({
     onError?.(error);
   };
 
-  const handleMethodChange = (method: 'crypto' | 'debit' | 'credit') => {
+  const handleMethodChange = (method: 'crypto' | 'debit' | 'credit' | 'embedded') => {
     setSelectedMethod(method);
   };
 
@@ -83,6 +84,23 @@ export function UnifiedPayment({
       <div className="mb-6">
         <h4 className="text-lg font-bold text-gray-900 mb-4" style={{ fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>Choose Payment Method</h4>
         <div className="grid grid-cols-1 gap-4">
+          <button
+            onClick={() => handleMethodChange('embedded')}
+            className={`p-4 rounded-xl border-2 transition-all transform hover:scale-[1.02] ${
+              selectedMethod === 'embedded'
+                ? 'border-[#a32428] bg-gradient-to-br from-[#a32428]/10 to-[#8b1e22]/10 shadow-lg'
+                : 'border-gray-200 hover:border-[#a32428]/50 hover:shadow-md'
+            }`}
+          >
+            <div className="flex items-center space-x-4">
+              <span className="text-3xl">🔷</span>
+              <div className="text-left">
+                <div className="font-bold text-gray-900">Embedded Wallet (Recommended)</div>
+                <div className="text-sm text-gray-600">Email/SMS login - no crypto wallet needed</div>
+              </div>
+            </div>
+          </button>
+
           <button
             onClick={() => handleMethodChange('crypto')}
             className={`p-4 rounded-xl border-2 transition-all transform hover:scale-[1.02] ${
@@ -138,6 +156,21 @@ export function UnifiedPayment({
 
       {/* Payment Component */}
       <div className="payment-component">
+        {selectedMethod === 'embedded' && (
+          <EmbeddedWalletIntegration
+            productId={product.productId}
+            productName={product.productName}
+            price={product.price}
+            currency={product.currency}
+            contractAddress={product.contractAddress}
+            tokenId={product.tokenId}
+            imageUrl={product.imageUrl}
+            description={product.description}
+            onPaymentSuccess={handleSuccess}
+            onPaymentError={handleError}
+          />
+        )}
+
         {selectedMethod === 'crypto' && (
           <BasePayIntegration
             config={{

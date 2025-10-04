@@ -2,8 +2,11 @@
 
 import { DRIVRChatInterface } from '../components/DRIVRChatInterface';
 import { DRIVRNotification } from '../../../../packages/shared-xmtp/src/types';
+import { CrossDomainDRIVRAgent, useCrossDomainAuth } from '@shared/auth';
 
 export default function DRIVRChatPage() {
+  const { authState, isAuthenticated } = useCrossDomainAuth();
+
   const handlePaymentRequest = (amount: string, description: string) => {
     console.log('Payment requested:', { amount, description });
     // TODO: Integrate with payment system
@@ -27,6 +30,24 @@ export default function DRIVRChatPage() {
             <p className="text-gray-600">
               Your AI assistant for automotive NFTs and CarCulture collections
             </p>
+            
+            {/* Cross-domain auth status */}
+            <div className="mt-4 inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800">
+              <div className={`w-2 h-2 rounded-full mr-2 ${
+                isAuthenticated ? 'bg-green-500' : 'bg-gray-400'
+              }`} />
+              {isAuthenticated ? 'Cross-domain connected' : 'Cross-domain disconnected'}
+            </div>
+          </div>
+
+          {/* Cross-domain DRIVR Agent Status */}
+          <div className="mb-6">
+            <CrossDomainDRIVRAgent 
+              onAuthStateChange={(state) => {
+                console.log('DRIVR auth state changed:', state);
+              }}
+              className="max-w-md mx-auto"
+            />
           </div>
 
           {/* Chat Interface */}
@@ -81,6 +102,8 @@ export default function DRIVRChatPage() {
     </div>
   );
 }
+
+
 
 
 

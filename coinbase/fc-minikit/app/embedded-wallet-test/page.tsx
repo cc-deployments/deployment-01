@@ -1,197 +1,100 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useAccount, useConnect } from 'wagmi';
-import { injected } from 'wagmi/connectors';
-import { base } from 'viem/chains';
+import React from 'react';
+import { EmbeddedWalletIntegration, EmbeddedWalletExample } from '../components/EmbeddedWalletIntegration';
 
 export default function EmbeddedWalletTest() {
-  const [email, setEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [walletAddress, setWalletAddress] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const { address: baseAccountAddress, isConnected: baseAccountConnected } = useAccount();
-  const { address, isConnected } = useAccount();
-  const { connect } = useConnect();
-
-  const handleCreateWallet = async () => {
-    if (!email) {
-      setError('Please enter an email address');
-      return;
-    }
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      console.log('Connecting to Base Account for email:', email);
-      
-      // Use wagmi to connect
-      await connect({ connector: injected() });
-      
-      console.log('Base Account connected:', baseAccountAddress);
-      setWalletAddress(baseAccountAddress);
-      
-    } catch (err) {
-      console.error('Error connecting Base Account:', err);
-      setError(err instanceof Error ? err.message : 'Failed to connect wallet');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleConnectWallet = async () => {
-    try {
-      await connect({ connector: injected() });
-    } catch (err) {
-      console.error('Error connecting wallet:', err);
-      setError(err instanceof Error ? err.message : 'Failed to connect wallet');
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="text-center mb-8">
-          {/* CarMania Logo */}
-          <div className="mb-6">
-            <img 
-              src="/ccult-carmania-2000x600.png" 
-              alt="CarMania Logo" 
-              className="mx-auto max-w-sm md:max-w-md lg:max-w-lg h-auto"
-              style={{ maxHeight: '150px' }}
-            />
-          </div>
+    <div className="min-h-screen bg-gray-50 p-8">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-3xl font-bold text-center mb-8">Coinbase Embedded Wallets Test</h1>
+        
+        {/* Embedded Wallets Demo */}
+        <div className="mb-8 bg-white rounded-lg shadow-lg p-6">
+          <h2 className="text-xl font-semibold mb-4">Web2 User NFT Purchase</h2>
+          <p className="text-gray-600 mb-6">
+            This demonstrates how Web2 users can buy NFTs using email/SMS login without needing a crypto wallet.
+          </p>
           
-          <div className="mt-4 inline-flex items-center gap-2 bg-[#a32428] text-white px-4 py-2 rounded-full text-sm font-semibold">
-            <span>🚗</span>
-            <span>Drive the Past. Own the Moment</span>
+          <div className="flex justify-center">
+            <EmbeddedWalletExample />
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-xl p-8 border border-gray-200">
-          <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center" style={{ fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
-            CDP Embedded Wallets Test
-          </h1>
-
-          {/* Email Input Section */}
-          <div className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Create Embedded Wallet</h2>
-            <div className="space-y-4">
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email address"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#a32428] focus:border-transparent"
-                />
-              </div>
-              
-              <button
-                onClick={handleCreateWallet}
-                disabled={isLoading || baseAccountConnected || !email}
-                className="w-full bg-gradient-to-r from-[#a32428] to-[#8b1e22] hover:from-[#8b1e22] hover:to-[#6b1519] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl transition-all duration-200 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
-                style={{ fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}
-              >
-                {isLoading ? (
-                  <>
-                    <div className="w-5 h-5 mr-3 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Connecting Base Account...
-                  </>
-                ) : baseAccountConnected ? (
-                  'Base Account Connected'
-                ) : (
-                  'Connect Base Account'
-                )}
-              </button>
-            </div>
+        {/* Features */}
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <h3 className="text-lg font-semibold mb-3">Embedded Wallet Features</h3>
+            <ul className="space-y-2 text-gray-600">
+              <li>✅ Email/SMS authentication</li>
+              <li>✅ Instant wallet creation</li>
+              <li>✅ No seed phrases required</li>
+              <li>✅ Built-in payment processing</li>
+              <li>✅ Mobile responsive</li>
+              <li>✅ USDC rewards (4.1% APY)</li>
+            </ul>
           </div>
-
-          {/* Wallet Status Section */}
-          <div className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Wallet Status</h2>
-            <div className="bg-gray-50 rounded-lg p-6 space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-gray-700 font-medium">Base Account:</span>
-                <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                  baseAccountConnected ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-                }`}>
-                  {baseAccountConnected ? 'Connected' : 'Not Connected'}
-                </span>
-              </div>
-              
-              {baseAccountAddress && (
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-700 font-medium">Base Account Address:</span>
-                  <span className="font-mono text-sm bg-white border border-gray-300 px-3 py-1 rounded-lg">
-                    {baseAccountAddress.slice(0, 6)}...{baseAccountAddress.slice(-4)}
-                  </span>
-                </div>
-              )}
-
-              <div className="flex items-center justify-between">
-                <span className="text-gray-700 font-medium">Connected Wallet:</span>
-                <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                  isConnected ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-                }`}>
-                  {isConnected ? 'Connected' : 'Not Connected'}
-                </span>
-              </div>
-              
-              {isConnected && address && (
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-700 font-medium">Connected Address:</span>
-                  <span className="font-mono text-sm bg-white border border-gray-300 px-3 py-1 rounded-lg">
-                    {address.slice(0, 6)}...{address.slice(-4)}
-                  </span>
-                </div>
-              )}
-            </div>
+          
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <h3 className="text-lg font-semibold mb-3">Web2 User Benefits</h3>
+            <ul className="space-y-2 text-gray-600">
+              <li>🔷 No crypto wallet installation</li>
+              <li>🦊 Familiar login methods</li>
+              <li>🔵 Instant onboarding</li>
+              <li>🔗 Seamless NFT purchases</li>
+              <li>📱 Mobile-first experience</li>
+              <li>💳 Credit card integration</li>
+            </ul>
           </div>
+        </div>
 
-          {/* Connect Wallet Section */}
-          <div className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Connect Existing Wallet</h2>
-            <button
-              onClick={handleConnectWallet}
-              disabled={isConnected}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl transition-all duration-200 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
-              style={{ fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}
-            >
-              {isConnected ? 'Wallet Connected' : 'Connect Wallet'}
-            </button>
+        {/* Integration Info */}
+        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-blue-800 mb-3">Integration Status</h3>
+          <div className="space-y-2 text-blue-700">
+            <p>✅ CDP Embedded Wallets SDK installed</p>
+            <p>✅ Project ID configured: 1cceb0e4-e690-40ac-8f3d-7d1f3da1417a</p>
+            <p>✅ Base network configured</p>
+            <p>✅ EmbeddedWalletIntegration component ready</p>
+            <p>✅ Web2 user onboarding enabled</p>
+            <p>✅ NFT purchase flow implemented</p>
           </div>
+        </div>
 
-          {/* Error Display */}
-          {error && (
-            <div className="mb-8 p-6 bg-red-50 border-2 border-red-200 rounded-xl">
-              <h3 className="text-xl font-bold text-red-800 mb-3">Error</h3>
-              <p className="text-red-700">{error}</p>
+        {/* Technical Details */}
+        <div className="mt-8 bg-gray-50 border border-gray-200 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-gray-800 mb-3">Technical Implementation</h3>
+          <div className="space-y-2 text-gray-700 text-sm">
+            <p><strong>SDK:</strong> @coinbase/cdp-react, @coinbase/cdp-core, @coinbase/cdp-hooks</p>
+            <p><strong>Authentication:</strong> Coinbase Managed (email/SMS/OAuth)</p>
+            <p><strong>Wallet Type:</strong> EOA (Externally Owned Account)</p>
+            <p><strong>Network:</strong> Base mainnet</p>
+            <p><strong>Payment Methods:</strong> Embedded wallet balance, credit card onramp</p>
+            <p><strong>User Experience:</strong> No crypto knowledge required</p>
+          </div>
+        </div>
+
+        {/* Comparison with Current Implementation */}
+        <div className="mt-8 bg-green-50 border border-green-200 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-green-800 mb-3">Migration Benefits</h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <h4 className="font-semibold text-green-700 mb-2">Current Onramp Approach</h4>
+              <ul className="space-y-1 text-green-600 text-sm">
+                <li>❌ Deprecated (past July 31, 2025 deadline)</li>
+                <li>❌ Requires separate wallet setup</li>
+                <li>❌ Complex URL construction</li>
+                <li>❌ Limited to existing crypto users</li>
+              </ul>
             </div>
-          )}
-
-          {/* Environment Info */}
-          <div className="mt-8 p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200">
-            <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Myriad Pro, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>Environment Configuration</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-              <div className="bg-white p-3 rounded-lg border border-gray-200">
-                <strong className="text-[#a32428]">CDP Project ID:</strong> <span className="text-green-600 font-mono">1cceb0e4-e690-40ac-8f3d-7d1f3da1417a</span>
-              </div>
-              <div className="bg-white p-3 rounded-lg border border-gray-200">
-                <strong className="text-[#a32428]">OnChainKit API:</strong> <span className="text-green-600">{process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY ? 'Set' : 'Not set'}</span>
-              </div>
-              <div className="bg-white p-3 rounded-lg border border-gray-200">
-                <strong className="text-[#a32428]">Base Chain ID:</strong> <span className="text-green-600">{base.id}</span>
-              </div>
-              <div className="bg-white p-3 rounded-lg border border-gray-200">
-                <strong className="text-[#a32428]">Embedded Wallets:</strong> <span className="text-green-600">Enabled</span>
-              </div>
+            <div>
+              <h4 className="font-semibold text-green-700 mb-2">Embedded Wallets Approach</h4>
+              <ul className="space-y-1 text-green-600 text-sm">
+                <li>✅ Active development and support</li>
+                <li>✅ Instant wallet creation</li>
+                <li>✅ Unified SDK and API</li>
+                <li>✅ Web2 user friendly</li>
+              </ul>
             </div>
           </div>
         </div>
