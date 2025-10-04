@@ -8,8 +8,7 @@ import {
 } from '@coinbase/cdp-react';
 import { 
   useIsSignedIn, 
-  useEvmAddress, 
-  useEvmBalance 
+  useEvmAddress
 } from '@coinbase/cdp-hooks';
 
 interface EmbeddedWalletIntegrationProps {
@@ -57,7 +56,8 @@ function EmbeddedWalletPurchase({
 }: EmbeddedWalletIntegrationProps) {
   const { isSignedIn } = useIsSignedIn();
   const { evmAddress } = useEvmAddress();
-  const { evmBalance } = useEvmBalance();
+  // Mock balance for now - useEvmBalance not available in current CDP version
+  const evmBalance = { formatted: '0.0', symbol: 'ETH' };
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
 

@@ -1,11 +1,13 @@
 'use client';
 
 import { DRIVRChatInterface } from '../components/DRIVRChatInterface';
-import { DRIVRNotification } from '../../../../packages/shared-xmtp/src/types';
-import { CrossDomainDRIVRAgent, useCrossDomainAuth } from '@shared/auth';
+// import { DRIVRNotification } from '../../../../packages/shared-xmtp/src/types';
+// import { CrossDomainDRIVRAgent, useCrossDomainAuth } from '@shared/auth';
 
 export default function DRIVRChatPage() {
-  const { authState, isAuthenticated } = useCrossDomainAuth();
+  // Mock auth state for now - CrossDomainAuth not available
+  const authState = { isAuthenticated: false };
+  const isAuthenticated = false;
 
   const handlePaymentRequest = (amount: string, description: string) => {
     console.log('Payment requested:', { amount, description });
@@ -13,7 +15,7 @@ export default function DRIVRChatPage() {
     alert(`Payment Request: ${amount} - ${description}`);
   };
 
-  const handleNotification = (notification: DRIVRNotification) => {
+  const handleNotification = (notification: any) => {
     console.log('DRIVR notification:', notification);
     // TODO: Show notification toast
   };
@@ -40,14 +42,13 @@ export default function DRIVRChatPage() {
             </div>
           </div>
 
-          {/* Cross-domain DRIVR Agent Status */}
+          {/* Cross-domain DRIVR Agent Status - Temporarily disabled */}
           <div className="mb-6">
-            <CrossDomainDRIVRAgent 
-              onAuthStateChange={(state) => {
-                console.log('DRIVR auth state changed:', state);
-              }}
-              className="max-w-md mx-auto"
-            />
+            <div className="max-w-md mx-auto bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
+              <p className="text-yellow-800 text-sm">
+                Cross-domain DRIVR Agent temporarily disabled during build fixes
+              </p>
+            </div>
           </div>
 
           {/* Chat Interface */}
