@@ -33,6 +33,7 @@ interface EmbeddedWalletIntegrationProps {
 const CDP_CONFIG = {
   projectId: process.env.NEXT_PUBLIC_CDP_PROJECT_ID || '1cceb0e4-e690-40ac-8f3d-7d1f3da1417a',
   ethereum: { createOnLogin: 'eoa' },
+  solana: { createOnLogin: false },
   appName: 'CarMania NFT Marketplace'
 };
 
