@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   const manifest = {
+    imageUrl: "https://carmania.carculture.com/carmania-share.png",
     baseBuilder: {
       allowedAddresses: ["0x048a22DAB92f2c1e7Deb3847Ca151B888aAb0F1C"]
     },
