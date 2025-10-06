@@ -3,7 +3,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { SamsungContentCoin, SamsungContentGate } from '../../../../packages/shared-auth/components/SamsungContentCoin';
+// import { SamsungContentCoin, SamsungContentGate } from '../../../../packages/shared-auth/components/SamsungContentCoin';
 
 export default function SamsungContentDemo() {
   const [selectedContent, setSelectedContent] = useState<string | null>(null);
@@ -106,13 +106,16 @@ export default function SamsungContentDemo() {
               <div className="p-4">
                 <h3 className="font-bold text-white mb-2">{content.title}</h3>
                 <p className="text-gray-300 text-sm mb-4">{content.description}</p>
-                <SamsungContentCoin
-                  contentId={content.id}
-                  contentTitle={content.title}
-                  contentPrice={content.price}
-                  onSuccess={() => setSelectedContent(content.id)}
-                  className="w-full"
-                />
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
+                  <p className="text-yellow-800 font-semibold mb-2">Samsung Content Coin</p>
+                  <p className="text-yellow-700 text-sm">Temporarily disabled - will be re-enabled after CDP call</p>
+                  <button 
+                    onClick={() => setSelectedContent(content.id)}
+                    className="mt-2 bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700"
+                  >
+                    Simulate Purchase
+                  </button>
+                </div>
               </div>
             </div>
           ))}
@@ -128,11 +131,9 @@ export default function SamsungContentDemo() {
               This is how Samsung Galaxy users would access gated content:
             </p>
             
-            <SamsungContentGate
-              contentId="demo-content"
-              contentTitle="Exclusive CarCulture Content"
-              contentPrice="5.00"
-            >
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+              <h3 className="text-xl font-bold text-yellow-800 mb-4">🎉 Samsung Content Gate (Temporarily Disabled)</h3>
+              <p className="text-yellow-700 mb-4">This component will be re-enabled after the CDP call</p>
               <div className="bg-gradient-to-r from-green-500 to-blue-500 text-white p-6 rounded-lg">
                 <h3 className="text-xl font-bold mb-2">🎉 Content Unlocked!</h3>
                 <p>Welcome to the exclusive Samsung Galaxy CarCulture experience!</p>
@@ -147,7 +148,7 @@ export default function SamsungContentDemo() {
                   </div>
                 </div>
               </div>
-            </SamsungContentGate>
+            </div>
           </div>
         )}
 

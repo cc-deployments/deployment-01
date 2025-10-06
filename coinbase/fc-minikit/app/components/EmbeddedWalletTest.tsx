@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useSharedAuth } from '@cculture/shared-auth';
-import { StableLinkPayment } from '@cculture/shared-auth';
+// import { useSharedAuth } from '@cculture/shared-auth';
+// import { StableLinkPayment } from '@cculture/shared-auth';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { injected } from 'wagmi/connectors';
 
@@ -140,17 +140,22 @@ function EmbeddedWalletTestContent({ sharedAuthAddress, sharedAuthConnected }: {
 
         {showPayment && (
           <div className="border-t pt-4">
-            <StableLinkPayment
-              {...exampleProduct}
-              onPaymentSuccess={(paymentId, txHash) => {
-                console.log('Payment completed:', { paymentId, txHash });
-                alert(`Payment successful! Payment ID: ${paymentId}`);
-              }}
-              onPaymentError={(error) => {
-                console.error('Payment error:', error);
-                alert(`Payment failed: ${error}`);
-              }}
-            />
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <h4 className="text-lg font-semibold text-yellow-800 mb-2">Payment Integration Temporarily Disabled</h4>
+              <p className="text-yellow-700 mb-4">
+                The shared-auth payment system is temporarily disabled to resolve build issues. 
+                This will be re-enabled after the CDP call.
+              </p>
+              <div className="bg-white border border-yellow-300 rounded-lg p-3">
+                <h5 className="font-semibold text-gray-800 mb-2">Product Details:</h5>
+                <p className="text-sm text-gray-600">
+                  <strong>{exampleProduct.productName}</strong><br/>
+                  Price: {exampleProduct.price} {exampleProduct.currency}<br/>
+                  Contract: {exampleProduct.contractAddress}<br/>
+                  Token ID: {exampleProduct.tokenId}
+                </p>
+              </div>
+            </div>
           </div>
         )}
       </div>

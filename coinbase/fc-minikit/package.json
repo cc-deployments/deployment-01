@@ -13,7 +13,6 @@
   "dependencies": {
     "@base-org/account": "^2.2.0",
     "@base-org/account-ui": "^1.0.1",
-    "@cculture/shared-auth": "file:../../packages/shared-auth",
     "@coinbase/cbpay-js": "^2.4.0",
     "@coinbase/cdp-core": "^0.0.42",
     "@coinbase/cdp-hooks": "^0.0.42",

@@ -24,7 +24,6 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@shared/auth": ["../../packages/shared-auth"],
       "@shared/ui": ["../../packages/shared-ui"]
     }
   },
