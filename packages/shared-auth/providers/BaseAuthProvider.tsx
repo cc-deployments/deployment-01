@@ -5,7 +5,6 @@ import { base, baseSepolia } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import React, { useState } from 'react';
-import type { ReactNode } from 'react';
 
 // Shared wagmi configuration
 export function getSharedWagmiConfig() {
@@ -23,7 +22,7 @@ export function getSharedWagmiConfig() {
 }
 
 interface BaseAuthProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
   config?: ReturnType<typeof getSharedWagmiConfig>;
 }
 
