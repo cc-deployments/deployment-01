@@ -467,5 +467,62 @@ const result = await window.ethereum.request({
 3. **Try enhanced payment flows** (credit card + crypto)
 4. **Monitor console** for transaction details
 
+## 🎯 **FARCASTER EMBED STRATEGY (FUTURE IMPLEMENTATION)**
+
+### **Current Flow Analysis:**
+Based on the user flow diagram, the current CarMania miniapp flow is:
+
+1. **Purple "Unlock the Ride" button** (Farcaster social card) → Opens miniapp
+2. **Red "Unlock the Ride" button** (gallery-hero) → Directs to Manifold Mint page  
+3. **White "Unlock the Ride" button** (text-page) → Directs to Manifold Mint page
+4. **Manifold Mint page** = "Car of the day" (external, not our miniapp)
+5. **Manifold Gallery** = External gallery
+
+### **The Problem:**
+- **"Car of the day"** is on Manifold (external)
+- **Cannot add embed meta tags** to Manifold pages
+- **No way to share** the current car as a rich card in Farcaster
+- **Users see same generic image** every day when sharing miniapp
+
+### **Proposed Solution:**
+Create a **new page in the miniapp** that:
+
+1. **Shows the current car** (before redirecting to Manifold)
+2. **Has the embed meta tag** for rich sharing
+3. **Can be shared** as a rich card in Farcaster
+4. **Links to Manifold** when clicked
+
+### **Implementation Plan:**
+Create `carmania.carculture.com/car-of-the-day`:
+
+```html
+<!-- Embed meta tag for rich sharing -->
+<meta name="fc:miniapp" content='{"version":"1","imageUrl":"{{current_car_image}}","button":{"title":"🚗 Collect {{current_car_name}}","action":{"type":"launch_miniapp","url":"https://carmania.carculture.com/car-of-the-day","name":"Carmania"}}}' />
+```
+
+### **New Flow:**
+1. **Share:** `carmania.carculture.com/car-of-the-day`
+2. **Farcaster shows:** Current car image with "Collect This Car" button
+3. **Users click:** Opens miniapp page showing current car
+4. **Page redirects:** To current Manifold mint
+
+### **Benefits:**
+- ✅ **Rich card sharing** - Users see actual car images, not generic miniapp
+- ✅ **Daily content updates** - Fresh car each day via API
+- ✅ **Maintains existing workflow** - Still uses Manifold for checkout
+- ✅ **Social discovery** - Users find content through shares
+
+### **Current Status:**
+- **NOT IMPLEMENTING** until checkout issues resolved
+- **Waiting for CDP and Manifold** ticket responses
+- **Manifold checkout may not be solution** - need to examine OnchainKit NFT Mint card
+- **Future consideration** - OnchainKit integration for native miniapp checkout
+
+### **Technical Requirements:**
+- **Dynamic page** that reads from existing API (`/api/latest-mint`)
+- **Embed meta tag** with current car data
+- **Redirect functionality** to Manifold mint page
+- **Consistent with existing** container patterns and button implementations
+
 ---
-*Last Updated: Added EIP5792 integration documentation - Batch transactions and enhanced payment flows*
+*Last Updated: Added Farcaster Embed Strategy documentation - Future implementation plan for rich card sharing*
