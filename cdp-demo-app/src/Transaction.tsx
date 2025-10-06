@@ -1,5 +1,5 @@
 import { useState, useCallback, type MouseEvent } from "react";
-import { useEvmAddress, useSendEvmTransaction } from "@coinbase/cdp-react";
+import { useEvmAddress, useSendEvmTransaction } from "@coinbase/cdp-hooks";
 
 interface TransactionProps {
   balance?: string;

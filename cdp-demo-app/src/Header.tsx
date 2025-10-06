@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useEvmAddress } from "@coinbase/cdp-react";
+import { useEvmAddress } from "@coinbase/cdp-hooks";
 import { AuthButton } from "@coinbase/cdp-react/components/AuthButton";
 
 function Header() {

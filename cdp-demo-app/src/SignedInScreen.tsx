@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useEvmAddress } from "@coinbase/cdp-react";
+import { useEvmAddress } from "@coinbase/cdp-hooks";
 import Header from "./Header.tsx";
 import UserBalance from "./UserBalance.tsx";
 import Transaction from "./Transaction.tsx";
