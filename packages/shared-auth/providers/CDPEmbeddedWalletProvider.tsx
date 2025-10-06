@@ -1,7 +1,7 @@
 'use client';
 
 import { CDPReactProvider } from "@coinbase/cdp-react";
-import { type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface CDPEmbeddedWalletProviderProps {
   children: ReactNode;

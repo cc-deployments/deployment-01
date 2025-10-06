@@ -4,7 +4,8 @@ import { createConfig, http, cookieStorage, createStorage } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
+import type { ReactNode } from 'react';
 
 // Shared wagmi configuration
 export function getSharedWagmiConfig() {
