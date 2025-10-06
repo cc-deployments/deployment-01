@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from "react";
-import { AuthButton } from "@coinbase/cdp-react/components/AuthButton";
+import { AuthButton } from "@coinbase/cdp-react";
 import { useIsSignedIn, useEvmAddress } from "@coinbase/cdp-hooks";
 import { SendEvmTransactionButton } from "@coinbase/cdp-react";
 
