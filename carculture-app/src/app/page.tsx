@@ -1,5 +1,5 @@
 import CardFeed from '@/components/CardFeed';
-import { CrossDomainDRIVRAgent } from '@cculture/shared-auth';
+// import { CrossDomainDRIVRAgent } from '@cculture/shared-auth';
 
 export default function Home() {
   return (
@@ -7,11 +7,14 @@ export default function Home() {
       {/* DRIVR Agent Integration */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <CrossDomainDRIVRAgent 
+          {/* <CrossDomainDRIVRAgent 
             onAuthStateChange={(state) => {
               console.log('Cross-domain auth state changed:', state);
             }}
-          />
+          /> */}
+          <div className="text-center py-4 text-gray-600">
+            DRIVR Agent Integration Coming Soon
+          </div>
         </div>
       </div>
       

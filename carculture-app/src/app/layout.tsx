@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { CDPEmbeddedWalletProvider } from "@cculture/shared-auth";
+// import { CDPEmbeddedWalletProvider } from "@cculture/shared-auth";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -28,9 +28,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <CDPEmbeddedWalletProvider appName="CarCulture">
+        {/* <CDPEmbeddedWalletProvider appName="CarCulture">
           {children}
-        </CDPEmbeddedWalletProvider>
+        </CDPEmbeddedWalletProvider> */}
+        {children}
       </body>
     </html>
   );

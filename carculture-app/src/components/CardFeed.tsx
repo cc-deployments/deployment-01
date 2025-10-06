@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CDPEmbeddedWalletButton, useCDPEmbeddedWallet } from '@cculture/shared-auth';
+// import { CDPEmbeddedWalletButton, useCDPEmbeddedWallet } from '@cculture/shared-auth';
 
 interface CardData {
   id: string;
@@ -28,7 +28,9 @@ export function CardFeed() {
   const [loading, setLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState<{ [key: string]: string }>({});
   const [layout, setLayout] = useState<'grid' | 'stream'>('grid');
-  const { address, isConnected } = useCDPEmbeddedWallet();
+  // const { address, isConnected } = useCDPEmbeddedWallet();
+  const address = null; // Placeholder
+  const isConnected = false; // Placeholder
 
   // Function to calculate aspect ratio from image
   const calculateAspectRatio = (imageSrc: string): Promise<number> => {
@@ -466,20 +468,23 @@ export function CardFeed() {
               </div>
             </div>
             
-            <CDPEmbeddedWalletButton
-              productId={selectedCard.id}
-              productName={selectedCard.title}
-              price={1.0}
-              currency="USDC"
-              contractAddress={selectedCard.contractAddress || "0x0000000000000000000000000000000000000000"}
-              tokenId={selectedCard.tokenId}
-              mintUrl={selectedCard.manifoldUrl}
-              imageUrl={selectedCard.image}
-              description={selectedCard.description}
-              onPaymentSuccess={handlePaymentSuccess}
-              onPaymentError={handlePaymentError}
-              className="w-full"
-            />
+                    {/* <CDPEmbeddedWalletButton
+                      productId={selectedCard.id}
+                      productName={selectedCard.title}
+                      price={1.0}
+                      currency="USDC"
+                      contractAddress={selectedCard.contractAddress || "0x0000000000000000000000000000000000000000"}
+                      tokenId={selectedCard.tokenId}
+                      mintUrl={selectedCard.manifoldUrl}
+                      imageUrl={selectedCard.image}
+                      description={selectedCard.description}
+                      onPaymentSuccess={handlePaymentSuccess}
+                      onPaymentError={handlePaymentError}
+                      className="w-full"
+                    /> */}
+                    <div className="w-full bg-gray-200 text-gray-700 py-3 rounded-lg text-center font-semibold">
+                      CDP Integration Coming Soon
+                    </div>
             
             <div className="mt-4">
               <button
