@@ -51,7 +51,9 @@ export default function MotorMondayWorking() {
         ],
         functionName: 'mint',
         args: [address!, BigInt(tokenId), BigInt(quantity), '0x'],
-        value: pricePerToken * BigInt(quantity)
+        value: pricePerToken * BigInt(quantity),
+        chain: undefined, // Use default chain
+        account: address!
       });
     } catch (err) {
       console.error('Mint error:', err);
