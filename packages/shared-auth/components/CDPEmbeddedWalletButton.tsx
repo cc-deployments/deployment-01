@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState } from "react";
-import { AuthButton } from "@coinbase/cdp-react";
-import { useIsSignedIn, useEvmAddress } from "@coinbase/cdp-hooks";
-import { SendEvmTransactionButton } from "@coinbase/cdp-react";
+// import { AuthButton } from "@coinbase/cdp-react";
+// import { useIsSignedIn, useEvmAddress } from "@coinbase/cdp-hooks";
+// import { SendEvmTransactionButton } from "@coinbase/cdp-react";
 
 interface CDPEmbeddedWalletButtonProps {
   productId: string;
@@ -23,8 +23,10 @@ interface CDPEmbeddedWalletButtonProps {
 }
 
 export function CDPEmbeddedWalletButton(props: CDPEmbeddedWalletButtonProps) {
-  const { isSignedIn } = useIsSignedIn();
-  const { evmAddress } = useEvmAddress();
+  // const { isSignedIn } = useIsSignedIn();
+  // const { evmAddress } = useEvmAddress();
+  const isSignedIn = false; // Placeholder
+  const evmAddress = null; // Placeholder
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleTransactionSuccess = (hash: string) => {
@@ -74,7 +76,9 @@ export function CDPEmbeddedWalletButton(props: CDPEmbeddedWalletButtonProps) {
           <h4 className="text-base font-medium text-gray-700 text-center">
             Sign in to purchase with embedded wallet
           </h4>
-          <AuthButton />
+          <div className="bg-gray-200 text-gray-600 py-3 px-4 rounded-lg text-center">
+            CDP integration temporarily disabled
+          </div>
           <p className="text-xs text-gray-500 text-center">
             No crypto wallet needed - sign in with email or phone
           </p>
@@ -109,22 +113,9 @@ export function CDPEmbeddedWalletButton(props: CDPEmbeddedWalletButtonProps) {
         </div>
 
         {evmAddress && (
-          <SendEvmTransactionButton
-            account={evmAddress}
-            network="base-sepolia"
-            transaction={{
-              to: evmAddress, // Self-transfer for testing
-              value: 1000000000000n, // 0.000001 ETH
-              chainId: 84532, // Base Sepolia
-              type: "eip1559",
-            }}
-            onSuccess={handleTransactionSuccess}
-            onError={handleTransactionError}
-            pendingLabel="Processing payment..."
-            className={buttonClasses}
-          >
-            {isProcessing ? 'Processing...' : `Pay $${props.price} ${props.currency}`}
-          </SendEvmTransactionButton>
+          <div className="bg-gray-200 text-gray-600 py-3 px-4 rounded-lg text-center">
+            CDP transaction functionality temporarily disabled
+          </div>
         )}
 
         {props.mintUrl && (
