@@ -1,6 +1,6 @@
 // packages/shared-auth/src/crossDomainAuth.ts
 
-import { CDPReactProvider } from '@coinbase/onchainkit';
+// CDP configuration - no need to import CDPReactProvider here
 
 // Shared CDP Configuration for cross-domain access
 export const SHARED_CDP_CONFIG = {

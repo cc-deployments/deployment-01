@@ -1,0 +1,149 @@
+:root {
+  --cdp-example-bg-color: #ffffff;
+  --cdp-example-bg-overlay-color: rgba(0, 0, 0, 0.5);
+  --cdp-example-bg-skeleton-color: #f3f4f6;
+  --cdp-example-bg-low-contrast-color: #f9fafb;
+  --cdp-example-card-bg-color: #ffffff;
+  --cdp-example-card-border-color: #e5e7eb;
+  --cdp-example-text-color: #111827;
+  --cdp-example-text-secondary-color: #6b7280;
+  --cdp-example-accent-color: #a32428;
+  --cdp-example-accent-foreground-color: #ffffff;
+  --cdp-example-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --cdp-example-base-font-size: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cdp-example-bg-color: #111827;
+    --cdp-example-bg-overlay-color: rgba(0, 0, 0, 0.8);
+    --cdp-example-bg-skeleton-color: #374151;
+    --cdp-example-bg-low-contrast-color: #1f2937;
+    --cdp-example-card-bg-color: #1f2937;
+    --cdp-example-card-border-color: #374151;
+    --cdp-example-text-color: #f9fafb;
+    --cdp-example-text-secondary-color: #9ca3af;
+    --cdp-example-accent-color: #a32428;
+    --cdp-example-accent-foreground-color: #ffffff;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--cdp-example-font-family);
+  font-size: var(--cdp-example-base-font-size);
+  line-height: 1.5;
+  color: var(--cdp-example-text-color);
+  background-color: var(--cdp-example-bg-color);
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-col-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.main {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.main-inner {
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--cdp-example-card-bg-color);
+  border: 1px solid var(--cdp-example-card-border-color);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.card-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.user-balance {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.balance-icon {
+  width: 2rem;
+  height: 2rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--cdp-example-card-border-color);
+  background: var(--cdp-example-card-bg-color);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-info button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--cdp-example-card-border-color);
+  border-radius: 0.5rem;
+  background: var(--cdp-example-bg-color);
+  color: var(--cdp-example-text-color);
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.user-info button:hover {
+  background: var(--cdp-example-bg-low-contrast-color);
+}
+
+.loading-skeleton {
+  width: 100px;
+  height: 2rem;
+  background: var(--cdp-example-bg-skeleton-color);
+  border-radius: 0.25rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

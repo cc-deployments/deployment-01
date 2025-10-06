@@ -1,5 +1,7 @@
 // packages/shared-auth/components/BasePayExample.tsx
 
+'use client';
+
 import React, { useState } from 'react';
 import { useAccount } from 'wagmi';
 import { BasePayButton, BasePayModal } from './index';

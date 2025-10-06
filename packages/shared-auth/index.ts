@@ -7,6 +7,9 @@ export * from './hooks';
 // Export all components
 export * from './components';
 
+// Export cross-domain components from src
+export * from './src/components/CrossDomainDRIVRAgent';
+
 // Export services
 export { basePayService } from './services/basePayService';
 

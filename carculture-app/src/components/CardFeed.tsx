@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useBaseAccount } from './BaseAccountProvider';
+import { CDPEmbeddedWalletButton, useCDPEmbeddedWallet } from '@cculture/shared-auth';
 
 interface CardData {
   id: string;
@@ -28,12 +28,16 @@ export function CardFeed() {
   const [loading, setLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState<{ [key: string]: string }>({});
   const [layout, setLayout] = useState<'grid' | 'stream'>('grid');
-  const { address, isConnected, connect, disconnect } = useBaseAccount();
+  const { address, isConnected } = useCDPEmbeddedWallet();
 
   // Function to calculate aspect ratio from image
   const calculateAspectRatio = (imageSrc: string): Promise<number> => {
     return new Promise((resolve) => {
-      const img = new Image();
+      if (typeof window === 'undefined') {
+        resolve(1); // Default to square on server side
+        return;
+      }
+      const img = new window.Image();
       img.onload = () => {
         resolve(img.width / img.height);
       };
@@ -300,24 +304,15 @@ export function CardFeed() {
     }
   };
 
-  const handleUnlockStory = async (card: CardData) => {
-    console.log('Unlocking story:', card.title);
-    
-    try {
-      // BasePay handles wallet creation and payment automatically
-      console.log('Processing Collect with BasePay...');
-      console.log('Opening bid: $1.00 USDC');
-      console.log('BasePay will create wallet and process payment...');
-      
-      // TODO: Integrate actual BasePayButton component
-      // For now, simulate successful collection
-      alert(`Collection successful! You now own "${card.title}".\n\nOpening bid: $1.00 USDC\nBasePay created your wallet automatically!\n\nYou'll be notified if someone bids higher!`);
-      
-      setSelectedCard(null);
-    } catch (error) {
-      console.error('Payment failed:', error);
-      alert('Payment failed. Please try again.');
-    }
+  const handlePaymentSuccess = (paymentId: string, transactionHash?: string) => {
+    console.log('Payment successful:', { paymentId, transactionHash });
+    alert(`Collection successful! You now own "${selectedCard?.title}".\n\nPayment ID: ${paymentId}\nTransaction: ${transactionHash}\n\nYou'll be notified if someone bids higher!`);
+    setSelectedCard(null);
+  };
+
+  const handlePaymentError = (error: string) => {
+    console.error('Payment failed:', error);
+    alert(`Payment failed: ${error}`);
   };
 
   return (
@@ -450,11 +445,11 @@ export function CardFeed() {
       {selectedCard && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl max-w-md w-full p-6">
-            <div className="text-center">
+            <div className="text-center mb-6">
               <h3 className="text-2xl font-bold text-gray-900 mb-2">
                 Unlock {selectedCard.title}
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-600 mb-4">
                 Access the full story and unlock this car's complete history.
               </p>
               
@@ -463,28 +458,36 @@ export function CardFeed() {
                   Opening Bid: $1.00 USDC
                 </div>
                 <div className="text-sm text-gray-600">
-                  24-hour auction • BasePay • Instant collect
+                  24-hour auction • CDP Embedded Wallet • Instant collect
                 </div>
                 <div className="mt-2 text-xs text-gray-500">
                   You'll be notified if someone bids higher
                 </div>
               </div>
-              
-              <div className="flex space-x-4">
-                <button
-                  onClick={() => setSelectedCard(null)}
-                  className="flex-1 bg-gray-200 text-gray-700 py-3 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => handleUnlockStory(selectedCard)}
-                  className="flex-1 bg-[#a32428] text-white py-3 rounded-lg hover:bg-[#8b1e22] transition-colors font-semibold"
-                >
-                  Collect
-                </button>
-              </div>
-              
+            </div>
+            
+            <CDPEmbeddedWalletButton
+              productId={selectedCard.id}
+              productName={selectedCard.title}
+              price={1.0}
+              currency="USDC"
+              contractAddress={selectedCard.contractAddress || "0x0000000000000000000000000000000000000000"}
+              tokenId={selectedCard.tokenId}
+              mintUrl={selectedCard.manifoldUrl}
+              imageUrl={selectedCard.image}
+              description={selectedCard.description}
+              onPaymentSuccess={handlePaymentSuccess}
+              onPaymentError={handlePaymentError}
+              className="w-full"
+            />
+            
+            <div className="mt-4">
+              <button
+                onClick={() => setSelectedCard(null)}
+                className="w-full bg-gray-200 text-gray-700 py-3 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>

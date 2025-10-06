@@ -1,5 +1,7 @@
 // packages/shared-auth/hooks/useBasePay.ts
 
+'use client';
+
 import { useState, useCallback } from 'react';
 import { basePayService } from '../services/basePayService';
 import type { BasePayConfig, BasePayResult, BasePayState } from '../types/basePay';

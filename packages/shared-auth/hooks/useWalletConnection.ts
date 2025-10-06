@@ -1,3 +1,5 @@
+'use client';
+
 import { useConnect, useDisconnect } from 'wagmi';
 import { useCallback } from 'react';
 

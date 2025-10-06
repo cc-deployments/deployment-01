@@ -7,7 +7,6 @@ export * from './crossDomainAuth';
 export * from './components/CrossDomainDRIVRAgent';
 
 // Re-export existing shared auth utilities
-export * from '../config/wagmi';
 export * from '../providers/BaseAuthProvider';
 export * from '../services/basePayService';
 
