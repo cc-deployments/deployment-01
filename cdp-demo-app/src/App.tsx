@@ -1,4 +1,4 @@
-import { useIsSignedIn } from "@coinbase/cdp-react";
+import { useIsSignedIn } from "@coinbase/cdp-hooks";
 import SignInScreen from "./SignInScreen.tsx";
 import SignedInScreen from "./SignedInScreen.tsx";
 
