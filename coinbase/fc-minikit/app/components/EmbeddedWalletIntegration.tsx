@@ -65,7 +65,7 @@ export function EmbeddedWalletIntegration(props: EmbeddedWalletIntegrationProps)
     setAuthError(null);
 
     try {
-      const { flowId } = await signInWithEmail({ email });
+      const { flowId } = await signInWithEmail.signInWithEmail({ email });
       setFlowId(flowId);
       console.log('Email verification sent, flowId:', flowId);
     } catch (error) {
@@ -85,7 +85,7 @@ export function EmbeddedWalletIntegration(props: EmbeddedWalletIntegrationProps)
     setAuthError(null);
 
     try {
-      await verifyEmailOTP({ flowId, otp });
+      await verifyEmailOTP.verifyEmailOTP({ flowId, otp });
       setFlowId(null);
       setOtp('');
       setEmail('');
@@ -100,7 +100,7 @@ export function EmbeddedWalletIntegration(props: EmbeddedWalletIntegrationProps)
   };
 
   const handlePayment = async () => {
-    if (!evmAddress) {
+    if (!evmAddress?.evmAddress) {
       props.onPaymentError?.('No wallet address available');
       return;
     }
@@ -170,7 +170,7 @@ export function EmbeddedWalletIntegration(props: EmbeddedWalletIntegrationProps)
           <button 
             type="submit" 
             disabled={authLoading || otp.length !== 6} 
-            className="w-full py-3 px-4 rounded-xl font-medium bg-blue-600 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-700 transition-colors"
+            className="w-full py-3 px-4 rounded-xl font-medium bg-purple-600 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-purple-700 transition-colors"
           >
             {authLoading ? (
               <div className="flex items-center justify-center">
@@ -187,7 +187,7 @@ export function EmbeddedWalletIntegration(props: EmbeddedWalletIntegrationProps)
   }
 
   // Authenticated state - show payment interface
-  if (currentUser && evmAddress) {
+  if (currentUser && evmAddress?.evmAddress) {
     return (
       <div className="w-full max-w-md mx-auto bg-white border border-gray-200 rounded-xl p-6">
         <div className="text-center mb-6">
@@ -200,9 +200,9 @@ export function EmbeddedWalletIntegration(props: EmbeddedWalletIntegrationProps)
         <div className="space-y-4 mb-6">
           <div className="rounded-xl p-4 bg-gray-50">
             <label className="block text-sm font-medium text-gray-600 mb-1">
-              Email
+              Status
             </label>
-            <p className="font-medium text-gray-900">{currentUser?.email || 'User'}</p>
+            <p className="font-medium text-gray-900">Connected</p>
           </div>
           
           <div className="rounded-xl p-4 bg-gray-50">
@@ -211,10 +211,10 @@ export function EmbeddedWalletIntegration(props: EmbeddedWalletIntegrationProps)
             </label>
             <div className="flex items-center justify-between">
               <span className="font-mono text-sm text-gray-900">
-                {`${evmAddress.slice(0, 6)}...${evmAddress.slice(-4)}`}
+                {`${evmAddress?.evmAddress?.slice(0, 6)}...${evmAddress?.evmAddress?.slice(-4)}`}
               </span>
               <button
-                onClick={() => navigator.clipboard.writeText(evmAddress)}
+                onClick={() => navigator.clipboard.writeText(evmAddress?.evmAddress || '')}
                 className="ml-2 p-1 rounded hover:bg-gray-200 transition-colors"
                 title="Copy full address"
               >
@@ -234,7 +234,7 @@ export function EmbeddedWalletIntegration(props: EmbeddedWalletIntegrationProps)
         <button 
           onClick={handlePayment}
           disabled={paymentLoading}
-          className="w-full py-3 px-4 rounded-xl font-medium bg-green-600 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-700 transition-colors"
+          className="w-full py-3 px-4 rounded-xl font-medium bg-purple-600 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-purple-700 transition-colors"
         >
           {paymentLoading ? (
             <div className="flex items-center justify-center">
@@ -291,7 +291,7 @@ export function EmbeddedWalletIntegration(props: EmbeddedWalletIntegrationProps)
         <button 
           type="submit" 
           disabled={authLoading || !email} 
-          className="w-full py-3 px-4 rounded-xl font-medium bg-blue-600 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-700 transition-colors"
+          className="w-full py-3 px-4 rounded-xl font-medium bg-purple-600 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-purple-700 transition-colors"
         >
           {authLoading ? (
             <div className="flex items-center justify-center">
@@ -327,7 +327,7 @@ export function EmbeddedWalletExample() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-3">
-            CarMania Embedded Wallets Demo
+            CarCulture Embedded Wallets Demo
           </h1>
           <p className="text-lg text-gray-600 font-medium">
             Web2 users can buy NFTs with email/SMS login - no crypto wallet needed!

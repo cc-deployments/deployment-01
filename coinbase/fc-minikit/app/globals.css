@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* Global CSS Reset - Remove all default margins and padding */
 * {
   margin: 0;

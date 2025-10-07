@@ -1,13 +1,13 @@
 'use client';
 
 import { DRIVRChatInterface } from '../components/DRIVRChatInterface';
-// import { DRIVRNotification } from '../../../../packages/shared-xmtp/src/types';
-// import { CrossDomainDRIVRAgent, useCrossDomainAuth } from '@shared/auth';
+// import { CrossDomainDRIVRAgent, useCrossDomainAuth } from '../../../../packages/shared-auth/src';
 
 export default function DRIVRChatPage() {
-  // Mock auth state for now - CrossDomainAuth not available
-  const authState = { isAuthenticated: false };
+  // Use shared cross-domain authentication - temporarily disabled
+  // const { isAuthenticated, walletAddress } = useCrossDomainAuth();
   const isAuthenticated = false;
+  const walletAddress = null;
 
   const handlePaymentRequest = (amount: string, description: string) => {
     console.log('Payment requested:', { amount, description });
@@ -38,15 +38,27 @@ export default function DRIVRChatPage() {
               <div className={`w-2 h-2 rounded-full mr-2 ${
                 isAuthenticated ? 'bg-green-500' : 'bg-gray-400'
               }`} />
-              {isAuthenticated ? 'Cross-domain connected' : 'Cross-domain disconnected'}
+              {isAuthenticated ? (
+                <span>
+                  Cross-domain connected
+                  {walletAddress && (
+                    <span className="ml-2 text-xs opacity-75">
+                      ({walletAddress.slice(0, 6)}...{walletAddress.slice(-4)})
+                    </span>
+                  )}
+                </span>
+              ) : (
+                'Cross-domain disconnected'
+              )}
             </div>
           </div>
 
-          {/* Cross-domain DRIVR Agent Status - Temporarily disabled */}
+          {/* Cross-domain DRIVR Agent - temporarily disabled */}
           <div className="mb-6">
-            <div className="max-w-md mx-auto bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
-              <p className="text-yellow-800 text-sm">
-                Cross-domain DRIVR Agent temporarily disabled during build fixes
+            {/* <CrossDomainDRIVRAgent /> */}
+            <div className="max-w-md mx-auto bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+              <p className="text-blue-800 text-sm">
+                Cross-domain DRIVR Agent temporarily disabled during React version alignment
               </p>
             </div>
           </div>

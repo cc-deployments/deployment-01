@@ -11,10 +11,22 @@ import { SECURITY_CONFIG } from '../lib/security';
 // CDP Configuration
 const cdpConfig = {
   projectId: SECURITY_CONFIG.CDP_PROJECT_ID,
+  apiKey: process.env.NEXT_PUBLIC_CDP_CLIENT_API_KEY,
   basePath: "https://api.cdp.coinbase.com/platform",
   useMock: false,
   debugging: process.env.NODE_ENV === 'development',
+  ethereum: { createOnLogin: 'eoa' as const },
+  solana: { createOnLogin: false },
 };
+
+// Debug CDP configuration
+if (process.env.NODE_ENV === 'development') {
+  console.log('🔧 CDP Config:', {
+    projectId: cdpConfig.projectId,
+    apiKey: cdpConfig.apiKey ? '✅ Present' : '❌ Missing',
+    basePath: cdpConfig.basePath
+  });
+}
 
 export function Providers(props: { children: ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());

@@ -22,7 +22,7 @@ export function getSharedWagmiConfig() {
 }
 
 interface BaseAuthProviderProps {
-  children: React.ReactNode;
+  children: any;
   config?: ReturnType<typeof getSharedWagmiConfig>;
 }
 

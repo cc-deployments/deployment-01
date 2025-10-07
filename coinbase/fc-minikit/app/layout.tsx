@@ -1,7 +1,8 @@
 // @ts-nocheck
 import React from "react";
 import "./theme.css";
-import "@coinbase/onchainkit/styles.css";
+import "./tailwind.css"; // Import Tailwind CSS FIRST
+// import "@coinbase/onchainkit/styles.css"; // REMOVED - using shared-auth instead
 import type { Metadata, Viewport } from "next";
 import { Inter } from 'next/font/google';
 import "./globals.css";

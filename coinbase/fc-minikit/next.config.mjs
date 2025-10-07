@@ -16,6 +16,7 @@ const nextConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@shared/ui': path.resolve(__dirname, '../../../packages/shared-ui'),
+      '@shared/auth': path.resolve(__dirname, '../../../packages/shared-auth'),
       // '@shared/privy': path.resolve(__dirname, '../../../packages/privy'), // Removed - not needed for MiniKit-only app
       // '@farcaster/frame-sdk': false, // Temporarily removed to test runtime error
     };
