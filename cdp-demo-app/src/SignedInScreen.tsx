@@ -3,13 +3,14 @@ import { useEvmAddress } from "@coinbase/cdp-hooks";
 import Header from "./Header.tsx";
 import UserBalance from "./UserBalance.tsx";
 import Transaction from "./Transaction.tsx";
+import USDCOnramp from "./USDCOnramp.tsx";
 
 function SignedInScreen() {
   const evmAddress = useEvmAddress();
   const [balance, setBalance] = useState<string | undefined>();
 
   const getBalance = useCallback(async () => {
-    if (!evmAddress) return;
+    if (!evmAddress || typeof evmAddress !== 'string') return;
 
     try {
       const response = await fetch(
@@ -38,12 +39,23 @@ function SignedInScreen() {
             <UserBalance balance={balance} />
           </div>
           <div className="card card--transaction">
-            {evmAddress && (
+            {evmAddress && typeof evmAddress === 'string' && (
               <Transaction 
                 balance={balance} 
                 onSuccess={getBalance}
               />
             )}
+          </div>
+          <div className="card card--usdc-onramp">
+            <USDCOnramp 
+              onSuccess={(txHash) => {
+                console.log("USDC purchase completed:", txHash);
+                getBalance(); // Refresh balance after purchase
+              }}
+              onError={(error) => {
+                console.error("USDC purchase error:", error);
+              }}
+            />
           </div>
         </div>
       </main>

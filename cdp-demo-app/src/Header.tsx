@@ -7,7 +7,7 @@ function Header() {
   const [isCopied, setIsCopied] = useState(false);
 
   const copyAddress = async () => {
-    if (!evmAddress) return;
+    if (!evmAddress || typeof evmAddress !== 'string') return;
     await navigator.clipboard.writeText(evmAddress);
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
@@ -17,7 +17,7 @@ function Header() {
     <header>
       <h1>CarCulture CDP Demo</h1>
       <div className="user-info">
-        {evmAddress && (
+        {evmAddress && typeof evmAddress === 'string' && (
           <button onClick={copyAddress}>
             {isCopied ? "✓" : "📋"}
             <span>{evmAddress.slice(0, 6)}...{evmAddress.slice(-4)}</span>
