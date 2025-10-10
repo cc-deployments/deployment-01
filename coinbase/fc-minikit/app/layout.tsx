@@ -1,7 +1,7 @@
 import React from "react";
 import "./theme.css";
-// OnChainKit CSS has React 19 compatibility issue - temporarily disabled
-// import "@coinbase/onchainkit/styles.css"; // Re-enabled with proper OnchainKitProvider
+// OnchainKit CSS has syntax error - temporarily disabled
+// import "@coinbase/onchainkit/styles.css";
 import type { Metadata, Viewport } from "next";
 import { Inter } from 'next/font/google';
 import "./globals.css";

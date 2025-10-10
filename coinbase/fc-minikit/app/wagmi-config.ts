@@ -1,17 +1,11 @@
-import { createConfig, http } from 'wagmi'
+import { getDefaultConfig } from '@rainbow-me/rainbowkit'
 import { base } from 'wagmi/chains'
-import { baseAccount } from 'wagmi/connectors'
 
-export const config = createConfig({
+export const config = getDefaultConfig({
+  appName: 'StableLink',
+  projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'your-project-id',
   chains: [base],
-  connectors: [
-    baseAccount({
-      appName: 'StableLink',
-    })
-  ],
-  transports: {
-    [base.id]: http()
-  },
+  ssr: true, // Enable SSR support to prevent hydration errors
 })
 
 
