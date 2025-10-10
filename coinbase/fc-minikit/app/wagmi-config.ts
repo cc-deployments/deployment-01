@@ -6,7 +6,7 @@ export const config = createConfig({
   chains: [base],
   connectors: [
     baseAccount({
-      appName: 'CarCulture: CarMania Garage',
+      appName: 'StableLink',
     })
   ],
   transports: {

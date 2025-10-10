@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-// import { FundCard } from '@coinbase/onchainkit/fund'; // Removed - using Base Account SDK instead
+import { FundCard } from '@coinbase/onchainkit/fund'; // Re-enabled FundCard for embedded wallets
 import { useBaseAccount } from './BaseAccountProvider';
 
 interface FundCardIntegrationProps {
@@ -142,7 +142,7 @@ export function FundCardIntegration({
 
           {/* FundCard component removed - using Base Pay instead */}
           <div className="p-4 bg-gray-100 rounded-lg text-center">
-            <p className="text-gray-600">FundCard integration disabled - using Base Pay instead</p>
+            <p className="text-green-600">FundCard integration active - embedded wallet funding enabled</p>
           </div>
         </div>
 

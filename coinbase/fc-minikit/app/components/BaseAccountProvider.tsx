@@ -37,15 +37,38 @@ export function BaseAccountProvider({ children }: { children: ReactNode }) {
   const [address, setAddress] = useState<string | null>(null);
 
   useEffect(() => {
-    // Temporarily disable Base Account SDK to avoid crypto.randomUUID issues
-    // The NFT purchase flow will work with standard wallet connections
-    console.log('Base Account Provider initialized (SDK disabled for now)');
+    // Initialize Base Account SDK for proper wallet detection
+    const initializeSDK = async () => {
+      try {
+        const baseAccountSDK = await createBaseAccountSDK({
+          chain: base,
+          // Add any required configuration here
+        });
+        
+        console.log('Base Account SDK initialized successfully');
+        setSdk(baseAccountSDK);
+        
+        // Check if already connected
+        if (baseAccountSDK.isConnected) {
+          setIsConnected(true);
+          const accounts = await baseAccountSDK.getProvider().request({ 
+            method: 'eth_accounts' 
+          }) as string[];
+          if (accounts && accounts.length > 0) {
+            setAddress(accounts[0]);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to initialize Base Account SDK:', error);
+        // Set a mock SDK to prevent errors
+        setSdk({ 
+          getProvider: () => null,
+          isConnected: false 
+        });
+      }
+    };
     
-    // Set a mock SDK to prevent errors
-    setSdk({ 
-      getProvider: () => null,
-      isConnected: false 
-    });
+    initializeSDK();
   }, []);
 
   const connect = async () => {

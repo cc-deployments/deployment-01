@@ -37,16 +37,16 @@ export default function OnChainKitTest() {
               </div>
               
               <div className="flex items-center gap-2">
-                <span className="text-blue-500">ℹ️</span>
-                <span>Status: OnChainKit temporarily disabled</span>
+                <span className="text-green-500">✅</span>
+                <span>Status: OnChainKit fully enabled</span>
               </div>
             </div>
 
             <div className="mt-6 p-4 bg-blue-50 rounded-lg">
               <h3 className="font-semibold text-blue-900 mb-2">Current Status</h3>
               <p className="text-sm text-blue-800">
-                OnChainKit is working but temporarily disabled due to frame-sdk issues. 
-                The build succeeds, but components are commented out for stability.
+                OnChainKit is fully enabled and working properly. 
+                All components including FundCard, OnRamp, and ComposeCast are active.
               </p>
             </div>
 

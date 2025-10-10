@@ -6,7 +6,7 @@ import { useSafeArea } from '../hooks/useSafeArea';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/navigation';
 import { sdk } from '@farcaster/miniapp-sdk';
-// import { useComposeCast } from '@coinbase/onchainkit/minikit'; // Removed - using native share instead
+import { useComposeCast } from '@coinbase/onchainkit/minikit'; // Re-enabled compose cast
 import ImprovedShareHandler from '../components/ImprovedShareHandler';
 
 export default function GalleryHero() {
