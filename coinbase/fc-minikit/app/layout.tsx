@@ -2,7 +2,7 @@
 import React from "react";
 import "./theme.css";
 import "./tailwind.css"; // Import Tailwind CSS FIRST
-import "@coinbase/onchainkit/styles.css"; // Re-enabled for proper SDK functionality
+// import "@coinbase/onchainkit/styles.css"; // Disabled due to CSS syntax error
 import type { Metadata, Viewport } from "next";
 import { Inter } from 'next/font/google';
 import "./globals.css";
