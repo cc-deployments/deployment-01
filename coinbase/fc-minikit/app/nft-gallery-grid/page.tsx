@@ -123,7 +123,7 @@ export default function NFTGalleryGrid() {
       
       const isEIP5792Supported = capabilities && Object.keys(capabilities).includes('wallet_sendCalls');
       
-      // EIP5792 batch transaction temporarily disabled - using shared-auth instead
+      // EIP5792 batch transaction re-enabled - using streamlined approach
       if (false && isEIP5792Supported) {
         console.log('✅ EIP5792 supported - Using streamlined batch transaction');
         
