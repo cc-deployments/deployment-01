@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { getOnrampBuyUrl } from '@coinbase/onchainkit/fund'; // Re-enabled OnRamp for embedded wallets
+import { getOnrampBuyUrl } from '@coinbase/onchainkit/fund'; // Re-enabled with React 19
 import { useBaseAccount } from './BaseAccountProvider';
 
 interface CDPOnRampProps {

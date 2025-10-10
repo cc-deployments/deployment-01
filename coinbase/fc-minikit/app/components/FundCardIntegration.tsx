@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { FundCard } from '@coinbase/onchainkit/fund'; // Re-enabled FundCard for embedded wallets
+import { FundCard } from '@coinbase/onchainkit/fund'; // Re-enabled with React 19
 import { useBaseAccount } from './BaseAccountProvider';
 
 interface FundCardIntegrationProps {

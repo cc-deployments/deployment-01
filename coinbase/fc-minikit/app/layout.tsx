@@ -1,6 +1,7 @@
 import React from "react";
 import "./theme.css";
-import "@coinbase/onchainkit/styles.css"; // Re-enabled OnChainKit CSS
+// OnChainKit CSS has syntax error - temporarily disabled
+// import "@coinbase/onchainkit/styles.css";
 import type { Metadata, Viewport } from "next";
 import { Inter } from 'next/font/google';
 import "./globals.css";
@@ -51,9 +52,9 @@ export const viewport: Viewport = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <head>

@@ -6,7 +6,7 @@ import { base } from 'viem/chains';
 import { WagmiProvider } from 'wagmi';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BaseAccountProvider } from './components/BaseAccountProvider';
-// import { BaseAuthProvider } from '@cculture/shared-auth';
+import { BaseAuthProvider } from '@cculture/shared-auth';
 import { config } from './wagmi-config';
 
 export function Providers(props: { children: ReactNode }) {
@@ -21,7 +21,9 @@ export function Providers(props: { children: ReactNode }) {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <BaseAccountProvider>
-          {props.children}
+          <BaseAuthProvider>
+            {props.children}
+          </BaseAuthProvider>
         </BaseAccountProvider>
       </QueryClientProvider>
     </WagmiProvider>

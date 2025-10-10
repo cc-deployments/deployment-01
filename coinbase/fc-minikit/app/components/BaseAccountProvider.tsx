@@ -41,22 +41,24 @@ export function BaseAccountProvider({ children }: { children: ReactNode }) {
     const initializeSDK = async () => {
       try {
         const baseAccountSDK = await createBaseAccountSDK({
-          chain: base,
+          // Remove chain parameter - not supported in current API
           // Add any required configuration here
         });
         
         console.log('Base Account SDK initialized successfully');
         setSdk(baseAccountSDK);
         
-        // Check if already connected
-        if (baseAccountSDK.isConnected) {
-          setIsConnected(true);
-          const accounts = await baseAccountSDK.getProvider().request({ 
-            method: 'eth_accounts' 
+        // Check if already connected by trying to get accounts
+        try {
+          const accounts = await baseAccountSDK.getProvider().request({
+            method: 'eth_accounts'
           }) as string[];
           if (accounts && accounts.length > 0) {
+            setIsConnected(true);
             setAddress(accounts[0]);
           }
+        } catch (error) {
+          console.log('No existing connection found');
         }
       } catch (error) {
         console.error('Failed to initialize Base Account SDK:', error);
