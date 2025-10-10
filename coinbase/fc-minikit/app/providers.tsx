@@ -20,11 +20,9 @@ export function Providers(props: { children: ReactNode }) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <BaseAuthProvider>
-          <BaseAccountProvider>
-            {props.children}
-          </BaseAccountProvider>
-        </BaseAuthProvider>
+        <BaseAccountProvider>
+          {props.children}
+        </BaseAccountProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
