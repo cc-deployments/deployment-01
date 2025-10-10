@@ -11,6 +11,9 @@ const nextConfig = {
     externalDir: true,
   },
   
+  // Fix Next.js 15 config - moved from experimental
+  outputFileTracingRoot: path.resolve(__dirname, '../../../'),
+  
   // Configure webpack to resolve TypeScript paths and improve module resolution
   webpack: (config) => {
     config.resolve.alias = {
@@ -57,6 +60,12 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
+  },
+
+  // Disable static generation for API routes to prevent build errors
+  experimental: {
+    externalDir: true,
+    outputFileTracingRoot: path.resolve(__dirname, '../../../'),
   },
 
 
