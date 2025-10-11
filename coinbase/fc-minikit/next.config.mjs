@@ -23,6 +23,9 @@ const nextConfig = {
   trailingSlash: false,
   skipTrailingSlashRedirect: true,
   
+  // Disable static generation to prevent React Error #31
+  generateStaticParams: false,
+  
   // Keep API routes server-side - remove static export to allow API routes
   // output: 'export', // Removed - conflicts with API routes
   
