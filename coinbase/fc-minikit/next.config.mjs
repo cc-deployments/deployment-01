@@ -6,9 +6,14 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Allow imports from outside the project directory
+  // Disable prerendering to prevent React Error #31 with OnchainKit
+  trailingSlash: false,
+  skipTrailingSlashRedirect: true,
+  
+  // Disable static optimization to prevent React Error #31
   experimental: {
     externalDir: true,
+    staticGenerationRetryCount: 0,
   },
   
   // Fix Next.js 15 config - moved from experimental
@@ -18,13 +23,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  
-  // Disable prerendering to prevent React Error #31 with OnchainKit
-  trailingSlash: false,
-  skipTrailingSlashRedirect: true,
-  
-  // Disable static generation to prevent React Error #31
-  generateStaticParams: false,
   
   // Keep API routes server-side - remove static export to allow API routes
   // output: 'export', // Removed - conflicts with API routes
