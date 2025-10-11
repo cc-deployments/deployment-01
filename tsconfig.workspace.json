@@ -1,0 +1,28 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./carculture-app" },
+    { "path": "./cdp-demo-app" },
+    { "path": "./agents" },
+    { "path": "./packages/shared-auth" },
+    { "path": "./packages/shared-ui" },
+    { "path": "./packages/shared-xmtp" }
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "inlineSources": false,
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "preserveWatchOutput": true,
+    "skipLibCheck": true,
+    "strict": true
+  }
+}
+
+

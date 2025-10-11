@@ -1,11 +1,22 @@
-import { getDefaultConfig } from '@rainbow-me/rainbowkit'
+import { createConfig, http } from 'wagmi'
 import { base } from 'wagmi/chains'
+import { baseAccount, coinbaseWallet, injected } from 'wagmi/connectors'
 
-export const config = getDefaultConfig({
-  appName: 'StableLink',
-  projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'your-project-id',
+export const config = createConfig({
   chains: [base],
-  ssr: true, // Enable SSR support to prevent hydration errors
+  connectors: [
+    coinbaseWallet({ 
+      appName: 'CarCulture: CarMania Garage', 
+      appLogoUrl: 'https://carculture.com/logo.png' 
+    }),
+    baseAccount({ 
+      appName: 'CarCulture: CarMania Garage' 
+    }),
+    injected()
+  ],
+  transports: {
+    [base.id]: http()
+  },
 })
 
 
