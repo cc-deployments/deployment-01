@@ -6,26 +6,10 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Disable prerendering to prevent React Error #31 with OnchainKit
-  trailingSlash: false,
-  skipTrailingSlashRedirect: true,
-  
-  // Disable static optimization to prevent React Error #31
+  // Allow imports from outside the project directory
   experimental: {
     externalDir: true,
-    staticGenerationRetryCount: 0,
   },
-  
-  // Fix Next.js 15 config - moved from experimental
-  outputFileTracingRoot: path.resolve(__dirname, '../../../'),
-  
-  // Temporarily disable TypeScript checking to get app working
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  
-  // Keep API routes server-side - remove static export to allow API routes
-  // output: 'export', // Removed - conflicts with API routes
   
   // Configure webpack to resolve TypeScript paths and improve module resolution
   webpack: (config) => {
@@ -74,7 +58,6 @@ const nextConfig = {
       },
     ],
   },
-
 
 
 };
