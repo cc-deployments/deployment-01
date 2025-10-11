@@ -1,6 +1,6 @@
 'use client';
 
-import { type ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { createBaseAccountSDK } from '@base-org/account';
 import { base } from 'viem/chains';
 
@@ -31,7 +31,7 @@ export function useBaseAccount() {
   return context;
 }
 
-export function BaseAccountProvider({ children }: { children: ReactNode }) {
+export function BaseAccountProvider({ children }: { children: React.ReactNode }) {
   const [sdk, setSdk] = useState<any>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [address, setAddress] = useState<string | null>(null);
@@ -108,6 +108,6 @@ export function BaseAccountProvider({ children }: { children: ReactNode }) {
     >
       {children}
     </BaseAccountContext.Provider>
-  );
+  ) as React.ReactElement;
 }
 

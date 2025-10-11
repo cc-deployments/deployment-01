@@ -17,6 +17,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "types": ["react", "react-dom"],
+    "skipLibCheck": true,
     "plugins": [
       {
         "name": "next"
@@ -25,7 +27,9 @@
     "baseUrl": ".",
     "paths": {
       "@shared/auth": ["../../packages/shared-auth"],
-      "@shared/ui": ["../../packages/shared-ui"]
+      "@shared/ui": ["../../packages/shared-ui"],
+      "react": ["node_modules/@types/react"],
+      "react-dom": ["node_modules/@types/react-dom"]
     }
   },
   "include": [

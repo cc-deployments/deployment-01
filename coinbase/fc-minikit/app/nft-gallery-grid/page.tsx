@@ -127,7 +127,7 @@ export default function NFTGalleryGrid() {
         console.log('✅ EIP5792 supported - Using streamlined batch transaction');
         
         // Import the batch transaction function
-        const { createNFTPurchaseBatchCalls } = await import('../components/EIP5792BatchTransaction');
+        const { createNFTPurchaseBatchCalls } = await import('../components/EIP5792BatchTransaction.tsx');
         
         // Create batch calls for NFT purchase
         const batchCalls = createNFTPurchaseBatchCalls(
