@@ -19,6 +19,10 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   
+  // Disable prerendering to prevent React Error #31 with OnchainKit
+  trailingSlash: false,
+  skipTrailingSlashRedirect: true,
+  
   // Keep API routes server-side - remove static export to allow API routes
   // output: 'export', // Removed - conflicts with API routes
   
