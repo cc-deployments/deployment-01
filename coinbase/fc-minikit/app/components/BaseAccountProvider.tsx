@@ -108,6 +108,6 @@ export function BaseAccountProvider({ children }: { children: React.ReactNode })
     >
       {children}
     </BaseAccountContext.Provider>
-  ) as React.ReactElement;
+  );
 }
 

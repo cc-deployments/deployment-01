@@ -37,10 +37,7 @@ export const metadata: Metadata = {
     description: 'Explore the ultimate car gallery experience - an amazing car collection mini app! 🚗✨',
     images: ['https://carmania.carculture.com/carmania-share.png'],
   },
-  other: {
-    'fc:miniapp': '{"version":"1","imageUrl":"https://carmania.carculture.com/carmania-share.png","ogimageUrl":"https://carmania.carculture.com/hero-v2.png","button":{"title":"Unlock the Ride","action":{"type":"launch_miniapp","url":"https://carmania.carculture.com/gallery-hero","name":"CarCulture: CarMania Garage","splashImageUrl":"https://carmania.carculture.com/splashImageUrl.png","splashBackgroundColor":"#a32428"}}}',
-    'fc:frame': '{"version":"next","imageUrl":"https://carmania.carculture.com/carmania-share.png","button":{"title":"Unlock the Ride","action":{"type":"launch_frame","name":"CarCulture: CarMania Garage","url":"https://carmania.carculture.com/gallery-hero","splashImageUrl":"https://carmania.carculture.com/splashImageUrl.png","splashBackgroundColor":"#a32428"}}}'
-  }
+  // Temporarily removed problematic JSON strings causing syntax error
 }
 
 export const viewport: Viewport = {
