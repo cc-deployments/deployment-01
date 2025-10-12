@@ -1,21 +1,34 @@
 'use client';
 
 import { TestNFTMintCard } from '../components/ManifoldNFTMintCard';
-import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
+import { useWalletConnection, useSharedAuth } from '@cculture/shared-auth';
 
 export default function TestNFTMintCardPage() {
+  const { connectWallet, connectors } = useWalletConnection();
+  const { address, isConnected } = useSharedAuth();
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <Wallet>
-              <ConnectWallet>
-                <div className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors cursor-pointer">
+            {!isConnected ? (
+              <div className="space-y-2">
+                <button
+                  onClick={() => connectWallet()}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                >
                   Connect Wallet
+                </button>
+                <div className="text-sm text-gray-600">
+                  Available connectors: {connectors.length}
                 </div>
-              </ConnectWallet>
-            </Wallet>
+              </div>
+            ) : (
+              <div className="bg-green-100 text-green-800 px-4 py-2 rounded-lg">
+                ✅ Connected: {address?.slice(0, 6)}...{address?.slice(-4)}
+              </div>
+            )}
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
             🚀 NFTMintCard vs Manifold Checkout Test
@@ -98,7 +111,7 @@ export default function TestNFTMintCardPage() {
               🔬 Test Instructions:
             </h3>
             <ol className="text-blue-700 text-sm space-y-2">
-              <li>1. <strong>Connect your wallet</strong> using the Wallet component above</li>
+              <li>1. <strong>Connect your wallet</strong> using the Connect Wallet button above</li>
               <li>2. <strong>Click the mint button</strong> on the NFTMintCard</li>
               <li>3. <strong>Compare the experience</strong> to the current 9-step Manifold process</li>
               <li>4. <strong>Check if NFT appears</strong> in your wallet automatically</li>
