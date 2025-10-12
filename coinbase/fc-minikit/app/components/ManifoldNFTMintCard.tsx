@@ -6,6 +6,19 @@ import { NFTMintButton } from '@coinbase/onchainkit/nft/mint';
 import { useState } from 'react';
 import { encodeFunctionData, parseAbi } from 'viem';
 
+// Custom NFT data hook to provide metadata directly
+function useNFTData() {
+  return {
+    title: 'Premium Collector NFT',
+    imageUrl: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=400&fit=crop', // Placeholder car image
+    description: 'Premium automotive art - $1.00 USDC ERC-1155 mint',
+    contractAddress: '0x1c6d27a76f4f706cccb698acc236c31f886c5421',
+    tokenId: '4169097456',
+    price: '1.00',
+    currency: 'USDC'
+  };
+}
+
 // Custom mint transaction builder for ERC-1155 Premium Collector contract
 async function buildMintTransaction(contractAddress: string, tokenId?: string) {
   console.log('🔧 Building custom mint transaction for ERC-1155:', contractAddress);
@@ -119,6 +132,7 @@ export function NFTMintCardComponent({
         tokenId={tokenId}
         onStatus={handleMintStatus}
         buildMintTransaction={buildMintTransaction}
+        useNFTData={useNFTData}
       >
         <div className="p-4 bg-white rounded-lg shadow">
                  <div className="mb-4">
