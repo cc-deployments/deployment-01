@@ -99,7 +99,6 @@ export function CDPOnRampIntegration({
         {/* OnchainKit FundButton for OnRamp */}
         {isConnected ? (
           <FundButton
-            destinationAddress={userAddress}
             presetFiatAmount={price}
             fiatCurrency="USD"
             cryptoCurrency="ETH"
