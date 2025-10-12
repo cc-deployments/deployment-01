@@ -20,7 +20,8 @@ function useNFTData() {
 }
 
 // Custom mint transaction builder for ERC-1155 Premium Collector contract
-async function buildMintTransaction(contractAddress: string, tokenId?: string) {
+async function buildMintTransaction(props: any) {
+  const { contractAddress, tokenId } = props;
   console.log('🔧 Building custom mint transaction for ERC-1155:', contractAddress);
   console.log('🎯 Token ID:', tokenId);
   
