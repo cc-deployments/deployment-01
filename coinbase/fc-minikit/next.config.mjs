@@ -6,12 +6,13 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Allow imports from outside the project directory and fix React Error #31
+  // Allow imports from outside the project directory
   experimental: {
     externalDir: true,
-    appDir: true,
-    disableStaticImages: true,
   },
+  
+  // Disable static generation to prevent React Error #31
+  output: 'standalone',
   
   // Configure webpack to resolve TypeScript paths and improve module resolution
   webpack: (config) => {
