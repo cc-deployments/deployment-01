@@ -1,57 +1,18 @@
 'use client';
 
 import { TestNFTMintCard } from '../components/ManifoldNFTMintCard';
-import { useWalletConnection, useSharedAuth } from '@cculture/shared-auth';
 
 export default function TestNFTMintCardPage() {
-  const { connectWallet, connectors } = useWalletConnection();
-  const { address, isConnected } = useSharedAuth();
-
-  // Debug logging
-  console.log('🔍 Debug Info:', {
-    connectors: connectors.length,
-    connectorNames: connectors.map(c => c.name),
-    isConnected,
-    address: address?.slice(0, 6) + '...'
-  });
-
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
-          <div className="flex justify-center mb-4">
-            {!isConnected ? (
-              <div className="space-y-2">
-                <button
-                  onClick={async () => {
-                    try {
-                      console.log('🔗 Attempting to connect wallet...');
-                      await connectWallet();
-                      console.log('✅ Wallet connection successful');
-                    } catch (error) {
-                      console.error('❌ Wallet connection failed:', error);
-                    }
-                  }}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
-                >
-                  Connect Wallet
-                </button>
-                <div className="text-sm text-gray-600">
-                  Available connectors: {connectors.length}
-                </div>
-              </div>
-            ) : (
-              <div className="bg-green-100 text-green-800 px-4 py-2 rounded-lg">
-                ✅ Connected: {address?.slice(0, 6)}...{address?.slice(-4)}
-              </div>
-            )}
-          </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
-            🚀 NFTMintCard vs Manifold Checkout Test
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            🚀 NFTMintCard Test - Base Discord Feedback
           </h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Testing OnchainKit's NFTMintCard component with our existing Manifold NFT 
-            to see if we can eliminate the 9-step checkout process.
+            Testing OnchainKit's NFTMintCard component with Base's recommended implementation.
+            This tests the fixes for React Error #31 and proper useNFTData hook usage.
           </p>
         </div>
 
@@ -59,79 +20,79 @@ export default function TestNFTMintCardPage() {
           {/* NFTMintCard Test */}
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h2 className="text-xl font-semibold mb-4 text-green-600">
-              ✅ NFTMintCard (New Approach)
+              ✅ NFTMintCard (Base Recommended)
             </h2>
             <TestNFTMintCard />
           </div>
 
-          {/* Comparison Info */}
+          {/* Base Feedback Implementation */}
           <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-xl font-semibold mb-4 text-red-600">
-              ❌ Current Manifold Process (9 Steps)
+            <h2 className="text-xl font-semibold mb-4 text-blue-600">
+              📋 Base Discord Feedback Implemented
             </h2>
             
             <div className="space-y-3 text-sm">
-              <div className="flex items-center p-2 bg-red-50 rounded">
-                <span className="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">1</span>
-                <span>Click "Buy Now" button</span>
+              <div className="flex items-center p-2 bg-green-50 rounded">
+                <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">✓</span>
+                <span>✅ Imports match Base documentation exactly</span>
               </div>
-              <div className="flex items-center p-2 bg-red-50 rounded">
-                <span className="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">2</span>
-                <span>Redirect to Manifold</span>
+              <div className="flex items-center p-2 bg-green-50 rounded">
+                <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">✓</span>
+                <span>✅ 'use client' directive properly implemented</span>
               </div>
-              <div className="flex items-center p-2 bg-red-50 rounded">
-                <span className="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">3</span>
-                <span>Connect wallet on Manifold</span>
+              <div className="flex items-center p-2 bg-green-50 rounded">
+                <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">✓</span>
+                <span>✅ useNFTData hook following Advanced Usage pattern</span>
               </div>
-              <div className="flex items-center p-2 bg-red-50 rounded">
-                <span className="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">4</span>
-                <span>Approve transaction</span>
+              <div className="flex items-center p-2 bg-green-50 rounded">
+                <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">✓</span>
+                <span>✅ Fixed NFTPrice TypeScript type structure</span>
               </div>
-              <div className="flex items-center p-2 bg-red-50 rounded">
-                <span className="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">5</span>
-                <span>Confirm minting</span>
-              </div>
-              <div className="flex items-center p-2 bg-red-50 rounded">
-                <span className="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">6</span>
-                <span>Wait for confirmation</span>
-              </div>
-              <div className="flex items-center p-2 bg-red-50 rounded">
-                <span className="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">7</span>
-                <span>Return to app</span>
-              </div>
-              <div className="flex items-center p-2 bg-red-50 rounded">
-                <span className="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">8</span>
-                <span>Refresh wallet</span>
-              </div>
-              <div className="flex items-center p-2 bg-red-50 rounded">
-                <span className="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">9</span>
-                <span>Verify NFT received</span>
+              <div className="flex items-center p-2 bg-green-50 rounded">
+                <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">✓</span>
+                <span>✅ Working image URL (no more 404 errors)</span>
               </div>
             </div>
 
-            <div className="mt-6 p-4 bg-yellow-50 rounded-lg">
-              <h4 className="font-semibold text-yellow-900 mb-2">
-                🎯 Goal: Reduce to 1-2 Steps
+            <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+              <h4 className="font-semibold text-blue-900 mb-2">
+                🎯 Testing React Error #31 Fix
               </h4>
-              <p className="text-yellow-700 text-sm">
-                NFTMintCard should handle wallet connection, approval, minting, 
-                and delivery automatically within our app.
+              <p className="text-blue-700 text-sm">
+                This component should render without React Error #31 in development mode.
+                The error was caused by invalid component exports and missing 'use client' directives.
               </p>
             </div>
           </div>
         </div>
 
-        <div className="mt-8 max-w-4xl mx-auto">
-          <div className="bg-blue-50 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-blue-900 mb-3">
-              🔬 Test Instructions:
+        <div className="mt-12 text-center">
+          <div className="bg-green-50 rounded-lg p-6 max-w-4xl mx-auto">
+            <h3 className="text-xl font-semibold text-green-900 mb-4">
+              ✅ Base Discord Feedback Implementation Complete
             </h3>
-            <ol className="text-blue-700 text-sm space-y-2">
-              <li>1. <strong>Connect your wallet</strong> using the Connect Wallet button above</li>
-              <li>2. <strong>Click the mint button</strong> on the NFTMintCard</li>
-              <li>3. <strong>Compare the experience</strong> to the current 9-step Manifold process</li>
-              <li>4. <strong>Check if NFT appears</strong> in your wallet automatically</li>
-            </ol>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-green-700">
+              <div>
+                <h4 className="font-semibold mb-2">🔧 Technical Fixes Applied:</h4>
+                <ul className="space-y-1 text-left">
+                  <li>• Verified all imports match Base docs exactly</li>
+                  <li>• Added proper 'use client' directives</li>
+                  <li>• Implemented useNFTData hook per Advanced Usage</li>
+                  <li>• Fixed TypeScript NFTPrice type structure</li>
+                  <li>• Resolved image URL 404 errors</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2">🚀 Expected Results:</h4>
+                <ul className="space-y-1 text-left">
+                  <li>• No React Error #31 in development</li>
+                  <li>• NFTMintCard renders properly</li>
+                  <li>• Custom metadata displays correctly</li>
+                  <li>• Image loads without errors</li>
+                  <li>• Component follows Base best practices</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>

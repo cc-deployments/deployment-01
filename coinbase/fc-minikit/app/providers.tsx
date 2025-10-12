@@ -20,11 +20,6 @@ export function Providers(props: { children: ReactNode }) {
     setIsMounted(true);
   }, []);
 
-  // Prevent SSR issues by only rendering the provider on the client
-  if (!isMounted) {
-    return <>{props.children}</>;
-  }
-
   return (
     <BaseAuthProvider config={config}>
       <OnchainKitProvider
