@@ -9,9 +9,9 @@ import { encodeFunctionData, parseAbi } from 'viem';
 // Custom NFT data hook to provide metadata directly
 function useNFTData() {
   return {
-    title: 'Premium Collector NFT',
-    imageUrl: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=400&fit=crop', // Placeholder car image
-    description: 'Premium automotive art - $1.00 USDC ERC-1155 mint',
+    title: 'Car Culture: CarMania Garage - Test 9',
+    imageUrl: '/preview-images/test_9_preview.png', // Actual NFT preview image
+    description: 'Pink Car Art - Test NFT for StableLink',
     contractAddress: '0x1c6d27a76f4f706cccb698acc236c31f886c5421',
     tokenId: '4169097456',
     price: '1.00',
