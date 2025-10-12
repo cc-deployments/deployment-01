@@ -7,27 +7,129 @@ import { NFTCreator, NFTCollectionTitle, NFTQuantitySelector, NFTAssetCost, NFTM
 import type { LifecycleStatus } from '@coinbase/onchainkit/nft';
 import { getCarManiaGarageNFTs, getPublishedNFTs } from '../utils/nftDataUtils';
 
-// Get real NFT data from CSV
+// Get specific NFTs from lines 9-19 of CSV (all priced in USD except Summertime Blues)
 const realNFTs = [
-  // CarMania Garage Testing NFTs (from CSV)
-  ...getCarManiaGarageNFTs(),
-  // Published NFTs (from CSV) 
-  ...getPublishedNFTs()
+  {
+    name: 'Car Culture: CarMania Garage Testing 1',
+    description: 'CarMania Garage Testing 1 - Testing with Cloudflare public image',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169111792',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    tokenId: '4169111792',
+    price: '1.00', // USD
+    status: 'testing',
+    // Test with Cloudflare public image URL
+    imageUrl: 'https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png'
+  },
+  {
+    name: 'Car Culture: CarMania Garage Testing 2',
+    description: 'CarMania Garage Testing 2',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169128176',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    tokenId: '4169128176',
+    price: '1.00', // USD
+    status: 'published'
+  },
+  {
+    name: 'Car Culture: CarMania Garage Testing 3',
+    description: 'CarMania Garage Testing 3',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169124080',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    tokenId: '4169124080',
+    price: '1.00', // USD
+    status: 'testing'
+  },
+  {
+    name: 'Car Culture: CarMania Garage Testing 4',
+    description: 'CarMania Garage Testing 4',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169085168',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    tokenId: '4169085168',
+    price: '1.00', // USD
+    status: 'testing'
+  },
+  {
+    name: 'Car Culture: CarMania Garage Testing 5',
+    description: 'CarMania Garage Testing 5',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169081072',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    tokenId: '4169081072',
+    price: '1.00', // USD
+    status: 'testing'
+  },
+  {
+    name: 'Low Tide',
+    description: 'Low Tide - A moment of calm reflection by the water\'s edge',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4149840112',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    tokenId: '4149840112',
+    price: '1.00', // USD
+    status: 'published'
+  },
+  {
+    name: 'Car Culture: CarMania Garage Testing 6',
+    description: 'CarMania Garage Testing 7',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169076976',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    tokenId: '4169076976',
+    price: '1.00', // USD
+    status: 'testing'
+  },
+  {
+    name: 'Car Culture: CarMania Garage Testing 7',
+    description: 'CarMania Garage Testing 7',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169074928',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    tokenId: '4169074928',
+    price: '1.00', // USD
+    status: 'testing'
+  },
+  {
+    name: 'Car Culture: CarMania Garage Testing 8',
+    description: 'CarMania Garage Testing 8',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169103600',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    tokenId: '4169103600',
+    price: '1.00', // USD
+    status: 'testing'
+  },
+  {
+    name: 'Car Culture: CarMania Garage Testing 9',
+    description: 'CarMania Garage Testing 9',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4169097456',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    tokenId: '4169097456',
+    price: '1.00', // USD
+    status: 'testing'
+  },
+  {
+    name: 'Summertime Blues',
+    description: 'Post-modern Surfing Wagon',
+    mintUrl: 'https://manifold.xyz/@carculture/id/4144040176',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+    tokenId: '4144040176',
+    price: '0.001', // ETH (not USD)
+    status: 'published'
+  }
 ];
 
-// Custom useNFTData hook for each NFT
+// Custom useNFTData hook for each NFT - using actual NFT data from CSV
 function createUseNFTData(nft: any) {
   return function useNFTData() {
+    // Handle pricing: Summertime Blues is in ETH, all others are USD
+    const isSummertimeBlues = nft.name === 'Summertime Blues';
+    const priceValue = isSummertimeBlues 
+      ? (parseFloat(nft.price) * 1e18).toString() // ETH to wei
+      : (parseFloat(nft.price) * 1e18).toString(); // USD to wei (assuming 1 USD = 1 ETH for now)
+    
     return {
       title: nft.name,
-      imageUrl: nft.image,
+      imageUrl: nft.imageUrl || nft.mintUrl, // Use direct imageUrl if available, otherwise use Manifold URL
       description: nft.description,
       contractAddress: nft.contractAddress,
       tokenId: nft.tokenId,
       price: {
-        value: (parseFloat(nft.price) * 1e18).toString(), // Convert USD to wei
-        currency: 'ETH',
-        usdValue: nft.price
+        value: priceValue,
+        currency: 'ETH'
       }
     };
   };
@@ -103,7 +205,7 @@ export default function NFTGalleryGrid() {
                 className="w-full"
               >
                 <NFTCreator />
-                <NFTMedia />
+                <NFTMedia square={false} />
                 <NFTCollectionTitle />
                 <NFTQuantitySelector />
                 <NFTAssetCost />

@@ -60,9 +60,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           {children}
-          {/* Temporarily disabled to debug React Error #31 */}
-          {/* <EmbedHandler />
-          <ShareHandler /> */}
+          <EmbedHandler />
+          <ShareHandler />
         </Providers>
       </body>
     </html>
