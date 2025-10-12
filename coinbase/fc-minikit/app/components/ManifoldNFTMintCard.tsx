@@ -128,7 +128,7 @@ export function NFTMintCardComponent({
       </div>
 
       <NFTMintCard
-        contractAddress={contractAddress}
+        contractAddress={contractAddress as `0x${string}`}
         tokenId={tokenId}
         onStatus={handleMintStatus}
         buildMintTransaction={buildMintTransaction}
