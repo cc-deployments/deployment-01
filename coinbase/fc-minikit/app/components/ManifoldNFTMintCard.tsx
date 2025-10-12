@@ -4,7 +4,6 @@ import { NFTMintCard } from '@coinbase/onchainkit/nft';
 import { NFTMedia } from '@coinbase/onchainkit/nft/view';
 import { NFTMintButton } from '@coinbase/onchainkit/nft/mint';
 import { useState } from 'react';
-import { encodeFunctionData, parseAbi } from 'viem';
 
 // Custom NFT data hook to provide metadata directly
 function useNFTData() {
@@ -19,83 +18,6 @@ function useNFTData() {
   };
 }
 
-// Custom mint transaction builder for ERC-1155 Premium Collector contract
-async function buildMintTransaction(props: any) {
-  const { contractAddress, tokenId } = props;
-  console.log('🔧 Building custom mint transaction for ERC-1155:', contractAddress);
-  console.log('🎯 Token ID:', tokenId);
-  
-  try {
-    // ERC-1155 minting functions - common patterns for Manifold contracts
-    const mintAbi = parseAbi([
-      // Standard ERC-1155 minting
-      'function mint(address to, uint256 id, uint256 amount, bytes calldata data) external',
-      'function mint(address to, uint256 id, uint256 amount) external',
-      
-      // Manifold-specific minting patterns
-      'function mint(address to, uint256 tokenId) external payable',
-      'function mint(uint256 tokenId) external payable',
-      'function mint() external payable',
-      
-      // Purchase/mint with payment
-      'function purchase(uint256 tokenId) external payable',
-      'function purchase(address to, uint256 tokenId) external payable',
-      'function purchase() external payable',
-      
-      // Reserve minting
-      'function mintReserve(address to, uint256 tokenId, uint256 amount) external'
-    ]);
-    
-    // Try different mint function signatures for ERC-1155
-    let data;
-    try {
-      // Try purchase(tokenId) - common for paid mints
-      data = encodeFunctionData({
-        abi: mintAbi,
-        functionName: 'purchase',
-        args: [BigInt(tokenId || '4169097456')]
-      });
-      console.log('✅ Using purchase(tokenId) function');
-    } catch {
-      try {
-        // Try mint(address to, uint256 tokenId)
-        data = encodeFunctionData({
-          abi: mintAbi,
-          functionName: 'mint',
-          args: ['0x048a...', BigInt(tokenId || '4169097456')] // This should be the connected wallet address
-        });
-        console.log('✅ Using mint(address, tokenId) function');
-      } catch {
-        try {
-          // Try mint(uint256 tokenId)
-          data = encodeFunctionData({
-            abi: mintAbi,
-            functionName: 'mint',
-            args: [BigInt(tokenId || '4169097456')]
-          });
-          console.log('✅ Using mint(tokenId) function');
-        } catch {
-          // Fallback to simple mint()
-          data = encodeFunctionData({
-            abi: mintAbi,
-            functionName: 'mint'
-          });
-          console.log('✅ Using mint() function');
-        }
-      }
-    }
-    
-    // Return array of calls as expected by OnchainKit
-    return [{
-      to: contractAddress as `0x${string}`,
-      data,
-      value: BigInt('0x38d7ea4c68000') // $1.00 USDC in wei (approximately)
-    }];
-  } catch (error) {
-    console.error('❌ Error building mint transaction:', error);
-    throw new Error('Failed to build mint transaction');
-  }
-}
 
 interface NFTMintCardProps {
   contractAddress: string;
@@ -129,12 +51,11 @@ export function NFTMintCardComponent({
         </div>
       </div>
 
-      <NFTMintCard
-        contractAddress={contractAddress as `0x${string}`}
-        tokenId={tokenId}
-        onStatus={handleMintStatus}
-        buildMintTransaction={buildMintTransaction}
-      >
+             <NFTMintCard
+               contractAddress={contractAddress as `0x${string}`}
+               tokenId={tokenId}
+               onStatus={handleMintStatus}
+             >
         <div className="p-4 bg-white rounded-lg shadow">
           <div className="mb-4">
             <img 
