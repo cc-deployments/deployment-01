@@ -116,3 +116,4 @@ Our Mini App includes:
 **Request:** Please advise on React Error #31 resolution or provide guidance on React 19 + OnchainKit compatibility. We're following Base documentation exactly but hitting this production build blocker.
 
 **Priority:** HIGH - Production deployment is blocked
+
