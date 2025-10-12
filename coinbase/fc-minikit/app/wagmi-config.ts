@@ -1,9 +1,9 @@
 import { createConfig, http } from 'wagmi'
-import { base } from 'wagmi/chains'
+import { base, baseSepolia } from 'wagmi/chains'
 import { baseAccount, coinbaseWallet, injected, walletConnect } from 'wagmi/connectors'
 
 export const config = createConfig({
-  chains: [base],
+  chains: [base, baseSepolia],
   connectors: [
     coinbaseWallet({ 
       appName: 'CarCulture: CarMania Garage', 
@@ -18,7 +18,8 @@ export const config = createConfig({
     injected()
   ],
   transports: {
-    [base.id]: http()
+    [base.id]: http(),
+    [baseSepolia.id]: http()
   },
 })
 
