@@ -1,12 +1,22 @@
 'use client';
 
-import { TestManifoldNFTMintCard } from '@/app/components/ManifoldNFTMintCard';
+import { TestNFTMintCard } from '../components/ManifoldNFTMintCard';
+import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 
 export default function TestNFTMintCardPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
+          <div className="flex justify-center mb-4">
+            <Wallet>
+              <ConnectWallet>
+                <div className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors cursor-pointer">
+                  Connect Wallet
+                </div>
+              </ConnectWallet>
+            </Wallet>
+          </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
             🚀 NFTMintCard vs Manifold Checkout Test
           </h1>
@@ -22,7 +32,7 @@ export default function TestNFTMintCardPage() {
             <h2 className="text-xl font-semibold mb-4 text-green-600">
               ✅ NFTMintCard (New Approach)
             </h2>
-            <TestManifoldNFTMintCard />
+            <TestNFTMintCard />
           </div>
 
           {/* Comparison Info */}
@@ -88,7 +98,7 @@ export default function TestNFTMintCardPage() {
               🔬 Test Instructions:
             </h3>
             <ol className="text-blue-700 text-sm space-y-2">
-              <li>1. <strong>Connect your wallet</strong> using the wallet button in the top navigation</li>
+              <li>1. <strong>Connect your wallet</strong> using the Wallet component above</li>
               <li>2. <strong>Click the mint button</strong> on the NFTMintCard</li>
               <li>3. <strong>Compare the experience</strong> to the current 9-step Manifold process</li>
               <li>4. <strong>Check if NFT appears</strong> in your wallet automatically</li>

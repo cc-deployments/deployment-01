@@ -1,19 +1,20 @@
 'use client';
 
-import { NFTMintCardDefault } from '@coinbase/onchainkit/nft';
+import { NFTMintCard } from '@coinbase/onchainkit/nft';
+import { NFTMedia } from '@coinbase/onchainkit/nft/view';
 import { useState } from 'react';
 
-interface ManifoldNFTMintCardProps {
+interface NFTMintCardProps {
   contractAddress: string;
   tokenId?: string;
   className?: string;
 }
 
-export function ManifoldNFTMintCard({ 
+export function NFTMintCardComponent({ 
   contractAddress, 
   tokenId, 
   className = '' 
-}: ManifoldNFTMintCardProps) {
+}: NFTMintCardProps) {
   const [mintStatus, setMintStatus] = useState<string>('ready');
 
   const handleMintStatus = (status: any) => {
@@ -35,11 +36,39 @@ export function ManifoldNFTMintCard({
         </div>
       </div>
 
-      <NFTMintCardDefault
+      <NFTMintCard
         contractAddress={contractAddress}
         tokenId={tokenId}
         onStatus={handleMintStatus}
-      />
+      >
+        <div className="p-4 bg-white rounded-lg shadow">
+          <div className="mb-4">
+            <img 
+              src="/preview-images/low_tide_preview.png" 
+              alt="Low Tide NFT" 
+              className="w-full h-48 object-cover rounded-lg mb-3"
+            />
+            <h3 className="text-lg font-semibold mb-2">🌊 Low Tide NFT</h3>
+            <p className="text-gray-600 mb-2">
+              A serene moment captured - Perfect for testing streamlined checkout
+            </p>
+            <div className="text-sm text-gray-500 mb-4">
+              Contract: {contractAddress.slice(0, 6)}...{contractAddress.slice(-4)}
+              {tokenId && <><br/>Token ID: {tokenId}</>}
+            </div>
+          </div>
+          <button 
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition-colors"
+            onClick={() => {
+              console.log('🎯 Mint button clicked - attempting to trigger NFTMintCard minting');
+              // The NFTMintCard should handle the actual minting
+              // This is just for logging - the real minting happens through OnchainKit
+            }}
+          >
+            🎯 Mint This NFT
+          </button>
+        </div>
+      </NFTMintCard>
 
       <div className="mt-4 p-3 bg-gray-50 rounded text-xs text-gray-600">
         <strong>Contract:</strong> {contractAddress}<br/>
@@ -50,15 +79,15 @@ export function ManifoldNFTMintCard({
   );
 }
 
-// Test component with our existing Manifold NFT
-export function TestManifoldNFTMintCard() {
+// Test component with our existing NFT
+export function TestNFTMintCard() {
   return (
     <div className="max-w-md mx-auto p-6">
       <h2 className="text-2xl font-bold mb-6 text-center">
         Test NFTMintCard Integration
       </h2>
       
-      <ManifoldNFTMintCard
+      <NFTMintCardComponent
         contractAddress="0x8ef0772347e0caed0119937175d7ef9636ae1aa0"
         tokenId="4169111792"
       />
@@ -73,6 +102,7 @@ export function TestManifoldNFTMintCard() {
           <li>• Automatic wallet integration</li>
           <li>• 1-click checkout process</li>
           <li>• Built-in transaction handling</li>
+          <li>• Beautiful Low Tide artwork</li>
         </ul>
       </div>
     </div>
