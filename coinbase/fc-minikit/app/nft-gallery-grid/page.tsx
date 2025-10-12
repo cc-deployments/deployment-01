@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { getCarManiaGarageNFTs, getPublishedNFTs, type NFTData } from '../utils/nftDataUtils';
-// import { useWalletConnection, useSharedAuth } from '@cculture/shared-auth';
+import { useBaseAccount } from '../components/BaseAccountProvider';
 
 // Get real NFT data from CSV
 const realNFTs = [
@@ -88,35 +88,19 @@ function NFTGridCard({ nft, onPurchase, onViewDetails }: NFTGridCardProps) {
 export default function NFTGalleryGrid() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { sdk, isConnected, address, connect } = useBaseAccount();
 
   const handlePurchase = async (nft: typeof mockNFTs[0]) => {
     setIsLoading(true);
     
     try {
-      // Check if wallet is connected
-      if (!window.ethereum) {
-        alert('Please install a wallet like MetaMask or Coinbase Wallet to purchase NFTs.');
+      // Check if wallet is connected using Base Account SDK
+      if (!isConnected) {
+        // Try to connect wallet first
+        await connect();
         setIsLoading(false);
         return;
       }
-
-      // Get connected accounts
-      const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-      
-      if (accounts.length === 0) {
-        // Try to connect wallet first
-        const connectedAccounts = await window.ethereum.request({ 
-          method: 'eth_requestAccounts' 
-        });
-        
-        if (connectedAccounts.length === 0) {
-          alert('Please connect your wallet to purchase NFTs.');
-          setIsLoading(false);
-          return;
-        }
-      }
-
-      const address = accounts[0] || (await window.ethereum.request({ method: 'eth_accounts' }))[0];
 
       if (!address) {
         alert('Please connect your wallet to purchase NFTs.');
@@ -129,8 +113,11 @@ export default function NFTGalleryGrid() {
       console.log('🎯 Contract:', nft.contractAddress);
       console.log('🆔 Token ID:', nft.tokenId);
 
+      // Use Base Account SDK provider for transactions
+      const provider = sdk.getProvider();
+      
       // Check if wallet supports EIP5792
-      const capabilities = await window.ethereum.request({
+      const capabilities = await provider.request({
         method: 'wallet_getCapabilities'
       });
       
@@ -151,7 +138,7 @@ export default function NFTGalleryGrid() {
         );
 
         // Execute batch transaction with paymaster
-        const result = await window.ethereum.request({
+        const result = await provider.request({
           method: 'wallet_sendCalls',
           params: [{
             version: '1.0',
@@ -179,7 +166,7 @@ export default function NFTGalleryGrid() {
           data: '0x' // Simplified - would need proper ABI encoding
         };
 
-        const txHash = await window.ethereum.request({
+        const txHash = await provider.request({
           method: 'eth_sendTransaction',
           params: [transaction]
         });
