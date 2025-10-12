@@ -9,7 +9,8 @@ const nextConfig = {
   // Allow imports from outside the project directory and fix React Error #31
   experimental: {
     externalDir: true,
-    optimizePackageImports: false,
+    appDir: true,
+    disableStaticImages: true,
   },
   
   // Configure webpack to resolve TypeScript paths and improve module resolution
