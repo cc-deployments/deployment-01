@@ -6,21 +6,28 @@ import { NFTMedia } from '@coinbase/onchainkit/nft/view';
 import { NFTCreator, NFTCollectionTitle, NFTQuantitySelector, NFTAssetCost, NFTMintButton } from '@coinbase/onchainkit/nft/mint';
 import type { LifecycleStatus } from '@coinbase/onchainkit/nft';
 
-// Test single NFTMintCard with Cloudflare public image (NOT using StableLink)
+// Test single NFTMintCard with real Manifold ERC-1155 Edition contract
 function useNFTData() {
   return {
-    title: 'CarMania Share Image Test',
-    imageUrl: 'https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png'
+    title: 'Car Culture: CarMania Garage Testing 7',
+    imageUrl: 'https://manifold.xyz/@carculture/id/4169074928', // Manifold page URL
+    description: 'CarMania Garage Testing 7 - Real Manifold ERC-1155 Edition',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0', // Manifold Edition contract
+    tokenId: '4169074928',
+    price: {
+      value: '1000000000000000000', // 1 ETH in wei
+      currency: 'ETH'
+    }
   };
 }
 
 async function buildMintTransaction() {
-  // For testing, return a Call array as required by BuildMintTransaction type
+  // Real Manifold ERC-1155 Edition mint transaction
   return [
     {
-      to: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0' as `0x${string}`,
-      data: '0x' as `0x${string}`,
-      value: BigInt('1000000000000000000')
+      to: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0' as `0x${string}`, // Manifold Edition contract
+      data: '0x' as `0x${string}`, // Will be populated by OnchainKit
+      value: BigInt('1000000000000000000') // 1 ETH
     }
   ];
 }
@@ -55,18 +62,18 @@ export default function TestSingleNFTMintCard() {
           Single NFTMintCard Test
         </h1>
         <p className="text-gray-600 mb-6 text-center">
-          Testing Cloudflare Image: https://pub-af4818e955f442b2931c620d7cdee98e.r2.dev/carmania-share.png
+          Testing Real Manifold ERC-1155 Edition: https://manifold.xyz/@carculture/id/4169074928
         </p>
         
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <NFTMintCard
-            contractAddress="0x8ef0772347e0caed0119937175d7ef9636ae1aa0"
-            tokenId="4169097456"
-            useNFTData={useNFTData}
-            buildMintTransaction={buildMintTransaction}
-            onStatus={handleStatusChange}
-            className="w-full"
-          >
+               <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                 <NFTMintCard
+                   contractAddress="0x8ef0772347e0caed0119937175d7ef9636ae1aa0"
+                   tokenId="4169074928"
+                   useNFTData={useNFTData}
+                   buildMintTransaction={buildMintTransaction}
+                   onStatus={handleStatusChange}
+                   className="w-full"
+                 >
             <NFTCreator />
             <NFTMedia square={false} />
             <NFTCollectionTitle />
@@ -80,12 +87,12 @@ export default function TestSingleNFTMintCard() {
           <h3 className="text-lg font-semibold text-blue-900 mb-2">
             🧪 Test Configuration
           </h3>
-          <div className="text-blue-700 text-sm space-y-1">
-            <p><strong>Environment:</strong> Outside StableLink</p>
-            <p><strong>Image URL:</strong> Cloudflare public image</p>
-            <p><strong>Contract:</strong> Base ERC-721</p>
-            <p><strong>Purpose:</strong> Test wallet connection and minting with public image</p>
-          </div>
+                 <div className="text-blue-700 text-sm space-y-1">
+                   <p><strong>Environment:</strong> Outside StableLink</p>
+                   <p><strong>Image URL:</strong> Manifold page URL</p>
+                   <p><strong>Contract:</strong> Manifold ERC-1155 Edition</p>
+                   <p><strong>Purpose:</strong> Test wallet connection and minting with real Manifold contract</p>
+                 </div>
         </div>
       </div>
     </div>
