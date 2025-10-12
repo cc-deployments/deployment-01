@@ -70,6 +70,7 @@ export default function OnRampTest() {
           {isConnected ? (
             <FundButton
               className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700"
+              sessionToken="demo-session-token"
             >
               Test OnRamp - $1.00 USD
             </FundButton>
