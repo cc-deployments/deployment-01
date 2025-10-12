@@ -1,7 +1,7 @@
 'use client';
 
 import { NFTMintCard } from '@coinbase/onchainkit/nft';
-import { NFTMedia } from '@coinbase/onchainkit/nft/view';
+import { NFTMedia, NFTMintButton } from '@coinbase/onchainkit/nft';
 import { useState } from 'react';
 
 interface NFTMintCardProps {
@@ -57,16 +57,11 @@ export function NFTMintCardComponent({
               {tokenId && <><br/>Token ID: {tokenId}</>}
             </div>
           </div>
-          <button 
+          <NFTMintButton 
             className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition-colors"
-            onClick={() => {
-              console.log('🎯 Mint button clicked - attempting to trigger NFTMintCard minting');
-              // The NFTMintCard should handle the actual minting
-              // This is just for logging - the real minting happens through OnchainKit
-            }}
           >
             🎯 Mint This NFT
-          </button>
+          </NFTMintButton>
         </div>
       </NFTMintCard>
 
