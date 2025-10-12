@@ -159,7 +159,7 @@ export default function NFTGalleryGrid() {
         // Fallback to traditional transaction
         const transaction = {
           to: nft.contractAddress,
-          from: buyerAddress,
+          from: address,
           value: (parseFloat(nft.price) * 1e18).toString(16), // Convert to hex
           data: '0x' // Simplified - would need proper ABI encoding
         };
