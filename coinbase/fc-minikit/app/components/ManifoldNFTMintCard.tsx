@@ -44,11 +44,7 @@ export function NFTMintCardComponent({
       >
         <div className="p-4 bg-white rounded-lg shadow">
           <div className="mb-4">
-            <img 
-              src="/preview-images/low_tide_preview.png" 
-              alt="Low Tide NFT" 
-              className="w-full h-48 object-cover rounded-lg mb-3"
-            />
+            <NFTMedia square={false} />
             <h3 className="text-lg font-semibold mb-2">🌊 Low Tide NFT</h3>
             <p className="text-gray-600 mb-2">
               A serene moment captured - Perfect for testing streamlined checkout
