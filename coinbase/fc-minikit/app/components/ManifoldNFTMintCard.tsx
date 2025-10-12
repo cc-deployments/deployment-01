@@ -1,7 +1,8 @@
 'use client';
 
 import { NFTMintCard } from '@coinbase/onchainkit/nft';
-import { NFTMedia, NFTMintButton } from '@coinbase/onchainkit/nft';
+import { NFTMedia } from '@coinbase/onchainkit/nft/view';
+import { NFTMintButton } from '@coinbase/onchainkit/nft/mint';
 import { useState } from 'react';
 
 interface NFTMintCardProps {
