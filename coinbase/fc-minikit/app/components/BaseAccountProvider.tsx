@@ -35,6 +35,7 @@ export function BaseAccountProvider({ children }: { children: React.ReactNode })
   const [sdk, setSdk] = useState<any>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [address, setAddress] = useState<string | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     // Initialize Base Account SDK for proper wallet detection
@@ -67,11 +68,18 @@ export function BaseAccountProvider({ children }: { children: React.ReactNode })
           getProvider: () => null,
           isConnected: false 
         });
+      } finally {
+        setIsInitialized(true);
       }
     };
     
     initializeSDK();
   }, []);
+
+  // Prevent SSR issues by only rendering after initialization
+  if (!isInitialized) {
+    return <>{children}</>;
+  }
 
   const connect = async () => {
     if (!sdk) return;
