@@ -136,10 +136,14 @@ export function NFTMintCardComponent({
       >
         <div className="p-4 bg-white rounded-lg shadow">
                  <div className="mb-4">
-                   <NFTMedia square={false} />
-                   <h3 className="text-lg font-semibold mb-2">🚗 Premium Collector NFT</h3>
+                   <img 
+                     src="/preview-images/test_9_preview.png" 
+                     alt="Test 9 NFT" 
+                     className="w-full h-64 object-cover rounded-lg"
+                   />
+                   <h3 className="text-lg font-semibold mb-2">🚗 Car Culture: CarMania Garage - Test 9</h3>
                    <p className="text-gray-600 mb-2">
-                     Premium automotive art - $1.00 USDC ERC-1155 mint (successfully tested before)
+                     Pink Car Art - Test NFT for StableLink - $1.00 USD ERC-1155 mint
                    </p>
                    <div className="text-sm text-gray-500 mb-4">
                      Contract: {contractAddress.slice(0, 6)}...{contractAddress.slice(-4)}
