@@ -6,56 +6,74 @@ import { NFTMintButton } from '@coinbase/onchainkit/nft/mint';
 import { useState } from 'react';
 import { encodeFunctionData, parseAbi } from 'viem';
 
-// Custom mint transaction builder for your sovereign contract
+// Custom mint transaction builder for ERC-1155 Covered Cars contract
 async function buildMintTransaction(contractAddress: string, tokenId?: string) {
-  console.log('🔧 Building custom mint transaction for:', contractAddress);
-  
-  // This is a placeholder - you'll need to replace with your actual contract's mint function
-  // Common patterns:
-  // - mint() - simple mint to msg.sender
-  // - mint(address to) - mint to specific address  
-  // - mint(uint256 tokenId) - mint specific token
-  // - mint(address to, uint256 tokenId) - mint specific token to address
+  console.log('🔧 Building custom mint transaction for ERC-1155:', contractAddress);
+  console.log('🎯 Token ID:', tokenId);
   
   try {
-    // Example: Assuming your contract has a simple mint() function
+    // ERC-1155 minting functions - common patterns for Manifold contracts
     const mintAbi = parseAbi([
-      'function mint() external payable',
-      'function mint(address to) external payable',
+      // Standard ERC-1155 minting
+      'function mint(address to, uint256 id, uint256 amount, bytes calldata data) external',
+      'function mint(address to, uint256 id, uint256 amount) external',
+      
+      // Manifold-specific minting patterns
+      'function mint(address to, uint256 tokenId) external payable',
       'function mint(uint256 tokenId) external payable',
-      'function mint(address to, uint256 tokenId) external payable'
+      'function mint() external payable',
+      
+      // Purchase/mint with payment
+      'function purchase(uint256 tokenId) external payable',
+      'function purchase(address to, uint256 tokenId) external payable',
+      
+      // Reserve minting
+      'function mintReserve(address to, uint256 tokenId, uint256 amount) external'
     ]);
     
-    // Try different mint function signatures
+    // Try different mint function signatures for ERC-1155
     let data;
     try {
-      // Try mint() - most common
+      // Try purchase(tokenId) - common for paid mints
       data = encodeFunctionData({
         abi: mintAbi,
-        functionName: 'mint'
+        functionName: 'purchase',
+        args: [BigInt(tokenId || '4169103600')]
       });
+      console.log('✅ Using purchase(tokenId) function');
     } catch {
       try {
-        // Try mint(address to) with connected wallet
+        // Try mint(address to, uint256 tokenId)
         data = encodeFunctionData({
           abi: mintAbi,
           functionName: 'mint',
-          args: ['0x048a...'] // This should be the connected wallet address
+          args: ['0x048a...', BigInt(tokenId || '4169103600')] // This should be the connected wallet address
         });
+        console.log('✅ Using mint(address, tokenId) function');
       } catch {
-        // Fallback to mint(uint256 tokenId)
-        data = encodeFunctionData({
-          abi: mintAbi,
-          functionName: 'mint',
-          args: [tokenId || '1']
-        });
+        try {
+          // Try mint(uint256 tokenId)
+          data = encodeFunctionData({
+            abi: mintAbi,
+            functionName: 'mint',
+            args: [BigInt(tokenId || '4169103600')]
+          });
+          console.log('✅ Using mint(tokenId) function');
+        } catch {
+          // Fallback to simple mint()
+          data = encodeFunctionData({
+            abi: mintAbi,
+            functionName: 'mint'
+          });
+          console.log('✅ Using mint() function');
+        }
       }
     }
     
     return {
       to: contractAddress as `0x${string}`,
       data,
-      value: '0x0' // Adjust if your contract requires ETH payment
+      value: '0x38d7ea4c68000' // $1.00 in wei (approximately) - adjust as needed
     };
   } catch (error) {
     console.error('❌ Error building mint transaction:', error);
@@ -104,9 +122,9 @@ export function NFTMintCardComponent({
         <div className="p-4 bg-white rounded-lg shadow">
           <div className="mb-4">
             <NFTMedia square={false} />
-            <h3 className="text-lg font-semibold mb-2">🌊 Low Tide NFT</h3>
+            <h3 className="text-lg font-semibold mb-2">🚗 Covered Cars NFT</h3>
             <p className="text-gray-600 mb-2">
-              A serene moment captured - Perfect for testing streamlined checkout
+              Premium car collection - $1.00 ERC-1155 mint for testing streamlined checkout
             </p>
             <div className="text-sm text-gray-500 mb-4">
               Contract: {contractAddress.slice(0, 6)}...{contractAddress.slice(-4)}
@@ -139,8 +157,8 @@ export function TestNFTMintCard() {
       </h2>
       
       <NFTMintCardComponent
-        contractAddress="0x8ef0772347e0caed0119937175d7ef9636ae1aa0"
-        tokenId="4169111792"
+        contractAddress="0x1c6d27a76f4f706cccb698acc236c31f886c5421"
+        tokenId="4169103600"
       />
       
       <div className="mt-6 p-4 bg-green-50 rounded-lg">
