@@ -89,7 +89,7 @@ async function buildMintTransaction(props: any) {
     return [{
       to: contractAddress as `0x${string}`,
       data,
-      value: '0x38d7ea4c68000' // $1.00 USDC in wei (approximately)
+      value: BigInt('0x38d7ea4c68000') // $1.00 USDC in wei (approximately)
     }];
   } catch (error) {
     console.error('❌ Error building mint transaction:', error);
