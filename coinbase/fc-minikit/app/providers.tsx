@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, type ReactNode } from 'react';
+import { useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { base } from 'viem/chains';

@@ -11,9 +11,6 @@ const nextConfig = {
     externalDir: true,
   },
   
-  // Disable static generation to prevent React Error #31
-  output: 'standalone',
-  
   // Configure webpack to resolve TypeScript paths and improve module resolution
   webpack: (config) => {
     config.resolve.alias = {
