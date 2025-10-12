@@ -6,30 +6,33 @@ import { NFTMintButton } from '@coinbase/onchainkit/nft/mint';
 import { useState } from 'react';
 import { encodeFunctionData, parseAbi } from 'viem';
 
-// Custom mint transaction builder for ERC-721 Low Tide contract
+// Custom mint transaction builder for ERC-1155 Premium Collector contract
 async function buildMintTransaction(contractAddress: string, tokenId?: string) {
-  console.log('🔧 Building custom mint transaction for ERC-721:', contractAddress);
+  console.log('🔧 Building custom mint transaction for ERC-1155:', contractAddress);
   console.log('🎯 Token ID:', tokenId);
   
   try {
-    // ERC-721 minting functions - common patterns for Manifold contracts
+    // ERC-1155 minting functions - common patterns for Manifold contracts
     const mintAbi = parseAbi([
-      // Standard ERC-721 minting
-      'function mint(address to) external payable',
+      // Standard ERC-1155 minting
+      'function mint(address to, uint256 id, uint256 amount, bytes calldata data) external',
+      'function mint(address to, uint256 id, uint256 amount) external',
+      
+      // Manifold-specific minting patterns
       'function mint(address to, uint256 tokenId) external payable',
       'function mint(uint256 tokenId) external payable',
       'function mint() external payable',
       
-      // Manifold-specific minting patterns
+      // Purchase/mint with payment
       'function purchase(uint256 tokenId) external payable',
       'function purchase(address to, uint256 tokenId) external payable',
       'function purchase() external payable',
       
       // Reserve minting
-      'function mintReserve(address to, uint256 tokenId) external'
+      'function mintReserve(address to, uint256 tokenId, uint256 amount) external'
     ]);
     
-    // Try different mint function signatures for ERC-721
+    // Try different mint function signatures for ERC-1155
     let data;
     try {
       // Try purchase(tokenId) - common for paid mints
@@ -71,7 +74,7 @@ async function buildMintTransaction(contractAddress: string, tokenId?: string) {
     return {
       to: contractAddress as `0x${string}`,
       data,
-      value: '0x38d7ea4c68000' // ~0.001 ETH for Low Tide mint
+      value: '0x38d7ea4c68000' // $1.00 USDC in wei (approximately)
     };
   } catch (error) {
     console.error('❌ Error building mint transaction:', error);
@@ -122,7 +125,7 @@ export function NFTMintCardComponent({
                    <NFTMedia square={false} />
                    <h3 className="text-lg font-semibold mb-2">🚗 Premium Collector NFT</h3>
                    <p className="text-gray-600 mb-2">
-                     Premium automotive art - ETH-priced ERC-721 mint (successfully tested before)
+                     Premium automotive art - $1.00 USDC ERC-1155 mint (successfully tested before)
                    </p>
                    <div className="text-sm text-gray-500 mb-4">
                      Contract: {contractAddress.slice(0, 6)}...{contractAddress.slice(-4)}
