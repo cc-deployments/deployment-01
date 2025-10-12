@@ -85,11 +85,12 @@ async function buildMintTransaction(props: any) {
       }
     }
     
-    return {
+    // Return array of calls as expected by OnchainKit
+    return [{
       to: contractAddress as `0x${string}`,
       data,
       value: '0x38d7ea4c68000' // $1.00 USDC in wei (approximately)
-    };
+    }];
   } catch (error) {
     console.error('❌ Error building mint transaction:', error);
     throw new Error('Failed to build mint transaction');
