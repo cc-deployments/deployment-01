@@ -15,12 +15,14 @@ function useNFTData() {
 }
 
 async function buildMintTransaction() {
-  // For testing, return a simple transaction structure
-  return {
-    to: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
-    data: '0x',
-    value: '1000000000000000000'
-  };
+  // For testing, return a Call array as required by BuildMintTransaction type
+  return [
+    {
+      to: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0' as `0x${string}`,
+      data: '0x' as `0x${string}`,
+      value: BigInt('1000000000000000000')
+    }
+  ];
 }
 
 export default function TestSingleNFTMintCard() {
