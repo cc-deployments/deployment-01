@@ -15,7 +15,7 @@ function useNFTData() {
     contractAddress: '0x1c6d27a76f4f706cccb698acc236c31f886c5421',
     tokenId: '4169097456',
     price: '1.00',
-    currency: 'USDC'
+    currency: 'USD'
   };
 }
 
