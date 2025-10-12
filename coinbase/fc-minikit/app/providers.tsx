@@ -20,6 +20,11 @@ export function Providers(props: { children: ReactNode }) {
     setIsMounted(true);
   }, []);
 
+  // SSR protection - prevent hydration mismatches
+  if (!isMounted) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <BaseAuthProvider config={config}>
       <OnchainKitProvider
