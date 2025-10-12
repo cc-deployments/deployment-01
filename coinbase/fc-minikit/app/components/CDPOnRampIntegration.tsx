@@ -104,6 +104,7 @@ export function CDPOnRampIntegration({
             hideText={false}
             hideIcon={false}
             openIn="tab"
+            sessionToken="demo-session-token"
           />
         ) : (
           <button
