@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, type ReactNode } from 'react';
-import { WagmiProvider } from 'wagmi';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { base } from 'viem/chains';
@@ -33,33 +32,29 @@ export function Providers(props: { children: ReactNode }) {
   }
 
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <OnchainKitProvider
-          apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY || 'your-api-key'}
-          chain={base}
-          miniKit={{ enabled: true }}
-          config={{
-            appearance: {
-              name: 'CarCulture',
-              logo: '/carculture-wing-bl-logo.png',
-              mode: 'light',
-              theme: 'default',
-            },
-            wallet: {
-              display: 'modal',
-              termsUrl: 'https://carculture.com/terms',
-              privacyUrl: 'https://carculture.com/privacy',
-            },
-          }}
-        >
-          <BaseAccountProvider>
-            <BaseAuthProvider>
-              {props.children}
-            </BaseAuthProvider>
-          </BaseAccountProvider>
-        </OnchainKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <BaseAuthProvider config={config}>
+      <OnchainKitProvider
+        apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY || 'your-api-key'}
+        chain={base}
+        miniKit={{ enabled: true }}
+        config={{
+          appearance: {
+            name: 'CarCulture',
+            logo: '/carculture-wing-bl-logo.png',
+            mode: 'light',
+            theme: 'default',
+          },
+          wallet: {
+            display: 'modal',
+            termsUrl: 'https://carculture.com/terms',
+            privacyUrl: 'https://carculture.com/privacy',
+          },
+        }}
+      >
+        <BaseAccountProvider>
+          {props.children}
+        </BaseAccountProvider>
+      </OnchainKitProvider>
+    </BaseAuthProvider>
   );
 }

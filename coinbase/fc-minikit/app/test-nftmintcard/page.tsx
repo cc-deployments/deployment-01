@@ -7,6 +7,14 @@ export default function TestNFTMintCardPage() {
   const { connectWallet, connectors } = useWalletConnection();
   const { address, isConnected } = useSharedAuth();
 
+  // Debug logging
+  console.log('🔍 Debug Info:', {
+    connectors: connectors.length,
+    connectorNames: connectors.map(c => c.name),
+    isConnected,
+    address: address?.slice(0, 6) + '...'
+  });
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
@@ -15,7 +23,15 @@ export default function TestNFTMintCardPage() {
             {!isConnected ? (
               <div className="space-y-2">
                 <button
-                  onClick={() => connectWallet()}
+                  onClick={async () => {
+                    try {
+                      console.log('🔗 Attempting to connect wallet...');
+                      await connectWallet();
+                      console.log('✅ Wallet connection successful');
+                    } catch (error) {
+                      console.error('❌ Wallet connection failed:', error);
+                    }
+                  }}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
                 >
                   Connect Wallet
