@@ -76,11 +76,6 @@ export function BaseAccountProvider({ children }: { children: React.ReactNode })
     initializeSDK();
   }, []);
 
-  // Prevent SSR issues by only rendering after initialization
-  if (!isInitialized) {
-    return <>{children}</>;
-  }
-
   const connect = async () => {
     if (!sdk) return;
 
@@ -104,16 +99,17 @@ export function BaseAccountProvider({ children }: { children: React.ReactNode })
     setIsConnected(false);
   };
 
+  // Always provide context, even during initialization
+  const contextValue = {
+    sdk,
+    isConnected,
+    address,
+    connect,
+    disconnect,
+  };
+
   return (
-    <BaseAccountContext.Provider
-      value={{
-        sdk,
-        isConnected,
-        address,
-        connect,
-        disconnect,
-      }}
-    >
+    <BaseAccountContext.Provider value={contextValue}>
       {children}
     </BaseAccountContext.Provider>
   );
