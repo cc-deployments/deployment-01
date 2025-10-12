@@ -1,8 +1,6 @@
 'use client';
 
-import { NFTMintCard } from '@coinbase/onchainkit/nft';
-import { NFTMedia } from '@coinbase/onchainkit/nft/view';
-import { NFTMintButton } from '@coinbase/onchainkit/nft/mint';
+import { NFTMintCardDefault } from '@coinbase/onchainkit/nft';
 import { useState } from 'react';
 
 interface NFTMintCardProps {
@@ -37,30 +35,11 @@ export function NFTMintCardComponent({
         </div>
       </div>
 
-      <NFTMintCard
+      <NFTMintCardDefault
         contractAddress={contractAddress}
         tokenId={tokenId}
         onStatus={handleMintStatus}
-      >
-        <div className="p-4 bg-white rounded-lg shadow">
-          <div className="mb-4">
-            <NFTMedia square={false} />
-            <h3 className="text-lg font-semibold mb-2">🌊 Low Tide NFT</h3>
-            <p className="text-gray-600 mb-2">
-              A serene moment captured - Perfect for testing streamlined checkout
-            </p>
-            <div className="text-sm text-gray-500 mb-4">
-              Contract: {contractAddress.slice(0, 6)}...{contractAddress.slice(-4)}
-              {tokenId && <><br/>Token ID: {tokenId}</>}
-            </div>
-          </div>
-          <NFTMintButton 
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition-colors"
-          >
-            🎯 Mint This NFT
-          </NFTMintButton>
-        </div>
-      </NFTMintCard>
+      />
 
       <div className="mt-4 p-3 bg-gray-50 rounded text-xs text-gray-600">
         <strong>Contract:</strong> {contractAddress}<br/>
