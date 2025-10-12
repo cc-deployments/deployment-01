@@ -99,16 +99,12 @@ export function CDPOnRampIntegration({
         {/* OnchainKit FundButton for OnRamp */}
         {isConnected ? (
           <FundButton
-            presetFiatAmount={price}
-            fiatCurrency="USD"
-            cryptoCurrency="ETH"
-            network="base"
-            onSuccess={handlePaymentSuccess}
-            onError={handlePaymentError}
             className="w-full bg-gradient-to-r from-[#a32428] to-[#8b1e22] hover:from-[#8b1e22] hover:to-[#6b1519] text-white font-bold py-4 rounded-xl transition-all duration-200 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
-          >
-            Purchase with OnRamp - ${price} {currency}
-          </FundButton>
+            text={`Purchase with OnRamp - $${price} ${currency}`}
+            hideText={false}
+            hideIcon={false}
+            openIn="tab"
+          />
         ) : (
           <button
             onClick={connect}

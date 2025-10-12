@@ -69,17 +69,12 @@ export default function OnRampTest() {
           
           {isConnected ? (
             <FundButton
-              destinationAddress={evmAddress}
-              presetFiatAmount={1}
-              fiatCurrency="USD"
-              cryptoCurrency="ETH"
-              network="base"
-              onSuccess={handleSuccess}
-              onError={handleError}
               className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700"
-            >
-              Test OnRamp - $1.00 USD
-            </FundButton>
+              text="Test OnRamp - $1.00 USD"
+              hideText={false}
+              hideIcon={false}
+              openIn="tab"
+            />
           ) : (
             <button
               disabled
