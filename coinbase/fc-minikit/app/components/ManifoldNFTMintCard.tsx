@@ -5,16 +5,19 @@ import { NFTMedia } from '@coinbase/onchainkit/nft/view';
 import { NFTCreator, NFTCollectionTitle, NFTQuantitySelector, NFTAssetCost, NFTMintButton } from '@coinbase/onchainkit/nft/mint';
 import { useState } from 'react';
 
-// Custom NFT data hook to provide metadata directly
+// Custom NFT data hook following Base documentation Advanced Usage pattern
 function useNFTData() {
   return {
     title: 'Car Culture: CarMania Garage - Test 9',
-    imageUrl: '/preview-images/test_9_preview.png', // Actual NFT preview image
+    imageUrl: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&h=400&fit=crop', // Working placeholder image
     description: 'Pink Car Art - Test NFT for StableLink',
     contractAddress: '0x1c6d27a76f4f706cccb698acc236c31f886c5421',
     tokenId: '4169097456',
-    price: '1.00',
-    currency: 'USD'
+    price: {
+      value: '1000000000000000000', // 1 ETH in wei
+      currency: 'ETH',
+      usdValue: '1.00'
+    }
   };
 }
 
@@ -54,6 +57,7 @@ export function NFTMintCardComponent({
              <NFTMintCard
                contractAddress={contractAddress as `0x${string}`}
                tokenId={tokenId}
+               useNFTData={useNFTData}
                onStatus={handleMintStatus}
              >
                <NFTCreator />

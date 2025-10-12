@@ -75,7 +75,7 @@ export default function ManifoldWidgetTest() {
           {isWalletConnected ? (
             <div className="text-green-600">
               <p>✅ Wallet Connected: {walletAddress}</p>
-              <p>Network: {typeof window !== 'undefined' && window.ethereum?.chainId === '0x2105' ? 'Base' : `Unknown (${window.ethereum?.chainId || 'No chain ID'})`}</p>
+              <p>Network: {typeof window !== 'undefined' && (window.ethereum as any)?.chainId === '0x2105' ? 'Base' : `Unknown (${(window.ethereum as any)?.chainId || 'No chain ID'})`}</p>
             </div>
           ) : (
             <div className="text-red-600">
