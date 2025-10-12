@@ -1,7 +1,67 @@
 'use client';
 
-import { NFTMintCardDefault } from '@coinbase/onchainkit/nft';
+import { NFTMintCard } from '@coinbase/onchainkit/nft';
+import { NFTMedia } from '@coinbase/onchainkit/nft/view';
+import { NFTMintButton } from '@coinbase/onchainkit/nft/mint';
 import { useState } from 'react';
+import { encodeFunctionData, parseAbi } from 'viem';
+
+// Custom mint transaction builder for your sovereign contract
+async function buildMintTransaction(contractAddress: string, tokenId?: string) {
+  console.log('🔧 Building custom mint transaction for:', contractAddress);
+  
+  // This is a placeholder - you'll need to replace with your actual contract's mint function
+  // Common patterns:
+  // - mint() - simple mint to msg.sender
+  // - mint(address to) - mint to specific address  
+  // - mint(uint256 tokenId) - mint specific token
+  // - mint(address to, uint256 tokenId) - mint specific token to address
+  
+  try {
+    // Example: Assuming your contract has a simple mint() function
+    const mintAbi = parseAbi([
+      'function mint() external payable',
+      'function mint(address to) external payable',
+      'function mint(uint256 tokenId) external payable',
+      'function mint(address to, uint256 tokenId) external payable'
+    ]);
+    
+    // Try different mint function signatures
+    let data;
+    try {
+      // Try mint() - most common
+      data = encodeFunctionData({
+        abi: mintAbi,
+        functionName: 'mint'
+      });
+    } catch {
+      try {
+        // Try mint(address to) with connected wallet
+        data = encodeFunctionData({
+          abi: mintAbi,
+          functionName: 'mint',
+          args: ['0x048a...'] // This should be the connected wallet address
+        });
+      } catch {
+        // Fallback to mint(uint256 tokenId)
+        data = encodeFunctionData({
+          abi: mintAbi,
+          functionName: 'mint',
+          args: [tokenId || '1']
+        });
+      }
+    }
+    
+    return {
+      to: contractAddress as `0x${string}`,
+      data,
+      value: '0x0' // Adjust if your contract requires ETH payment
+    };
+  } catch (error) {
+    console.error('❌ Error building mint transaction:', error);
+    throw new Error('Failed to build mint transaction');
+  }
+}
 
 interface NFTMintCardProps {
   contractAddress: string;
@@ -35,11 +95,31 @@ export function NFTMintCardComponent({
         </div>
       </div>
 
-      <NFTMintCardDefault
+      <NFTMintCard
         contractAddress={contractAddress}
         tokenId={tokenId}
         onStatus={handleMintStatus}
-      />
+        buildMintTransaction={buildMintTransaction}
+      >
+        <div className="p-4 bg-white rounded-lg shadow">
+          <div className="mb-4">
+            <NFTMedia square={false} />
+            <h3 className="text-lg font-semibold mb-2">🌊 Low Tide NFT</h3>
+            <p className="text-gray-600 mb-2">
+              A serene moment captured - Perfect for testing streamlined checkout
+            </p>
+            <div className="text-sm text-gray-500 mb-4">
+              Contract: {contractAddress.slice(0, 6)}...{contractAddress.slice(-4)}
+              {tokenId && <><br/>Token ID: {tokenId}</>}
+            </div>
+          </div>
+          <NFTMintButton 
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition-colors"
+          >
+            🎯 Mint This NFT
+          </NFTMintButton>
+        </div>
+      </NFTMintCard>
 
       <div className="mt-4 p-3 bg-gray-50 rounded text-xs text-gray-600">
         <strong>Contract:</strong> {contractAddress}<br/>
