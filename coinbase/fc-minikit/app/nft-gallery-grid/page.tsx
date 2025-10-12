@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { getCarManiaGarageNFTs, getPublishedNFTs, type NFTData } from '../utils/nftDataUtils';
+import { useWalletConnection, useSharedAuth } from '@cculture/shared-auth';
 
 // Get real NFT data from CSV
 const realNFTs = [
@@ -87,32 +88,29 @@ function NFTGridCard({ nft, onPurchase, onViewDetails }: NFTGridCardProps) {
 export default function NFTGalleryGrid() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { connectWallet } = useWalletConnection();
+  const { address, isConnected } = useSharedAuth();
 
   const handlePurchase = async (nft: typeof mockNFTs[0]) => {
     setIsLoading(true);
     
     try {
-      // Check if wallet is available
-      if (!window.ethereum) {
-        alert('Please install a compatible wallet (Coinbase Wallet, MetaMask, etc.) to purchase NFTs.');
+      // Check if wallet is connected
+      if (!isConnected) {
+        // Try to connect wallet first
+        await connectWallet();
         setIsLoading(false);
         return;
       }
 
-      // Request wallet connection
-      const accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts'
-      });
-      
-      if (!accounts || accounts.length === 0) {
+      if (!address) {
         alert('Please connect your wallet to purchase NFTs.');
         setIsLoading(false);
         return;
       }
 
-      const buyerAddress = accounts[0];
       console.log('🚀 Starting streamlined NFT purchase for:', nft.name);
-      console.log('👤 Buyer address:', buyerAddress);
+      console.log('👤 Buyer address:', address);
       console.log('🎯 Contract:', nft.contractAddress);
       console.log('🆔 Token ID:', nft.tokenId);
 
@@ -134,7 +132,7 @@ export default function NFTGalleryGrid() {
           nft.contractAddress,
           nft.tokenId,
           (parseFloat(nft.price) * 1e18).toString(), // Convert USD to wei
-          buyerAddress
+          address
         );
 
         // Execute batch transaction with paymaster
