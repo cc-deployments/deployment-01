@@ -8,6 +8,8 @@ import { Providers } from "./providers";
 import EmbedHandler from "./components/EmbedHandler";
 import ShareHandler from "./components/ShareHandler";
 
+export const dynamic = 'force-dynamic';
+
 
 const inter = Inter({ subsets: ['latin'] });
 
