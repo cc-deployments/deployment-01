@@ -28,91 +28,69 @@ export default function ManifoldGalleryDiscussion({
   const [error, setError] = useState<string | null>(null);
   const [newPost, setNewPost] = useState({ title: '', content: '' });
 
-  // Fetch discussions from MANIFOLD Gallery Discussion API
+  // Load sample discussions (Manifold doesn't have a public API)
   const fetchDiscussions = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      // Note: This is a placeholder implementation
-      // MANIFOLD Gallery Discussion API endpoints would need to be documented
-      // For now, we'll simulate the API call structure
-      
-      const response = await fetch(`/api/manifold-discussions/${collectionId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch discussions: ${response.status}`);
+    setLoading(true);
+    setError(null);
+    
+    // Since Manifold doesn't have a public API, we'll use sample data
+    const sampleDiscussions = [
+      {
+        id: '1',
+        title: 'Welcome to CarMania Gallery Discussion!',
+        content: 'Share your thoughts about the latest car drops and collections.',
+        author: 'CarCulture Team',
+        timestamp: new Date().toISOString(),
+        likes: 12,
+        replies: 3
+      },
+      {
+        id: '2',
+        title: 'Light Bulb Moment - Amazing drop!',
+        content: 'Just minted the Light Bulb Moment NFT. The artwork is incredible!',
+        author: 'Car Enthusiast',
+        timestamp: new Date(Date.now() - 3600000).toISOString(),
+        likes: 8,
+        replies: 1
+      },
+      {
+        id: '3',
+        title: 'Summertime Blues Collection',
+        content: 'The vintage car aesthetic in this collection is perfect for summer vibes!',
+        author: 'Vintage Car Lover',
+        timestamp: new Date(Date.now() - 7200000).toISOString(),
+        likes: 15,
+        replies: 5
       }
-
-      const data = await response.json();
-      setDiscussions(data.discussions || []);
-      
-    } catch (err) {
-      console.error('Error fetching discussions:', err);
-      setError(err instanceof Error ? err.message : 'Failed to fetch discussions');
-      
-      // Fallback: Show sample discussions for demo purposes
-      setDiscussions([
-        {
-          id: '1',
-          title: 'Welcome to CarMania Gallery Discussion!',
-          content: 'Share your thoughts about the latest car drops and collections.',
-          author: 'CarCulture Team',
-          timestamp: new Date().toISOString(),
-          likes: 12,
-          replies: 3
-        },
-        {
-          id: '2',
-          title: 'Light Bulb Moment - Amazing drop!',
-          content: 'Just minted the Light Bulb Moment NFT. The artwork is incredible!',
-          author: 'Car Enthusiast',
-          timestamp: new Date(Date.now() - 3600000).toISOString(),
-          likes: 8,
-          replies: 1
-        }
-      ]);
-    } finally {
-      setLoading(false);
-    }
+    ];
+    
+    setDiscussions(sampleDiscussions);
+    setLoading(false);
   };
 
-  // Post new discussion
+  // Simulate posting a new discussion (no API available)
   const postDiscussion = async () => {
     if (!newPost.title.trim() || !newPost.content.trim()) {
       alert('Please fill in both title and content');
       return;
     }
 
-    try {
-      const response = await fetch(`/api/manifold-discussions/${collectionId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          title: newPost.title,
-          content: newPost.content,
-        }),
-      });
+    // Since Manifold doesn't have a public API, simulate posting locally
+    const newDiscussion = {
+      id: Date.now().toString(),
+      title: newPost.title,
+      content: newPost.content,
+      author: 'You',
+      timestamp: new Date().toISOString(),
+      likes: 0,
+      replies: 0
+    };
 
-      if (!response.ok) {
-        throw new Error(`Failed to post discussion: ${response.status}`);
-      }
-
-      // Refresh discussions
-      await fetchDiscussions();
-      setNewPost({ title: '', content: '' });
-      
-    } catch (err) {
-      console.error('Error posting discussion:', err);
-      alert('Failed to post discussion. Please try again.');
-    }
+    // Add to local discussions
+    setDiscussions(prev => [newDiscussion, ...prev]);
+    setNewPost({ title: '', content: '' });
+    
+    alert('Discussion posted! (Note: This is simulated since Manifold doesn\'t have a public API)');
   };
 
   // Auto-refresh discussions
@@ -175,13 +153,11 @@ export default function ManifoldGalleryDiscussion({
 
         {/* Discussions List */}
         <div className="p-6">
-          {error && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-md p-4 mb-4">
-              <p className="text-yellow-800">
-                ⚠️ {error} (Showing sample discussions)
-              </p>
-            </div>
-          )}
+          <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-4">
+            <p className="text-blue-800">
+              ℹ️ This is a simulated discussion board since Manifold doesn't have a public API. Posts are stored locally.
+            </p>
+          </div>
           
           <div className="space-y-4">
             {discussions.map((discussion) => (
