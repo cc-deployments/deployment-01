@@ -69,16 +69,12 @@ export default function TestSingleNFTMintCard() {
         <div className="mb-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Test 1: NFT Card (Pre-Minted)</h2>
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <NFTCard
-              contractAddress="0x8ef0772347e0caed0119937175d7ef9636ae1aa0"
-              tokenId="20"
-              useNFTData={useNFTData}
-              className="w-full"
-            >
-              <NFTCreator />
-              <NFTMedia square={false} />
-              <NFTCollectionTitle />
-            </NFTCard>
+            {/* Temporarily disabled for debugging React error #31 */}
+            <div className="p-4 bg-blue-100 rounded">
+              <p>NFTCard temporarily disabled for debugging React error #31</p>
+              <p>Contract: 0x8ef0772347e0caed0119937175d7ef9636ae1aa0</p>
+              <p>Token ID: 20</p>
+            </div>
           </div>
         </div>
 
@@ -86,24 +82,12 @@ export default function TestSingleNFTMintCard() {
         <div className="mb-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Test 2: NFTMintCard (Minting)</h2>
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <NFTMintCard
-              contractAddress="0x8ef0772347e0caed0119937175d7ef9636ae1aa0"
-              tokenId="20"
-              useNFTData={useNFTData}
-              buildMintTransaction={buildMintTransaction}
-              onStatus={handleStatusChange}
-              onError={(error) => {
-                console.error('🔍 Detailed NFTMintCard Error:', error);
-              }}
-              className="w-full"
-            >
-              <NFTCreator />
-              <NFTMedia square={false} />
-              <NFTCollectionTitle />
-              <NFTQuantitySelector />
-              <NFTAssetCost />
-              <NFTMintButton />
-            </NFTMintCard>
+            {/* Temporarily disabled for debugging React error #31 */}
+            <div className="p-4 bg-green-100 rounded">
+              <p>NFTMintCard temporarily disabled for debugging React error #31</p>
+              <p>Contract: 0x8ef0772347e0caed0119937175d7ef9636ae1aa0</p>
+              <p>Token ID: 20</p>
+            </div>
           </div>
         </div>
 
