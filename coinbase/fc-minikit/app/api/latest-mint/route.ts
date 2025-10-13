@@ -3,6 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import csv from 'csv-parser';
 
+export const dynamic = 'force-static';
+
 interface MintData {
   publication_date: string;
   title: string;
