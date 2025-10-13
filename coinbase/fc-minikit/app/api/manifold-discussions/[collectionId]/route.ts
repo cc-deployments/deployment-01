@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 export const dynamic = 'force-static';
 
+// Generate static params for static export
+export async function generateStaticParams() {
+  return [
+    { collectionId: 'summertime-blues' },
+    { collectionId: 'woodie-wagon' },
+    { collectionId: 'premium-collector' },
+    { collectionId: 'light-bulb-moment' },
+  ];
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ collectionId: string }> }
