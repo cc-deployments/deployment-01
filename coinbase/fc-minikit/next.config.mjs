@@ -6,6 +6,9 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Force dynamic rendering to avoid React Error #31 during prerendering
+  output: 'export',
+  
   // Allow imports from outside the project directory
   experimental: {
     externalDir: true,
