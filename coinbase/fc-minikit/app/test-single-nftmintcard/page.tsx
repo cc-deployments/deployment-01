@@ -14,10 +14,7 @@ function useNFTData() {
     description: 'Testing pre-minted NFT from Manifold contract - Token 20 (Owned by user)',
     contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0', // Manifold Edition contract
     tokenId: '20', // Pre-minted token owned by user
-    price: {
-      value: '1000000000000000000', // 1 ETH in wei
-      currency: 'ETH'
-    }
+    price: '1000000000000000000' // 1 ETH in wei as string instead of object
   };
 }
 
@@ -69,12 +66,16 @@ export default function TestSingleNFTMintCard() {
         <div className="mb-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Test 1: NFT Card (Pre-Minted)</h2>
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            {/* Temporarily disabled for debugging React error #31 */}
-            <div className="p-4 bg-blue-100 rounded">
-              <p>NFTCard temporarily disabled for debugging React error #31</p>
-              <p>Contract: 0x8ef0772347e0caed0119937175d7ef9636ae1aa0</p>
-              <p>Token ID: 20</p>
-            </div>
+            <NFTCard
+              contractAddress="0x8ef0772347e0caed0119937175d7ef9636ae1aa0"
+              tokenId="20"
+              useNFTData={useNFTData}
+              className="w-full"
+            >
+              <NFTCreator />
+              <NFTMedia square={false} />
+              <NFTCollectionTitle />
+            </NFTCard>
           </div>
         </div>
 
@@ -82,12 +83,24 @@ export default function TestSingleNFTMintCard() {
         <div className="mb-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Test 2: NFTMintCard (Minting)</h2>
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            {/* Temporarily disabled for debugging React error #31 */}
-            <div className="p-4 bg-green-100 rounded">
-              <p>NFTMintCard temporarily disabled for debugging React error #31</p>
-              <p>Contract: 0x8ef0772347e0caed0119937175d7ef9636ae1aa0</p>
-              <p>Token ID: 20</p>
-            </div>
+            <NFTMintCard
+              contractAddress="0x8ef0772347e0caed0119937175d7ef9636ae1aa0"
+              tokenId="20"
+              useNFTData={useNFTData}
+              buildMintTransaction={buildMintTransaction}
+              onStatus={handleStatusChange}
+              onError={(error) => {
+                console.error('🔍 Detailed NFTMintCard Error:', error);
+              }}
+              className="w-full"
+            >
+              <NFTCreator />
+              <NFTMedia square={false} />
+              <NFTCollectionTitle />
+              <NFTQuantitySelector />
+              <NFTAssetCost />
+              <NFTMintButton />
+            </NFTMintCard>
           </div>
         </div>
 
