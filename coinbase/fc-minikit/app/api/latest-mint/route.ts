@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
+export const dynamic = 'force-static';
 import fs from 'fs';
 import path from 'path';
 import csv from 'csv-parser';
-
 
 interface MintData {
   publication_date: string;

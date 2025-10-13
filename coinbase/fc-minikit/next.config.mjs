@@ -6,7 +6,9 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Force rebuild to clear Vercel cache
+  // Disable static generation to prevent React Error #31 during prerendering
+  output: 'export',
+  trailingSlash: true,
   // Allow imports from outside the project directory
   experimental: {
     externalDir: true,

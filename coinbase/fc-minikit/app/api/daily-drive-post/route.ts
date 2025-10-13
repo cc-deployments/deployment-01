@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
+export const dynamic = 'force-static';
 import fs from 'fs';
 import path from 'path';
-
 
 interface DrivePostData {
   publication_date: string;
