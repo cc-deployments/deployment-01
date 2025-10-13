@@ -1,15 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-export const dynamic = 'force-static';
-
-// Generate static params for static export
-export async function generateStaticParams() {
-  return [
-    { collection: 'summertime-blues' },
-    { collection: 'woodie-wagon' },
-    { collection: 'premium-collector' },
-    { collection: 'light-bulb-moment' },
-  ];
-}
 
 export async function GET(
   request: NextRequest,
