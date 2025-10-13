@@ -86,17 +86,17 @@ export default function TestSingleNFTMintCard() {
         <div className="mb-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Test 2: NFTMintCard (Minting)</h2>
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                 <NFTMintCard
-                   contractAddress="0x8ef0772347e0caed0119937175d7ef9636ae1aa0"
-                   tokenId="20"
-                   useNFTData={useNFTData}
-                   buildMintTransaction={buildMintTransaction}
-                   onStatus={handleStatusChange}
-                   onError={(error) => {
-                     console.error('🔍 Detailed NFTMintCard Error:', error);
-                   }}
-                   className="w-full"
-                 >
+            <NFTMintCard
+              contractAddress="0x8ef0772347e0caed0119937175d7ef9636ae1aa0"
+              tokenId="20"
+              useNFTData={useNFTData}
+              buildMintTransaction={buildMintTransaction}
+              onStatus={handleStatusChange}
+              onError={(error) => {
+                console.error('🔍 Detailed NFTMintCard Error:', error);
+              }}
+              className="w-full"
+            >
               <NFTCreator />
               <NFTMedia square={false} />
               <NFTCollectionTitle />
@@ -111,14 +111,14 @@ export default function TestSingleNFTMintCard() {
           <h3 className="text-lg font-semibold text-blue-900 mb-2">
             🧪 Test Configuration
           </h3>
-                 <div className="text-blue-700 text-sm space-y-1">
-                   <p><strong>Environment:</strong> Outside StableLink</p>
-                   <p><strong>Image URL:</strong> Manifold page URL</p>
-                   <p><strong>Contract:</strong> Manifold ERC-1155 Edition</p>
-                   <p><strong>Purpose:</strong> Test wallet connection and minting with real Manifold contract</p>
-                 </div>
-               </div>
-             </div>
-           </div>
-         );
-       }
+          <div className="text-blue-700 text-sm space-y-1">
+            <p><strong>Environment:</strong> Outside StableLink</p>
+            <p><strong>Image URL:</strong> Manifold page URL</p>
+            <p><strong>Contract:</strong> Manifold ERC-1155 Edition</p>
+            <p><strong>Purpose:</strong> Test wallet connection and minting with real Manifold contract</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

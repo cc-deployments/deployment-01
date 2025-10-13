@@ -24,6 +24,10 @@ const config: Config = {
     },
   },
   plugins: [],
+  // Tailwind v4 compatibility
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
 };
 export default config;
 

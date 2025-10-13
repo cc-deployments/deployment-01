@@ -1,7 +1,6 @@
 import React from "react";
 import "./theme.css";
-// OnchainKit CSS has syntax error - temporarily disabled
-// import "@coinbase/onchainkit/styles.css";
+import "@coinbase/onchainkit/styles.css";
 import type { Metadata, Viewport } from "next";
 import { Inter } from 'next/font/google';
 import "./globals.css";
@@ -60,8 +59,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           {children}
-          <EmbedHandler />
-          <ShareHandler />
+        <EmbedHandler />
+        <ShareHandler />
         </Providers>
       </body>
     </html>
