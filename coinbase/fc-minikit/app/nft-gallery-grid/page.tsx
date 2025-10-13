@@ -193,27 +193,27 @@ export default function NFTGalleryGrid() {
           </p>
         </div>
 
-        {/* NFT Grid using Base's recommended approach */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {realNFTs.map((nft, index) => (
-            <div key={`${nft.tokenId}-${index}`} className="bg-white rounded-lg shadow-md overflow-hidden">
-              <NFTMintCard
-                contractAddress={nft.contractAddress as `0x${string}`}
-                tokenId={nft.tokenId}
-                useNFTData={createUseNFTData(nft)}
-                onStatus={handleStatusChange}
-                className="w-full"
-              >
-                <NFTCreator />
-                <NFTMedia square={false} />
-                <NFTCollectionTitle />
-                <NFTQuantitySelector />
-                <NFTAssetCost />
-                <NFTMintButton />
-              </NFTMintCard>
+            {/* NFT Grid using Base's recommended approach */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {realNFTs.map((nft, index) => (
+                <div key={`${nft.tokenId}-${index}`} className="bg-white rounded-lg shadow-md overflow-hidden">
+                  <NFTMintCard
+                    contractAddress={nft.contractAddress as `0x${string}`}
+                    tokenId={nft.tokenId}
+                    useNFTData={createUseNFTData(nft)}
+                    onStatus={handleStatusChange}
+                    className="w-full"
+                  >
+                    <NFTCreator />
+                    <NFTMedia square={false} />
+                    <NFTCollectionTitle />
+                    <NFTQuantitySelector />
+                    <NFTAssetCost />
+                    <NFTMintButton />
+                  </NFTMintCard>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
         {/* Info Section */}
         <div className="mt-12 bg-green-50 rounded-lg p-6">

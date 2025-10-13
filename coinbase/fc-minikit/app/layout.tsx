@@ -60,9 +60,9 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <Providers>
+          <EmbedHandler />
+          <ShareHandler />
           {children}
-        <EmbedHandler />
-        <ShareHandler />
         </Providers>
       </body>
     </html>

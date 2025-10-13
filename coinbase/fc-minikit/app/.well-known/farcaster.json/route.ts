@@ -4,6 +4,8 @@
 // FORCE REBUILD: Vercel must serve this dynamic route, not cached manifest
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-static';
+
 export async function GET() {
   const manifest = {
     baseBuilder: {

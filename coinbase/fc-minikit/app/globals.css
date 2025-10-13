@@ -197,17 +197,7 @@ button[class*="prev"] {
 }
 
 /* Hide any text-based navigation elements */
-*:contains("Next"),
-*:contains("Next →"),
-*:contains("NEXT"),
-*:contains("NEXT →"),
-*:contains("→"),
-*:contains(">") {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
+/* Removed :contains() pseudo-class rules - not valid CSS */
 
 /* Hide any elements with navigation-related text content */
 [data-text*="Next"],
@@ -221,19 +211,7 @@ button[class*="prev"] {
 }
 
 /* Hide any elements that might contain navigation text */
-div:has(span:contains("Next")),
-div:has(span:contains("NEXT")),
-div:has(span:contains("→")),
-div:has(span:contains(">")),
-span:contains("Next"),
-span:contains("NEXT"),
-span:contains("→"),
-span:contains(">") {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
+/* Removed :contains() pseudo-class rules - not valid CSS */
 
 /* Additional comprehensive rules for any navigation elements */
 [class*="nav"],
