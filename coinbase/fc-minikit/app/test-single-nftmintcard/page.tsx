@@ -14,7 +14,10 @@ function useNFTData() {
     description: 'Testing pre-minted NFT from Manifold contract - Token 20 (Owned by user)',
     contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0', // Manifold Edition contract
     tokenId: '20', // Pre-minted token owned by user
-    price: '1000000000000000000' // 1 ETH in wei as string instead of object
+    price: {
+      value: '1000000000000000000', // 1 ETH in wei
+      currency: 'ETH'
+    }
   };
 }
 
