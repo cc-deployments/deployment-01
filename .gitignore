@@ -71,3 +71,4 @@ playwright-report/
 **/.next/
 **/dist/
 **/build/
+.private-notes/
