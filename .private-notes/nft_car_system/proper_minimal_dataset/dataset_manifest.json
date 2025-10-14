@@ -1,0 +1,56 @@
+{
+  "dataset_name": "CarMania ML Dataset - Summertime Blues",
+  "version": "1.0.0",
+  "description": "Complete ML dataset for CarMania NFT system including trained models and metadata",
+  "created": "2025-01-05",
+  "components": {
+    "metadata": {
+      "file": "summertime_blues_data.json",
+      "description": "NFT metadata for Summertime Blues car",
+      "price": "0.001 ETH",
+      "arweave_url": "https://ur4re6uytbzkxhvamuzhxaugfrpsfywiukkeabahnvddaumlcama.arweave.net/pHkSepiYcqueoGUye4KGLF8i4siilEAEB21GMFGLEBg"
+    },
+    "models": {
+      "simple_car_chat_model": {
+        "purpose": "Text generation and chat about cars",
+        "size": "~500MB",
+        "files": [
+          "config.json",
+          "generation_config.json", 
+          "merges.txt",
+          "model.safetensors",
+          "special_tokens_map.json",
+          "tokenizer_config.json",
+          "tokenizer.json",
+          "vocab.json"
+        ]
+      },
+      "car_recognition_model": {
+        "purpose": "Image recognition and car classification",
+        "size": "~990MB", 
+        "files": [
+          "config.json",
+          "generation_config.json",
+          "model.safetensors",
+          "preprocessor_config.json",
+          "special_tokens_map.json",
+          "tokenizer_config.json",
+          "tokenizer.json",
+          "training_metadata.json",
+          "vocab.txt"
+        ]
+      }
+    },
+    "test_files": {
+      "placeholder_image": "summertime_blues_placeholder.jpg",
+      "test_script": "test_ml.py"
+    }
+  },
+  "usage": {
+    "simple_car_chat": "Use for DRIVR chat agent responses about cars",
+    "car_recognition": "Use for analyzing car images and extracting metadata",
+    "metadata": "Use for NFT pricing and display information"
+  },
+  "total_size": "~1.5GB",
+  "upload_status": "ready_for_arweave"
+}

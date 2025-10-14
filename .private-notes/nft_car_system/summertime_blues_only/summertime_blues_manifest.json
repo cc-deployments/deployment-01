@@ -1,0 +1,26 @@
+{
+  "nft_name": "Summertime Blues",
+  "description": "Minimal dataset for Summertime Blues NFT testing",
+  "version": "1.0.0",
+  "created": "2025-01-05",
+  "files": {
+    "metadata": {
+      "file": "summertime_blues_data.json",
+      "description": "NFT metadata with 0.001 ETH pricing",
+      "size": "757 bytes"
+    },
+    "thumbnail": {
+      "file": "summertime_blues_placeholder.jpg", 
+      "description": "Small thumbnail image for StableLink",
+      "size": "71KB"
+    }
+  },
+  "pricing": {
+    "price": "0.001 ETH",
+    "currency": "ETH",
+    "manifold_url": "https://manifold.xyz/contract/0x8ef0772347e0caed0119937175d7ef9636ae1aa0"
+  },
+  "arweave_image_url": "https://ur4re6uytbzkxhvamuzhxaugfrpsfywiukkeabahnvddaumlcama.arweave.net/pHkSepiYcqueoGUye4KGLF8i4siilEAEB21GMFGLEBg",
+  "total_size": "~72KB",
+  "purpose": "Testing BASE Pay integration with Summertime Blues NFT"
+}

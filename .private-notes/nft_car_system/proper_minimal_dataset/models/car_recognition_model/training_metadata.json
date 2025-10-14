@@ -1,0 +1,8 @@
+{
+  "model_name": "car_recognition_model_local",
+  "base_model": "Salesforce/blip-image-captioning-base",
+  "training_samples": 182,
+  "device_used": "mps",
+  "epochs": 1,
+  "created_for": "NFT Car Recognition Hack"
+}

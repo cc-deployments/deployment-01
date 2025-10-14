@@ -1,0 +1,43 @@
+{
+  "nft_name": "Summertime Blues",
+  "token_id": "summertime_blues_test",
+  "collection_address": "0x8ef0772347e0caed0119937175d7ef9636ae1aa0",
+  "chat_responses": {
+    "greeting": "Hey there! I see you own the Summertime Blues NFT - that's a beautiful 1970 Chevrolet Suburban! What would you like to know about your classic surfer wagon?",
+    "car_details": "Your Summertime Blues is a 1970 Chevrolet Suburban in blue - a post-modern surfer wagon built in Southern California. It's the perfect blend of classic American automotive design and surf culture!",
+    "history": "The Summertime Blues represents the golden age of American surf culture. This 1970 Suburban was transformed into a surfer wagon, perfect for carrying boards to the beach and cruising the California coast.",
+    "technical_specs": "Your 1970 Chevrolet Suburban features: Engine - V8, Body - Steel construction with custom wood paneling, Weight - ~4,500 lbs, Transmission - 3-speed automatic, Drive - Rear-wheel drive, Perfect for surf adventures!",
+    "features": "Special features of your Summertime Blues: Custom wood paneling, Surfboard mounting system, Classic 1970s styling, Hand-crafted details, Southern California surf culture heritage",
+    "cultural_significance": "The Summertime Blues is deeply embedded in American surf culture. It represents freedom, adventure, and the California lifestyle - featured in countless surf movies and songs as a symbol of the surfing era.",
+    "color_info": "Your Summertime Blues features a beautiful blue color scheme - the perfect hue for a surfer wagon. The blue represents the ocean and sky, essential elements of the surf lifestyle.",
+    "year_info": "Built in 1970, your Suburban comes from the peak of the American automotive era. This was when cars were built to last and designed with style - perfect for the surf culture that was exploding in California.",
+    "default_response": "That's a great question about your Summertime Blues! This 1970 Chevrolet Suburban is a true classic. What would you like to know about it? I can tell you about its history, technical specs, features, or cultural significance."
+  },
+  "quick_actions": [
+    {
+      "id": "view_gallery",
+      "label": "View Gallery",
+      "description": "See more Summertime Blues images"
+    },
+    {
+      "id": "learn_history", 
+      "label": "Learn History",
+      "description": "Discover the surf culture story"
+    },
+    {
+      "id": "technical_specs",
+      "label": "Technical Specs", 
+      "description": "Get detailed car information"
+    },
+    {
+      "id": "join_community",
+      "label": "Join Community",
+      "description": "Connect with other owners"
+    }
+  ],
+  "metadata": {
+    "created": "2025-01-05",
+    "version": "1.0.0",
+    "purpose": "DRIVR agent chat responses for Summertime Blues NFT testing"
+  }
+}
