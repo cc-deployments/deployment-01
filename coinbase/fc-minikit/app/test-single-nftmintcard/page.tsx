@@ -5,7 +5,7 @@ import { NFTMintCard, NFTCard } from '@coinbase/onchainkit/nft';
 import { NFTMedia } from '@coinbase/onchainkit/nft/view';
 import { NFTCreator, NFTCollectionTitle, NFTQuantitySelector, NFTAssetCost, NFTMintButton } from '@coinbase/onchainkit/nft/mint';
 import { ConnectWallet, Wallet, WalletDropdown } from '@coinbase/onchainkit/wallet';
-import { AutoConnect } from '@coinbase/onchainkit/minikit';
+// AutoConnect not available in current OnchainKit version
 import type { LifecycleStatus } from '@coinbase/onchainkit/nft';
 
 // Test with Car Culture: CarMania Garage Testing 1 (ERC-1155) from CarCulture collection
@@ -168,8 +168,7 @@ export default function TestSingleNFTMintCard() {
         <div className="mb-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Test 2: NFTMintCard (Minting)</h2>
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <AutoConnect>
-              <NFTMintCard
+            <NFTMintCard
                 contractAddress="0x8ef0772347e0caed0119937175d7ef9636ae1aa0"
                 tokenId="4169111792"
                 useNFTData={useNFTData}
@@ -187,7 +186,6 @@ export default function TestSingleNFTMintCard() {
                 <NFTAssetCost />
                 <NFTMintButton />
               </NFTMintCard>
-            </AutoConnect>
           </div>
         </div>
 

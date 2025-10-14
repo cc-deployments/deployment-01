@@ -1,7 +1,7 @@
 import React from 'react';
 import { NFTMintCard } from '@coinbase/onchainkit/nft';
 import { ConnectWallet, Wallet, WalletDropdown } from '@coinbase/onchainkit/wallet';
-import { AutoConnect } from '@coinbase/onchainkit/minikit';
+// AutoConnect not available in current OnchainKit version
 import type { LifecycleStatus } from '@coinbase/onchainkit/nft';
 
 function useNFTData(contractAddress: `0x${string}`, tokenId?: string) {
@@ -89,7 +89,6 @@ export default function MinimalNFTMintTest() {
         </p>
 
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <AutoConnect>
             <NFTMintCard
               contractAddress="0x8ef0772347e0caed0119937175d7ef9636ae1aa0"
               tokenId="4169111792"
@@ -100,8 +99,7 @@ export default function MinimalNFTMintTest() {
                 console.error('🔍 NFTMintCard Error:', error);
               }}
               className="w-full"
-            />
-          </AutoConnect>
+              />
         </div>
 
         <div className="mt-6 bg-blue-50 rounded-lg p-4">
