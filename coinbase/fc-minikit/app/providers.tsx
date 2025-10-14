@@ -12,7 +12,6 @@ export function Providers(props: { children: ReactNode }) {
     <CDPHooksProvider
       config={{
         projectId: process.env.NEXT_PUBLIC_CDP_PROJECT_ID || '1cceb0e4-e690-40ac-8f3d-7d1f3da1417a',
-        apiKey: process.env.NEXT_PUBLIC_CDP_CLIENT_API_KEY,
       }}
     >
       {props.children}
