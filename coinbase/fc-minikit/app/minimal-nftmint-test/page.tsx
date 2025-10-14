@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 import { NFTMintCard } from '@coinbase/onchainkit/nft';
 import { ConnectWallet, Wallet, WalletDropdown } from '@coinbase/onchainkit/wallet';
 // AutoConnect not available in current OnchainKit version
@@ -74,9 +76,17 @@ async function buildMintTransaction() {
 }
 
 export default function MinimalNFTMintTest() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const handleStatusChange = (status: LifecycleStatus) => {
     console.log('🔄 NFT Status Change:', status);
   };
+
+  if (!mounted) return null;
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
