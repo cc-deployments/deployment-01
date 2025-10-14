@@ -7,9 +7,11 @@ const __dirname = path.dirname(__filename);
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Disable static generation completely to prevent React Error #31
+  // output: 'export', // Removed - API routes can't be exported
+  // trailingSlash: true, // Removed - not needed without export
   // Allow imports from outside the project directory
   experimental: {
-    externalDir: true,
+    // externalDir: true, // Disabled to prevent Next.js from scanning entire monorepo
   },
   
   // Configure webpack to resolve TypeScript paths and improve module resolution

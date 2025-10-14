@@ -2,33 +2,20 @@
 
 import type { ReactNode } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
-import { base } from 'viem/chains';
-import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { CDPHooksProvider } from '@coinbase/cdp-hooks';
 
 export function Providers(props: { children: ReactNode }) {
   // Call ready when the app loads in Farcaster
   sdk.actions.ready();
 
   return (
-    <OnchainKitProvider
-      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY || 'your-api-key'}
-      chain={base}
-      miniKit={{ enabled: true }}
+    <CDPHooksProvider
       config={{
-        appearance: {
-          name: 'CarCulture',
-          logo: '/carculture-wing-bl-logo.png',
-          mode: 'light',
-          theme: 'default',
-        },
-        wallet: {
-          display: 'modal',
-          termsUrl: 'https://carculture.com/terms',
-          privacyUrl: 'https://carculture.com/privacy',
-        },
+        projectId: process.env.NEXT_PUBLIC_CDP_PROJECT_ID || '1cceb0e4-e690-40ac-8f3d-7d1f3da1417a',
+        apiKey: process.env.NEXT_PUBLIC_CDP_CLIENT_API_KEY,
       }}
     >
       {props.children}
-    </OnchainKitProvider>
+    </CDPHooksProvider>
   );
 }

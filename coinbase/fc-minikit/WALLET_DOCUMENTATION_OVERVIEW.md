@@ -138,6 +138,76 @@ BASE_RPC_URL=https://mainnet.base.org
 BASE_TESTNET_RPC_URL=https://sepolia.base.org
 ```
 
----
+## 📚 **CDP Embedded Wallets Configuration**
 
-**Summary**: You have a good foundation for wallet architecture with SAFE multi-sig setup, but need to fill in actual addresses, resolve connection issues, and complete the DRIVR basename migration for full functionality.
+### **CDP Project Configuration**
+- **Project Name**: `carculture`
+- **Project ID**: `1cceb0e4-e690-40ac-8f3d-7d1f3da1417a`
+- **Portal URL**: `portal.cdp.coinbase.com/products/embedded-wallets/`
+
+### **CDP Domains Configuration** ✅
+- ✅ **Local Development**: `http://localhost:3000`
+- ✅ **Production Domain**: `https://carculture.com`
+- ❌ **Mini App Domain**: `https://carmania.carculture.com` (NEEDS TO BE ADDED)
+
+### **Required Action**
+- **Add Domain**: `https://carmania.carculture.com` to CDP Portal
+- **Reason**: CORS policies require exact domain matching - subdomains don't inherit from root domain
+- **Location**: CDP Portal → Embedded Wallets → Domains → Add domain
+
+### **CDP Session Token Documentation**
+
+### **CDP Quickstart Approach**
+- **Documentation**: [CDP Onramp Quickstart](https://docs.cdp.coinbase.com/onramp-&-offramp/introduction/quickstart)
+- **Simple Setup**: Just need CDP Project ID and URL generation
+- **No Complex Auth**: Basic integration doesn't require JWT tokens
+- **Testing Limits**: 25 transactions up to $5 each for testing
+
+### **Current Status**
+- ✅ **OffRamp UI implemented** - Complete user interface
+- ✅ **CDP Project ID configured** - `1cceb0e4-e690-40ac-8f3d-7d1f3da1417a`
+- ✅ **Simple URL generation** - Using CDP quickstart format
+- 🎯 **Testing**: Should work with basic CDP setup
+
+### **Implementation Notes**
+1. **CDP Project ID** - Already configured
+2. **Simple URL format** - `https://pay.coinbase.com/buy/select-asset?appId=...`
+3. **No session tokens** - Not required for basic integration
+4. **Testing limits** - 25 transactions, $5 each
+
+## 📚 **CDP Postman Environment & Collections**
+
+### **CDP Postman Environment (Required)**
+- **Download**: [CDP Postman Environment](https://docs.cdp.coinbase.com/get-started/downloads/coinbase_developer_platform.postman_environment.json)
+- **Contains**: API Key Name, Private Key, Base URLs, Environment variables
+- **Purpose**: Required for all CDP API collections
+
+### **Onramp Postman Collection**
+- **Download**: [Onramp Postman Collection](https://docs.cdp.coinbase.com/get-started/downloads/onramp.postman_collection.json)
+- **Contains**: Session Token API, Onramp APIs, Offramp APIs, Transaction Status
+- **Purpose**: Test and implement CDP payment flows
+
+### **Key API Endpoints from Postman Collection**
+1. **Create Session Token**: `POST https://api.developer.coinbase.com/onramp/v1/token`
+2. **Offramp Config**: `GET https://api.developer.coinbase.com/onramp/v1/sell/config`
+3. **Offramp Options**: `GET https://api.developer.coinbase.com/onramp/v1/sell/options`
+4. **Offramp Quote**: `POST https://api.developer.coinbase.com/onramp/v1/sell/quote`
+5. **Offramp Transaction Status**: `GET https://api.developer.coinbase.com/onramp/v1/sell/user/{partner_user_id}/transactions`
+
+### **Current API Key Status**
+- ✅ **CDP Project ID**: `1cceb0e4-e690-40ac-8f3d-7d1f3da1417a`
+- ✅ **CDP Client API Key**: `EkLP8filqrKyDZrEyPYc4cqgEsn7gDrk` (present in .env)
+- ❌ **CDP API Key Name**: Missing (needed for JWT signing)
+- ❌ **CDP Private Key**: Missing (needed for JWT signing)
+
+### **Why OffRamp is Failing**
+- **Root Cause**: Missing CDP API Key Name and Private Key
+- **Error**: "Invalid sessionToken" because we can't generate proper JWT tokens
+- **Solution**: Wait for CDP onboarding approval, then add missing API credentials
+
+### **Sandbox Testing**
+- **Available**: 25 transactions up to $5 each for testing
+- **Purpose**: Test Onramp/Offramp functionality before production
+- **Access**: Available after CDP onboarding approval
+
+---

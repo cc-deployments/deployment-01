@@ -1,6 +1,128 @@
 'use client';
 
-import { TestNFTMintCard } from '../components/ManifoldNFTMintCard';
+import React from 'react';
+import { NFTMintCard } from '@coinbase/onchainkit/nft';
+import { NFTMedia } from '@coinbase/onchainkit/nft/view';
+import { NFTCreator, NFTCollectionTitle, NFTQuantitySelector, NFTAssetCost, NFTMintButton } from '@coinbase/onchainkit/nft/mint';
+import type { LifecycleStatus } from '@coinbase/onchainkit/nft';
+
+// Custom NFT data hook following Base documentation Advanced Usage pattern
+function useNFTData(contractAddress: `0x${string}`, tokenId?: string) {
+  return {
+    // Required properties
+    title: 'Car Culture: CarMania Garage Testing 9',
+    imageUrl: 'https://bzf6clfbkqqztyf5wscbtktorbzpq5syuoq4sdtzlpwpudqkk3nq.arweave.net/DkvhLKFUIZngvbSEGapuiHL4dlijockOeVvs-g4KVts', // Real CarCulture ERC-1155 testing image
+    description: 'CarMania Garage Testing 9 - ERC-1155 testing NFT',
+    contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0', // Manifold Edition contract
+    tokenId: '4169097456', // Testing 9 token ID
+    
+    // Pricing information (USD pricing for CarCulture NFTs)
+    price: {
+      value: '1000000000000000000', // 1 ETH in wei (converted from USD)
+      currency: 'ETH',
+      usdValue: '1.00' // USD equivalent
+    },
+    
+    // Additional properties for complete NFTData
+    creator: {
+      address: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+      name: 'CarCulture',
+      verified: true
+    },
+    
+    collection: {
+      name: 'CarMania Garage',
+      description: 'Automotive NFT collection by CarCulture',
+      imageUrl: 'https://bzf6clfbkqqztyf5wscbtktorbzpq5syuoq4sdtzlpwpudqkk3nq.arweave.net/DkvhLKFUIZngvbSEGapuiHL4dlijockOeVvs-g4KVts',
+      contractAddress: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0',
+      verified: true
+    },
+    
+    // Media properties
+    mimeType: 'image/jpeg', // Required for NFTMedia to detect media type
+    animationUrl: undefined, // No animation for this NFT
+    
+    // Metadata
+    attributes: [
+      { trait_type: 'Brand', value: 'CarCulture' },
+      { trait_type: 'Collection', value: 'CarMania Garage' },
+      { trait_type: 'Status', value: 'Testing' },
+      { trait_type: 'Rarity', value: 'Common' }
+    ],
+    
+    // External links
+    externalUrl: 'https://manifold.xyz/@carculture/id/4169097456',
+    
+    // Supply information
+    totalSupply: '1000',
+    remainingSupply: '999',
+    
+    // Minting properties
+    mintable: true,
+    mintPrice: '1000000000000000000', // 1 ETH in wei
+    
+    // Eligibility for minting (required by NFTMintButton)
+    isEligibleToMint: true
+  };
+}
+
+async function buildMintTransaction() {
+  // Real Manifold ERC-1155 Edition mint transaction for Testing 9
+  return [
+    {
+      to: '0x8ef0772347e0caed0119937175d7ef9636ae1aa0' as `0x${string}`, // Manifold Edition contract
+      data: '0x' as `0x${string}`, // Will be populated by OnchainKit
+      value: BigInt('1000000000000000000') // 1 ETH
+    }
+  ];
+}
+
+function TestNFTMintCard() {
+  const handleStatusChange = (status: LifecycleStatus) => {
+    const { statusName, statusData } = status;
+    console.log('🔄 NFTMintCard Status Change:', statusName, statusData);
+
+    switch (statusName) {
+      case 'success':
+        console.log('✅ NFT minted successfully!', statusData);
+        break;
+      case 'error':
+        console.error('❌ NFT minting failed:', statusData);
+        break;
+      case 'transactionPending':
+        console.log('⏳ Transaction pending...', statusData);
+        break;
+      case 'transactionLegacyExecuted':
+        console.log('🎉 Transaction executed!', statusData);
+        break;
+      default:
+        console.log('ℹ️ Status:', statusName, statusData);
+    }
+  };
+
+  return (
+    <div className="max-w-md mx-auto">
+      <NFTMintCard
+        contractAddress="0x8ef0772347e0caed0119937175d7ef9636ae1aa0"
+        tokenId="4169097456"
+        useNFTData={useNFTData}
+        buildMintTransaction={buildMintTransaction}
+        onStatus={handleStatusChange}
+        onError={(error) => {
+          console.error('🔍 Detailed NFTMintCard Error:', error);
+        }}
+        className="w-full"
+      >
+        <NFTCreator />
+        <NFTMedia square={false} />
+        <NFTCollectionTitle />
+        <NFTQuantitySelector />
+        <NFTAssetCost />
+        <NFTMintButton />
+      </NFTMintCard>
+    </div>
+  );
+}
 
 export default function TestNFTMintCardPage() {
   return (

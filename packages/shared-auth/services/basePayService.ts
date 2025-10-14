@@ -150,6 +150,109 @@ class BasePayServiceImpl implements BasePayService {
     }
   }
 
+  // OFFRAMP METHODS - Sell crypto for fiat
+  async createOffRampSession(config: {
+    partnerUserId: string;
+    redirectUrl: string;
+    addresses: string[];
+    asset?: string;
+    network?: string;
+    amount?: string;
+  }): Promise<{ offRampUrl: string; sessionToken: string }> {
+    try {
+      // Get CDP Project ID from environment
+      const projectId = process.env.CDP_PROJECT_ID || '1cceb0e4-e690-40ac-8f3d-7d1f3da1417a';
+      
+      // Generate session token via API route
+      const sessionResponse = await fetch('/api/cdp/session-token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          partnerUserId: config.partnerUserId,
+          redirectUrl: config.redirectUrl,
+        }),
+      });
+
+      if (!sessionResponse.ok) {
+        throw new Error('Failed to generate session token');
+      }
+
+      const { sessionToken } = await sessionResponse.json();
+      
+      // Construct proper OffRamp URL with session token
+      // Using the correct OffRamp endpoint, not OnRamp
+      const params = new URLSearchParams({
+        partnerUserId: config.partnerUserId,
+        redirectUrl: config.redirectUrl,
+        sessionToken: sessionToken,
+        ...(config.addresses.length > 0 && { addresses: config.addresses.join(',') }),
+        ...(config.asset && { asset: config.asset }),
+        ...(config.network && { network: config.network }),
+        ...(config.amount && { amount: config.amount }),
+      });
+      
+      // Use the correct OffRamp URL format
+      const offRampUrl = `https://pay.coinbase.com/v3/sell/input?${params.toString()}`;
+
+      console.log('🔍 Generated OffRamp URL:', offRampUrl);
+      console.log('🔍 Session Token:', sessionToken);
+
+      return {
+        offRampUrl,
+        sessionToken
+      };
+    } catch (error) {
+      throw new Error(`Failed to create OffRamp session: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  async getOffRampTransactionStatus(partnerUserId: string): Promise<{
+    status: 'initiated' | 'pending' | 'completed' | 'failed';
+    sellAmount?: string;
+    asset?: string;
+    network?: string;
+    toAddress?: string;
+    fromAddress?: string;
+    error?: string;
+  }> {
+    try {
+      // In production, this would call the CDP OffRamp Transaction Status API
+      // For now, return a mock response
+      return {
+        status: 'pending',
+        sellAmount: '0.1',
+        asset: 'ETH',
+        network: 'base',
+        toAddress: '0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6', // BasePay recipient
+        fromAddress: '0x564D30E9c91dF7B0B7B5C65E1d21A4e164905142', // DRIVR CB.ID Wallet
+      };
+    } catch (error) {
+      throw new Error(`Failed to get OffRamp transaction status: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  async getOffRampConfig(): Promise<{
+    countries: string[];
+    currencies: string[];
+    assets: string[];
+    networks: string[];
+  }> {
+    try {
+      // In production, this would call the CDP OffRamp Config API
+      // For now, return mock data
+      return {
+        countries: ['US', 'CA', 'GB', 'DE', 'FR'],
+        currencies: ['USD', 'CAD', 'GBP', 'EUR'],
+        assets: ['ETH', 'BTC', 'USDC', 'USDT'],
+        networks: ['base', 'ethereum', 'polygon'],
+      };
+    } catch (error) {
+      throw new Error(`Failed to get OffRamp config: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
   reset(): void {
     this.isProcessing = false;
     this.lastPayment = undefined;

@@ -1,71 +1,89 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { useAccount, useBalance } from 'wagmi';
-import { base } from 'viem/chains';
+import React, { useEffect, useState } from 'react';
+import { useEvmAddress, useIsSignedIn } from '@coinbase/cdp-hooks';
+import { AuthButton } from '@coinbase/cdp-react';
 
 export default function WalletTest() {
-  const { address, isConnected, chainId } = useAccount();
-  const [balance, setBalance] = useState<string>('0');
-  const [isLoading, setIsLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  const { data: balanceData, refetch } = useBalance({
-    address: address as `0x${string}`,
-    chainId: base.id,
-  });
+  // CDP hooks must be called before any early returns
+  const evmAddressData = useEvmAddress();
+  const isSignedIn = useIsSignedIn();
 
   useEffect(() => {
-    if (balanceData) {
-      setBalance(balanceData.formatted);
-    }
-  }, [balanceData]);
+    setMounted(true);
+  }, []);
 
-  const handleRefresh = async () => {
-    setIsLoading(true);
-    try {
-      await refetch();
-    } catch (error) {
-      console.error('Error fetching balance:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // Move debug useEffect before early return
+  useEffect(() => {
+    console.log('🔍 CDP Wallet Debug Info:');
+    console.log('  - EVM Address Data:', evmAddressData);
+    console.log('  - EVM Address:', evmAddressData?.evmAddress);
+    console.log('  - Is Signed In:', isSignedIn);
+    console.log('  - Expected: address=undefined, isSignedIn=false when not authenticated');
+  }, [evmAddressData, isSignedIn]);
+
+  if (!mounted) return null;
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
-        <h1 className="text-2xl font-bold mb-6">Smart Wallet Test</h1>
-        
-        <div className="space-y-4">
-          <div className="border p-4 rounded-lg">
-            <h2 className="text-lg font-semibold mb-2">Connection Status</h2>
-            <p><strong>Connected:</strong> {isConnected ? 'Yes' : 'No'}</p>
-            <p><strong>Address:</strong> {address || 'Not connected'}</p>
-            <p><strong>Chain ID:</strong> {chainId || 'Not connected'}</p>
-            <p><strong>Expected Chain:</strong> {base.id} (Base)</p>
-          </div>
+      <div className="max-w-md mx-auto">
+        <h1 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+          CDP Embedded Wallet Test
+        </h1>
+        <p className="text-gray-600 mb-6 text-center">
+          Testing CDP Embedded Wallets with email/password authentication.
+        </p>
 
-          <div className="border p-4 rounded-lg">
-            <h2 className="text-lg font-semibold mb-2">Balance Information</h2>
-            <p><strong>ETH Balance:</strong> {balance} ETH</p>
-            <p><strong>Raw Balance:</strong> {balanceData?.value?.toString() || 'N/A'}</p>
-            <p><strong>Decimals:</strong> {balanceData?.decimals || 'N/A'}</p>
-            <p><strong>Symbol:</strong> {balanceData?.symbol || 'N/A'}</p>
-            
-            <button 
-              onClick={handleRefresh}
-              disabled={isLoading}
-              className="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-            >
-              {isLoading ? 'Refreshing...' : 'Refresh Balance'}
-            </button>
+        {/* Test 1: CDP AuthButton */}
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Test 1: CDP AuthButton</h2>
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <AuthButton />
           </div>
+        </div>
 
-          <div className="border p-4 rounded-lg bg-yellow-50">
-            <h2 className="text-lg font-semibold mb-2">Debug Information</h2>
-            <p><strong>User Agent:</strong> {typeof navigator !== 'undefined' ? navigator.userAgent : 'N/A'}</p>
-            <p><strong>Window Location:</strong> {typeof window !== 'undefined' ? window.location.href : 'N/A'}</p>
-            <p><strong>Timestamp:</strong> {new Date().toISOString()}</p>
+        {/* Test 2: Connection Status */}
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Test 2: Connection Status</h2>
+          <div className="bg-white rounded-lg shadow-md p-6">
+            {isSignedIn ? (
+              <div className="text-center p-4">
+                <p className="text-green-600 font-semibold">✅ Wallet Connected!</p>
+                <p className="text-gray-600">Address: {evmAddressData?.evmAddress || 'N/A'}</p>
+              </div>
+            ) : (
+              <div className="text-center p-4">
+                <p className="text-gray-600">Not signed in</p>
+                <p className="text-sm text-gray-500 mt-2">Click AuthButton above to sign in</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Debug Wallet State */}
+        <div className="mt-6 bg-red-50 rounded-lg p-4">
+          <h3 className="text-lg font-semibold text-red-900 mb-2">
+            🔍 Debug CDP Wallet State
+          </h3>
+          <div className="text-red-700 text-sm space-y-1">
+            <p><strong>EVM Address:</strong> {evmAddressData?.evmAddress || 'undefined'}</p>
+            <p><strong>Is Signed In:</strong> {isSignedIn ? 'true' : 'false'}</p>
+            <p><strong>Expected:</strong> address=undefined, isSignedIn=false when not authenticated</p>
+          </div>
+        </div>
+
+        <div className="mt-6 bg-blue-50 rounded-lg p-4">
+          <h3 className="text-lg font-semibold text-blue-900 mb-2">
+            🧪 Test Configuration
+          </h3>
+          <div className="text-blue-700 text-sm space-y-1">
+            <p><strong>Provider:</strong> CDP Embedded Wallets</p>
+            <p><strong>Authentication:</strong> Email/Password</p>
+            <p><strong>Purpose:</strong> Test CDP wallet integration</p>
+            <p><strong>Domain:</strong> Must be configured in CDP Portal</p>
+            <p><strong>Client-Only:</strong> ✅ Mounted check prevents SSR issues</p>
           </div>
         </div>
       </div>

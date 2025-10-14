@@ -36,7 +36,21 @@ body {
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-  font-size: 80%;
+  font-size: 16px; /* Fixed font size instead of 80% */
+}
+
+/* Ensure all text elements have readable font sizes */
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit; /* Use default heading sizes */
+}
+
+p, span, div, button, input, textarea {
+  font-size: inherit; /* Inherit from body */
+}
+
+/* Ensure minimum readable font size */
+* {
+  min-font-size: 14px;
 }
 
 .image-area {
@@ -172,12 +186,12 @@ body {
   pointer-events: none !important;
 }
 
-/* Hide any button overlays that might be added by MiniKit */
+/* Hide specific button overlays that might be added by MiniKit (not OnchainKit buttons) */
 button[class*="minikit"],
 button[class*="navigation"],
 button[class*="overlay"],
 button[class*="next"],
-button[class*="prev"] {
+button[class*="prev"]:not([class*="ock"]) {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
@@ -213,11 +227,10 @@ button[class*="prev"] {
 /* Hide any elements that might contain navigation text */
 /* Removed :contains() pseudo-class rules - not valid CSS */
 
-/* Additional comprehensive rules for any navigation elements */
-[class*="nav"],
+/* Additional comprehensive rules for navigation elements only (not all buttons) */
+[class*="nav"]:not([class*="ock"]),
 [class*="navigation"],
 [class*="overlay"],
-[class*="button"],
 [class*="next"],
 [class*="prev"],
 [class*="arrow"],

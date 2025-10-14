@@ -49,6 +49,10 @@ export interface BasePayService {
   // StableLink enhancements
   createOnRampSession: (config: BasePayConfig) => Promise<{ paymentUrl: string; productId: string }>;
   createSmartWallet: (userInfo?: PayerInfo) => Promise<{ address: string; privateKey?: string }>;
+  // OffRamp methods
+  createOffRampSession: (config: OffRampConfig) => Promise<{ offRampUrl: string; sessionToken: string }>;
+  getOffRampTransactionStatus: (partnerUserId: string) => Promise<OffRampTransactionStatus>;
+  getOffRampConfig: () => Promise<OffRampConfigResponse>;
 }
 
 // Simplified CDP OnRamp types
@@ -58,4 +62,31 @@ export interface CDPOnRampResult {
   paymentUrl: string;
   message: string;
   type: 'cdp_onramp';
+}
+
+// OffRamp types
+export interface OffRampConfig {
+  partnerUserId: string;
+  redirectUrl: string;
+  addresses: string[];
+  asset?: string;
+  network?: string;
+  amount?: string;
+}
+
+export interface OffRampTransactionStatus {
+  status: 'initiated' | 'pending' | 'completed' | 'failed';
+  sellAmount?: string;
+  asset?: string;
+  network?: string;
+  toAddress?: string;
+  fromAddress?: string;
+  error?: string;
+}
+
+export interface OffRampConfigResponse {
+  countries: string[];
+  currencies: string[];
+  assets: string[];
+  networks: string[];
 }

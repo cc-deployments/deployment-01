@@ -1,9 +1,9 @@
 import React from "react";
 import "./theme.css";
+import "./globals.css";
 import "@coinbase/onchainkit/styles.css";
 import type { Metadata, Viewport } from "next";
 import { Inter } from 'next/font/google';
-import "./globals.css";
 import { Providers } from "./providers";
 import EmbedHandler from "./components/EmbedHandler";
 import ShareHandler from "./components/ShareHandler";
