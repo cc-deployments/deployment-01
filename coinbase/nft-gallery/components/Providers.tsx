@@ -3,18 +3,24 @@
 import React from 'react';
 import { WagmiProvider, createConfig, http } from 'wagmi';
 import { base, mainnet } from 'wagmi/chains';
+import { coinbaseWallet } from 'wagmi/connectors';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { useState } from 'react';
 
-// Create wagmi config
+// Create wagmi config with proper connectors
 const config = createConfig({
   chains: [mainnet, base],
+  connectors: [
+    coinbaseWallet({
+      appName: 'carculture.eth',
+    }),
+  ],
+  ssr: true,
   transports: {
     [mainnet.id]: http(),
     [base.id]: http(),
   },
-  ssr: true,
 });
 
 export default function Providers({ children }: { children: React.ReactNode }) {
@@ -25,8 +31,13 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
-          apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+          apiKey="EkLP8filqrKyDZrEyPYc4cqgEsn7gDrk"
           chain={base}
+          config={{
+            wallet: {
+              display: 'modal',
+            }
+          }}
         >
           {children}
         </OnchainKitProvider>
