@@ -5,23 +5,7 @@ import { useState, useEffect } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { CDPHooksProvider } from '@coinbase/cdp-hooks';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { WagmiProvider, createConfig, http } from 'wagmi';
 import { base } from 'viem/chains';
-import { coinbaseWallet } from 'wagmi/connectors';
-
-// Create wagmi config outside component (Base documentation pattern)
-const wagmiConfig = createConfig({
-  chains: [base],
-  connectors: [
-    coinbaseWallet({
-      appName: 'CarCulture', // Changed from 'carculture.eth' to app name
-    }),
-  ],
-  ssr: true,
-  transports: {
-    [base.id]: http(),
-  },
-});
 
 export function Providers(props: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false);
@@ -38,34 +22,32 @@ export function Providers(props: { children: ReactNode }) {
   }
 
   return (
-    <WagmiProvider config={wagmiConfig}>
-      <CDPHooksProvider
+    <CDPHooksProvider
+      config={{
+        projectId: process.env.NEXT_PUBLIC_CDP_PROJECT_ID || '1cceb0e4-e690-40ac-8f3d-7d1f3da1417a',
+        ethereum: { 
+          createOnLogin: 'eoa' 
+        },
+        solana: { 
+          createOnLogin: false 
+        }
+      }}
+    >
+      <OnchainKitProvider
+        apiKey="EkLP8filqrKyDZrEyPYc4cqgEsn7gDrk"
+        projectId={process.env.NEXT_PUBLIC_CDP_PROJECT_ID || '1cceb0e4-e690-40ac-8f3d-7d1f3da1417a'}
+        chain={base}
         config={{
-          projectId: process.env.NEXT_PUBLIC_CDP_PROJECT_ID || '1cceb0e4-e690-40ac-8f3d-7d1f3da1417a',
-          ethereum: { 
-            createOnLogin: 'eoa' 
-          },
-          solana: { 
-            createOnLogin: false 
+          wallet: {
+            display: 'modal',
           }
         }}
+        miniKit={{
+          enabled: true
+        }}
       >
-        <OnchainKitProvider
-          apiKey="EkLP8filqrKyDZrEyPYc4cqgEsn7gDrk"
-          projectId={process.env.NEXT_PUBLIC_CDP_PROJECT_ID || '1cceb0e4-e690-40ac-8f3d-7d1f3da1417a'}
-          chain={base}
-          config={{
-            wallet: {
-              display: 'modal',
-            }
-          }}
-          miniKit={{
-            enabled: true
-          }}
-        >
-          {props.children}
-        </OnchainKitProvider>
-      </CDPHooksProvider>
-    </WagmiProvider>
+        {props.children}
+      </OnchainKitProvider>
+    </CDPHooksProvider>
   );
 }
