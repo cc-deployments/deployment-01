@@ -21,7 +21,7 @@ function OnchainProviders({ children }: Props) {
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider 
-          apiKey={NEXT_PUBLIC_CDP_API_KEY} 
+          apiKey="EkLP8filqrKyDZrEyPYc4cqgEsn7gDrk" 
           chain={base}
         >
           <RainbowKitProvider modalSize="compact">
