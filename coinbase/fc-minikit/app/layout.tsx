@@ -1,4 +1,5 @@
 import React from "react";
+import type { ReactNode } from "react";
 import "./theme.css";
 import "./globals.css";
 import "@coinbase/onchainkit/styles.css";
@@ -51,7 +52,7 @@ export const viewport: Viewport = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <html lang="en">
