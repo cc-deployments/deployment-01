@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { useState, useEffect } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { CDPHooksProvider } from '@coinbase/cdp-hooks';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
@@ -8,12 +9,12 @@ import { WagmiProvider, createConfig, http } from 'wagmi';
 import { base } from 'viem/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
 
-// Create wagmi config with proper connectors
+// Create wagmi config outside component (Base documentation pattern)
 const wagmiConfig = createConfig({
   chains: [base],
   connectors: [
     coinbaseWallet({
-      appName: 'carculture.eth',
+      appName: 'CarCulture', // Changed from 'carculture.eth' to app name
     }),
   ],
   ssr: true,
@@ -23,8 +24,18 @@ const wagmiConfig = createConfig({
 });
 
 export function Providers(props: { children: ReactNode }) {
-  // Call ready when the app loads in Farcaster
-  sdk.actions.ready();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    // Call ready when the app loads in Farcaster
+    sdk.actions.ready();
+  }, []);
+
+  // Don't render providers during SSR to avoid hydration issues
+  if (!mounted) {
+    return <>{props.children}</>;
+  }
 
   return (
     <WagmiProvider config={wagmiConfig}>

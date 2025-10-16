@@ -13,7 +13,7 @@ const config = createConfig({
   chains: [mainnet, base],
   connectors: [
     coinbaseWallet({
-      appName: 'carculture.eth',
+      appName: 'CarCulture', // Changed from 'carculture.eth' to app name
     }),
   ],
   ssr: true,
