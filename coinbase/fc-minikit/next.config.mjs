@@ -70,7 +70,7 @@ const nextConfig = {
   // Disable static optimization entirely
   staticPageGenerationTimeout: 0,
   experimental: {
-    ...nextConfig.experimental,
+    // externalDir: true, // Disabled to prevent Next.js from scanning entire monorepo
     // Disable static optimization
     staticGenerationRetryCount: 0,
   },
