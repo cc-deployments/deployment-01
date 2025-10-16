@@ -9,7 +9,8 @@ const nextConfig = {
   // Disable static generation completely to prevent React Error #31
   // output: 'export', // Removed - API routes can't be exported
   // trailingSlash: true, // Removed - not needed without export
-  // Allow imports from outside the project directory
+  
+  // Force dynamic rendering to prevent SSR issues with OnchainKit
   experimental: {
     // externalDir: true, // Disabled to prevent Next.js from scanning entire monorepo
   },
@@ -62,8 +63,17 @@ const nextConfig = {
     ],
   },
 
-
-
+  // Force dynamic rendering for all pages to prevent SSR issues
+  generateStaticParams: false,
+  dynamicParams: true,
+  
+  // Disable static optimization entirely
+  staticPageGenerationTimeout: 0,
+  experimental: {
+    ...nextConfig.experimental,
+    // Disable static optimization
+    staticGenerationRetryCount: 0,
+  },
 };
 
 export default nextConfig;
