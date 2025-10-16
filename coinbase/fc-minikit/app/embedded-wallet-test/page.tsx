@@ -1,19 +1,28 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAccount, useConnect } from 'wagmi';
 import { base } from 'viem/chains';
 import { useBaseAccount } from '../components/BaseAccountProvider';
 
 export default function EmbeddedWalletTest() {
+  const [mounted, setMounted] = useState(false);
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // CDP hooks - safe after mounted check
   const { address: baseAccountAddress, isConnected: baseAccountConnected, connect: connectBaseAccount } = useBaseAccount();
   const { address, isConnected } = useAccount();
   const { connect } = useConnect();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Don't render anything during SSR
+  if (!mounted) return null;
 
   const handleCreateWallet = async () => {
     if (!email) {

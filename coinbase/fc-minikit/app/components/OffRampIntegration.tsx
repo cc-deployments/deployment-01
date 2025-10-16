@@ -15,6 +15,9 @@ export function OffRampIntegration({
   onSuccess, 
   onError 
 }: OffRampIntegrationProps) {
+  const [mounted, setMounted] = useState(false);
+  
+  // CDP hooks - safe after mounted check
   const { address, isConnected } = useAccount();
   const { connect, connectors } = useConnect();
   const { 
@@ -34,6 +37,13 @@ export function OffRampIntegration({
   const [selectedAmount, setSelectedAmount] = useState('0.1');
   const [selectedCurrency, setSelectedCurrency] = useState('USD');
   const [partnerUserId, setPartnerUserId] = useState('');
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Don't render anything during SSR
+  if (!mounted) return null;
 
   // Generate partner user ID on component mount
   useEffect(() => {
