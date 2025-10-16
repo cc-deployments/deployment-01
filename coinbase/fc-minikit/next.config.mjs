@@ -13,6 +13,8 @@ const nextConfig = {
   // Force dynamic rendering to prevent SSR issues with OnchainKit
   experimental: {
     // externalDir: true, // Disabled to prevent Next.js from scanning entire monorepo
+    // Disable static optimization
+    staticGenerationRetryCount: 0,
   },
   
   // Configure webpack to resolve TypeScript paths and improve module resolution
@@ -65,13 +67,6 @@ const nextConfig = {
 
   // Force dynamic rendering for all pages to prevent SSR issues
   // generateStaticParams and dynamicParams are page-level exports, not config options
-  
-  // Disable static optimization entirely
-  experimental: {
-    // externalDir: true, // Disabled to prevent Next.js from scanning entire monorepo
-    // Disable static optimization
-    staticGenerationRetryCount: 0,
-  },
 };
 
 export default nextConfig;

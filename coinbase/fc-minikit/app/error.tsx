@@ -1,5 +1,9 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+
+export const dynamic = 'force-dynamic';
+
 export default function Error({
   error,
   reset,
@@ -7,6 +11,15 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Don't render anything during SSR
+  if (!mounted) return null;
+
   return (
     <div>
       <h1>Error</h1>
