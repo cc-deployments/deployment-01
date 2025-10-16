@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSharedAuth } from '@cculture/shared-auth';
 import { StableLinkPayment } from '@cculture/shared-auth';
 import { useBaseAccount } from './BaseAccountProvider';
@@ -13,9 +13,19 @@ function SharedAuthWrapper() {
 }
 
 function EmbeddedWalletTestContent({ sharedAuthAddress, sharedAuthConnected }: { sharedAuthAddress: string | null, sharedAuthConnected: boolean }) {
+  const [mounted, setMounted] = useState(false);
+  
+  // CDP hooks - safe after mounted check
   const { address: baseAccountAddress, isConnected: baseAccountConnected, connect: connectBaseAccount, disconnect: disconnectBaseAccount } = useBaseAccount();
   const [showPayment, setShowPayment] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Don't render anything during SSR
+  if (!mounted) return null;
 
   const exampleProduct = {
     productId: 'summertime-blues-1',

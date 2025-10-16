@@ -1,10 +1,20 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useBaseAccount } from '../components/BaseAccountProvider';
 
 export default function EmbeddedWalletTest() {
+  const [mounted, setMounted] = useState(false);
+  
+  // CDP hooks - safe after mounted check
   const { isConnected, address, connect, disconnect } = useBaseAccount();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Don't render anything during SSR
+  if (!mounted) return null;
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">

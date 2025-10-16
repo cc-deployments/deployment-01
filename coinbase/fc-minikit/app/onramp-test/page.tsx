@@ -1,12 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FundButton } from '@coinbase/onchainkit/fund'; // OnchainKit's built-in OnRamp
 import { useBaseAccount } from '../components/BaseAccountProvider';
 
 export default function OnRampTest() {
+  const [mounted, setMounted] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
+  
+  // CDP hooks - safe after mounted check
   const { address: evmAddress, isConnected, connect } = useBaseAccount();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Don't render anything during SSR
+  if (!mounted) return null;
 
   const handleConnect = async () => {
     if (!isConnected) {

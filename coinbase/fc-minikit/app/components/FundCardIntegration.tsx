@@ -37,11 +37,16 @@ export function FundCardIntegration({
   onPaymentError,
   className = ''
 }: FundCardIntegrationProps) {
+  const [mounted, setMounted] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [userAddress, setUserAddress] = useState<string>('');
   
-  // Use existing Base Account hook
+  // CDP hooks - safe after mounted check
   const { address, isConnected: baseConnected, connect } = useBaseAccount();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (baseConnected && address) {
@@ -52,6 +57,9 @@ export function FundCardIntegration({
       setUserAddress('');
     }
   }, [baseConnected, address]);
+
+  // Don't render anything during SSR
+  if (!mounted) return null;
 
   const handleConnect = async () => {
     try {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FundButton } from '@coinbase/onchainkit/fund'; // OnchainKit's built-in OnRamp
 import { useBaseAccount } from './BaseAccountProvider';
 
@@ -39,10 +39,18 @@ export function CDPOnRampIntegration({
   onPaymentError,
   className
 }: CDPOnRampProps) {
+  const [mounted, setMounted] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
   
-  // Use existing Base Account hook
+  // CDP hooks - safe after mounted check
   const { address: userAddress, isConnected, connect } = useBaseAccount();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Don't render anything during SSR
+  if (!mounted) return null;
 
   const handlePaymentSuccess = () => {
     setPaymentStatus('success');
