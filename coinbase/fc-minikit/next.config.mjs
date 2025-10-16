@@ -64,11 +64,9 @@ const nextConfig = {
   },
 
   // Force dynamic rendering for all pages to prevent SSR issues
-  generateStaticParams: false,
-  dynamicParams: true,
+  // generateStaticParams and dynamicParams are page-level exports, not config options
   
   // Disable static optimization entirely
-  staticPageGenerationTimeout: 0,
   experimental: {
     // externalDir: true, // Disabled to prevent Next.js from scanning entire monorepo
     // Disable static optimization
