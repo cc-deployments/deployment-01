@@ -7,7 +7,7 @@ import { AuthButton } from '@coinbase/cdp-react';
 export default function WalletTest() {
   const [mounted, setMounted] = useState(false);
 
-  // CDP hooks must be called before any early returns
+  // CDP hooks - these will be safe after mounted check
   const evmAddressData = useEvmAddress();
   const isSignedIn = useIsSignedIn();
 
@@ -15,15 +15,18 @@ export default function WalletTest() {
     setMounted(true);
   }, []);
 
-  // Move debug useEffect before early return
+  // Debug useEffect - only runs after mounted
   useEffect(() => {
-    console.log('🔍 CDP Wallet Debug Info:');
-    console.log('  - EVM Address Data:', evmAddressData);
-    console.log('  - EVM Address:', evmAddressData?.evmAddress);
-    console.log('  - Is Signed In:', isSignedIn);
-    console.log('  - Expected: address=undefined, isSignedIn=false when not authenticated');
-  }, [evmAddressData, isSignedIn]);
+    if (mounted) {
+      console.log('🔍 CDP Wallet Debug Info:');
+      console.log('  - EVM Address Data:', evmAddressData);
+      console.log('  - EVM Address:', evmAddressData?.evmAddress);
+      console.log('  - Is Signed In:', isSignedIn);
+      console.log('  - Expected: address=undefined, isSignedIn=false when not authenticated');
+    }
+  }, [mounted, evmAddressData, isSignedIn]);
 
+  // Don't render anything during SSR
   if (!mounted) return null;
 
   return (
