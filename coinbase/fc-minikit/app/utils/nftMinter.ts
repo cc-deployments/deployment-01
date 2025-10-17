@@ -20,7 +20,7 @@ export async function mintNFTToWallet(
     }
 
     // Get the actual Base Smart Wallet address from the SDK
-    let smartWalletAddress = null;
+    let smartWalletAddress: string | null = null;
     if (sdk && sdk.getProvider) {
       try {
         const provider = sdk.getProvider();

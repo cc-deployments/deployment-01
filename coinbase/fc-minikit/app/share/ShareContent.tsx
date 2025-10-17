@@ -17,9 +17,9 @@ export default function ShareContent() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const castHash = searchParams.get("castHash");
-    const castFid = searchParams.get("castFid");
-    const viewerFid = searchParams.get("viewerFid");
+    const castHash = searchParams?.get("castHash");
+    const castFid = searchParams?.get("castFid");
+    const viewerFid = searchParams?.get("viewerFid");
     if (castHash && castFid) {
       setSharedCast({ castHash, castFid, viewerFid: viewerFid || undefined });
     }
