@@ -168,7 +168,7 @@ function NFTGalleryDemoContent() {
 
   // Handle URL parameters to set the correct NFT
   useEffect(() => {
-    const nftId = searchParams.get('nft');
+    const nftId = searchParams?.get('nft');
     if (nftId) {
       const nftIndex = mockNFTs.findIndex(nft => nft.id === nftId);
       if (nftIndex !== -1) {

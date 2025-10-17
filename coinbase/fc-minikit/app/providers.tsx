@@ -22,8 +22,8 @@ export function Providers(props: { children: ReactNode }) {
 
   return (
     <OnchainKitProvider
-      apiKey="EkLP8filqrKyDZrEyPYc4cqgEsn7gDrk"
-      projectId="1cceb0e4-e690-40ac-8f3d-7d1f3da1417a"
+      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+      projectId={process.env.NEXT_PUBLIC_CDP_PROJECT_ID}
       chain={base}
       miniKit={{
         enabled: true

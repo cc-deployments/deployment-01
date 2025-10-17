@@ -88,7 +88,7 @@ export function EIP5792BatchTransaction({
       // Monitor transaction status
       const monitorTransaction = async () => {
         try {
-          const status = await window.ethereum.request({
+          const status = await window.ethereum?.request({
             method: 'wallet_getCallsStatus',
             params: [result.sessionId]
           });
