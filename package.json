@@ -23,7 +23,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.3",
-    "@coinbase/onchaintestkit": "^1.1.1",
     "@playwright/test": "^1.55.0",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^14.2.0",
