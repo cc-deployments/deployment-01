@@ -7,3 +7,4 @@ CarCulture's Farcaster Mini App for car gallery and NFT marketplace.
 - Proper MiniKit configuration  
 - SSR-safe mounted state pattern
 
+

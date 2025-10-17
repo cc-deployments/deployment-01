@@ -6,7 +6,10 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Minimal config - let Next.js handle everything normally
+  // Disable static optimization completely
+  experimental: {
+    staticGenerationRetryCount: 0,
+  },
   
   // Configure webpack to resolve TypeScript paths and improve module resolution
   webpack: (config) => {
@@ -55,9 +58,6 @@ const nextConfig = {
       },
     ],
   },
-
-  // Force dynamic rendering for all pages to prevent SSR issues
-  // generateStaticParams and dynamicParams are page-level exports, not config options
 };
 
 export default nextConfig;
