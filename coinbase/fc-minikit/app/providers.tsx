@@ -4,7 +4,6 @@ import type { ReactNode } from 'react';
 import { useState, useEffect } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { IfInMiniApp } from '@coinbase/onchainkit/minikit';
 import { base } from 'viem/chains';
 
 export function Providers(props: { children: ReactNode }) {
