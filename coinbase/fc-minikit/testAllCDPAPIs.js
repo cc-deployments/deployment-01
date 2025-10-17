@@ -36,10 +36,10 @@ const apiKeySecret = "WLEaZXvNkywJz61zE5pjNldado6hb5F0UEHtSeaI4dVZ2kFYiNYxiPURzW
       }
     },
     {
-      name: "Onramp Countries & Currencies API",
+      name: "Onramp Buy Config API (CORRECTED)",
       method: "GET",
-      path: "/onramp/v1/countries",
-      description: "Get supported countries and currencies"
+      path: "/onramp/v1/buy/config",
+      description: "Get supported countries and currencies (corrected endpoint)"
     },
     {
       name: "Onramp Buy Options API",
@@ -75,21 +75,21 @@ const apiKeySecret = "WLEaZXvNkywJz61zE5pjNldado6hb5F0UEHtSeaI4dVZ2kFYiNYxiPURzW
       }
     },
     {
-      name: "Offramp Session Token API",
+      name: "Offramp Session Token API (CORRECTED)",
       method: "POST", 
-      path: "/offramp/v1/token",
-      description: "Generate Offramp session token",
+      path: "/onramp/v1/token",
+      description: "Generate Offramp session token (same endpoint as Onramp)",
       body: {
-        sourceWalletAddress: "0x4315d134aCd3221a02dD380ADE3aF39Ce219037c",
-        amount: "0.1",
-        currency: "ETH"
+        addresses: [{"address": "0x4315d134aCd3221a02dD380ADE3aF39Ce219037c", "blockchains": ["ethereum", "base"]}],
+        clientIp: "127.0.0.1",
+        assets: ["ETH", "USDC"]
       }
     },
     {
-      name: "Offramp Quotes API",
+      name: "Offramp Quotes API (CORRECTED)",
       method: "POST",
-      path: "/offramp/v1/quotes", 
-      description: "Generate Offramp quotes",
+      path: "/onramp/v1/sell/quote", 
+      description: "Generate Offramp quotes (corrected endpoint)",
       body: {
         sourceCurrency: "ETH",
         destinationCurrency: "USD",
