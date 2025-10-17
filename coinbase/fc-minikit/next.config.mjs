@@ -6,7 +6,13 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Minimal config - let Next.js handle everything normally
+  // Disable static generation entirely to prevent React error #31
+  experimental: {
+    staticGenerationRetryCount: 0,
+  },
+  
+  // Force all pages to be dynamic
+  generateStaticParams: false,
   
   // Configure webpack to resolve TypeScript paths and improve module resolution
   webpack: (config) => {
