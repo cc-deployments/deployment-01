@@ -40,7 +40,8 @@
       "react-dom": [
         "node_modules/@types/react-dom"
       ]
-    }
+    },
+    "strictNullChecks": true
   },
   "include": [
     "**/*.ts",

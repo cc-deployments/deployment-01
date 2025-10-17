@@ -6,11 +6,6 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Disable static optimization completely
-  experimental: {
-    staticGenerationRetryCount: 0,
-  },
-  
   // Configure webpack to resolve TypeScript paths and improve module resolution
   webpack: (config) => {
     config.resolve.alias = {
