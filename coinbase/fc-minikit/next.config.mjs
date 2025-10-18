@@ -11,12 +11,6 @@ const nextConfig = {
     staticGenerationRetryCount: 0,
   },
   
-  // Force dynamic rendering for all pages
-  trailingSlash: false,
-  
-  // Disable static generation entirely
-  staticPageGenerationTimeout: 0,
-  
   // Configure webpack to resolve TypeScript paths and improve module resolution
   webpack: (config) => {
     config.resolve.alias = {
