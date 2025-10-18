@@ -1,8 +1,14 @@
 const { generateJwt } = require("@coinbase/cdp-sdk/auth");
 
 const testCorrectedOfframp = async () => {
-  const apiKeyId = "fb4934c8-ff4e-482c-b015-188c72a0223a";
-  const apiKeySecret = "WLEaZXvNkywJz61zE5pjNldado6hb5F0UEHtSeaI4dVZ2kFYiNYxiPURzWwD64hH9pUGgPF4tEdXP43LRoPwTw==";
+  const apiKeyId = process.env.CDP_API_KEY_ID || "fb4934c8-ff4e-482c-b015-188c72a0223a";
+  const apiKeySecret = process.env.CDP_API_KEY_SECRET;
+  
+  if (!apiKeySecret) {
+    console.error("❌ CDP_API_KEY_SECRET environment variable is required");
+    console.log("Please set CDP_API_KEY_SECRET in your environment or .env file");
+    return;
+  }
   
   console.log("🧪 Testing CORRECTED Offramp Endpoints\n");
   console.log("=" * 60);
@@ -103,4 +109,5 @@ const testCorrectedOfframp = async () => {
 };
 
 testCorrectedOfframp();
+
 
