@@ -14,9 +14,8 @@ const nextConfig = {
   // Use standalone output to completely disable static generation
   output: 'standalone',
   
-  // Force dynamic rendering for all pages
-  generateStaticParams: false,
-  dynamicParams: true,
+  // Disable static generation entirely
+  staticPageGenerationTimeout: 0,
   
   // Configure webpack to resolve TypeScript paths and improve module resolution
   webpack: (config) => {
