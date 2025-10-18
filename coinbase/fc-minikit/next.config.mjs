@@ -14,9 +14,6 @@ const nextConfig = {
   // Use standalone output to completely disable static generation
   output: 'standalone',
   
-  // Force dynamic rendering for all pages
-  trailingSlash: false,
-  
   // Configure webpack to resolve TypeScript paths and improve module resolution
   webpack: (config) => {
     config.resolve.alias = {
