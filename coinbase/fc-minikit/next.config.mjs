@@ -11,8 +11,8 @@ const nextConfig = {
     staticGenerationRetryCount: 0,
   },
   
-  // Use standalone output to completely disable static generation
-  output: 'standalone',
+  // Force dynamic rendering for all pages
+  trailingSlash: false,
   
   // Disable static generation entirely
   staticPageGenerationTimeout: 0,
