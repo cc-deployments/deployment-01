@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useMiniKit } from '@coinbase/onchainkit/minikit';
 import { NFTMintCard } from '@coinbase/onchainkit/nft';
 import { NFTMedia } from '@coinbase/onchainkit/nft/view';
 import { NFTCreator, NFTCollectionTitle, NFTQuantitySelector, NFTAssetCost, NFTMintButton } from '@coinbase/onchainkit/nft/mint';
@@ -136,6 +137,12 @@ function createUseNFTData(nft: any) {
 }
 
 export default function NFTGalleryGrid() {
+  const { setFrameReady, isFrameReady } = useMiniKit();
+
+  useEffect(() => {
+    if (!isFrameReady) setFrameReady();
+  }, [isFrameReady, setFrameReady]);
+
   // Status handler following Base's Advanced Usage pattern
   const handleStatusChange = (status: LifecycleStatus) => {
     const { statusName, statusData } = status;

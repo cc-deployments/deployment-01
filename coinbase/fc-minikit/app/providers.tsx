@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react';
 import { useState, useEffect } from 'react';
 import { sdk } from '@farcaster/miniapp-sdk';
-import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
 import { base } from 'viem/chains';
 
 export function Providers(props: { children: ReactNode }) {
@@ -21,15 +21,11 @@ export function Providers(props: { children: ReactNode }) {
   }
 
   return (
-    <OnchainKitProvider
-      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
-      projectId={process.env.NEXT_PUBLIC_CDP_PROJECT_ID}
+    <MiniKitProvider
+      apiKey={process.env.NEXT_PUBLIC_CDP_CLIENT_API_KEY}
       chain={base}
-      miniKit={{
-        enabled: true
-      }}
     >
       {props.children}
-    </OnchainKitProvider>
+    </MiniKitProvider>
   );
 }
