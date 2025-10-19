@@ -6,14 +6,14 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Disable static generation completely to fix React error #31
+  // Disable static generation completely to fix React error #31 and ENOENT
   experimental: {
     staticGenerationRetryCount: 0,
   },
   
-  // Force all pages to be dynamic (no static generation)
-  generateStaticParams: false,
-  dynamicParams: true,
+  // Disable static optimization
+  trailingSlash: false,
+  skipTrailingSlashRedirect: true,
   
   // Configure webpack to resolve TypeScript paths and improve module resolution
   webpack: (config) => {
