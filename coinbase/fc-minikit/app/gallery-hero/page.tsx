@@ -198,7 +198,7 @@ export default function GalleryHero() {
               console.log('🔓 UNLOCK button clicked');
               
               // Primary: Use hardcoded URL for reliability
-              const mintUrl = 'https://manifold.xyz/@carculture/id/4149825776';
+              const mintUrl = 'https://manifold.xyz/@carculture/id/4149833968';
               console.log('🚀 Opening Manifold URL:', mintUrl);
               
               try {
