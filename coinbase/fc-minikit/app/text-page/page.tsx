@@ -198,27 +198,23 @@ export default function TextPage() {
           e.preventDefault();
           e.stopPropagation();
           console.log('🔓 UNLOCK button clicked');
-          
+
+          // Primary: Use hardcoded URL for reliability
+          const mintUrl = 'https://manifold.xyz/@carculture/id/4149833968';
+          console.log('🚀 Opening Manifold URL:', mintUrl);
+
           try {
-            console.log('🔄 Calling /api/latest-mint API...');
-            const response = await fetch('/api/latest-mint');
-            
-            if (response.ok) {
-              const result = await response.json();
-              if (result.success && result.data.mint_url) {
-                console.log('✅ API success, redirecting to:', result.data.mint_url);
-                window.location.href = result.data.mint_url;
-              } else {
-                console.log('⚠️ API success but no mint_url, using StableLink gallery');
-                window.location.href = 'https://carmania-test.carculture.com/nft-gallery-grid';
-              }
-            } else {
-              console.log('❌ API not ready yet (status:', response.status, '), using StableLink gallery');
-              window.location.href = 'https://carmania-test.carculture.com/nft-gallery-grid';
+            // Try to open in new window first (desktop)
+            const mintWindow = window.open(mintUrl, '_blank', 'width=800,height=700,scrollbars=yes,resizable=yes');
+
+            if (!mintWindow) {
+              // Fallback: redirect current window (mobile-friendly)
+              console.log('📱 Popup blocked, redirecting current window (mobile-friendly)');
+              window.location.href = mintUrl;
             }
           } catch (error) {
-            console.log('❌ API error, using StableLink gallery:', error);
-            window.location.href = 'https://carmania-test.carculture.com/nft-gallery-grid';
+            console.log('❌ Error opening URL, using fallback:', error);
+            window.location.href = mintUrl;
           }
         }}
       />

@@ -31,6 +31,24 @@ export function Providers(props: { children: ReactNode }) {
         <OnchainKitProvider
           apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
           chain={base}
+          config={{
+            appearance: {
+              name: 'CarCulture: CarMania Garage',
+              logo: 'https://carculture.com/logo.png',
+              mode: 'auto',
+              theme: 'default',
+            },
+            wallet: {
+              display: 'modal',
+              termsUrl: 'https://carculture.com/terms',
+              privacyUrl: 'https://carculture.com/privacy',
+              supportedWallets: {
+                rabby: true,
+                trust: true,
+                frame: true,
+              },
+            },
+          }}
           miniKit={{
             enabled: true,
             autoConnect: true,

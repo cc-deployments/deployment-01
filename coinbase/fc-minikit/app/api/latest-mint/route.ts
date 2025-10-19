@@ -24,7 +24,7 @@ export async function GET() {
         const selectedMint: MintData = {
           publication_date: '2025-09-10',
           title: 'Updated Mint',
-          mint_url: 'https://manifold.xyz/@carculture/id/4149836016',
+          mint_url: 'https://manifold.xyz/@carculture/id/4149833968',
           status: 'published',
           image_url: '',
           description: 'Updated mint URL',

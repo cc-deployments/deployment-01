@@ -110,8 +110,9 @@ export function EnhancedStableLinkCommerce({
       setIsLoading(true);
       setPaymentStatus('processing');
 
-      if (!window.ethereum) {
-        throw new Error('No wallet detected. Please install a compatible wallet.');
+      // Check for wallet using OnchainKit's proper detection
+      if (typeof window === 'undefined' || !window.ethereum) {
+        throw new Error('Please install a compatible wallet (Coinbase Wallet, MetaMask, etc.) to purchase NFTs.');
       }
 
       // Check if EIP5792 is supported
