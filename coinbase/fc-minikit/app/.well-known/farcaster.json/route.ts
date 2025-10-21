@@ -16,13 +16,12 @@ export async function GET() {
       payload: "eyJkb21haW4iOiJjYXJtYW5pYS5jYXJjdWx0dXJlLmNvbSJ9",
       signature: "MHgxODMxOTM2MjI2OWM3MTM5NmYyYjFmZDYwMDM1YTc3ZDM2NDNjMWY4ZmM0YWM4YmQ1NzYzMzhkYmUyZWI1MDA4MzAxODk1N2U3ZjJmMGMwZWViOWVhZjcwZGUwYjkwZDQzMDczMTE3MDk1OTkyMjllZmI2NTNhNzhjZDE5YjhiNDFi"
     },
-    frame: {
+    miniapp: {
       version: "1",
-      name: "CarCulture: CarMania Garage",
+      name: "CarMania Garage",
       subtitle: "Drive the Past. Own the Moment",
-      description: "Collect iconic cars, discover automotive stories, and mint daily digital classics. CarCulture: CarMania Garage is your daily drive into automotive history.",
+      description: "Collect iconic cars, discover automotive stories, and mint daily digital classics. Your daily drive into automotive history.",
       iconUrl: "https://carmania.carculture.com/favicon.png",
-      imageUrl: "https://carmania.carculture.com/carmania-share.png",
       splashImageUrl: "https://carmania.carculture.com/splashImageUrl.png",
       splashBackgroundColor: "#a32428",
       homeUrl: "https://carmania.carculture.com/gallery-hero",
@@ -30,10 +29,9 @@ export async function GET() {
       primaryCategory: "entertainment",
       heroImageUrl: "https://carmania.carculture.com/hero-v2.png",
       tagline: "Daily Drops. Legendary Rides.",
-      ogTitle: "CarCulture: CarMania Garage",
+      ogTitle: "CarMania Garage",
       ogDescription: "Car Culture's CarMania Garage: iconic cars, stories, and featured 'car of the day' collectibles",
       ogImageUrl: "https://carmania.carculture.com/carmania-share.png",
-      castShareUrl: "https://carmania.carculture.com/gallery-hero",
       screenshotUrls: [
         "https://carmania.carculture.com/carmania-gallery-hero.png",
         "https://carmania.carculture.com/carmania-gallery-hero-2.png",
@@ -46,7 +44,6 @@ export async function GET() {
         "social",
         "entertainment"
       ],
-      previewImageUrl: "https://carmania.carculture.com/hero-v2.png",
       noindex: false
     }
   };
