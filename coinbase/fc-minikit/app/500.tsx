@@ -1,5 +1,3 @@
-'use client';
-
 export default function Custom500() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

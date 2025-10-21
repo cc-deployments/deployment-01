@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "next dev -H 0.0.0.0",
     "dev:https": "next dev --experimental-https",
-    "prebuild": "mkdir -p .next/server/pages && echo '<!DOCTYPE html><html><head><title>500 Error</title></head><body><h1>500 - Internal Server Error</h1></body></html>' > .next/server/pages/500.html",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
