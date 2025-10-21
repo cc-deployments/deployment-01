@@ -42,6 +42,6 @@ export async function buildManifoldMintTransaction(
   return {
     to: contractAddress,
     data,
-    value: 0n, // Manifold contracts typically don't require ETH payment
+    value: BigInt(0), // Manifold contracts typically don't require ETH payment
   };
 }
