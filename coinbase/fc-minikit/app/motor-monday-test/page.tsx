@@ -12,6 +12,7 @@ import {
 } from '@coinbase/onchainkit/nft/mint';
 import { buildManifoldMintTransaction } from '../utils/manifoldMintTransaction';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { coinbaseWallet } from 'wagmi/connectors';
 
 export default function MotorMondayTest() {
   const [contractAddress, setContractAddress] = useState<string>('');
@@ -83,7 +84,7 @@ export default function MotorMondayTest() {
           <div className="flex items-center justify-center">
             {!isConnected ? (
               <button
-                onClick={() => connect()}
+                onClick={() => connect({ connector: coinbaseWallet({ appName: 'CarCulture: CarMania Garage' }) })}
                 className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
               >
                 Connect Wallet
