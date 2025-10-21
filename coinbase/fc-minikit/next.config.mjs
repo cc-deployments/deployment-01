@@ -9,7 +9,11 @@ const nextConfig = {
   // Disable static generation completely to fix React error #31 and ENOENT
   experimental: {
     staticGenerationRetryCount: 0,
+    esmExternals: false,
   },
+  
+  // Force all pages to be dynamic
+  generateStaticParams: false,
   
   // Disable static optimization
   trailingSlash: false,
