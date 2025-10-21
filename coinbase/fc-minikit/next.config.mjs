@@ -33,6 +33,12 @@ const nextConfig = {
       tls: false,
     };
     
+    // Ignore MetaMask SDK async-storage dependency
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@react-native-async-storage/async-storage': false,
+    };
+    
     return config;
   },
   
