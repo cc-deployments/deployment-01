@@ -39,6 +39,12 @@ const nextConfig = {
       '@react-native-async-storage/async-storage': false,
     };
     
+    // Prevent static generation issues
+    config.optimization = {
+      ...config.optimization,
+      splitChunks: false,
+    };
+    
     return config;
   },
   
