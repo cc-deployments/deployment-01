@@ -153,7 +153,7 @@ export default function MotorMondayTest() {
             <div className="max-w-md mx-auto">
               <div className="mb-4 p-3 bg-blue-50 rounded-lg">
                 <p className="text-sm text-blue-800">
-                  🔧 Debug: Custom function ready: {customBuildMintTransaction ? '✅' : '❌'}
+                  🔧 Debug: Custom function ready: ✅
                 </p>
                 <p className="text-sm text-blue-800">
                   🔧 Contract: {contractAddress}
