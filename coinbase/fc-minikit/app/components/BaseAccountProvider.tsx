@@ -41,9 +41,10 @@ export function BaseAccountProvider({ children }: { children: React.ReactNode })
     // Initialize Base Account SDK for proper wallet detection
     const initializeSDK = async () => {
       try {
-        const baseAccountSDK = await createBaseAccountSDK({
-          // Remove chain parameter - not supported in current API
-          // Add any required configuration here
+        const baseAccountSDK = createBaseAccountSDK({
+          appName: 'CarCulture: CarMania Garage',
+          appIcon: 'https://carmania.carculture.com/favicon.png',
+          appUrl: 'https://carmania.carculture.com',
         });
         
         console.log('Base Account SDK initialized successfully');
@@ -51,15 +52,19 @@ export function BaseAccountProvider({ children }: { children: React.ReactNode })
         
         // Check if already connected by trying to get accounts
         try {
-          const accounts = await baseAccountSDK.getProvider().request({
-            method: 'eth_accounts'
-          }) as string[];
-          if (accounts && accounts.length > 0) {
-            setIsConnected(true);
-            setAddress(accounts[0]);
+          const provider = baseAccountSDK.getProvider();
+          if (provider) {
+            const accounts = await provider.request({
+              method: 'eth_accounts'
+            }) as string[];
+            if (accounts && accounts.length > 0) {
+              setIsConnected(true);
+              setAddress(accounts[0]);
+              console.log('Found existing connection:', accounts[0]);
+            }
           }
         } catch (error) {
-          console.log('No existing connection found');
+          console.log('No existing connection found:', error);
         }
       } catch (error) {
         console.error('Failed to initialize Base Account SDK:', error);
