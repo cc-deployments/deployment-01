@@ -195,28 +195,28 @@ export function BasePayIntegration({
             </p>
           </div>
 
-          {/* Payment Button */}
-          <button
-            onClick={handlePayment}
-            disabled={isLoading || paymentStatus === 'success'}
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center justify-center"
-          >
-            {isLoading ? (
-              <>
-                <div className="w-4 h-4 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Processing Payment...
-              </>
-            ) : paymentStatus === 'success' ? (
-              '✅ Payment Successful!'
-            ) : paymentStatus === 'error' ? (
-              '❌ Payment Failed - Try Again'
-            ) : (
-              <>
-                <span className="mr-2">💳</span>
-                Pay ${price.toFixed(2)} with Base Pay
-              </>
-            )}
-          </button>
+          {/* Base Pay Button - Brand Compliant */}
+          <div className="flex justify-center">
+            <button
+              onClick={handlePayment}
+              disabled={isLoading || paymentStatus === 'success'}
+              className="base-pay-button bg-white border-2 border-gray-300 hover:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed px-8 py-4 rounded-lg transition-all duration-200 flex items-center justify-center min-h-[56px]"
+              style={{ minWidth: '240px' }}
+            >
+              {/* Base Pay Combination Mark - Official styling */}
+              <div className="flex items-center space-x-3">
+                {/* Base Square Logo - Always #0000FF */}
+                <div 
+                  className="w-6 h-6 rounded-sm flex-shrink-0"
+                  style={{ backgroundColor: '#0000FF' }}
+                />
+                {/* Base Pay Text - Using official styling */}
+                <span className="text-gray-900 font-semibold text-base">
+                  Base Pay
+                </span>
+              </div>
+            </button>
+          </div>
 
           {/* Status Messages */}
           {paymentStatus === 'processing' && (
