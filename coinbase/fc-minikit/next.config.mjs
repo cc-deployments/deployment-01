@@ -6,14 +6,10 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Disable static generation completely to fix React error #31 and ENOENT
+  // Minimal config to avoid ENOENT errors
   experimental: {
     staticGenerationRetryCount: 0,
-    esmExternals: false,
   },
-  
-  // Force all pages to be dynamic
-  generateStaticParams: false,
   
   // Disable static optimization
   trailingSlash: false,
