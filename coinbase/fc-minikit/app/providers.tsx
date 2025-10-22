@@ -34,9 +34,15 @@ export function Providers(props: { children: ReactNode }) {
 
   // Call ready when the app loads in Farcaster
   useEffect(() => {
-    sdk.actions.ready();
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    // Only call ready once when mounted
+    if (isMounted) {
+      sdk.actions.ready();
+    }
+  }, [isMounted]);
 
   // Prevent SSR issues by only rendering the provider on the client
   if (!isMounted) {
