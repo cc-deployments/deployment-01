@@ -1,19 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { paymentMiddleware } from 'x402-express';
+import { facilitator } from '@coinbase/x402';
 
-// Testnet configuration for safe testing
-const testnetConfig = {
-  url: "https://x402.org/facilitator"
-};
+// Production configuration
+const isProduction = process.env.NODE_ENV === 'production';
 
-// Your receiving wallet address (replace with your actual address)
-const RECEIVING_ADDRESS = "0xYourWalletAddress"; // TODO: Replace with actual address
+// Configure facilitator based on environment
+const facilitatorConfig = isProduction 
+  ? facilitator // CDP's hosted facilitator for mainnet
+  : { url: "https://x402.org/facilitator" }; // Testnet facilitator
+
+// Your receiving wallet address
+const RECEIVING_ADDRESS = process.env.X402_RECEIVING_ADDRESS || "0xYourWalletAddress";
+const NETWORK = process.env.X402_NETWORK || (isProduction ? "base" : "base-sepolia");
 
 // Configure protected endpoints
 const protectedRoutes = {
   "GET /api/x402-test": {
     price: "$0.001", // 0.001 USDC
-    network: "base-sepolia", // testnet
+    network: NETWORK,
     config: {
       description: "Test x402 payment endpoint for CarCulture premium content",
       inputSchema: {
@@ -41,7 +46,7 @@ const protectedRoutes = {
 const middleware = paymentMiddleware(
   RECEIVING_ADDRESS,
   protectedRoutes,
-  testnetConfig
+  facilitatorConfig
 );
 
 export async function GET(request: NextRequest) {
@@ -58,9 +63,9 @@ export async function GET(request: NextRequest) {
           payment: {
             amount: "0.001",
             currency: "USDC",
-            network: "base-sepolia",
+            network: NETWORK,
             payTo: RECEIVING_ADDRESS,
-            facilitator: "https://x402.org/facilitator"
+            facilitator: isProduction ? "https://facilitator.cdp.coinbase.com" : "https://x402.org/facilitator"
           }
         },
         { status: 402 }
