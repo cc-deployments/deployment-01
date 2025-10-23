@@ -40,11 +40,22 @@ export function X402DRIVRAgent({
   onPaymentSuccess,
   onPaymentError
 }: X402DRIVRAgentProps) {
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: '1',
-      type: 'agent',
-      content: `hey, i'm DRIVR, your CarCulture AI agent. i can help you discover, analyze, and purchase amazing automotive NFTs from the CarCulture collection. here's the rundown:
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [inputMessage, setInputMessage] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [showPayment, setShowPayment] = useState(false);
+  const [paymentRequired, setPaymentRequired] = useState(false);
+  const [paymentAmount, setPaymentAmount] = useState('');
+
+  // Initialize messages after hydration to prevent mismatch
+  useEffect(() => {
+    if (messages.length === 0) {
+      setMessages([
+        {
+          id: '1',
+          type: 'agent',
+          content: `hey, i'm DRIVR, your CarCulture AI agent. i can help you discover, analyze, and purchase amazing automotive NFTs from the CarCulture collection. here's the rundown:
 
 • **discover cars**: find NFTs by style, era, or theme. try "show me summer cars" or "find vintage woodies"
 • **get market data**: real-time floor prices, trends, and analytics. try "floor price for summertime" 
@@ -52,15 +63,11 @@ export function X402DRIVRAgent({
 • **instant purchases**: buy with credit card, Apple Pay, or crypto. try "buy woodie wagon"
 
 what kind of car interests you most?`,
-      timestamp: new Date()
+          timestamp: new Date()
+        }
+      ]);
     }
-  ]);
-  const [inputMessage, setInputMessage] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<any>(null);
-  const [showPayment, setShowPayment] = useState(false);
-  const [paymentRequired, setPaymentRequired] = useState(false);
-  const [paymentAmount, setPaymentAmount] = useState('');
+  }, [messages.length]);
 
   // Enhanced car style categories with detailed descriptions
   const carStyles = {
@@ -156,7 +163,7 @@ what kind of car interests you most?`,
 
   const addMessage = (type: 'user' | 'agent' | 'system', content: string, metadata?: any, contentType: 'text' | 'actions' | 'intent' = 'text', actions?: QuickAction[]) => {
     const newMessage: ChatMessage = {
-      id: Date.now().toString(),
+      id: `msg_${Math.random().toString(36).substr(2, 9)}`,
       type,
       content,
       timestamp: new Date(),
@@ -279,7 +286,7 @@ what kind of car interests you most?`,
     await simulateTyping("getting market data for this car style using x402 payments...");
     
     // Simulate x402 payment for style-specific market data
-    const paymentDetails = await handleX402Payment('/api/style-market-data', 'Car Style Market Data');
+    const paymentDetails = await handleX402Payment('/api/x402-test', 'Car Style Market Data');
     
     if (paymentDetails) {
       await simulateTyping(
@@ -321,14 +328,26 @@ what kind of car interests you most?`,
         const paymentDetails = await response.json();
         
         // Show payment requirement to user
-        addMessage('system', `💰 x402 Payment Required: ${paymentDetails.amount} USDC for ${productName} details. This enables autonomous payment processing.`);
+        addMessage('system', `💰 x402 Payment Required: ${paymentDetails.payment.amount} USDC for ${productName} details. This enables autonomous payment processing.`);
         setPaymentRequired(true);
-        setPaymentAmount(paymentDetails.amount);
+        setPaymentAmount(paymentDetails.payment.amount);
         
-        // In a real implementation, you would:
-        // 1. Use the x402 SDK to create and execute payment
-        // 2. Retry the request with payment header
-        // 3. Return the data to user
+        // Simulate successful payment for demo purposes
+        // In production, you would use the x402 SDK to create and execute payment
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Retry request with mock payment header
+        const paidResponse = await fetch(endpoint, {
+          headers: {
+            'X-PAYMENT': 'mock-payment-token-demo'
+          }
+        });
+        
+        if (paidResponse.ok) {
+          const data = await paidResponse.json();
+          setPaymentRequired(false);
+          return data;
+        }
         
         return paymentDetails;
       } else if (response.ok) {
@@ -474,7 +493,7 @@ try asking for "floor price for summertime" to see it in action!`);
           );
           
           // Simulate x402 payment for premium data
-          const paymentDetails = await handleX402Payment(`/api/nft-floor/${key}`, product.productName);
+          const paymentDetails = await handleX402Payment('/api/x402-test', product.productName);
           
           if (paymentDetails) {
             await simulateTyping(

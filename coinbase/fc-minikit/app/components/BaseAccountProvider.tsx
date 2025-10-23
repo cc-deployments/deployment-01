@@ -43,8 +43,6 @@ export function BaseAccountProvider({ children }: { children: React.ReactNode })
       try {
         const baseAccountSDK = createBaseAccountSDK({
           appName: 'CarCulture: CarMania Garage',
-          appIcon: 'https://carmania.carculture.com/favicon.png',
-          appUrl: 'https://carmania.carculture.com',
         });
         
         console.log('Base Account SDK initialized successfully');
