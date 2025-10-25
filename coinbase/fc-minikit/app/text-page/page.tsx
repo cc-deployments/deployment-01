@@ -20,20 +20,17 @@ export default function TextPage() {
   const navigateTo = useCallback(async (path: string) => {
     try {
       if (path === '/manifold-gallery') {
-        // 4th page: Always open StableLink Gallery (not Manifold)
-        console.log('🚀 Opening StableLink Gallery: https://carmania-test.carculture.com/nft-gallery-grid');
-        
-        // Use window.location.href for external URL navigation
-        console.log('🔄 Opening StableLink Gallery via window.location.href');
-        window.location.href = 'https://carmania-test.carculture.com/nft-gallery-grid';
+        // 4th page: Disabled - StableLink Gallery not available yet
+        console.log('🚫 StableLink Gallery disabled - no NFTs available for CBW');
+        alert('NFT Gallery coming soon! Base is prioritizing coin features first.');
       } else {
         router.push(path);
       }
     } catch (error) {
       if (path === '/manifold-gallery') {
-        // Final fallback: use location.href
-        console.log('🔄 Final fallback to location.href');
-        window.location.href = 'https://carmania-test.carculture.com/nft-gallery-grid';
+        // Final fallback: Disabled - StableLink Gallery not available yet
+        console.log('🚫 StableLink Gallery disabled - no NFTs available for CBW');
+        alert('NFT Gallery coming soon! Base is prioritizing coin features first.');
       } else {
         window.location.href = path;
       }
@@ -179,7 +176,7 @@ export default function TextPage() {
         />
       </div>
       
-      {/* UNLOCK Button - Invisible transparent clickable area at 63% */}
+      {/* UNLOCK THE RIDE Button - Invisible transparent clickable area at 63% */}
       <div 
         style={{
           position: 'absolute',
@@ -197,11 +194,20 @@ export default function TextPage() {
         onClick={async (e) => {
           e.preventDefault();
           e.stopPropagation();
-          console.log('🔓 UNLOCK button clicked');
+          console.log('🔓 UNLOCK THE RIDE button clicked');
 
-          // Primary: Use hardcoded URL for reliability
-          const mintUrl = 'https://manifold.xyz/@carculture/id/4149833968';
-          console.log('🚀 Opening Manifold URL:', mintUrl);
+          // Dynamic content based on day of week
+          const today = new Date();
+          const dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, etc.
+          
+          let mintUrl: string;
+          let contentType: string;
+          
+          // Use the new Manifold URL for all days
+          mintUrl = 'https://manifold.xyz/@carculture/id/4149805296';
+          contentType = 'CarMania NFT';
+          
+          console.log(`🚀 Opening ${contentType} URL:`, mintUrl);
 
           try {
             // Try to open in new window first (desktop)
