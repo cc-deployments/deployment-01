@@ -11,7 +11,7 @@ const facilitatorConfig = isProduction
   : { url: "https://x402.org/facilitator" }; // Testnet facilitator
 
 // Your receiving wallet address
-const RECEIVING_ADDRESS = process.env.X402_RECEIVING_ADDRESS || "0xYourWalletAddress";
+const RECEIVING_ADDRESS = process.env.X402_RECEIVING_ADDRESS || "0x0000000000000000000000000000000000000000";
 const NETWORK = process.env.X402_NETWORK || (isProduction ? "base" : "base-sepolia");
 
 // Configure protected endpoints
