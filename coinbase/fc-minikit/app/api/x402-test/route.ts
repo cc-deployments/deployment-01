@@ -8,11 +8,11 @@ const isProduction = process.env.NODE_ENV === 'production';
 // Configure facilitator based on environment
 const facilitatorConfig = isProduction 
   ? facilitator // CDP's hosted facilitator for mainnet
-  : { url: "https://x402.org/facilitator" }; // Testnet facilitator
+  : { url: "https://x402.org/facilitator" as const }; // Testnet facilitator
 
 // Your receiving wallet address
 const RECEIVING_ADDRESS = process.env.X402_RECEIVING_ADDRESS || "0x0000000000000000000000000000000000000000";
-const NETWORK = process.env.X402_NETWORK || (isProduction ? "base" : "base-sepolia");
+const NETWORK: "base" | "base-sepolia" = isProduction ? "base" : "base-sepolia";
 
 // Configure protected endpoints
 const protectedRoutes = {
@@ -21,15 +21,6 @@ const protectedRoutes = {
     network: NETWORK,
     config: {
       description: "Test x402 payment endpoint for CarCulture premium content",
-      inputSchema: {
-        type: "object",
-        properties: {
-          content: { 
-            type: "string", 
-            description: "Type of content requested (e.g., 'nft-data', 'market-analysis')" 
-          }
-        }
-      },
       outputSchema: {
         type: "object",
         properties: {
@@ -44,7 +35,7 @@ const protectedRoutes = {
 
 // Create payment middleware
 const middleware = paymentMiddleware(
-  RECEIVING_ADDRESS,
+  RECEIVING_ADDRESS as `0x${string}`,
   protectedRoutes,
   facilitatorConfig
 );
