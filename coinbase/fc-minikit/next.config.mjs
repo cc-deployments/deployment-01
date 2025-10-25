@@ -40,10 +40,10 @@ const nextConfig = {
     };
     
     // Prevent static generation issues
-    config.optimization = {
-      ...config.optimization,
-      splitChunks: false,
-    };
+    // config.optimization = {
+    //   ...config.optimization,
+    //   splitChunks: false,
+    // };
     
     return config;
   },
